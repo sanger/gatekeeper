@@ -1,6 +1,9 @@
 #\ -s puma
 
 require 'sinatra'
-require './app/tag_qc_tool'
+require './lib/gatekeeper'
+require './app/gatekeeper'
+require './config/config'
+require './lib/versionstrings'
 
-run TagQcTool
+run Gatekeeper::Application

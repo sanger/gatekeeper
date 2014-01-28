@@ -4,6 +4,7 @@ source "http://rubygems.org"
 
 gem 'sinatra'
 gem 'puma'
+gem 'erubis'
 
 gem 'sequencescape-client-api',
   :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',
@@ -11,3 +12,7 @@ gem 'sequencescape-client-api',
   :require => 'sequencescape'
 gem 'sanger_barcode',
   :git     => 'git+ssh://git@github.com/sanger/sanger_barcode.git'
+
+group :development do
+  gem "pry"
+end

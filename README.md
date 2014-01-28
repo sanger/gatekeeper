@@ -1,6 +1,6 @@
-# TagQcTool
+# Gatekeeper
 
-The Tag QC Tool is used to track the production and validation of batches of tag plates for Sequencing. It is designed to interface with the LIMS Sequencescape.
+Gatekeeper is used to track the production and validation of batches of tag plates for Sequencing. It is designed to interface with the LIMS Sequencescape.
 
 ## Installation
 
