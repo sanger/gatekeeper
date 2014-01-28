@@ -2,6 +2,9 @@
 # We use http rather than https due to difficulties navigating the proxy otherwise
 source "http://rubygems.org"
 
+gem 'sinatra'
+gem 'puma'
+
 gem 'sequencescape-client-api',
   :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',
   :branch  => 'production',
