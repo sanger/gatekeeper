@@ -4,7 +4,10 @@
   <title><%= Gatekeeper.config.app_name %></title>
   <link href="stylesheets/screen.css" media="screen" rel="stylesheet" type="text/css">
 </head>
-<body>
+<body class='env-<%= settings.environment %>'>
   <%= yield %>
+  <div id='app-info'>
+    <p><%= Gatekeeper.application_string %></p>
+  </div>
 </body>
 </html>
