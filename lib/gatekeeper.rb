@@ -17,11 +17,17 @@ module Gatekeeper
 
   class Configuration
     attr_reader :version
+    attr_writer :root_dir
     attr_accessor :app_name
 
     def initialize
       @version = VERSION
     end
+
+    def root_dir
+      @root_dir || ENV['PWD']
+    end
+
   end
 
 end
