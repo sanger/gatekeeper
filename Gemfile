@@ -5,6 +5,7 @@ source "http://rubygems.org"
 gem 'sinatra'
 gem 'puma'
 gem 'erubis'
+gem 'compass'
 
 gem 'sequencescape-client-api',
   :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',

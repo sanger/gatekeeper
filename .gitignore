@@ -3,6 +3,7 @@
 .bundle
 .config
 .yardoc
+.sass-cache
 InstalledFiles
 _yardoc
 coverage
