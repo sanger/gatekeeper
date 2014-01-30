@@ -3,6 +3,7 @@
 source "http://rubygems.org"
 
 gem 'sinatra'
+gem 'sinatra-partial'
 gem 'puma'
 gem 'erubis'
 gem 'compass'

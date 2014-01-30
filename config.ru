@@ -1,6 +1,8 @@
 #\ -s puma
 
 require 'sinatra'
+require 'sinatra/partial'
+
 require './lib/gatekeeper'
 require './app/gatekeeper'
 require './config/config'
