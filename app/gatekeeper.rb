@@ -9,7 +9,7 @@ module Gatekeeper
     enable :partial_underscores
 
     get '/' do
-      erb :index, :layout => :'layouts/application' #{}"And they're off #{Gatekeeper.application_string}"
+      erb :index, :layout => :'layouts/application'
     end
 
     get %r{/idt/(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})} do |uuid|
