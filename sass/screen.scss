@@ -1,6 +1,98 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
+/* Gatekeeper
+ * Compile to CSS with SASS
  * Import this file using the following HTML or equivalent:
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
+/* compass sets margins etc. to 0 */
 @import "compass/reset";
+@import "helpers";
+@import "colour_scheme";
+
+/* Our custom CSS */
+
+$headerfonts: serif;
+$bodyfonts: sans-serif;
+$default-radius: 10px;
+
+/* Global styles */
+body {
+  font: medium $bodyfonts;
+  text-align: center;
+}
+
+.page {
+  width:   80%;
+  margin:  2em auto 0 auto;
+}
+
+h1 {
+  font:    2em $headerfonts;
+  padding: 0.5em;
+}
+
+.section {
+  margin: 1em 0;
+
+  h2 {
+    padding: 0.5em;
+  }
+}
+
+.container {
+  @include border-radius($default-radius);
+  padding: 0.5em;
+  margin:  0.5em 0;
+}
+
+#app-info {
+  @extend .container;
+  background: $subtle;
+  display:    block;
+  clear:      both;
+  margin:  0.5em auto;
+  width:   80%;
+
+  p {
+    font-size: small;
+  }
+}
+
+/* Show page */
+
+dl {
+  dt {
+  }
+  dd {
+  }
+}
+
+
+/* Index page */
+#index-title {
+  font:    5em $headerfonts;
+  padding: 0.5em;
+}
+
+.menu-list {
+  width:  80%;
+  margin: 0.5em auto;
+
+  li {
+    font-size: x-large;
+    display:   inline-block;
+    width:     100%;
+    padding: 0.2em 0;
+
+    a {
+      display: block;
+      width:100%;
+    }
+  }
+
+  li.register-idt {
+    width: 50%;
+  }
+
+
+}
+

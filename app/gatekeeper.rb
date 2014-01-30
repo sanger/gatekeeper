@@ -12,6 +12,10 @@ module Gatekeeper
       erb :index, :layout => :'layouts/application' #{}"And they're off #{Gatekeeper.application_string}"
     end
 
+    get %r{/idt/(\h{8}-\h{4}-\h{4}-\h{4}-\h{12})} do |uuid|
+      erb :'idt_stock/show', :layout => :'layouts/application'
+    end
+
   end
 
 end
