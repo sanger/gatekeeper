@@ -7,6 +7,7 @@ gem 'sinatra-partial'
 gem 'puma'
 gem 'erubis'
 gem 'compass'
+gem 'bootstrap-sass'
 
 gem 'sequencescape-client-api',
   :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',
