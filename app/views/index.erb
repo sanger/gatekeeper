@@ -1,13 +1,15 @@
-<div id='index-page'>
-  <h1 id='index-title' class='page-title'><%= Gatekeeper.config.app_name %></h1>
-  <div id='index-menu'>
-    <ul id='index-menu-list' class='menu-list ui-widget'>
-      <li class='register-tag-idt'><a href='idt/b8afd510-84f2-11e3-9f87-00254bc3df52' class='menu-item'>Register Tag IDT</a></li>
-      <li class='register-stock-idt'><a href='#' class='menu-item'>Register Reporter IDT</a></li>
-      <li class='view-idt-batch'><a href='#' class='menu-item'>View IDT Batch</a></li>
-      <li class='stamp-plate'><a href='#' class='menu-item'>Stamp Plate</a></li>
-      <li class='create-qc-pool'><a href='#' class='menu-item'>Create QC Pool</a></li>
-      <li class='pass-or-fail-plates'><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
+<div id='gk-index-page' class='gk-page'>
+  <h1 id='gk-index-title' class='gk-page-title'><%= Gatekeeper.config.app_name %></h1>
+  <div id='gk-index-menu' class='panel panel-default'>
+    <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
+      <li><a href='idt/b8afd510-84f2-11e3-9f87-00254bc3df52' class='menu-item'>Register Tag IDT</a></li>
+      <li><a href='#' class='menu-item'>Register Reporter IDT</a></li>
+      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View IDT Batch</a></li>
+      <li><a href='#' class='menu-item'>Stamp Plate</a></li>
+      <li><a href='#' class='menu-item'>Create QC Pool</a></li>
+      <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
     </ul>
   </div>
 </div>
+<!--- Alerts and Dialogs -->
+<%= partial :'alerts/find_idt' %>

@@ -20,9 +20,25 @@ body {
   text-align: center;
 }
 
-.page {
+a.destroy-plate:hover {
+  color:red;
+}
+
+.gk-page {
   width:   80%;
   margin:  2em auto 0 auto;
+}
+
+.gk-information {
+  border-left: 3px solid darken($info-dark, 60);
+  background: $info-dark;
+  padding: 0.5em;
+  margin: 0.5em 0;
+
+  h4 {
+    margin:0;
+    color: darken($info-dark, 60);
+  }
 }
 
 h1 {
@@ -30,23 +46,11 @@ h1 {
   padding: 0.5em;
 }
 
-.section {
-  margin: 1em 0;
-
-  h2 {
-    padding: 0.5em;
-  }
+.gk-section {
+  text-align: justify;
 }
 
-.container {
-  @include border-radius($default-radius);
-  padding: 0.5em;
-  margin:  0.5em 0;
-}
-
-#app-info {
-  @extend .container;
-  background: $subtle;
+#gk-app-info {
   display:    block;
   clear:      both;
   margin:  0.5em auto;
@@ -59,40 +63,27 @@ h1 {
 
 /* Show page */
 
-dl {
-  dt {
-  }
-  dd {
-  }
+.progress-collection {
+  text-align: center;
 }
 
-
+.progress_summary {
+  margin-bottom: 1em;
+  text-align: left;
+}
 /* Index page */
-#index-title {
+#gk-index-title {
   font:    5em $headerfonts;
   padding: 0.5em;
 }
 
-.menu-list {
-  width:  80%;
-  margin: 0.5em auto;
-
-  li {
-    font-size: x-large;
-    display:   inline-block;
-    width:     100%;
-    padding: 0.2em 0;
-
-    a {
-      display: block;
-      width:100%;
-    }
-  }
-
-  li.register-idt {
-    width: 50%;
-  }
-
-
+th {
+  font-weight: bold;
 }
 
+/*Glyphicon patch */
+/*.input-group {
+  .glyphicon {
+    top: 0;
+  }
+}*/
