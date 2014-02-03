@@ -1,0 +1,34 @@
+<div class="row progress_summary">
+  <div class="col-md-1">
+    <span class="label label-default"><%= progress['created'][:count]%></span><br/>
+    Created Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-warning"><%= progress['qc_in_progress'][:count]%></span><br/>
+    QC in progress
+  </div>
+  <div class="col-md-1">
+    <span class="label label-danger"><%= progress['failed'][:count]%></span><br/>
+    Failed Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-danger"><%= progress['destroyed'][:count]%></span><br/>
+    Destroyed Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-info"><%= progress['passed'][:count]%></span><br/>
+    Passed Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-info"><%= progress['exhausted'][:count]%></span><br/>
+    Exhausted Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-primary"><%= progress['pending'][:count]%></span><br/>
+    Pending Plates
+  </div>
+  <div class="col-md-1">
+    <span class="label label-success"><%= progress['available'][:count]%></span><br/>
+    Available Plates
+  </div>
+</div>
