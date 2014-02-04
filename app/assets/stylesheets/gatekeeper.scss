@@ -1,0 +1,89 @@
+/* Gatekeeper
+ * Compile to CSS with SASS
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+@import "helpers";
+@import "colour_scheme";
+
+/* Our custom CSS */
+
+$headerfonts: serif;
+$bodyfonts: sans-serif;
+$default-radius: 10px;
+
+/* Global styles */
+body {
+  font: medium $bodyfonts;
+  text-align: center;
+}
+
+a.destroy-plate:hover {
+  color:red;
+}
+
+.gk-page {
+  width:   80%;
+  margin:  2em auto 0 auto;
+}
+
+.gk-information {
+  border-left: 3px solid darken($info-dark, 60);
+  background: $info-dark;
+  padding: 0.5em;
+  margin: 0.5em 0;
+
+  h4 {
+    margin:0;
+    color: darken($info-dark, 60);
+  }
+}
+
+h1 {
+  font:    2em $headerfonts;
+  padding: 0.5em;
+}
+
+.gk-section {
+  text-align: justify;
+}
+
+#gk-app-info {
+  display:    block;
+  clear:      both;
+  margin:  0.5em auto;
+  width:   80%;
+
+  p {
+    font-size: small;
+  }
+}
+
+/* Show page */
+
+.progress-collection {
+  text-align: center;
+}
+
+.progress_summary {
+  margin-bottom: 1em;
+  text-align: left;
+
+  .label {
+    line-height: 2em;
+  }
+}
+
+/* Index page */
+#gk-index-title {
+  font:    5em $headerfonts;
+  padding: 0.5em;
+}
+
+th {
+  font-weight: bold;
+}
+
+.label {
+  margin:0.2em;
+}

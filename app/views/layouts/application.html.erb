@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <title><%= Gatekeeper::Application.config.name %></title>
+  <%= stylesheet_link_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body class='gk-env-<%= Rails.env %>'>
+  <%= yield %>
+  <div id='gk-app-info' class="well well-sm">
+    <p><%= Gatekeeper.application_string %></p>
+  </div>
+  <%= javascript_include_tag "application" %>
+</body>
+</html>

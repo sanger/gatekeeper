@@ -1,0 +1,15 @@
+<div id='gk-index-page' class='gk-page'>
+  <h1 id='gk-index-title' class='gk-page-title'><%= Gatekeeper::Application.config.name %></h1>
+  <div id='gk-index-menu' class='panel panel-default'>
+    <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
+      <li><a href='lot/b8afd510-84f2-11e3-9f87-00254bc3df52' class='menu-item'>Register Tag IDT</a></li>
+      <li><a href='#' class='menu-item'>Register Reporter IDT</a></li>
+      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View IDT Batch</a></li>
+      <li><a href='#' class='menu-item'>Stamp Plate</a></li>
+      <li><a href='#' class='menu-item'>Create QC Pool</a></li>
+      <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
+    </ul>
+  </div>
+</div>
+<!--- Alerts and Dialogs -->
+<%= render 'alerts/find_idt' %>

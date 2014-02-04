@@ -1,0 +1,36 @@
+<%= render :partial => 'lot/progress_bar', :locals=>{:progress=>progress_helper } %>
+<%= render :partial => 'lot/progress_summary', :locals=>{:progress=>progress_helper } %>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#created" data-toggle="tab">Created</a></li>
+  <li><a href="#pending" data-toggle="tab">Pending</a></li>
+  <li><a href="#available" data-toggle="tab">Available</a></li>
+  <li><a href="#ehausted" data-toggle="tab">Exhausted</a></li>
+  <li><a href="#other" data-toggle="tab">Other</a></li>
+</ul>
+
+<form class='form-horizontal'>
+<div class="tab-content">
+  <div class="tab-pane active" id="created"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'created'} %></div>
+  <div class="tab-pane"        id="pending"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'pending'} %></div>
+  <div class="tab-pane"        id="available"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'available'} %></div>
+  <div class="tab-pane"        id="other"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'other'} %></div>
+</div>
+
+<div class="form-group col-sm-4">
+  <label for="barcode_printer" class="col-sm-6 control-label">Barcode Printer</label>
+  <div class="col-sm-6">
+    <select class="form-control" required="required" id="barcode_printer">
+      <option>d304bc</option>
+      <option>d304bc</option>
+      <option>d304bc</option>
+      <option>d304bc</option>
+      <option>d304bc</option>
+    </select>
+  </div>
+</div>
+<div class="form-group col-sm-4">
+    <input type="submit" class="form-control btn-success" id="submit" value="Print Replacement Barcodes">
+</div>
+
+</form>

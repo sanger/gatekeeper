@@ -1,0 +1,17 @@
+<table class='plate-table table table-striped'>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Barcode</th>
+      <th>State</th>
+      <th><!--Destroy--></th>
+      <th><!--Checkbox--></th>
+    </tr>
+  </thead>
+  <tbody>
+  <%- 10.times do |i| %>
+    <%= render :partial => 'lot/plate_row', :locals => {:state => state, :no => i} %>
+  <% end %>
+  </tbody>
+</table>
