@@ -1,0 +1,5 @@
+# require 'sequencescape-client-api'
+
+class Gatekeeper::Base < ActiveModel::Base
+
+end
