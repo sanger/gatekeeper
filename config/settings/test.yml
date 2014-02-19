@@ -1,0 +1,47 @@
+---
+:searches:
+  Find assets by barcode: e7d2fec0-956f-11e3-8255-44fb42fffecc
+  Find project by name: e7d68130-956f-11e3-8255-44fb42fffecc
+  Find study by name: e7d98e70-956f-11e3-8255-44fb42fffecc
+  Find sample by name: e7db1510-956f-11e3-8255-44fb42fffecc
+  Find source assets by destination asset barcode: e7de7070-956f-11e3-8255-44fb42fffecc
+  Find user by login: e7e1cbd0-956f-11e3-8255-44fb42fffecc
+  Find user by swipecard code: e7e52730-956f-11e3-8255-44fb42fffecc
+  Find pulldown plates: e7e88290-956f-11e3-8255-44fb42fffecc
+  Find Illumina-B plates: e7eb8fd0-956f-11e3-8255-44fb42fffecc
+  Find Illumina-B plates for user: e7ef1240-956f-11e3-8255-44fb42fffecc
+  Find Illumina-B stock plates: e7f1d160-956f-11e3-8255-44fb42fffecc
+  Find outstanding Illumina-B pre-PCR plates: e7f5c900-956f-11e3-8255-44fb42fffecc
+  Find Illumina-B tubes: e7f97280-956f-11e3-8255-44fb42fffecc
+  Find pulldown plates for user: e7fc58b0-956f-11e3-8255-44fb42fffecc
+  Find pulldown stock plates: e8002940-956f-11e3-8255-44fb42fffecc
+  Find Illumina-A plates: e803abb0-956f-11e3-8255-44fb42fffecc
+  Find Illumina-A stock plates: e8070710-956f-11e3-8255-44fb42fffecc
+  Find Illumina-C tubes: e80b73e0-956f-11e3-8255-44fb42fffecc
+  Find Illumina-C plates: e8116750-956f-11e3-8255-44fb42fffecc
+:printers:
+  96 Well Plate:
+  - :name: plate_example
+    :uuid: 5ad3e9c0-9570-11e3-8f17-44fb42fffecc
+  1D Tube:
+  - :name: tube_example
+    :uuid: 5add1180-9570-11e3-8f17-44fb42fffecc
+  384 Well Plate:
+  - :name: tef_plate_example
+    :uuid: 5ae5c410-9570-11e3-8f17-44fb42fffecc
+:templates:
+  :plate_template:
+  - :name: Example Plate Layout
+    :uuid: 2f750200-9570-11e3-8f17-44fb42fffecc
+  :tag_layout_template:
+  - :name: Example Tag Template
+    :uuid: ecd5cd30-956f-11e3-8255-44fb42fffecc
+  - :name: Another Tag Layout
+    :uuid: ecd7a1f0-956f-11e3-8255-44fb42fffecc
+:lot_types:
+  IDT Tags:
+    :uuid: ee0b18e0-956f-11e3-8255-44fb42fffecc
+    :template_class: TagLayoutTemplate
+  IDT Reporters:
+    :uuid: ee135640-956f-11e3-8255-44fb42fffecc
+    :template_class: PlateTemplate

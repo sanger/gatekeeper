@@ -16,3 +16,4 @@ test/tmp
 test/version_tmp
 tmp
 config/initializers/secret_token.rb
+config/settings/development.yml

@@ -55,6 +55,7 @@ GEM
     execjs (2.0.2)
     gyoku (1.1.1)
       builder (>= 2.1.2)
+    hashie (2.0.5)
     hike (1.2.3)
     httpi (2.1.0)
       rack
@@ -140,6 +141,7 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-datepicker-rails
   bootstrap-sass
+  hashie
   jquery-rails
   pry
   puma
