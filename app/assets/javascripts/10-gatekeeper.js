@@ -6,5 +6,7 @@
     document.getElementById(e.target.getAttribute('data-focus')).focus();
   })
 
+  $('.default-input').focus();
+
 })(window,jQuery,undefined)
 
