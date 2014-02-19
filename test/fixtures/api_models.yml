@@ -1,0 +1,94 @@
+---
+:lot_type:
+  'ee0b18e0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :template_class: TagLayoutTemplate
+      :name: IDT Tags
+    :associations:
+      :lots:
+      - '11111111-2222-3333-4444-555555555556'
+  'ee135640-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :template_class: PlateTemplate
+      :name: IDT Reporters
+    :associations:
+      :lots:
+:lot:
+  '11111111-2222-3333-4444-555555555556':
+    :attributes:
+      :lot_number: 123456789
+      :received_at: 2013-02-01
+    :associations:
+      :lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc'
+      :user: '11111111-2222-3333-4444-555555555557'
+      :template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+  '11111111-2222-3333-4444-555555555557':
+    :attributes:
+      :lot_number: 123456790
+      :received_at: 2013-02-01
+    :associations:
+      :lot_type: 'ee135640-956f-11e3-8255-44fb42fffecc'
+      :user: '11111111-2222-3333-4444-555555555557'
+      :template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+:user:
+  '11111111-2222-3333-4444-555555555557':
+    :attributes:
+    :associations:
+:search:
+  'e7d2fec0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find assets by barcode
+  'e7d68130-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find project by name
+  'e7d98e70-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find study by name
+  'e7db1510-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find sample by name
+  'e7de7070-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find source assets by destination asset barcode
+  'e7e1cbd0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find user by login
+  'e7e52730-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find user by swipecard code
+  'e7e88290-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find pulldown plates
+  'e7eb8fd0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-B plates
+  'e7ef1240-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-B plates for user
+  'e7f1d160-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-B stock plates
+  'e7f5c900-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find outstanding Illumina-B pre-PCR plates
+  'e7f97280-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-B tubes
+  'e7fc58b0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find pulldown plates for user
+  'e8002940-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find pulldown stock plates
+  'e803abb0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-A plates
+  'e8070710-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-A stock plates
+  'e80b73e0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-C tubes
+  'e8116750-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Find Illumina-C plates
