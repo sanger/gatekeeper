@@ -1,0 +1,10 @@
+<div id='gk-show-idt-page' class='gk-page'>
+  <h1>IDT Tag Plate</h1>
+  <div class='col-md-6'>
+    <%= render :partial => 'summary', :layout => :'layouts/section', :locals => {:title => "Summary"} %>
+  </div><div class='col-md-6'>
+    <%= render :partial => 'create_stamp_plates', :layout => :'layouts/section', :locals => {:title => "Create Stamp Plates"} %>
+  </div><div class='col-md-12'>
+    <%= render :partial => 'plates', :layout => :'layouts/section', :locals => {:title => "Plates", :progress => progress_helper} %>
+  </div>
+</div>

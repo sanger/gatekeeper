@@ -5,7 +5,7 @@ Gatekeeper::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
-  resources :lot do
+  resources :lots do
   end
 
   # Example of regular route:

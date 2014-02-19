@@ -1,5 +1,5 @@
-<%= render :partial => 'lot/progress_bar', :locals=>{:progress=>progress_helper } %>
-<%= render :partial => 'lot/progress_summary', :locals=>{:progress=>progress_helper } %>
+<%= render :partial => 'progress_bar', :locals=>{:progress=>progress_helper } %>
+<%= render :partial => 'progress_summary', :locals=>{:progress=>progress_helper } %>
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#created" data-toggle="tab">Created</a></li>
@@ -11,10 +11,10 @@
 
 <form class='form-horizontal'>
 <div class="tab-content">
-  <div class="tab-pane active" id="created"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'created'} %></div>
-  <div class="tab-pane"        id="pending"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'pending'} %></div>
-  <div class="tab-pane"        id="available"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'available'} %></div>
-  <div class="tab-pane"        id="other"><%= render :partial => 'lot/plate_table', :locals=>{:plates=>[],:state=>'other'} %></div>
+  <div class="tab-pane active" id="created"><%= render :partial => 'plate_table', :locals=>{:plates=>[],:state=>'created'} %></div>
+  <div class="tab-pane"        id="pending"><%= render :partial => 'plate_table', :locals=>{:plates=>[],:state=>'pending'} %></div>
+  <div class="tab-pane"        id="available"><%= render :partial => 'plate_table', :locals=>{:plates=>[],:state=>'available'} %></div>
+  <div class="tab-pane"        id="other"><%= render :partial => 'plate_table', :locals=>{:plates=>[],:state=>'other'} %></div>
 </div>
 
 <div class="form-group col-sm-4">
