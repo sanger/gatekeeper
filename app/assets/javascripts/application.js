@@ -14,4 +14,5 @@
 //= require jquery_ujs
 // Loads all Bootstrap javascripts
 //= require bootstrap
+//= require bootstrap-datepicker
 //= require_tree .

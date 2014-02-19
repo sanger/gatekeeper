@@ -12,6 +12,7 @@ gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
+gem 'bootstrap-datepicker-rails'
 
 gem 'sequencescape-client-api',
   :git     => 'git+ssh://git@github.com/JamesGlover/sequencescape-client-api.git',
