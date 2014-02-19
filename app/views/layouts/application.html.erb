@@ -6,6 +6,11 @@
   <%= csrf_meta_tags %>
 </head>
 <body class='gk-env-<%= Rails.env %>'>
+  <% flash.each do |category, msg| -%>
+      <%= content_tag :div, class: "alert alert-#{category}"  do %>
+        <strong><%= flash_message(category) %></strong> <%= msg %>
+      <% end %>
+    <% end -%>
   <%= yield %>
   <div id='gk-app-info' class="well well-sm">
     <p><%= Gatekeeper.application_string %></p>

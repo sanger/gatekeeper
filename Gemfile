@@ -3,11 +3,8 @@
 source "http://rubygems.org"
 
 gem 'rails', '~>4.0.2'
-# gem 'sinatra'
-# gem 'sinatra-partial'
 gem 'puma'
 
-# gem 'compass'
 gem 'sass-rails', '>= 3.2'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
@@ -24,4 +21,8 @@ gem 'sanger_barcode',
 
 group :development do
   gem "pry"
+end
+
+group :test do
+  gem 'mocha'
 end

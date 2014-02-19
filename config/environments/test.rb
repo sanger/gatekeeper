@@ -33,4 +33,10 @@ Gatekeeper::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  # Set up the API connection options
+  config.api_connection_options               = ActiveSupport::OrderedOptions.new
+  config.api_connection_options.namespace     = 'Gatekeeper'
+  config.api_connection_options.url           = 'http://localhost:3000/api/1/'
+  config.api_connection_options.authorisation = 'test'
 end
