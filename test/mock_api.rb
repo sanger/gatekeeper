@@ -20,7 +20,7 @@ module MockApi
       end
 
       def find(uuid)
-        resource_cache[uuid] ||= Record.new(Registry.instance.find(name,uuid),uuid,name)
+        resource_cache[uuid] ||= Record.from_registry(name,uuid)
       end
 
       alias_method :with_uuid, :find
@@ -31,7 +31,7 @@ module MockApi
       # :returns  => The UUID of the returned resource, which should exist in the registry.
       def expect_create_with(options)
         recieved = options[:recieved]
-        returned = Record.new(Registry.instance.find(name,options[:returns]),options[:returns],name)
+        returned = Record.from_registry(name,options[:returns])
         if recieved.present?
           self.expects(:create!).with(recieved).returns(returned)
         else
@@ -59,13 +59,17 @@ module MockApi
       def initialize(parent,resource_name,records)
         @name = resource_name
         @parent = parent
-        @records = records.map {|uuid| Registry.instance.find(:"#{resource_name}",uuid)}
+        if records.is_a?(Array)
+          @records = records.map {|uuid| Record.from_registry(resource_name,uuid)}
+        else
+          @records = Record.from_registry(resource_name,records)
+        end
       end
 
       ##
       # Method missing first tries passing things on to the association array
-      def method_missing(method_name,*args)
-        return @records.send(:"#{method_name}",*args) if @records.respond_to?(:"#{method_name}")
+      def method_missing(method_name,*args,&block)
+        return @records.send(:"#{method_name}",*args,&block) if @records.respond_to?(:"#{method_name}")
         super
       end
     end
@@ -74,7 +78,15 @@ module MockApi
     # An instance of a resource
     class Record
 
-      def initialize(record,uuid,model_name)
+      class << self
+        ##
+        # Initialise a record from the corresponding registry entry
+        def from_registry(model_name,uuid)
+          Record.new(Registry.instance.find(:"#{model_name}",uuid),model_name,uuid)
+        end
+      end
+
+      def initialize(record,model_name,uuid)
         @record = record
         @uuid = uuid
         @model_name = model_name
@@ -84,7 +96,8 @@ module MockApi
       alias_method :id, :uuid
 
       def method_missing(method_name)
-        lookup_attribute(method_name)||lookup_association(method_name)||super
+        return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
+        lookup_association(method_name)||super
       end
 
       ##
@@ -107,9 +120,9 @@ module MockApi
         attribute_cache[attribute] ||= @record[:attributes][attribute]
       end
 
-      def lookup_association(association)
-        return nil unless @record[:associations][association].present?
-        association_cache[association] ||= Association.new(self,association.to_s.singularize,@record[:associations][association])
+      def lookup_association(assn)
+        return nil unless @record[:associations].has_key?(assn)
+        association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn]||[])
       end
     end
 

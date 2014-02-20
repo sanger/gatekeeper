@@ -1,34 +1,8 @@
 <div class="row progress_summary">
+  <% lot.each_state do |state,count,_| -%>
   <div class="col-md-1">
-    <span class="label label-default"><%= progress['created'][:count]%></span>
-    <p>Created Plates</p>
+    <span class="label label-<%= state %>" id="<%= state %>_plates_count"><%= count %></span>
+    <p><%= state.humanize %> Plates</p>
   </div>
-  <div class="col-md-1">
-    <span class="label label-warning"><%= progress['qc_in_progress'][:count]%></span><br/>
-    <p>QC in progress</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-danger"><%= progress['failed'][:count]%></span><br/>
-    <p>Failed Plates</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-danger"><%= progress['destroyed'][:count]%></span><br/>
-    <p>Destroyed Plates</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-info"><%= progress['passed'][:count]%></span><br/>
-    <p>Passed Plates</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-info"><%= progress['exhausted'][:count]%></span><br/>
-    <p>Exhausted Plates</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-primary"><%= progress['pending'][:count]%></span><br/>
-    <p>Pending Plates</p>
-  </div>
-  <div class="col-md-1">
-    <span class="label label-success"><%= progress['available'][:count]%></span><br/>
-    <p>Available Plates</p>
-  </div>
+  <% end %>
 </div>

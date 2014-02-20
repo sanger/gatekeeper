@@ -2,16 +2,13 @@
   <thead>
     <tr>
       <th>#</th>
-      <th>Name</th>
       <th>Barcode</th>
-      <th>State</th>
-      <th><!--Destroy--></th>
       <th><!--Checkbox--></th>
     </tr>
   </thead>
   <tbody>
-  <%- 10.times do |i| %>
-    <%= render :partial => 'plate_row', :locals => {:state => state, :no => i} %>
+  <%- plates.each do |plate| %>
+    <%= render :partial => 'plate_row', :locals => {:state => state, :plate => plate} %>
   <% end %>
   </tbody>
 </table>

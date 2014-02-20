@@ -4,9 +4,13 @@ require 'mock_api'
 class LotsControllerTest < ActionController::TestCase
 
   include MockApi
+
+  setup do
+    @api = mock_api
+  end
+
   # NEW LOT PAGES
   test "new tag" do
-    mock_api
     get :new, :lot_type => 'IDT Tags'
     assert_response :success
     assert_select 'title', "Gatekeeper"
@@ -16,7 +20,6 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "new reporter" do
-    mock_api
     get :new, :lot_type => 'IDT Reporters'
     assert_response :success
     assert_select 'title', "Gatekeeper"
@@ -26,7 +29,6 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "new unknown" do
-    mock_api
     get :new, :lot_type => 'News Reporters'
     assert_response :not_found
     assert_select 'title', "Gatekeeper"
@@ -35,7 +37,6 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "new unspecified" do
-    mock_api
     get :new
     assert_response :not_found
     assert_select 'title', "Gatekeeper"
@@ -45,15 +46,14 @@ class LotsControllerTest < ActionController::TestCase
 
   ## CREATE
   test "create" do
-    api = mock_api
-    api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
+    @api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
 
-    api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
+    @api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
       :recieved => {
         :user           => '11111111-2222-3333-4444-555555555555',
         :lot_number     => '123456789',
         :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-        :received_at    => '01/02/2013'
+        :received_at    => '2013-02-01'
       },
       :returns => '11111111-2222-3333-4444-555555555556'
     )
@@ -71,8 +71,8 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "create with no user" do
-    api = mock_api
-    api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
+
+    @api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
       :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
       :lot_number     => '123456789',
@@ -84,8 +84,8 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "#create with fake user" do
-    api = mock_api
-    api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
+
+    @api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
       :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
       :user_swipecard => 'fake_user',
@@ -95,6 +95,31 @@ class LotsControllerTest < ActionController::TestCase
     }
     assert_redirected_to :root
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
+  end
+
+  # SHOW
+  test 'show tag plate' do
+
+    get :show, :id=>'11111111-2222-3333-4444-555555555556'
+    assert_response :success
+
+    assert_select 'h1', 'IDT Tags Plate'
+
+    assert_select '#lot_number', '123456789'
+    assert_select '#lot_received_at', '01/02/2013'
+    assert_select '#total_plates_count', '10'
+    assert_select '#created_plates_count', '2'
+    assert_select '#pending_plate_6 > .plate_barcode', 'DN8C'
+
+  end
+
+  test 'show reporter plate' do
+
+    get :show, :id=>'11111111-2222-3333-4444-555555555557'
+    assert_response :success
+
+    assert_select 'h1', 'IDT Reporters Plate'
+
   end
 
 end

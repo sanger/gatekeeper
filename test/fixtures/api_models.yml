@@ -13,23 +13,145 @@
       :name: IDT Reporters
     :associations:
       :lots:
+      - '11111111-2222-3333-4444-555555555557'
 :lot:
   '11111111-2222-3333-4444-555555555556':
     :attributes:
       :lot_number: 123456789
       :received_at: 2013-02-01
+      :lot_type_name: IDT Tags
+      :template_name: Example Tag Layout
     :associations:
       :lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc'
       :user: '11111111-2222-3333-4444-555555555557'
       :template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+      :qcables:
+      - '11111111-2222-3333-4444-100000000001'
+      - '11111111-2222-3333-4444-100000000002'
+      - '11111111-2222-3333-4444-100000000003'
+      - '11111111-2222-3333-4444-100000000004'
+      - '11111111-2222-3333-4444-100000000005'
+      - '11111111-2222-3333-4444-100000000006'
+      - '11111111-2222-3333-4444-100000000007'
+      - '11111111-2222-3333-4444-100000000008'
+      - '11111111-2222-3333-4444-100000000009'
+      - '11111111-2222-3333-4444-100000000010'
   '11111111-2222-3333-4444-555555555557':
     :attributes:
       :lot_number: 123456790
       :received_at: 2013-02-01
+      :lot_type_name: IDT Reporters
+      :template_name: Example Plate Layout
     :associations:
       :lot_type: 'ee135640-956f-11e3-8255-44fb42fffecc'
       :user: '11111111-2222-3333-4444-555555555557'
-      :template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+      :template: '2f750200-9570-11e3-8f17-44fb42fffecc'
+      :qcables: []
+:qcable_creator:
+  '11111111-2222-3333-4444-555555555558':
+    :attributes:
+    :associations:
+:qcable:
+  '11111111-2222-3333-4444-100000000001':
+    :attributes:
+      :asset_barcode: DN1S
+      :state: created
+      :stamp_bed:
+      :stamp_index:
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000002':
+    :attributes:
+      :asset_barcode: DN2T
+      :state: created
+      :stamp_bed: nil
+      :stamp_index:
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000003':
+    :attributes:
+      :asset_barcode: DN3U
+      :state: qc_in_progress
+      :stamp_bed: '1'
+      :stamp_index: 1
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000004':
+    :attributes:
+      :asset_barcode: DN4V
+      :state: destroyed
+      :stamp_bed: '2'
+      :stamp_index: 2
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000005':
+    :attributes:
+      :asset_barcode: DN5W
+      :state: failed
+      :stamp_bed: '4'
+      :stamp_index: 4
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000006':
+    :attributes:
+      :asset_barcode: DN6A
+      :state: exhausted
+      :stamp_bed: '3'
+      :stamp_index: 3
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000007':
+    :attributes:
+      :asset_barcode: DN7B
+      :state: passed
+      :stamp_bed: '5'
+      :stamp_index: 5
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000008':
+    :attributes:
+      :asset_barcode: DN8C
+      :state: pending
+      :stamp_bed: '6'
+      :stamp_index: 6
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000009':
+    :attributes:
+      :asset_barcode: DN9D
+      :state: pending
+      :stamp_bed: '7'
+      :stamp_index: 7
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
+  '11111111-2222-3333-4444-100000000010':
+    :attributes:
+      :asset_barcode: DN10I
+      :state: available
+      :stamp_bed: '8'
+      :stamp_index: 8
+    :associations:
+      :lot: '11111111-2222-3333-4444-555555555556'
+      :qcable_creator: '11111111-2222-3333-4444-555555555558'
+      :asset: 'fake-id'
 :user:
   '11111111-2222-3333-4444-555555555557':
     :attributes:

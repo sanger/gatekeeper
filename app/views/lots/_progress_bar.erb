@@ -1,26 +1,10 @@
 <div class="progress-collection">
-  <%= progress[:total] %> plates created
+  <span id='total_plates_count'><%= lot.total_plates %></span> plates created
   <div class="progress">
-    <div class="progress-bar progress-bar-warning" style="width: <%= progress['qc_in_progress'][:percent]%>%" title='<%= progress['qc_in_progress'][:count]%> QC Plates'>
-      <span class="sr-only"><%= progress['qc_in_progress'][:count]%> QC Plates</span>
-    </div>
-    <div class="progress-bar progress-bar-danger" style="width: <%= progress['failed'][:percent]%>%" title='<%= progress['failed'][:count]%> Failed Plates'>
-      <span class="sr-only"><%= progress['failed'][:count]%> Failed Plates</span>
-    </div>
-        <div class="progress-bar progress-bar-danger" style="width: <%= progress['destroyed'][:percent]%>%" title='<%= progress['destroyed'][:count]%> Destroyed Plates'>
-      <span class="sr-only"><%= progress['destroyed'][:count]%> Destroyed Plates</span>
-    </div>
-    <div class="progress-bar progress-bar-info" style="width: <%= progress['passed'][:percent]%>%" title='<%= progress['passed'][:count]%> Passed Plates'>
-      <span class="sr-only"><%= progress['passed'][:count]%> Passed Plates</span>
-    </div>
-    <div class="progress-bar progress-bar-info" style="width: <%= progress['exhausted'][:percent]%>%" title='<%= progress['exhausted'][:count]%> Exhausted Plates'>
-      <span class="sr-only"><%= progress['exhausted'][:count]%> Exhausted Plates</span>
-    </div>
-    <div class="progress-bar progress-bar-standard" style="width: <%= progress['pending'][:percent]%>%" title='<%= progress['pending'][:count]%> Pending Plates'>
-      <span class="sr-only"><%= progress['pending'][:count]%> Pending Plates</span>
-    </div>
-    <div class="progress-bar progress-bar-success" style="width: <%= progress['available'][:percent]%>%" title='<%= progress['available'][:count]%> Availiable Plates'>
-      <span class="sr-only"><%= progress['available'][:count]%> Available Plates</span>
-    </div>
+    <% lot.each_state_except('created') do |state,count,percentage| -%>
+      <div class="progress-bar progress-bar-warning" style="width: <%= percentage %>%" title='<%= count %> <%= state.humanize %> Plates'>
+        <span class="sr-only"><%= count %> <%= state.humanize %>Plates</span>
+      </div>
+    <% end %>
   </div>
 </div>
