@@ -1,3 +1,48 @@
 // customize bootstrap variables here:
 @import "variables";
 @import "bootstrap";
+
+// Add extensions to allow us to use states directly.
+.progress-bar-available {
+  @extend .progress-bar-success
+}
+
+.progress-bar-passed, .progress-bar-exhausted {
+  @extend .progress-bar-info
+}
+
+.progress-bar-warning, .progress-bar-qc_in_progress {
+  @extend .progress-bar-warning
+}
+
+.progress-bar-failed, .progress-bar-destroyed {
+  @extend .progress-bar-danger
+}
+
+.progress-bar-pending {
+  @extend .progress-bar-standard
+}
+
+.label-created {
+  @extend .label-default
+}
+
+.label-available {
+  @extend .label-success
+}
+
+.label-passed, .label-exhausted {
+  @extend .label-info
+}
+
+.label-warning, .label-qc_in_progress {
+  @extend .label-warning
+}
+
+.label-failed, .label-destroyed {
+  @extend .label-danger
+}
+
+.label-pending {
+  @extend .label-primary
+}
