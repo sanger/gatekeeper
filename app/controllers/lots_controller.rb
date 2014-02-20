@@ -38,12 +38,13 @@ class LotsController < ApplicationController
   ##
   # Register lot action
   # Create action for lot. Registers lot metadata
+  # We convert the date into the big endian format to avoid ambiguity
   def create
     @lot = api.lot_type.find(params[:lot_type]).lots.create!(
       :user        => @user.uuid,
       :lot_number  => params[:lot_number],
       :template    => params[:template],
-      :received_at => params[:received_at]
+      :received_at => Date.strptime(params[:received_at], '%d/%m/%Y').strftime('%Y-%m-%d')
     )
     flash[:success] = "Created lot #{@lot.lot_number}"
 

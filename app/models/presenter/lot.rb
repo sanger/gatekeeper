@@ -11,4 +11,7 @@ class Presenter::Lot
     @lot = lot
   end
 
+  def received_at
+    @lot.received_at.to_date.strftime('%d/%m/%Y')
+  end
 end
