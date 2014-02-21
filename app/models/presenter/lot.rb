@@ -11,19 +11,15 @@ class Presenter::Lot
     @lot = lot
   end
 
-  def lot_type
-    @lot.lot_type_name
-  end
+  delegate :lot_number, :uuid, :id, :lot_type_name, :template_name, :to=> :lot
+  alias_method :lot_type, :lot_type_name
+  alias_method :template, :template_name
 
-  delegate :lot_number, :to=> :lot
 
   def received_at
     @lot.received_at.to_date.strftime('%d/%m/%Y')
   end
 
-  def template
-    @lot.template_name
-  end
 
   def total_plates
     @total||= @lot.qcables.count
