@@ -1,21 +1,6 @@
-<!-- <div class="gk-information">
-  <h4>Creating stamp plates</h4>
-  <ol>
-    <li>Select the user swipecode box and touch your swipecard to the card reader.</li>
-    <li>Select the number of plates you wish to create, more plates can be added at a later date.</li>
-    <li>Choose a plate barcode printer to print the barcodes for the new plates.</li>
-    <li>Click 'Create Plates and Print Barcodes',</li>
-    <li>Retrieve your barcodes from the barcode printer.</li>
-    <li>Plates will remain in a 'Created' state until material is stamped into them.</li>
-  </ol>
-</div> -->
-<form class='form-horizontal'>
-   <div class="form-group">
-    <label for="user_swipecard" class="col-sm-5 control-label">User swipecard</label>
-    <div class="col-sm-7">
-      <input type="password" class="form-control" id="user_swipecard" required="required">
-    </div>
-  </div>
+<%= form_tag(lot_qcables_path(lot.lot), {class: 'form-horizontal'}) do %>
+  <%= render :partial => 'form_elements/user_swipecard' %>
+
   <div class="form-group">
     <label for="plate_number" class="col-sm-5 control-label">Number of plates</label>
     <div class="col-sm-7">

@@ -1,13 +1,7 @@
 <%= form_tag({controller: "lots", action: "create"}, {class: 'form-horizontal'}) do %>
    <input type="hidden" id="lot_type" name="lot_type" value="<%= lot_type.uuid %>">
 
-   <div class="form-group">
-    <label for="user_swipecard" class="col-sm-5 control-label">User swipecard</label>
-    <div class="input-group col-sm-6">
-      <span class="input-group-addon"><span class='glyphicon glyphicon-user'></span></span>
-      <input type="password" class="form-control default-input" id="user_swipecard" name="user_swipecard" placeholder="Touch card against card-reader" required="required">
-    </div>
-  </div>
+  <%= render :partial => 'form_elements/user_swipecard' %>
 
   <div class="form-group">
     <label for="lot_number" class="col-sm-5 control-label">IDT lot number</label>
