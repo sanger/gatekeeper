@@ -18,7 +18,7 @@ class Presenter::Qcable
   end
 
   def barcode
-    @qcable.asset_barcode
+    "#{@qcable.barcode.prefix}#{@qcable.barcode.number}"
   end
 
   def uuid

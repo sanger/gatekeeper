@@ -109,7 +109,7 @@ class LotsControllerTest < ActionController::TestCase
     assert_select '#lot_received_at', '01/02/2013'
     assert_select '#total_plates_count', '10'
     assert_select '#created_plates_count', '2'
-    assert_select '#pending_plate_6 > .plate_barcode', 'DN8C'
+    assert_select '#pending_plate_6 > .plate_barcode', 'DN8'
 
   end
 
