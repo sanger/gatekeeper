@@ -33,6 +33,26 @@ class QcablesController < ApplicationController
     redirect_to :controller=> :lots, :action=>:show, :id=>params[:lot_id]
   end
 
+  ##
+  # This doesn't actually destroy qcables, just flags them as such
+  def destroy
+
+    state_change = api.state_change.create!(
+      :user => @user.uuid,
+      :target => params[:id],
+      :reason => params[:reason]
+    )
+
+    qcable = api.qcable.find(params[:id])
+
+    flash[:success] = "#{qcable.barcode.prefix}#{qcable.barcode.number} has been destroyed!" if state_change.target_state == 'destroyed'
+
+    # There is no reason we should ever hit this one, but if we do, someone needs to know about it.
+    flash[:danger]  = "#{qcable.barcode.prefix}#{qcable.barcode.number} was NOT destroyed! Please contact support, as something has gone wrong." unless state_change.target_state == 'destroyed'
+
+    redirect_to :controller=> :lots, :action=>:show, :id=> qcable.lot.uuid
+  end
+
   private
 
   def find_lot

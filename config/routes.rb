@@ -5,9 +5,11 @@ Gatekeeper::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
-  resources :lots do
-    resources :qcables
+  resources :lots, :only => [:create, :show, :new] do
+    resources :qcables, :only => [:create]
   end
+
+  resources :qcables, :only => [:destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

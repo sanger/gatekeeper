@@ -275,3 +275,11 @@
         :layout: 6
       :service:
         :url: 'http://localhost/mock_service.wsdl'
+:state_change:
+  '55555555-6666-7777-8888-000000000003':
+    :attributes:
+      :target_state: destroyed
+      :previous_state: created
+      :reason:
+    :associations:
+      :target: '11111111-2222-3333-4444-100000000010'
