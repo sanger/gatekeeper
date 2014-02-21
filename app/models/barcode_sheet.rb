@@ -6,11 +6,25 @@ class BarcodeSheet
 
   class PrintError < StandardError; end
 
-  def initialize(printer,barcodes)
+  attr_reader :printer, :barcodes, :service
+  private :service
 
+  def initialize(printer,barcodes)
+    @printer = printer
+    @barcodes = barcodes
+    @service = Sanger::Barcode::Printing::Service.new(@printer.service.url)
+  end
+
+  def printer_name
+    printer.name
+  end
+
+  def printer_layout
+    @printer.type.layout
   end
 
   def print!
+    service.print_labels(barcodes,printer_name,printer_layout)
   end
 
 end

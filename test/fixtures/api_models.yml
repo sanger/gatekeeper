@@ -249,26 +249,29 @@
       :name: Find Illumina-C plates
 :barcode_printer:
   'baac0dea-0000-0000-0000-000000000000':
-    :name: plate_example
-    :active: true
-    :type:
-      :name: 96 Well Plate
-      :layout: 1
-    :service:
-      :url: 'http://localhost/mock_service.wsdl'
+    :attributes:
+      :name: plate_example
+      :active: true
+      :type:
+        :name: 96 Well Plate
+        :layout: 1
+      :service:
+        :url: 'http://localhost/mock_service.wsdl'
   'baac0dea-0000-0000-0000-000000000001':
-    :name: tube_example
-    :active: true
-    :type:
-      :name: 1D Tube
-      :layout: 2
-    :service:
-      :url: 'http://localhost/mock_service.wsdl'
+    :attributes:
+      :name: tube_example
+      :active: true
+      :type:
+        :name: 1D Tube
+        :layout: 2
+      :service:
+        :url: 'http://localhost/mock_service.wsdl'
   'baac0dea-0000-0000-0000-000000000002':
-    :name: tef_plate_example
-    :active: true
-    :type:
-      :name: 384 Well Plate
-      :layout: 6
-    :service:
-      :url: 'http://localhost/mock_service.wsdl'
+    :attributes:
+      :name: tef_plate_example
+      :active: true
+      :type:
+        :name: 384 Well Plate
+        :layout: 6
+      :service:
+        :url: 'http://localhost/mock_service.wsdl'
