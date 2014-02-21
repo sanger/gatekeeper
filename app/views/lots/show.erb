@@ -3,7 +3,7 @@
   <div class='col-md-6'>
     <%= render :partial => 'summary', :layout => :'layouts/section', :locals => {:title => "Summary", :lot=>@lot_presenter} %>
   </div><div class='col-md-6'>
-    <%= render :partial => 'create_stamp_plates', :layout => :'layouts/section', :locals => {:title => "Create Stamp Plates"} %>
+    <%= render :partial => 'create_stamp_plates', :layout => :'layouts/section', :locals => {:title => "Create Stamp Plates", :lot=>@lot_presenter} %>
   </div><div class='col-md-12'>
     <%= render :partial => 'plates', :layout => :'layouts/section', :locals => {:title => "Plates", :lot => @lot_presenter} %>
   </div>

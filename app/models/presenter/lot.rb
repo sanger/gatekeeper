@@ -15,6 +15,8 @@ class Presenter::Lot
   alias_method :lot_type, :lot_type_name
   alias_method :template, :template_name
 
+  # Lets us pass our presenter into rails url helpers
+  alias_method :to_param, :uuid
 
   def received_at
     @lot.received_at.to_date.strftime('%d/%m/%Y')
