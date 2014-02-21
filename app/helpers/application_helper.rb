@@ -9,4 +9,10 @@ module ApplicationHelper
     }[category]
   end
 
+  def each_barcode_printer(type)
+    Settings.printers[type].each do |printer|
+      yield printer[:name],printer[:uuid]
+    end
+  end
+
 end

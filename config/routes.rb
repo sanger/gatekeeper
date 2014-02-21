@@ -6,6 +6,7 @@ Gatekeeper::Application.routes.draw do
   root 'pages#index'
 
   resources :lots do
+    resources :qcables
   end
 
   # Example of regular route:
