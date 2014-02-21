@@ -6,8 +6,6 @@
 
 class LotsController < ApplicationController
 
-  include UserLookup
-
   before_filter :find_user
   skip_before_action :find_user, :except => [:create]
 

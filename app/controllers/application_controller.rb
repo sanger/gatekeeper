@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include Sequencescape::Api::Rails::ApplicationController
+  include UserLookup
 
   private
 
