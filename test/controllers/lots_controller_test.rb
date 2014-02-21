@@ -6,7 +6,7 @@ class LotsControllerTest < ActionController::TestCase
   include MockApi
 
   setup do
-    @api = mock_api
+    mock_api
   end
 
   # NEW LOT PAGES
@@ -46,9 +46,9 @@ class LotsControllerTest < ActionController::TestCase
 
   ## CREATE
   test "create" do
-    @api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
+    api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
 
-    @api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
+    api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
       :recieved => {
         :user           => '11111111-2222-3333-4444-555555555555',
         :lot_number     => '123456789',
@@ -72,7 +72,7 @@ class LotsControllerTest < ActionController::TestCase
 
   test "create with no user" do
 
-    @api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
+    api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
       :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
       :lot_number     => '123456789',
@@ -85,7 +85,7 @@ class LotsControllerTest < ActionController::TestCase
 
   test "#create with fake user" do
 
-    @api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
+    api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
       :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
       :user_swipecard => 'fake_user',

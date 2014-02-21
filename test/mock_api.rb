@@ -164,10 +164,12 @@ module MockApi
   end
 
   def mock_api
-    Api.new(mock('api')).tap do |mock|
+    @api = Api.new(mock('api')).tap do |mock|
       Sequencescape::Api.stubs(:new).returns(mock)
     end
   end
+
+  def api; @api; end
 
   class Registry
 
