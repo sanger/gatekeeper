@@ -7,10 +7,10 @@
 class LotsController < ApplicationController
 
   before_filter :find_user
-  skip_before_action :find_user, :only => [:show,:new]
+  skip_before_filter :find_user, :only => [:show,:new]
 
   before_filter :find_lot
-  skip_before_action :find_lot, :except => [:show]
+  skip_before_filter :find_lot, :except => [:show]
 
   ##
   # Lot summary page.

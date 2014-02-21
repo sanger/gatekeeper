@@ -22,13 +22,13 @@
 :printers:
   96 Well Plate:
   - :name: plate_example
-    :uuid: 5ad3e9c0-9570-11e3-8f17-44fb42fffecc
+    :uuid: baac0dea-0000-0000-0000-000000000000
   1D Tube:
   - :name: tube_example
-    :uuid: 5add1180-9570-11e3-8f17-44fb42fffecc
+    :uuid: baac0dea-0000-0000-0000-000000000001
   384 Well Plate:
   - :name: tef_plate_example
-    :uuid: 5ae5c410-9570-11e3-8f17-44fb42fffecc
+    :uuid: baac0dea-0000-0000-0000-000000000002
 :templates:
   :plate_template:
   - :name: Example Plate Layout
