@@ -155,10 +155,9 @@ module MockApi
     end
 
     def mock_user_shared(user,barcode)
-      user_search = mock('user_search')
+      user_search = @api.search.with_uuid('e7e52730-956f-11e3-8255-44fb42fffecc')
       user_search.stubs(:first).raises(StandardError,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
       user_search.stubs(:first).with(:swipecard_code => barcode).returns(user)
-      @api.search.stubs(:find).with('e7e52730-956f-11e3-8255-44fb42fffecc').returns(user_search)
     end
 
   end

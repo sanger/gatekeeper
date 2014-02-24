@@ -184,7 +184,16 @@
     :associations:
       :lot: '11111111-2222-3333-4444-555555555556'
       :qcable_creator: '11111111-2222-3333-4444-555555555558'
-      :asset: 'fake-id'
+      :asset: '11111111-2222-3333-4444-100000000011'
+:barcoded_asset:
+  '11111111-2222-3333-4444-100000000011':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '10'
+      :state: destroyed
+    :associations:
+      :wells: []
 :user:
   '11111111-2222-3333-4444-555555555557':
     :attributes:

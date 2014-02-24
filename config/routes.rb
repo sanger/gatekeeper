@@ -9,7 +9,9 @@ Gatekeeper::Application.routes.draw do
     resources :qcables, :only => [:create]
   end
 
-  resources :qcables, :only => [:destroy]
+  # We can't use the standard CRUD setup, as the user doesn't have the uuid
+  # to hand. Instead we pass a barcode to the controller.
+  resource :asset, :only => [:destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

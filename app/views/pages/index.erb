@@ -9,9 +9,10 @@
       <li><a href='#' class='menu-item'>Stamp Plate</a></li>
       <li><a href='#' class='menu-item'>Create QC Pool</a></li>
       <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
-      <li><a href='#' class='menu-item'><span class="glyphicon glyphicon-trash"></span> Destroy Tag Plates</a></li>
+      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#destroyQcable">Destroy Tag Plates</a></li>
     </ul>
   </div>
 </div>
 <!--- Alerts and Dialogs -->
 <%= render 'alerts/find_lot' %>
+<%= render 'alerts/destroy_qcable' %>

@@ -65,28 +65,4 @@ class QcablesControllerTest < ActionController::TestCase
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
-  test "destroy" do
-    api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
-    api.state_change.expect_create_with(
-      :recieves =>{
-        :user => '11111111-2222-3333-4444-555555555555',
-        :target => '11111111-2222-3333-4444-100000000010',
-        :target_state => 'destroyed',
-        :reason => 'Plate Dropped'
-        },
-      :returns  => '55555555-6666-7777-8888-000000000003'
-    )
-
-    delete :destroy, {
-      :user_swipecard => '123456789',
-      :id => '11111111-2222-3333-4444-100000000010',
-      :reason => 'Plate Dropped'
-    }
-
-    # delete :destroy, {:id=> '11111111-2222-3333-4444-100000000010'}
-
-    assert_redirected_to :controller=>:lots, :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
-    assert_equal 'DN10 has been destroyed!', flash[:success]
-  end
-
 end
