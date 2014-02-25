@@ -191,7 +191,7 @@
       :barcode:
         :prefix: DN
         :number: '10'
-      :state: destroyed
+      :state: available
     :associations:
       :wells: []
 :user:

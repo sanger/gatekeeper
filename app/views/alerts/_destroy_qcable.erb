@@ -6,7 +6,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title" id="destroyQcableLabel">Destroy Plate</h4>
       </div>
-      <%= form_tag asset_path do %>
+      <%= form_tag asset_path, :method => 'delete' do %>
         <div class="modal-body">
 
           <div class="form-group">
@@ -21,7 +21,7 @@
             <label for="user_swipecard" class="control-label">User swipecard</label>
             <div class="input-group">
               <span class="input-group-addon"><span class='glyphicon glyphicon-user'></span></span>
-              <input type="text" class="form-control" id="user_swipecard" name="qcable_barcode_to_destroy" placeholder="Touch card against card-reader" required="required">
+              <input type="text" class="form-control" id="user_swipecard" name="user_swipecard" placeholder="Touch card against card-reader" required="required">
             </div>
           </div>
 

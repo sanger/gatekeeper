@@ -49,7 +49,7 @@ class LotsControllerTest < ActionController::TestCase
     api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
 
     api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
-      :recieved => {
+      :received => {
         :user           => '11111111-2222-3333-4444-555555555555',
         :lot_number     => '123456789',
         :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',

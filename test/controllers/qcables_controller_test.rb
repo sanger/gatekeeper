@@ -14,7 +14,7 @@ class QcablesControllerTest < ActionController::TestCase
     api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
 
     api.qcable_creator.expect_create_with(
-      :recieved => {
+      :received => {
         :user => '11111111-2222-3333-4444-555555555555',
         :lot => '11111111-2222-3333-4444-555555555556',
         :count => 10

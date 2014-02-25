@@ -27,13 +27,14 @@ module MockApi
 
       ##
       # Receives a hash
-      # :recieved => The arguments create expects to see (optional)
+      # :received => The arguments create expects to see (optional)
       # :returns  => The UUID of the returned resource, which should exist in the registry.
       def expect_create_with(options)
-        recieved = options[:recieved]
-        returned = Record.from_registry(name,options[:returns])
-        if recieved.present?
-          self.expects(:create!).with(recieved).returns(returned)
+        received = options.delete(:received)
+        returned = Record.from_registry(name,options.delete(:returns))
+        raise StandardError, "Creation expected with invalid options #{options.keys.join(',')}" unless options.empty?
+        if received.present?
+          self.expects(:create!).with(received).returns(returned)
         else
           self.expects(:create!).returns(returned)
         end

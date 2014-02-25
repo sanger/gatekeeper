@@ -12,13 +12,15 @@ class AssetsControllerTest < ActionController::TestCase
   test "destroy" do
     api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
 
+    asset = api.barcoded_asset.with_uuid('11111111-2222-3333-4444-100000000011')
+    asset.class_eval { include BarcodeExtensions; include Gatekeeper::Asset::StateExtensions; }
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
       with(:barcode => '1220000010734').
-      returns(api.barcoded_asset.with_uuid('11111111-2222-3333-4444-100000000011'))
+      returns(asset)
 
     api.state_change.expect_create_with(
-      :recieves =>{
+      :received =>{
         :user => '11111111-2222-3333-4444-555555555555',
         :target => '11111111-2222-3333-4444-100000000011',
         :target_state => 'destroyed',
@@ -33,9 +35,8 @@ class AssetsControllerTest < ActionController::TestCase
       :reason => 'Plate Dropped'
     }
 
-    # delete :destroy, {:id=> '11111111-2222-3333-4444-100000000010'}
-
     assert_redirected_to :root
+    assert_equal nil, flash[:danger]
     assert_equal 'DN10 has been destroyed!', flash[:success]
   end
 

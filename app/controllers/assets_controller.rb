@@ -11,10 +11,13 @@ class AssetsController < ApplicationController
   # This doesn't actually destroy asset, just flags them as such
   def destroy
 
+    raise UserError::InputError, "#{@asset.human_barcode} can not be destroyed while '#{@asset.state}'." unless @asset.destroyable?
+
     state_change = api.state_change.create!(
       :user => @user.uuid,
-      :target => params[:id],
-      :reason => params[:reason]
+      :target => @asset.uuid,
+      :reason => params[:reason],
+      :target_state => Gatekeeper::Application.config.destroyed_state
     )
 
     flash[:success] = "#{@asset.human_barcode} has been destroyed!" if state_change.target_state == 'destroyed'
