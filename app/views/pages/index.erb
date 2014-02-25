@@ -2,10 +2,10 @@
   <h1 id='gk-index-title' class='gk-page-title'><%= Gatekeeper::Application.config.name %></h1>
   <div id='gk-index-menu' class='panel panel-default'>
     <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
-      <li><%= link_to 'Register Tag IDT', new_lot_path({:lot_type=>'IDT Tags'}), {:class=>'menu-item'} %></li>
-      <li><%= link_to 'Register Reporter IDT', new_lot_path({:lot_type=>'IDT Reporters'}), {:class=>'menu-item'} %></li>
+      <li><%= link_to 'Register Tag Lot', new_lot_path({:lot_type=>'IDT Tags'}), {:class=>'menu-item'} %></li>
+      <li><%= link_to 'Register Reporter Lot', new_lot_path({:lot_type=>'IDT Reporters'}), {:class=>'menu-item'} %></li>
 
-      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View IDT Batch</a></li>
+      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View Lot Batch</a></li>
       <li><a href='#' class='menu-item'>Stamp Plate</a></li>
       <li><a href='#' class='menu-item'>Create QC Pool</a></li>
       <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>

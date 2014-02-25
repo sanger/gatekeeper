@@ -5,7 +5,10 @@ Gatekeeper::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
-  resources :lots, :only => [:create, :show, :new] do
+  resources :lots, :only => [:create, :show, :new], :constraints => {:id => /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/} do
+    collection do
+      get :search
+    end
     resources :qcables, :only => [:create]
   end
 

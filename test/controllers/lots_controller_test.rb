@@ -122,4 +122,37 @@ class LotsControllerTest < ActionController::TestCase
 
   end
 
+  test 'find with one result' do
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
+      expects(:all).
+      with(Gatekeeper::Lot,:lot_number => '123456789').
+      returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+
+    get :search, :lot_number => '123456789'
+
+    assert_redirected_to :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
+  end
+
+  test 'find with multiple results' do
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
+      expects(:all).
+      with(Gatekeeper::Lot,:lot_number => '123456789').
+      returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556'), api.lot.with_uuid('11111111-2222-3333-4444-555555555557')])
+
+    get :search, :lot_number => '123456789'
+
+    assert_response 300
+    assert_select 'h1', 'Multiple lots found'
+    assert_select 'h3', 'IDT Tags'
+    assert_select 'h3', 'IDT Reporters'
+  end
+
+  test 'find with no parameters' do
+
+    get :search
+
+    assert_redirected_to :root
+    assert_equal 'Please use the find lots by lot number feature to find specific lots.', flash[:danger]
+  end
+
 end

@@ -1,0 +1,17 @@
+<div id='gk-search-idt-page' class='gk-page'>
+  <h1>Multiple lots found</h1>
+  <div class='col-md-12'>
+    <h2>Select a lot...</h2>
+    <ul class="list-group">
+    <% @lots.each do |lot| -%>
+      <li class="list-item"><a href="<%= lot_url(lot) %>">
+        <h3><%= lot.lot_type %></h3>
+        <p>
+           <strong>Received at:</strong> <%= lot.received_at %>,
+           <strong>Template:</strong> <%= lot.template %>
+        </p>
+      </a></li>
+    <% end %>
+    </ul>
+  </div>
+</div>

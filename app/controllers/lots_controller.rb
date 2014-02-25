@@ -7,7 +7,7 @@
 class LotsController < ApplicationController
 
   before_filter :find_user
-  skip_before_filter :find_user, :only => [:show,:new]
+  skip_before_filter :find_user, :only => [:show,:new,:search]
 
   before_filter :find_lot
   skip_before_filter :find_lot, :except => [:show]
@@ -46,7 +46,23 @@ class LotsController < ApplicationController
     )
     flash[:success] = "Created lot #{@lot.lot_number}"
 
-    redirect_to lot_url(@lot)
+    redirect_to lot_path(@lot)
+  end
+
+  ##
+  # Finds a lot by lot number, and either redirects to the appropriate page
+  # or displays a choice if there are multiple results
+  def search
+    raise UserError::InputError, 'Please use the find lots by lot number feature to find specific lots.' if params[:lot_number].nil?
+    @found_lots = api.search.find(Settings.searches['Find lot by lot number']).all(Sequencescape::Lot,:lot_number => params[:lot_number])
+
+    raise UserError::InputError, "Could not find a lot with the lot_number #{params[:lot_number]}." if @found_lots.empty?
+
+    return redirect_to lot_path(@found_lots.first) if @found_lots.count <= 1
+
+    @lots = @found_lots.map {|lot| Presenter::Lot.new(lot)}
+
+    render :search, :status => 300
   end
 
   private
