@@ -25,7 +25,9 @@ class QcablesController < ApplicationController
     begin
       BarcodeSheet.new(@printer,labels).print!
     rescue BarcodeSheet::PrintError => exception
-      flash[:error] = "There was a problem printing your barcodes. Your plates have still been created."
+      flash[:danger] = "There was a problem printing your barcodes. Your plates have still been created."
+    rescue Errno::ECONNREFUSED => exception
+      flash[:danger] = "Could not connect to the barcode printing service. Your plates have still been created."
     end
 
     flash[:success] = "#{qc_creator.qcables.count} plates have been created."
