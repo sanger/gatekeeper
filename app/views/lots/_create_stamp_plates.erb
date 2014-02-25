@@ -5,7 +5,7 @@
     <label for="plate_number" class="col-sm-5 control-label">Number of plates</label>
     <div class="input-group col-sm-6">
       <span class="input-group-addon"><span class='glyphicon glyphicon-plus'></span></span>
-      <input type="number" class="form-control" id="plate_number" placeholder="0" min=0 step=1 required="required">
+      <input type="number" class="form-control" id="plate_number" name="plate_number" placeholder="0" min=0 step=1 required="required">
     </div>
   </div>
 
@@ -13,7 +13,7 @@
     <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
     <div class="input-group col-sm-6">
       <span class="input-group-addon"><span class='glyphicon glyphicon-print'></span></span>
-      <select class="form-control" required="required" id="barcode_printer">
+      <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
         <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
           <option value='<%= uuid %>'><%= name %></option>
         <% end %>
