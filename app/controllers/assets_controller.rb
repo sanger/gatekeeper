@@ -17,10 +17,10 @@ class AssetsController < ApplicationController
       :reason => params[:reason]
     )
 
-    flash[:success] = "#{@asset.barcode.prefix}#{@asset.barcode.number} has been destroyed!" if state_change.target_state == 'destroyed'
+    flash[:success] = "#{@asset.human_barcode} has been destroyed!" if state_change.target_state == 'destroyed'
 
     # There is no reason we should ever hit this one, but if we do, someone needs to know about it.
-    flash[:danger]  = "#{@asset.barcode.prefix}#{@asset.barcode.number} was NOT destroyed! Please contact support, as something has gone wrong." unless state_change.target_state == 'destroyed'
+    flash[:danger]  = "#{@asset.human_barcode} was NOT destroyed! Please contact support, as something has gone wrong." unless state_change.target_state == 'destroyed'
 
     redirect_to :root
   end
