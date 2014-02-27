@@ -17,4 +17,11 @@ class ApplicationController < ActionController::Base
     Gatekeeper::Application.config.api_connection_options
   end
 
+  rescue_from Errno::ECONNREFUSED, :with => :sequencescape_down
+
+  def sequencescape_down
+    @message = "There is a problem with the connection to Sequencescape. Sequencescape may be down."
+    render 'pages/error', :status => 500
+  end
+
 end
