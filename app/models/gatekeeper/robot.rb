@@ -36,6 +36,9 @@ class Gatekeeper::Robot < Sequencescape::Robot
         [false, "The lot plate should be placed on Bed #{lot_bed_name} to begin the process."]
     end
 
+  end
+
+  module BasicMethods
     def lot_bed_name
       robot_properties['SCRC1']
     end
@@ -46,16 +49,29 @@ class Gatekeeper::Robot < Sequencescape::Robot
 
     def each_destination_barcode
       1.upto(capacity) do |i|
-        yield Barcode.calculate_barcode('BD',robot_properties["DEST#{i}"].to_i).to_s, i
+        yield barcode_for(i), i
       end
+    end
+
+    def barcode_for(i)
+      Barcode.calculate_barcode('BD',robot_properties["DEST#{i}"].to_i).to_s
     end
 
     def capacity
       robot_properties['max_plates'] - 1
     end
-
   end
 
+  module CreationMethods
+    def beds_for(beds)
+      (1..capacity).map do |i|
+        {:bed=>robot_properties["DEST#{i}"], :order=>i, :qcable=>beds[barcode_for(i)].uuid }
+      end
+    end
+  end
+
+  include BasicMethods
   include ValidationMethods
+  include CreationMethods
 
 end

@@ -6,6 +6,13 @@ module Barcode
     barcode*10+calculate_EAN13(barcode)
   end
 
+  def self.number_to_human(code)
+    if /^(...)(.*)(...)$/ =~ code.to_s
+      return $2.to_i
+    end
+    raise InvalidBarcode
+  end
+
   # NT23432S => 398002343283
   private
 

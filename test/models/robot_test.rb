@@ -34,6 +34,8 @@ class RobotTest < ActiveSupport::TestCase
 
   class MockRobot
     include Gatekeeper::Robot::ValidationMethods
+    include Gatekeeper::Robot::BasicMethods
+    include Gatekeeper::Robot::CreationMethods
 
     def initialize(api)
       @api=api
@@ -78,6 +80,14 @@ class RobotTest < ActiveSupport::TestCase
     valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_b,'580000003835'=>@plate_b})
     assert_equal 'Invalid beds: 580000003835', message
     assert_equal false, valid
+  end
+
+  test "beds for" do
+    beds_for = @robot.beds_for({'580000002810'=>@plate_a,'580000003824'=>@plate_b})
+    assert_equal [
+      {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
+      {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+    ], beds_for
   end
 
 end

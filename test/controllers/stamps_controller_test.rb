@@ -191,4 +191,130 @@ class StampsControllerTest < ActionController::TestCase
 
   end
 
+  test "create!" do
+
+    api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
+
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
+    expects(:all).
+    with(Sequencescape::Lot,:lot_number => '123456789').
+    returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+    expects(:all).
+    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000284']).
+    returns([@plate_a,@plate_b])
+
+    @robot.expects(:valid?).
+      with('58000000180',@lot,{
+        '58000000281'=> @plate_a,
+        '58000000382'=> @plate_b
+      }).
+      returns([true,'Okay'])
+
+    @robot.expects(:beds_for).with({
+        '58000000281'=> @plate_a,
+        '58000000382'=> @plate_b
+      }).
+      returns([
+          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
+          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+        ])
+
+    @request.headers["Accept"] = "application/json"
+
+    api.stamp.expect_create_with(
+      :received => {
+        :user => '11111111-2222-3333-4444-555555555555',
+        :tip_lot => '12345678',
+        :lot => '11111111-2222-3333-4444-555555555556',
+        :robot => '40b07000-0000-0000-0000-000000000000',
+        :beds => [
+          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
+          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+        ]
+      },
+      :returns  => '10204050-0000-0000-0000-000000000000'
+    )
+
+    post :create, {
+      :user_swipecard => 'abcdef',
+      :robot_barcode  => '488000000178',
+      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
+      :tip_lot        => '12345678',
+      :validate       => 'full',
+      :lot_bed        => '58000000180',
+      :lot_plate      => '123456789',
+      :beds           => {
+        '58000000281'=>'122000000183',
+        '58000000382'=>'122000000284'
+      }
+    }
+    assert_redirected_to lot_url(@lot)
+    assert_equal 'Stamp completed!', flash[:success]
+  end
+
+  test "create! with repeat" do
+
+    api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
+
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
+    expects(:all).
+    with(Sequencescape::Lot,:lot_number => '123456789').
+    returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+    expects(:all).
+    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000284']).
+    returns([@plate_a,@plate_b])
+
+    @robot.expects(:valid?).
+      with('58000000180',@lot,{
+        '58000000281'=> @plate_a,
+        '58000000382'=> @plate_b
+      }).
+      returns([true,'Okay'])
+
+    @robot.expects(:beds_for).with({
+        '58000000281'=> @plate_a,
+        '58000000382'=> @plate_b
+      }).
+      returns([
+          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
+          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+        ])
+    @request.headers["Accept"] = "application/json"
+
+    api.stamp.expect_create_with(
+      :received => {
+        :user => '11111111-2222-3333-4444-555555555555',
+        :tip_lot => '12345678',
+        :lot => '11111111-2222-3333-4444-555555555556',
+        :robot => '40b07000-0000-0000-0000-000000000000',
+        :beds => [
+          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
+          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+        ]
+      },
+      :returns  => '10204050-0000-0000-0000-000000000000'
+    )
+
+    post :create, {
+      :user_swipecard => 'abcdef',
+      :robot_barcode  => '488000000178',
+      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
+      :tip_lot        => '12345678',
+      :validate       => 'full',
+      :lot_bed        => '58000000180',
+      :lot_plate      => '123456789',
+      :beds           => {
+        '58000000281'=>'122000000183',
+        '58000000382'=>'122000000284'
+      },
+      :repeat        => 'repeat'
+    }
+    assert_redirected_to new_stamp_url
+    assert_equal 'Stamp completed!', flash[:success]
+  end
+
 end

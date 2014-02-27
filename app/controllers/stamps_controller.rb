@@ -77,8 +77,23 @@ class StampsController < ApplicationController
 
   ##
   # Performs a stamp. Expects same parameters as with validate
-  # expect validate is not present
+  # except validate is not present
   def create
+    valid, _ = @robot.valid?(params[:lot_bed],@lot,@bed_plates)
+    # A last emergency catch all in case someone bypasses the client side controls
+    raise StandardError, 'Validation Bypassed' unless valid
+
+    api.stamp.create!(
+      :user  => @user.uuid,
+      :robot => @robot.uuid,
+      :lot   => @lot.uuid,
+      :tip_lot => params[:tip_lot],
+      :beds => @robot.beds_for(@bed_plates)
+    )
+
+    flash[:success] = 'Stamp completed!'
+    redir = params[:repeat].present? ? new_stamp_url : lot_url(@lot)
+    redirect_to redir
   end
 
   private
