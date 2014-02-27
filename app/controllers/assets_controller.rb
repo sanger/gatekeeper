@@ -32,11 +32,8 @@ class AssetsController < ApplicationController
 
   def find_asset_from_barcode
     raise UserError::InputError, "No barcode was provided!" if params[:asset_barcode].nil?
-    begin
+    rescue_no_results("Could not find an asset with the barcode #{params[:asset_barcode]}.") do
       @asset = api.search.find(Settings.searches['Find assets by barcode']).first(:barcode => params[:asset_barcode])
-    rescue StandardError => exception
-      raise UserError::InputError, "Could not find an asset with the barcode #{params[:asset_barcode]}." if no_search_result?(exception.message)
-      raise exception
     end
   end
 
