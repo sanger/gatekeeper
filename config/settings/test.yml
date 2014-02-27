@@ -3,6 +3,8 @@
   Find assets by barcode: e7d2fec0-956f-11e3-8255-44fb42fffecc
   Find user by swipecard code: e7e52730-956f-11e3-8255-44fb42fffecc
   Find lot by lot number: 689a48a0-9d46-11e3-8fed-44fb42fffecc
+  Find robot by barcode: 689a48a0-9d46-11e3-8fed-44fb42fffedd
+  Find qcable by barcode: 689a48a0-9d46-11e3-8fed-44fb42fffeff
 :printers:
   96 Well Plate:
   - :name: plate_example

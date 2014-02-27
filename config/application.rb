@@ -32,6 +32,7 @@ module Gatekeeper
 
     config.destroyable_states = ['pending','available']
     config.destroyed_state = 'destroyed'
+    config.stampable_state = 'created'
   end
 
   begin

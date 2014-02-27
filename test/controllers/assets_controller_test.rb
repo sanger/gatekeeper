@@ -12,7 +12,7 @@ class AssetsControllerTest < ActionController::TestCase
   test "destroy" do
     api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
 
-    asset = api.barcoded_asset.with_uuid('11111111-2222-3333-4444-100000000011')
+    asset = api.asset.with_uuid('11111111-2222-3333-4444-300000000010')
     asset.class_eval { include BarcodeExtensions; include Gatekeeper::Asset::StateExtensions; }
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
@@ -22,7 +22,7 @@ class AssetsControllerTest < ActionController::TestCase
     api.state_change.expect_create_with(
       :received =>{
         :user => '11111111-2222-3333-4444-555555555555',
-        :target => '11111111-2222-3333-4444-100000000011',
+        :target => '11111111-2222-3333-4444-300000000010',
         :target_state => 'destroyed',
         :reason => 'Plate Dropped'
         },

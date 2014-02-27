@@ -96,7 +96,7 @@ module MockApi
       attr_reader :uuid, :model_name
       alias_method :id, :uuid
 
-      def method_missing(method_name)
+      def method_missing(method_name,*args,&block)
         return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
         lookup_association(method_name)||super
       end
