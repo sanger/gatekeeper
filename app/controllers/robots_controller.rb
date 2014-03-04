@@ -4,7 +4,9 @@ class RobotsController < ApplicationController
 
   def search
     begin
-      @robot = Presenter::Robot.new(api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode]))
+      @robot = Presenter::Robot.new(
+        api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
+        )
     rescue StandardError => exception
       return render(
         :json => Presenter::Robot.new(nil).output,

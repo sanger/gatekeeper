@@ -49,7 +49,7 @@ class RobotTest < ActiveSupport::TestCase
   test "validate lot" do
     valid, message = @robot.valid_lot?('580000001806',@lot)
     assert_equal true, valid
-    assert_equal 'Okay', message
+    assert_equal 'Correct bed used.', message
   end
 
   test "validate invalid bed" do

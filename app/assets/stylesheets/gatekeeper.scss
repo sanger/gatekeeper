@@ -14,29 +14,12 @@ $default-radius: 10px;
 
 /* Global styles */
 body {
-  font: medium $bodyfonts;
   text-align: center;
-}
-
-a.destroy-plate:hover {
-  color:red;
 }
 
 .gk-page {
   width:   80%;
   margin:  2em auto 0 auto;
-}
-
-.gk-information {
-  border-left: 3px solid darken($info-dark, 60);
-  background: $info-dark;
-  padding: 0.5em;
-  margin: 0.5em 0;
-
-  h4 {
-    margin:0;
-    color: darken($info-dark, 60);
-  }
 }
 
 h1 {
@@ -59,19 +42,22 @@ h1 {
   }
 }
 
-/* Show page */
-
-.progress-collection {
-  text-align: center;
+/* Gating */
+.gated_before {
+  .gate_before {
+    display:block;
+  }
+  .gate_after {
+    display: none !important;
+  }
 }
 
-.progress_summary {
-  margin-bottom: 1em;
-  text-align: left;
-
-  .label {
-    line-height: 2em;
-    padding: 0.3em 1em 0.1em 1em;
+.gated_after {
+  .gate_after {
+    display:block;
+  }
+  .gate_before {
+    display: none !important;
   }
 }
 
@@ -83,5 +69,9 @@ h1 {
 
 th {
   font-weight: bold;
+}
+
+.form-control-feedback {
+  z-index: 3;
 }
 

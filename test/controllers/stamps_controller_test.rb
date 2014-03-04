@@ -76,6 +76,10 @@ class StampsControllerTest < ActionController::TestCase
 
 
   test "validate invalid lot" do
+    @robot.expects(:valid_lot?).
+    with('58000000180',nil).
+    returns([true,'Okay'])
+
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
     with(Sequencescape::Lot,:lot_number => 'not_a_lot').
@@ -92,7 +96,7 @@ class StampsControllerTest < ActionController::TestCase
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
-    assert_equal({"validation"=>{"status"=>false,"messages"=>["Could not find a lot with the lot number 'not_a_lot'"]}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation"=>{"status"=>false,"messages"=>["Could not find a lot with the lot number 'not_a_lot'","Okay"]}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate full setup" do
@@ -104,7 +108,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -140,7 +144,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000867']).
+    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000867']).
     returns([@plate_a,@plate_c])
 
     @robot.expects(:valid?).
@@ -171,6 +175,10 @@ class StampsControllerTest < ActionController::TestCase
 
   test "validate multiple lots" do
 
+    @robot.expects(:valid_lot?).
+    with('58000000180',@lot).
+    returns([true,'Okay'])
+
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
     with(Sequencescape::Lot,:lot_number => '123456789').
@@ -187,7 +195,7 @@ class StampsControllerTest < ActionController::TestCase
       :lot_plate      => '123456789'
     }
     assert_response :success
-    assert_equal({"validation"=>{"status"=>false,"messages"=>['Multiple lots with lot number 123456789. This is currently unsupported.']}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation"=>{"status"=>false,"messages"=>['Multiple lots with lot number 123456789. This is currently unsupported.',"Okay"]}}.to_json, assigns['validator'].to_json)
 
   end
 
@@ -202,7 +210,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -229,7 +237,7 @@ class StampsControllerTest < ActionController::TestCase
         :tip_lot => '12345678',
         :lot => '11111111-2222-3333-4444-555555555556',
         :robot => '40b07000-0000-0000-0000-000000000000',
-        :beds => [
+        :stamp_details => [
           {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
           {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
         ]
@@ -265,7 +273,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Asset,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -291,7 +299,7 @@ class StampsControllerTest < ActionController::TestCase
         :tip_lot => '12345678',
         :lot => '11111111-2222-3333-4444-555555555556',
         :robot => '40b07000-0000-0000-0000-000000000000',
-        :beds => [
+        :stamp_details => [
           {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
           {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
         ]

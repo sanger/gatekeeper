@@ -8,7 +8,7 @@ class Gatekeeper::Qcable < Sequencescape::Qcable
   include BarcodeExtensions
 
   def in_lot?(lot)
-    selt.lot.uuid == lot.uuid
+    self.lot.uuid == lot.uuid
   end
 
   def stampable?

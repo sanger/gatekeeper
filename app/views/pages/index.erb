@@ -6,7 +6,7 @@
       <li><%= link_to 'Register Reporter Lot', new_lot_path({:lot_type=>'IDT Reporters'}), {:class=>'menu-item'} %></li>
 
       <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View Lot Batch</a></li>
-      <li><a href='#' class='menu-item'>Stamp Plate</a></li>
+      <li><%= link_to 'Stamp Plate', new_stamp_path, {:class=>'menu-item'} %></li>
       <li><a href='#' class='menu-item'>Create QC Pool</a></li>
       <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
       <li><a href='#' class='menu-item' data-toggle="modal" data-target="#destroyQcable">Destroy Tag Plates</a></li>

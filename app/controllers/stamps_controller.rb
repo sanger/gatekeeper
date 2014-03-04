@@ -4,7 +4,7 @@
 class StampsController < ApplicationController
 
   before_filter :find_user
-  skip_before_filter :find_user, only: [:new]
+  skip_before_filter :find_user, only: [:new,:validation]
 
   before_filter :find_robot
   skip_before_filter :find_robot, only: [:new]
@@ -61,15 +61,15 @@ class StampsController < ApplicationController
   # :validate       => 'lot' or 'full' measures extent of validation
   def validation
 
-    if validator.valid?
-      case params[:validate]
-      when 'lot'
-        validator.add_message(*@robot.valid_lot?(params[:lot_bed],@lot))
-      when 'full'
+    case params[:validate]
+    when 'lot'
+      validator.add_message(*@robot.valid_lot?(params[:lot_bed],@lot)) unless @robot.nil?
+    when 'full'
+      if validator.valid?
         validator.add_message(*@robot.valid?(params[:lot_bed],@lot,@bed_plates))
-      else
-        raise StandardError, "An invalid validation option was provided: #{params[:validate]}"
       end
+    else
+      raise StandardError, "An invalid validation option was provided: #{params[:validate]}"
     end
 
     render(:json=>validator,:root=>true)
@@ -88,7 +88,7 @@ class StampsController < ApplicationController
       :robot => @robot.uuid,
       :lot   => @lot.uuid,
       :tip_lot => params[:tip_lot],
-      :beds => @robot.beds_for(@bed_plates)
+      :stamp_details => @robot.beds_for(@bed_plates)
     )
 
     flash[:success] = 'Stamp completed!'
@@ -116,7 +116,7 @@ class StampsController < ApplicationController
     plate_barcodes = params[:beds].values
     validator.add_error("Plates can only be on one bed") if plate_barcodes.uniq.count > plate_barcodes.count
 
-    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Asset,:barcode=> plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
+    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable,:barcode=> plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? {|_,plates| plates.count > 1}
 
     @bed_plates = Hash[params[:beds].map do |bed,plate_barcode|
@@ -126,10 +126,14 @@ class StampsController < ApplicationController
 
   ##
   # Attempts to use the uuid to find the robot, but failing that falls back on the barcode search.
-  # The latter shouldn't really happen
   def find_robot
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
-    @robot = api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
+    begin
+      @robot = api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
+    rescue StandardError => exception
+      return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}") if no_search_result?(exception.message)
+      raise exception
+    end
   end
 
 end

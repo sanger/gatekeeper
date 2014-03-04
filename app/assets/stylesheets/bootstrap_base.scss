@@ -46,3 +46,14 @@
 .label-pending {
   @extend .label-primary
 }
+
+.gk-information {
+  border-left: 3px solid darken($brand-info, 40);
+  background: lighten($brand-info, 30);
+  padding: 1em 2em;
+  margin: 0.5em 0;
+
+  h4 {
+    color: darken($brand-info, 40);
+  }
+}

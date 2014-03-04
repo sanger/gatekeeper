@@ -13,14 +13,15 @@ class Gatekeeper::Robot < Sequencescape::Robot
 
     ##
     # Takes a hash of bed barcodes to assets/lots
-    def valid?(lot_bed,lot,beds)
+    def valid?(lot_bed,lot,beds_orj)
+      beds = beds_orj.dup
       valid_lot?(lot_bed,lot).tap do |valid,message|
         return [valid,message] unless valid
       end
       valid,message = true, ''
       each_destination_barcode do |barcode,name|
         qcable = beds.delete(barcode)
-        return [false, "Bed #{name} should not be empty."] if qcable.nil?
+        return [false, "Bed #{name} should not be empty. #{barcode}"] if qcable.nil?
         return [false, "#{qcable.human_barcode} is not in lot #{lot.lot_number}"] unless qcable.in_lot?(lot)
         return [false, "#{qcable.human_barcode} is '#{qcable.state}'; only '#{Gatekeeper::Application.config.stampable_state}' plates may be stamped."] unless qcable.stampable?
       end
@@ -32,7 +33,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
     # Checks that just the lot is valid (ie. it is a lot.)
     def valid_lot?(lot_bed,lot)
       (lot_bed == lot_bed_barcode) ?
-        [true,'Okay'] :
+        [true,'Correct bed used.'] :
         [false, "The lot plate should be placed on Bed #{lot_bed_name} to begin the process."]
     end
 
@@ -44,12 +45,12 @@ class Gatekeeper::Robot < Sequencescape::Robot
     end
 
     def lot_bed_barcode
-      Barcode.calculate_barcode('BD',1).to_s
+      Barcode.calculate_barcode('BD',robot_properties['SCRC1'].to_i).to_s
     end
 
     def each_destination_barcode
       1.upto(capacity) do |i|
-        yield barcode_for(i), i
+        yield barcode_for(i), robot_properties["DEST#{i}"]
       end
     end
 
@@ -58,7 +59,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
     end
 
     def capacity
-      robot_properties['max_plates'] - 1
+      robot_properties['max_plates'].to_i - 1
     end
   end
 
