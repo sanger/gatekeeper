@@ -33,6 +33,31 @@ module Gatekeeper
     config.destroyable_states = ['pending','available']
     config.destroyed_state = 'destroyed'
     config.stampable_state = 'created'
+    config.qcable_state = 'pending'
+    config.qced_state = 'available'
+
+    config.tracked_purposes = [
+      'Tag Plate',
+      'Reporter Plate',
+      'Tag PCR',
+      'Tag PCR-XP',
+      'Tag Stock-MX',
+      'Tag MX'
+    ]
+
+    config.purpose_handlers = {
+      'Tag Plate' => {
+        :with => 'plate_conversion',
+        :as   => 'target'
+      },
+      'Reporter Plate' => {
+        :with => 'plate_conversion',
+        :as   => 'source'
+      },
+      'Tag MX' => {
+        :with => 'completed'
+      }
+    }
   end
 
   begin

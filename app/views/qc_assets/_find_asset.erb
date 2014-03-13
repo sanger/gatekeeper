@@ -1,0 +1,14 @@
+<%= form_tag do %>
+
+
+    <div class="form-group">
+      <label for="idt_barcode" class="control-label">Plate or tube barcode</label>
+      <div class="input-group">
+        <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+        <input type="text" class="form-control" id="find_asset_barcode" name="find_asset_barcode" placeholder="Scan barcode or input ean13" required="required">
+      </div>
+    </div>
+
+    <%= render :partial => 'form_elements/user_swipecard' %>
+
+<% end %>

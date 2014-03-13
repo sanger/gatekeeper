@@ -6,13 +6,6 @@
 class Gatekeeper::Asset < Sequencescape::BarcodedAsset
 
   include BarcodeExtensions
-
-  module StateExtensions
-    def destroyable?
-      Gatekeeper::Application.config.destroyable_states.include?(self.state)
-    end
-  end
-
   include StateExtensions
 
 end

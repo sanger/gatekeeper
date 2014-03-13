@@ -13,14 +13,19 @@ module MockApi
     # eg. api.lot
     class Resource
 
-      attr_reader :name
+      attr_reader :name, :api
 
-      def initialize(resource_name)
+      def initialize(resource_name,api)
         @name = resource_name
+        @api = api
       end
 
       def find(uuid)
         resource_cache[uuid] ||= Record.from_registry(name,uuid)
+      end
+
+      def resource_cache
+        api.resource_cache
       end
 
       alias_method :with_uuid, :find
@@ -31,7 +36,7 @@ module MockApi
       # :returns  => The UUID of the returned resource, which should exist in the registry.
       def expect_create_with(options)
         received = options.delete(:received)
-        returned = Record.from_registry(name,options.delete(:returns))
+        returned = find(options.delete(:returns))
         raise StandardError, "Creation expected with invalid options #{options.keys.join(',')}" unless options.empty?
         if received.present?
           self.expects(:create!).with(received).returns(returned)
@@ -42,12 +47,6 @@ module MockApi
 
       def create!(*args)
         raise Api::TestError, "Unexpected create! received with options #{args.inspect}"
-      end
-
-      private
-
-      def resource_cache
-        @resource_cache ||= Hash.new
       end
 
     end
@@ -72,6 +71,15 @@ module MockApi
       def method_missing(method_name,*args,&block)
         return @records.send(:"#{method_name}",*args,&block) if @records.respond_to?(:"#{method_name}")
         super
+      end
+
+      def resource_cache
+        @resource_cache ||= Hash.new
+      end
+
+
+      def inspect
+        "Association:#{@name}:#{@parent.uuid}:#{[@records].flatten.first.model_name}"
       end
     end
 
@@ -101,10 +109,20 @@ module MockApi
         lookup_association(method_name)||super
       end
 
+      def respond_to?(method_name,pv=false)
+        return true if @record[:attributes].has_key?(method_name)||
+          (@record[:associations].present? && @record[:associations].has_key?(method_name))
+        super
+      end
+
       ##
       # Used by rails to resolve urls
       def to_param
         uuid
+      end
+
+      def inspect
+        "Record:#{model_name}:#{uuid}"
       end
 
       private
@@ -122,6 +140,7 @@ module MockApi
       end
 
       def lookup_association(assn)
+        return nil if @record[:associations].nil?
         return nil unless @record[:associations].has_key?(assn)
         association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn]||[])
       end
@@ -135,7 +154,7 @@ module MockApi
     end
 
     def add_resource(resource_name)
-      Resource.new(resource_name).tap do |resource|
+      Resource.new(resource_name,self).tap do |resource|
         @api.stubs(resource_name).returns(resource)
       end
     end
@@ -148,6 +167,11 @@ module MockApi
         mock_user_shared(user,barcode)
       end
     end
+
+    def resource_cache
+      @resource_cache ||= Hash.new
+    end
+
 
     private
 
@@ -181,11 +205,28 @@ module MockApi
 
     def each_resource
       registry.each {|resource,records| yield resource }
+      aliases.each {|resource,_| yield resource.to_s }
+    end
+
+    def aliases
+      {
+        :asset => [:plate,:tube],
+        :destination => [:plate,:tube],
+        :plate_purpose => [:purpose],
+        :target_asset => [:tube],
+        :child => [:plate,:tube],
+        :target => [:plate,:tube]
+      }
+    end
+
+    def ralias(resource)
+      aliases[resource]||[resource]
     end
 
     def find(resource,uuid)
-      raise Api::TestError, "No resouce found for #{resource}" if registry[resource].nil?
-      registry[resource][uuid] || raise(StandardError, "There is an issue with the API connection to Sequencescape (UUID does not exist)")
+      raise Api::TestError, "No resouce found for #{resource.inspect}" if ralias(resource).detect {|al| registry[al] }.nil?
+      ralias(resource).each {|al| return registry[al][uuid] unless registry[al][uuid].nil? }
+      raise(StandardError, "There is an issue with the API connection to Sequencescape (UUID does not exist)")
     end
 
   end

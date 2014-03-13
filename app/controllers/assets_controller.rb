@@ -5,8 +5,8 @@
 class AssetsController < ApplicationController
 
   before_filter :find_user
+  skip_before_filter :find_user, :only => [:search,:show]
   before_filter :find_asset_from_barcode
-
   ##
   # This doesn't actually destroy asset, just flags them as such
   def destroy

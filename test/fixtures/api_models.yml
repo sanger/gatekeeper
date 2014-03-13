@@ -208,7 +208,7 @@
       :lot: '11111111-2222-3333-4444-555555555557'
       :qcable_creator: '11111111-2222-3333-4444-555555555558'
       :asset: '11111111-2222-3333-4444-100000000011'
-:asset:
+:plate:
   '11111111-2222-3333-4444-300000000001':
     :attributes:
       :barcode:
@@ -273,6 +273,8 @@
         :ean13: '122000000867'
       :state: pending
     :associations:
+      :plate_purpose: 'ee0154e0-956f-11e3-8255-44fb42fffecc'
+      :source_transfers: []
   '11111111-2222-3333-4444-300000000009':
     :attributes:
       :barcode:
@@ -297,7 +299,65 @@
         :ean13: '122000001174'
       :state: available
     :associations:
+      :plate_purpose: 'ee039ed0-956f-11e3-8255-44fb42fffecc'
       :wells: []
+      :source_transfers: []
+  '11111111-2222-3333-4444-400000000008':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '8'
+        :ean13: '122000000867'
+      :state: passed
+    :associations:
+      :plate_purpose: 'ee0154e0-956f-11e3-8255-44fb42fffecc'
+      :source_transfers:
+        - '99887766-0000-0000-0000-000000000000'
+      :requests: []
+  '11111111-2222-3333-4444-500000000008':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '36'
+        :ean13: '1220000036833'
+      :state: pending
+    :associations:
+      :plate_purpose: '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
+      :source_transfers: []
+      :requests: []
+  '11111111-2222-3333-4444-510000000008':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '37'
+        :ean13: '1220000037843'
+      :state: pending
+    :associations:
+      :plate_purpose: '54088cc0-a3c8-11e3-a7e1-44fb42fffecc'
+      :source_transfers: []
+      :requests: []
+:tube:
+  '11111111-2222-3333-4444-600000000008':
+    :attributes:
+      :barcode:
+        :prefix: NT
+        :number: '37'
+        :ean13: '3980000037732'
+      :state: pending
+    :associations:
+      :purpose: '5412ed00-a3c8-11e3-a7e1-44fb42fffecc'
+      :requests:
+        - '99887766-0000-0000-0000-000000000001'
+  '11111111-2222-3333-4444-700000000008':
+    :attributes:
+      :barcode:
+        :prefix: NT
+        :number: '37'
+        :ean13: '3980000037732'
+      :state: pending
+    :associations:
+      :purpose: '541b5170-a3c8-11e3-a7e1-44fb42fffecc'
+      :requests: []
 :user:
   '11111111-2222-3333-4444-555555555557':
     :attributes:
@@ -372,3 +432,58 @@
   '10204050-0000-0000-0000-000000000000':
     :attributes: {}
     :associations: {}
+:purpose:
+  'ee0154e0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Tag Plate
+    :associations:
+  'ee039ed0-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: Reporter Plate
+    :associations:
+  '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc':
+    :attributes:
+      :name: Tag PCR
+    :associations:
+  '54088cc0-a3c8-11e3-a7e1-44fb42fffecc':
+    :attributes:
+      :name: Tag PCR-XP
+    :associations:
+  '5412ed00-a3c8-11e3-a7e1-44fb42fffecc':
+    :attributes:
+      :name: Tag Stock-MX
+    :associations:
+  '541b5170-a3c8-11e3-a7e1-44fb42fffecc':
+    :attributes:
+      :name: Tag MX
+    :associations:
+:source_transfer:
+  '99887766-0000-0000-0000-000000000000':
+    :attributes: {}
+    :associations:
+      :destination: '11111111-2222-3333-4444-500000000008'
+:request:
+  '99887766-0000-0000-0000-000000000001':
+    :attributes: {}
+    :associations:
+      :target_asset: '11111111-2222-3333-4444-700000000008'
+:plate_creation:
+  '11111111-2222-3333-4444-330000000008':
+    :attributes: {}
+    :associations:
+      :child: '11111111-2222-3333-4444-510000000008'
+      :child_purpose: '54088cc0-a3c8-11e3-a7e1-44fb42fffecc'
+      :user: '11111111-2222-3333-4444-555555555555'
+      :parent: '11111111-2222-3333-4444-500000000008'
+:transfer_template:
+  '8c716230-a922-11e3-926d-44fb42fffecc':
+    :attributes:
+      :name: 'Transfer columns 1-12'
+    :associations: {}
+:plate_conversion:
+  '11111111-2222-3333-4444-340000000008':
+    :attributes: {}
+    :associations:
+      :target: '11111111-2222-3333-4444-500000000008'
+      :purpose: '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
+      :user: '11111111-2222-3333-4444-555555555555'

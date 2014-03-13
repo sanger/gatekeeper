@@ -14,7 +14,8 @@ Gatekeeper::Application.routes.draw do
 
   # We can't use the standard CRUD setup, as the user doesn't have the uuid
   # to hand. Instead we pass a barcode to the controller.
-  resource :asset, :only => [:destroy]
+  resource :asset, :only => [:destroy] do
+  end
 
   resources :stamps, :only => [:new,:create] do
     collection do
@@ -23,6 +24,12 @@ Gatekeeper::Application.routes.draw do
   end
 
   resources :robots, :only=>[] do
+    collection do
+      get :search
+    end
+  end
+
+  resources :qc_assets, :only => [:new,:create] do
     collection do
       get :search
     end

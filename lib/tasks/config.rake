@@ -40,17 +40,45 @@ namespace :config do
         plate_templates.select! {|template| approved_plate_templates.include?(template.name) } unless approved_plate_templates == :all
         templates[:plate_template] = plate_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
         # Tag Templates
-         puts "Preparing tag templates ..."
+        puts "Preparing tag templates ..."
         approved_tag_layout_templates = Gatekeeper::Application.config.approved_templates.tag_layout_template
         tag_layout_templates = api.tag_layout_template.all
         tag_layout_templates.select! {|template| approved_tag_layout_templates.include?(template.name) } unless approved_tag_layout_templates == :all
         templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
       end
 
+      configuration[:transfer_templates] = {}.tap do |transfer_templates|
+        # Plates
+        puts "Preparing transfer templates ..."
+        api.transfer_template.all.each do |template|
+          next unless ['Whole plate to tube','Transfer columns 1-12'].include?(template.name)
+          transfer_templates[template.name] = template.uuid
+        end
+      end
+
       configuration[:lot_types] = {}.tap do |lot_types|
         puts "Preparing lot types ..."
         api.lot_type.all.each do |lot_type|
           lot_types[lot_type.name] = {:uuid=>lot_type.uuid,:template_class=>lot_type.template_class}
+        end
+      end
+
+      configuration[:purposes] = {}.tap do |purpose|
+        puts "Preparing purposes ..."
+        puts "... plates"
+        api.plate_purpose.all.each do |plate_purpose|
+          next unless Gatekeeper::Application.config.tracked_purposes.include?(plate_purpose.name)
+          purpose[plate_purpose.uuid] = {
+            :name     => plate_purpose.name,
+            :children => plate_purpose.children.map{|c| c.uuid}
+            }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name]||{})
+        end
+        puts "... tubes"
+        api.tube_purpose.all.each do |tube_purpose|
+          purpose[tube_purpose.uuid] = {
+            :name=>tube_purpose.name,
+            :children=>tube_purpose.children.map{|c| c.uuid}
+            } if Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
         end
       end
 

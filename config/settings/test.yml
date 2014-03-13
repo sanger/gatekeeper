@@ -31,3 +31,36 @@
   IDT Reporters:
     :uuid: ee135640-956f-11e3-8255-44fb42fffecc
     :template_class: PlateTemplate
+:purposes:
+  ee0154e0-956f-11e3-8255-44fb42fffecc:
+    :name: Tag Plate
+    :children:
+    - 53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc
+    :with: plate_conversion
+    :as: target
+  ee039ed0-956f-11e3-8255-44fb42fffecc:
+    :name: Reporter Plate
+    :children: []
+    :with: plate_conversion
+    :as: source
+  53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc:
+    :name: Tag PCR
+    :children:
+    - 54088cc0-a3c8-11e3-a7e1-44fb42fffecc
+  54088cc0-a3c8-11e3-a7e1-44fb42fffecc:
+    :name: Tag PCR-XP
+    :children:
+    - 5412ed00-a3c8-11e3-a7e1-44fb42fffecc
+  5412ed00-a3c8-11e3-a7e1-44fb42fffecc:
+    :name: Tag Stock-MX
+    :children:
+    - 541b5170-a3c8-11e3-a7e1-44fb42fffecc
+  541b5170-a3c8-11e3-a7e1-44fb42fffecc:
+    :name: Tag MX
+    :children: []
+    :with: completed
+:transfer_templates:
+  Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
+  Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc
+
+
