@@ -17,12 +17,16 @@ class Presenter::Robot
   end
 
   def output
-    @robot.present? ? { 'robot' =>
-      {
-        'name' => name,
-        'bed_count' => bed_count
-      }
-    } : {'robot'=>'not found'}
+    { 'robot' => json }
+  end
+
+  private
+
+  def json
+    @robot.present? ? {
+      'name' => name,
+      'bed_count' => bed_count
+    } : 'not found'
   end
 
 end
