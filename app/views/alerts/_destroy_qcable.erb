@@ -9,21 +9,21 @@
       <%= form_tag asset_path, :method => 'delete' do %>
         <div class="modal-body">
 
+          <%= render :partial => 'form_elements/user_swipecard' %>
+
           <div class="form-group">
-            <label for="idt_barcode" class="control-label">Plate barcode</label>
-            <div class="input-group">
+            <label for="idt_barcode" class="col-sm-5 control-label">Plate barcode</label>
+            <div class="input-group col-sm-6">
               <span class="input-group-addon glyphicon glyphicon-barcode"></span>
-              <input type="text" class="form-control" id="qcable_barcode_to_destroy" name="qcable_barcode_to_destroy" placeholder="Scan barcode or input ean13" required="required">
+              <input type="text" class="form-control" id="asset_barcode" name="asset_barcode" placeholder="Scan barcode or input ean13" required="required">
             </div>
           </div>
 
-          <%= render :partial => 'form_elements/user_swipecard' %>
 
           <div class="form-group">
             <button type="submit" class="form-control btn-success" id="submit" value="Destroy Plate"><span class='glyphicon glyphicon-trash'></span> Destroy Plate</button>
             </div>
           </div>
-
 
         </div>
       <% end %>
