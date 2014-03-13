@@ -258,12 +258,12 @@
     bedSize: 10
   };
 
-  $('#scan_plate').on('blur',function(event){
-    if ($.grep($('.bed_field'),function(item){return item.value===""}).length==0) {
-      bedValidator.addBed($('#scan_bed').val(),$('#scan_plate').val())
+  $('#scan_bed').on('blur',function(event){
+    if ($('#scan_plate').val()!=="") {
+      bedValidator.addBed($('#scan_bed').val(), $('#scan_plate').val())
       $('.bed_field').val('');
     }
-    $('#scan_bed').focus();
+    $('#scan_plate').focus();
   })
 
 
