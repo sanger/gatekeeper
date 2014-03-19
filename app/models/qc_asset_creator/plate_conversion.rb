@@ -4,6 +4,23 @@
 module QcAssetCreator::PlateConversion
 
   ##
+  # Ensures the qcable state changes are recorded
+  def asset_update_state
+    api.state_change.create!(
+      :user => @user.uuid,
+      :target => @asset.uuid,
+      :reason => 'Used in QC',
+      :target_state => Gatekeeper::Application.config.qcing_state
+    )
+    api.state_change.create!(
+      :user => @user.uuid,
+      :target => @sibling.uuid,
+      :reason => 'Used to QC',
+      :target_state => Gatekeeper::Application.config.used_state
+    )
+  end
+
+  ##
   # Actually converts the target plate to the specified purpose
   def asset_create
     api.plate_conversion.create!(

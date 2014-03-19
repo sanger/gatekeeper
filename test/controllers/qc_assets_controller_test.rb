@@ -168,6 +168,23 @@ class QcAssetsControllerTest < ActionController::TestCase
       with(:barcode => '122000000867').
       returns(api.plate.with_uuid('11111111-2222-3333-4444-300000000008'))
 
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => '11111111-2222-3333-4444-555555555555',
+        :target => '11111111-2222-3333-4444-300000000008',
+        :target_state => 'qc_in_progress',
+        :reason => 'Used in QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => '11111111-2222-3333-4444-555555555555',
+        :target => '11111111-2222-3333-4444-100000000011',
+        :target_state => 'exhausted',
+        :reason => 'Used to QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
+
 
     api.plate_conversion.expect_create_with(
       :received => {
@@ -221,7 +238,22 @@ class QcAssetsControllerTest < ActionController::TestCase
       expects(:first).
       with(:barcode => '122000001174').
       returns(api.plate.with_uuid('11111111-2222-3333-4444-100000000011'))
-
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => '11111111-2222-3333-4444-555555555555',
+        :target => '11111111-2222-3333-4444-100000000011',
+        :target_state => 'qc_in_progress',
+        :reason => 'Used in QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => '11111111-2222-3333-4444-555555555555',
+        :target => '11111111-2222-3333-4444-300000000008',
+        :target_state => 'exhausted',
+        :reason => 'Used to QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
 
     api.plate_conversion.expect_create_with(
       :received => {
@@ -321,6 +353,7 @@ class QcAssetsControllerTest < ActionController::TestCase
       pc.stubs(:target).returns(api.plate.with_uuid(tag_plate))
 
       api.plate_conversion.stubs(:create!).returns(pc)
+      api.state_change.stubs(:create!).returns(nil)
 
       api.transfer_template.with_uuid('8c716230-a922-11e3-926d-44fb42fffecc').stubs(:create!)
 

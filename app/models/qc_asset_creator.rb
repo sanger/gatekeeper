@@ -18,9 +18,14 @@ class QcAssetCreator
   # Calls the appropriate api calls and returns the newly created asset
   def create!
     validate!
+    asset_update_state
     asset_create.tap do |child|
       asset_transfer(child)
     end
+  end
+
+  def asset_update_state
+    # Nothing to do here
   end
 
   def asset_create

@@ -34,7 +34,9 @@ module Gatekeeper
     config.destroyed_state = 'destroyed'
     config.stampable_state = 'created'
     config.qcable_state = 'pending'
+    config.qcing_state = 'qc_in_progress'
     config.qced_state = 'available'
+    config.used_state = 'exhausted'
 
     config.tracked_purposes = [
       'Tag Plate',
