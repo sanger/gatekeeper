@@ -9,7 +9,7 @@
 
   // Basic Error Handling
   unknownError = function(response) {
-    $('#flash-holder').append($('.unknown-error'));
+    $('#flash-holder').append($('.hidden .unknown-error').clone());
   }
 
   // Enforce Linear Flow (Robot)
