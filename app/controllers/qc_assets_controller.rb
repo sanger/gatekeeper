@@ -2,13 +2,11 @@
 # Create QC Tubes
 class QcAssetsController < ApplicationController
 
-  before_filter :find_user
-  skip_before_filter :find_user, :only => [:new,:search]
-  before_filter :find_asset_from_barcode
-  skip_before_filter :find_asset_from_barcode, :except => [:search]
+  before_filter :find_user, :except => [:new,:search]
+  before_filter :find_asset_from_barcode, :only => [:search,:create]
 
-  before_filter :validate_child_purpose
-  skip_before_filter :validate_child_purpose, :except => [:create]
+  before_filter :validate_parameters, :only => [:create]
+
 
   def new
   end

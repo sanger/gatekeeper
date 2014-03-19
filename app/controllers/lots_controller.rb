@@ -6,11 +6,8 @@
 
 class LotsController < ApplicationController
 
-  before_filter :find_user
-  skip_before_filter :find_user, :only => [:show,:new,:search]
-
-  before_filter :find_lot
-  skip_before_filter :find_lot, :except => [:show]
+  before_filter :find_user, :except => [:show,:new,:search]
+  before_filter :find_lot, :only => [:show]
 
   ##
   # Lot summary page.
