@@ -39,4 +39,5 @@ Gatekeeper::Application.configure do
   config.api_connection_options.namespace     = 'Gatekeeper'
   config.api_connection_options.url           = 'http://localhost:3000/api/1/'
   config.api_connection_options.authorisation = 'test'
+
 end

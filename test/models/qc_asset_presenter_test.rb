@@ -17,20 +17,22 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
     end
 
     assert_equal({ 'qc_asset' => {
+        'uuid' => '11111111-2222-3333-4444-500000000008',
         'purpose' => 'Tag PCR',
         'barcode' => {
           'ean13' => '1220000036833',
           'prefix' => 'DN',
           'number' => '36'
         },
-        'child_purposes' => {
-          'Tag PCR-XP' => '54088cc0-a3c8-11e3-a7e1-44fb42fffecc'
-        },
+        'child_purposes' => [
+          ['Tag PCR-XP','54088cc0-a3c8-11e3-a7e1-44fb42fffecc']
+        ],
         'children' => [],
         'state' => 'pending',
         'handle' => {
           'with' => 'plate_creation',
-          'as' => ''
+          'as' => '',
+          'sibling'=>''
         }
       }
     },present.output)
@@ -44,20 +46,22 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
     end
 
     assert_equal({ 'qc_asset' => {
+        'uuid' => '11111111-2222-3333-4444-400000000008',
         'purpose' => 'Tag Plate',
         'barcode' => {
           'ean13' => '122000000867',
           'prefix' => 'DN',
           'number' => '8'
         },
-        'child_purposes' => {
-          'Tag PCR' => '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
-        },
-        'children' => ['11111111-2222-3333-4444-500000000008'],
+        'child_purposes' => [
+          ['Tag PCR','53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc']
+        ],
+        'children' => [['plates','11111111-2222-3333-4444-500000000008']],
         'state' => 'passed',
         'handle' => {
-          'with' => 'plate_conversion',
-          'as'   => 'target'
+          'with'    => 'plate_conversion',
+          'as'      => 'target',
+          'sibling' => 'Reporter Plate'
         }
       }
     },present.output)
@@ -71,19 +75,22 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
     end
 
     assert_equal({ 'qc_asset' => {
+        'uuid' => '11111111-2222-3333-4444-100000000011',
         'purpose' => 'Reporter Plate',
         'barcode' => {
           'ean13' => '122000001174',
           'prefix' => 'DN',
           'number' => '11'
         },
-        'child_purposes' => {
-        },
+        'child_purposes' => [
+          ['Tag PCR','53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc']
+        ],
         'children' => [],
         'state' => 'available',
         'handle' => {
-          'with' => 'plate_conversion',
-          'as'   => 'source'
+          'with'   => 'plate_conversion',
+          'as'     => 'source',
+          'sibling'=> 'Tag Plate'
         }
       }
     },present.output)
@@ -97,19 +104,20 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
     end
 
     assert_equal({ 'qc_asset' => {
+        'uuid' => '11111111-2222-3333-4444-700000000008',
         'purpose' => 'Tag MX',
         'barcode' => {
           'ean13' => '3980000037732',
           'prefix' => 'NT',
           'number' => '37'
         },
-        'child_purposes' => {
-        },
+        'child_purposes' => [],
         'children' => [],
         'state' => 'pending',
         'handle' => {
           'with' => 'completed',
-          'as' => ''
+          'as' => '',
+          'sibling' => ''
         }
       }
     },present.output)

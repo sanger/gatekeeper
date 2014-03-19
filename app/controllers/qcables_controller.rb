@@ -7,6 +7,7 @@ class QcablesController < ApplicationController
   before_filter :find_user, :find_printer, :find_lot
   skip_before_filter :find_printer, :except => [:create]
   skip_before_filter :find_lot, :except => [:create]
+
   ##
   # This action should generally get called through the nested
   # lot/qcables route, which will provide our lot id.

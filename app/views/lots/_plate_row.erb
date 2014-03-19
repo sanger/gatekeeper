@@ -1,5 +1,5 @@
 <tr id='<%= state %>_plate_<%= plate.index %>'>
   <td class='plate_index'><%= plate.index %></td>
   <td class='plate_barcode'><%= plate.barcode %></td>
-  <td><input type='checkbox' id='selected[<%= plate.id %>]'/></td>
+  <td><input type='checkbox' id='selected[<%= plate.id %>]' name='numbers[<%= plate.number %>]' value='<%= plate.number %>'/></td>
 </tr>

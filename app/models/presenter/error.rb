@@ -5,8 +5,8 @@
 # things that will end up here client side.
 class Presenter::Error
 
-  def initialize(message)
-    @message = message
+  def initialize(exception)
+    @message = exception.message
   end
 
   def output

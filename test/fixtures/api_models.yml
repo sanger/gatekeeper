@@ -480,6 +480,10 @@
     :attributes:
       :name: 'Transfer columns 1-12'
     :associations: {}
+  '58b72440-ab69-11e3-bb8f-44fb42fffecc':
+    :attributes:
+      :name: 'Flip Plate'
+    :associations: {}
 :plate_conversion:
   '11111111-2222-3333-4444-340000000008':
     :attributes: {}

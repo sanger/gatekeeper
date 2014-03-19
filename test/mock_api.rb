@@ -13,15 +13,15 @@ module MockApi
     # eg. api.lot
     class Resource
 
-      attr_reader :name, :api
+      attr_reader :rname, :api
 
       def initialize(resource_name,api)
-        @name = resource_name
+        @rname = resource_name
         @api = api
       end
 
       def find(uuid)
-        resource_cache[uuid] ||= Record.from_registry(name,uuid)
+        resource_cache[uuid] ||= Record.from_registry(rname,uuid)
       end
 
       def resource_cache
@@ -57,7 +57,7 @@ module MockApi
     # However, we don't really care about that here, as that's outside the scope of the tests.
     class Association < Resource
       def initialize(parent,resource_name,records)
-        @name = resource_name
+        @rname = resource_name
         @parent = parent
         if records.is_a?(Array)
           @records = records.map {|uuid| Record.from_registry(resource_name,uuid)}
@@ -79,7 +79,7 @@ module MockApi
 
 
       def inspect
-        "Association:#{@name}:#{@parent.uuid}:#{[@records].flatten.first.model_name}"
+        "Association:#{@rname}:#{@parent.uuid}:#{[@records].flatten.first.model_name}"
       end
     end
 

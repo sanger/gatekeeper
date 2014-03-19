@@ -1,0 +1,44 @@
+<%= form_tag({},{class: 'main-form'}) do %>
+  <div class="swipecard-reciever">
+    <!-- Move the swipecard field here -->
+  </div>
+
+  <div class="form-group disabled">
+    <label for="asset_barcode" class="col-sm-5 control-label"><span class="purpose"></span> barcode</label>
+    <div class="input-group col-sm-6">
+      <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+      <input type="text" class="form-control asset-ean13 form-control-dis" name="asset_barcode" placeholder="..." required="required" readonly="readonly">
+    </div>
+  </div>
+
+  <div class="conversion-interface-receiver"></div>
+  <div class="hidden-fields"></div>
+
+  <div class="form-group disabled">
+    <span class="col-sm-5"></span>
+    <div class="input-group col-sm-6 button-receiver">
+    </div>
+  </div>
+
+  <div class="feedback"></div>
+
+<% end %>
+
+<%= form_tag({controller: 'barcode_labels',action: :create},{class: 'barcode-printing-form'}) do %>
+  <input type='hidden' name="prefix" value="DN" />
+  <div class="form-group">
+    <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
+    <div class="input-group col-sm-6">
+      <span class="input-group-addon glyphicon glyphicon-print"></span>
+      <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
+        <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
+          <option value='<%= uuid %>'><%= name %></option>
+        <% end %>
+      </select>
+      <span class="input-group-btn">
+        <button class="btn btn-success">Print</button>
+      </span>
+    </div>
+  </div>
+  <div class="bc-feedback"></div>
+<% end %>

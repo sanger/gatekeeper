@@ -51,7 +51,7 @@ namespace :config do
         # Plates
         puts "Preparing transfer templates ..."
         api.transfer_template.all.each do |template|
-          next unless ['Whole plate to tube','Transfer columns 1-12'].include?(template.name)
+          next unless ['Whole plate to tube','Transfer columns 1-12','Flip Plate','Transfer between specific tubes'].include?(template.name)
           transfer_templates[template.name] = template.uuid
         end
       end
@@ -70,17 +70,34 @@ namespace :config do
           next unless Gatekeeper::Application.config.tracked_purposes.include?(plate_purpose.name)
           purpose[plate_purpose.uuid] = {
             :name     => plate_purpose.name,
-            :children => plate_purpose.children.map{|c| c.uuid}
+            :children => plate_purpose.children.map{|c| c.uuid},
+            :type => 'plate'
             }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name]||{})
         end
         puts "... tubes"
         api.tube_purpose.all.each do |tube_purpose|
+          next unless Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
           purpose[tube_purpose.uuid] = {
             :name=>tube_purpose.name,
-            :children=>tube_purpose.children.map{|c| c.uuid}
-            } if Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
+            :children=>tube_purpose.children.map{|c| c.uuid},
+            :type => 'tube'
+            }.merge(Gatekeeper::Application.config.purpose_handlers[tube_purpose.name]||{})
         end
       end
+
+      configuration[:submission_templates] = {}.tap do |submission_templates|
+        puts "Preparing submission templates..."
+        submission_templates['miseq']= api.order_template.all.detect {|ot| ot.name=="MiSeq for TagQC"}.uuid
+      end
+
+      puts "Setting study..."
+      configuration[:study] = Gatekeeper::Application.config.study_uuid||
+        puts("No study specified, using first study")||
+        api.study.first.uuid
+      puts "Setting project..."
+      configuration[:project] = Gatekeeper::Application.config.project_uuid||
+        puts("No project specified, using first project")||
+        api.project.first.uuid
 
     end
 

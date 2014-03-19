@@ -35,4 +35,9 @@ Gatekeeper::Application.routes.draw do
     end
   end
 
+  resources :plates, :only=> [:show]
+  resources :tubes,  :only=> [:show]
+  resources :submissions,  :only=> [:create]
+  resources :barcode_labels,  :only=> [:create]
+
 end

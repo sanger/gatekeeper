@@ -21,6 +21,10 @@ class Presenter::Qcable
     "#{@qcable.barcode.prefix}#{@qcable.barcode.number}"
   end
 
+  def number
+    "#{@qcable.barcode.number}"
+  end
+
   def uuid
     @qcable.uuid
   end

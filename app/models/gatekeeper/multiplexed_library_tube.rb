@@ -1,17 +1,12 @@
 ##
-# Namespcaced Asset as per:
+# Namespcaced Multiplexed Library Tube as per:
 # https://github.com/sanger/sequencescape-client-api/wiki/Extending-the-Ruby-client-library
 # Allows us to treat plates and tube the same
-class Gatekeeper::Tube < Sequencescape::Tube
+class Gatekeeper::MultiplexedLibraryTube < Sequencescape::Tube
 
   module ModelExtensions
-    def children
-      children? ? self.requests.map {|r| r.target_asset } : []
-    end
-
-    def children?
-      self.requests.size > 0
-    end
+    def children; []; end
+    def children?;false; end
   end
 
   include ModelExtensions

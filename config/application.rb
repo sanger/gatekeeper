@@ -47,16 +47,40 @@ module Gatekeeper
 
     config.purpose_handlers = {
       'Tag Plate' => {
-        :with => 'plate_conversion',
-        :as   => 'target'
+        :with    => 'plate_conversion',
+        :as      => 'target',
+        :sibling => 'Reporter Plate'
       },
       'Reporter Plate' => {
-        :with => 'plate_conversion',
-        :as   => 'source'
+        :with    => 'plate_conversion',
+        :as      => 'source',
+        :sibling => 'Tag Plate'
+      },
+      'Tag PCR' => {
+      },
+      'Tag PCR-XP' => {
+        :with => 'tube_creation'
+      },
+      'Tag Stock-MX' => {
+        :with => 'tube_transfer'
       },
       'Tag MX' => {
         :with => 'completed'
       }
+    }
+
+    # If no study or project is specified, the config will fall back
+    # to the first study/project
+    config.study_uuid = nil
+    config.project_uuid = nil
+
+    config.request_options = {
+      "read_length" => 25,
+      "fragment_size_required" => {
+        "from" => 0,
+        "to"   => 100
+      },
+      "library_type" => "QA1"
     }
   end
 

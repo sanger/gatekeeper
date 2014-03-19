@@ -1,7 +1,11 @@
 <%= render :partial => 'shared/nav' %>
 <div id='gk-new-qc-page' class='gk-page'>
   <h1>Create QC Library</h1>
-  <div class='col-md-12'>
+  <div id='step-holder' class='col-md-12'>
     <%= render :partial => 'find_asset', :layout => :'layouts/section', :locals => {:title => "Find Asset" } %>
   </div>
+</div>
+
+<div class="hidden">
+  <%= render :partial => 'templates' %>
 </div>

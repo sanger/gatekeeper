@@ -1,0 +1,344 @@
+// Place all the behaviors and hooks related to the matching controller here.
+// All this logic will automatically be available in application.js.
+
+(function(window,$,undefined) {
+
+  var unknownError, QcStep, InitialStep;
+  // Basic Error Handling
+  unknownError = function(response) {
+    $('#flash-holder').append($('.hidden .unknown-error').clone());
+  };
+  /* TODO: Inheritance */
+  /***************************/
+
+  InitialStep = function(form){
+    var step = this;
+    this.form = form;
+    $('#initial_asset_barcode').on('blur',function() {
+      if (this.value !== '') {step.request(this.value)};
+    }).on('focus',function() {
+      step.form.children('.barcode-group').removeClass('has-error');
+    })
+  }
+  InitialStep.prototype = {
+    request : function(barcode) {
+      var step = this;
+      this.wait();
+      $.ajax({
+        type: 'GET',
+        dataType: "json",
+        url: 'search',
+        data: 'asset_barcode='+barcode
+      }).then(step.pass(),step.fail(barcode));
+    },
+    fail : function(barcode){
+      var step = this;
+      return function(result) {
+        switch(result.status) {
+          case 404:
+            step.error("Couldn't find a plate with the barcode "+barcode);
+            return;
+          default:
+            console.log(result);
+            unknownError();
+        }
+      }
+    },
+    wait : function() {
+      this.feedback($('.hidden .asset-lookup').clone())
+    },
+    pass : function(){
+      var step = this;
+      return function(result) {
+        step.form.children('.feedback').children('.asset-lookup').append('found!')
+        var next = new QcStep(result.qc_asset)
+        step.form.parents('.panel').slideUp(400,function(){next.spawn()});
+      }
+    },
+    error: function(message) {
+      var template;
+      template = $('.hidden .error-message').clone();
+      template.children('.message').text(message);
+      this.feedback(template);
+      this.form.children('.barcode-group').addClass('has-error');
+    },
+    feedback: function(item) {
+      this.form.children('.feedback').html(item);
+    },
+    form: null
+  }
+
+  new InitialStep($('#initial_form'));
+
+  /***************************/
+
+  QcStep = function(asset) {
+    var step = this;
+    this.asset = asset;
+    this.element = $('.hidden .asset-section').clone().hide();
+    this.setTitle(this.humanBarcode()+': '+this.asset.purpose);
+    this.setBarcode();
+    this.setBarcodeForm();
+    this.setPurpose(this.asset.purpose);
+
+    $('#step-holder').append(this.element);
+    if (this.validates()) {
+      // Do the rest
+      this.createHandler();
+    };
+  }
+  QcStep.prototype = {
+    spawn: function() {
+      this.element.find('.swipecard-reciever').append($('#swipecard_holder'));
+      if (this.hasChildren()) {
+        this.disable();
+        this.requestChild(function(response){
+          var next = new QcStep(response.qc_asset)
+          next.spawn();
+        })
+      } else {
+        this.element.find('.form-control-dis').attr('disabled',false);
+      }
+      this.element.slideDown(400);
+    },
+    setTitle: function(title) {this.element.find('.panel-heading h2').text(title);},
+    humanBarcode: function() {
+      return this.asset.barcode.prefix+this.asset.barcode.number
+    },
+    setBarcode: function() {
+      this.element.find('.asset-ean13').val(this.asset.barcode.ean13);
+    },
+    setBarcodeForm: function() {
+      var study, number;
+      study = document.createElement('input')
+      study.type = 'hidden'
+      study.value = this.asset.purpose;
+      study.name = 'study'
+      number = document.createElement('input')
+      number.value = this.asset.barcode.number;
+      number.name = 'numbers['+this.asset.barcode.number+']';
+      number.type = 'hidden';
+      this.element.find('.barcode-printing-form').append(study).append(number);
+      new BarcodePrinter(this.element.find('.barcode-printing-form'));
+    },
+    setPurpose: function(purpose) {
+      this.element.find('.purpose').text(purpose);
+    },
+    createHandler: function() {
+      switch(this.asset.handle.with) {
+        case 'completed':
+          this.feedback($('.hidden .pipeline-complete'));
+          this.createRequestButton();
+          return false;
+        case 'plate_conversion':
+          this.createConversionInterface();
+        default:
+          this.createHiddenFields();
+          this.createButton();
+      }
+    },
+    createButton: function() {
+      // This assumes a single child purpose, it will need to be extended if we ever
+      // deal with branching pipelines.
+      var purpose;
+      var step = this;
+      this.button = $(document.createElement('button')).
+        text('Create '+this.asset.child_purposes[0][0]).
+        addClass('btn btn-success').
+        attr('type','submit');
+      this.element.find('.button-receiver').append(this.button);
+      this.button.data('text','Create '+this.asset.child_purposes[0][0]);
+      this.element.find('.main_form').on('submit',function(e){
+        e.preventDefault();
+        step.submit();
+      });
+    },
+    createHiddenFields: function() {
+      this.element.find('.hidden-fields').append(
+        $(document.createElement('input')).
+        attr('type','hidden').
+        attr('name','purpose').
+        val(this.asset.child_purposes[0][1])
+      );
+    },
+    createRequestButton: function() {
+      var step = this;
+      this.button = $(document.createElement('button')).
+        text('Create sequencing request').
+        addClass('btn btn-success').
+        attr('type','submit');
+      this.element.find('.button-receiver').append(this.button);
+      this.button.data('text','Create sequencing request');
+      this.element.find('.main-form').on('submit',function(e){
+        e.preventDefault();
+        step.submitSequencing();
+      });
+    },
+    createConversionInterface: function() {
+      var conversion;
+      conversion = $('.hidden .conversion-interface').clone();
+      conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
+      this.element.find('.conversion-interface-receiver').append(conversion);
+    },
+    validates: function() {
+      if (this.asset.handle.with==='invalid') {this.addError(this.asset.purpose+' can not be processed by this pipeline.')};
+      if (this.asset.handle.with==='plate_conversion' && this.asset.state !== this.qcablestate ) {
+        this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
+      };
+      return this.valid;
+    },
+    addError: function(message) {
+      var template;
+      this.valid = false;
+      template = $('.hidden .error-message').clone();
+      template.children('.message').text(message);
+      this.feedback(template);
+    },
+    feedback: function(item) {
+      this.element.find('.feedback').html(item);
+    },
+    submit: function() {
+      this.wait();
+      $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: '/qc_assets',
+        data: this.element.find('.main-form').serialize()
+      }).then(this.pass(),this.fail());
+    },
+    submitSequencing: function() {
+      this.wait();
+      $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: '/submissions',
+        data: this.element.find('.main-form').serialize()
+      }).then(this.completed(),this.fail());
+    },
+    wait: function() {
+      this.button.removeClass('btn-success').
+        addClass('btn-warning').
+        text('Creating...').
+        attr('disabled','disabled');
+    },
+    unWait: function() {
+      this.button.removeClass('btn-warning').
+        addClass('btn-success').
+        text(this.button.data('text')).
+        attr('disabled',false);
+    },
+    disable: function() {
+      this.feedback($('.hidden .for-'+this.asset.handle.with+' .step-complete').clone());
+      this.element.find('.swipecard-reciever').slideUp();
+      this.element.find('.form-control-dis').attr('disabled','disabled');
+      this.element.find(this.button).slideUp();
+    },
+    pass: function() {
+      var step = this;
+      return function(response) {
+        step.disable();
+        var next = new QcStep(response.qc_asset)
+        next.spawn();
+      }
+    },
+    completed: function() {
+      var step = this;
+      return function(response) {
+        step.disable();
+        step.feedback($('.hidden .submission-complete'));
+      }
+    },
+    fail: function() {
+      var step = this;
+      return function(response) {
+        step.unWait();
+        switch(response.status) {
+          case 403:
+          case 404:
+            if (response.responseJSON !== undefined && response.responseJSON['error'] !== null) {
+              step.addError(response.responseJSON['error']);
+              return false;
+            }
+          default:
+            console.log(response);
+            unknownError();
+        }
+      }
+    },
+    hasChildren: function() {
+      return this.asset.children.length > 0
+    },
+    requestChild: function(callback) {
+      if (this.asset.handle.with === 'completed') {
+        return false;
+      }
+      $.ajax({
+        type: 'GET',
+        url: '/'+this.asset.children[0][0]+'/'+this.asset.children[0][1],
+      }).then(callback,this.fail());
+    },
+    qcablestate: '<%= Gatekeeper::Application.config.qcable_state %>',
+    qcedstate: '<%= Gatekeeper::Application.config.qced_state %>',
+    valid: true,
+    asset: null,
+    element: null,
+    button: null
+  }
+
+  /* Ideally this would go elsewhere, but then I'd either polute the global namespace,
+     or need to add dependency management */
+  BarcodePrinter = function(form) {
+    this.form = $(form);
+    this.form.on('submit',this.formSubmit())
+  }
+  BarcodePrinter.prototype = {
+    formSubmit: function(){
+      var print = this;
+      return function(e) {
+        e.preventDefault();
+        print.form.find('button').attr('disabled','disabled');
+        $.ajax({
+          type: 'POST',
+          dataType: "json",
+          url: print.form[0].action,
+          data: print.form.serialize()
+        }).then(print.pass(),print.fail());
+      };
+    },
+    fail: function() {
+      var print = this;
+      return function(response) {
+        console.log(response);
+        unknownError();
+      }
+    },
+    pass: function() {
+      var print = this;
+      return function(response) {
+        nasty = response;
+        print.form.find('button').attr('disabled',false);
+        print.form.find('.bc-feedback').append(print.message(response));
+      }
+    },
+    message: function(response) {
+      var guide,box;
+      guide = {
+        'success': ['success','glyphicon-ok'],
+        'error':   ['danger', 'glyphicon-exclamation-sign']
+      }
+      box = $(document.createElement('div'));
+      $.each(response,function(status,message) {
+        span = $(document.createElement('span')).addClass('glyphicon '+guide[status][1]);
+        box.addClass('alert alert-'+guide[status][0]).append(span).append(' '+message);
+      })
+      return box;
+    }
+  }
+
+  $('.barcode-printing-form').each(function(){
+    new BarcodePrinter(this);
+  })
+
+})(window,jQuery,undefined)
+
+var nasty;
