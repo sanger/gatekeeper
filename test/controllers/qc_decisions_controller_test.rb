@@ -35,7 +35,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
   test "new" do
     get :new, {:lot_id => '11111111-2222-3333-4444-555555555556' }
     assert_response :success
-    assert_equal '11111111-2222-3333-4444-555555555556', assigns['presenter'].uuid
+    assert_equal '11111111-2222-3333-4444-555555555556', assigns['lot_presenter'].uuid
   end
 
   test "create" do
@@ -46,7 +46,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
         :lot =>     '11111111-2222-3333-4444-555555555556',
         :decisions => [
           {'qcable'=>'11111111-2222-3333-4444-100000000001', 'decision' => 'pass'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000002', 'decision' => 'pass'},
+          # {'qcable'=>'11111111-2222-3333-4444-100000000002', 'decision' => 'pass'},
           {'qcable'=>'11111111-2222-3333-4444-100000000003', 'decision' => 'release'},
           {'qcable'=>'11111111-2222-3333-4444-100000000004', 'decision' => 'release'},
           {'qcable'=>'11111111-2222-3333-4444-100000000005', 'decision' => 'release'},
@@ -65,7 +65,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
       :user_swipecard => 'abcdef',
       :decisions => {
         '11111111-2222-3333-4444-100000000001' => 'pass',
-        '11111111-2222-3333-4444-100000000002' => 'pass',
+        '11111111-2222-3333-4444-100000000002' => '',
         '11111111-2222-3333-4444-100000000003' => 'release',
         '11111111-2222-3333-4444-100000000004' => 'release',
         '11111111-2222-3333-4444-100000000005' => 'release',

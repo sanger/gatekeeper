@@ -45,6 +45,13 @@ class Presenter::Lot
     end
   end
 
+  def each_plate_in(state)
+    plates = (sorted_qcables.detect {|qc_state,plates| qc_state == state }||[nil,[]]).last
+    Presenter::Qcable.new_from_batch(plates).each do |qcable|
+      yield qcable
+    end
+  end
+
   ##
   # Keeps track of the active tab. It will return true the first time it is called,
   # and subsequently is called with the same state again.

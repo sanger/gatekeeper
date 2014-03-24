@@ -1,0 +1,30 @@
+<div class="gk-information">
+  <h4>Select Pending Plates Decision</h4>
+  <p>Below is a list of the pending places created for this lot. Use the buttons below to quickly set a decision for all pending plates; you may then use the drop down next to each plate to set individual decisions if required.</p>
+</div>
+<div class="form-group">
+  <span class="col-sm-3"> </span>
+  <div class="btn-group col-sm-7">
+  <button class="btn btn-success" type="button" id="all-to-release">Set All To Release</button>
+  <button class="btn btn-danger"  type="button" id="all-to-fail"   >Set All To Fail</button>
+  </div>
+</div>
+<% @lot_presenter.each_plate_in('pending') do |plate| -%>
+  <div class="form-group">
+    <label for="decisions[<%= plate.uuid %>]" class="col-sm-3 control-label"><%= plate.barcode %></label>
+    <div class="col-sm-7">
+      <select class="form-control pending-decision" id="decisions[<%= plate.uuid %>]" name="decisions[<%= plate.uuid %>]">
+          <option value="" >No decision</option>
+          <option value='release'>Release</option>
+          <option value='fail'>Fail</option>
+      </select>
+    </div>
+  </div>
+<% end %>
+<div class="form-group">
+  <span class="col-sm-3"> </span>
+  <div class="btn-group col-sm-7">
+  <button class="btn btn-success" type="submit" id="make-decision">Make Decision</button>
+  </div>
+</div>
+

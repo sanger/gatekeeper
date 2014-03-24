@@ -17,7 +17,7 @@ class QcDecisionsController < ApplicationController
   # For rendering a QC Decision
   # On Lot
   def new
-    @presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
+    @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
   end
 
   ##
@@ -25,10 +25,11 @@ class QcDecisionsController < ApplicationController
   # On Lot
   def create
     begin
+      decisions = params[:decisions].select {|uuid,decision| decision.present? }
       api.qc_decision.create!(
         :user => @user.uuid,
         :lot  => params[:lot_id],
-        :decisions => params[:decisions].map do |uuid,decision|
+        :decisions => decisions.map do |uuid,decision|
           {'qcable'=>uuid, 'decision' => decision }
         end
       )
