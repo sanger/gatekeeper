@@ -13,8 +13,7 @@
   <% end %>
 </div>
 <div class="hidden">
-  <div class="alert alert-danger alert-dismissable unknown-error"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>An unknown error has occured! Please contact support.</div>
-
+  <%= render :partial => 'alerts/critical_error' %>
 
   <div class="alert alert-warning stock-progress bed-progress">
     <span class="glyphicon glyphicon-time"></span> Validating...

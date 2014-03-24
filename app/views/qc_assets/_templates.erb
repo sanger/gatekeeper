@@ -1,6 +1,6 @@
 <p>This section should be invisible, but may occasionally display while the page is loading. If it continues to remain visible then please contact support.</p>
 
-<div class="alert alert-danger alert-dismissable unknown-error"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>An unknown error has occured! Please contact support.</div>
+<%= render :partial => 'alerts/critical_error' %>
 
 <div class="alert alert-warning asset-lookup">
   <span class="glyphicon glyphicon-time"></span> Looking up barcode, please wait...

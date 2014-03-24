@@ -14,8 +14,14 @@ module UserError
       ##
       # Redirect to the root with a flash[:danger] of message
       def user_error(exception)
-        flash[:danger] = exception.message
-        redirect_to :root
+        @message = exception.message
+        respond_to do |format|
+          format.html {
+            flash[:danger] = @message
+            redirect_to :root
+          }
+          format.json { render json: {'error' => @message}, :status => 403 }
+        end
         false
       end
     end

@@ -4,13 +4,18 @@
 /* TODO:
  * 1: Get rid of some of the duplication here between the sections
  */
+
 (function(window,$,undefined) {
-  var unknownError, robotSetup, stockValidator, bedValidator
+  var otherError, robotSetup, stockValidator, bedValidator
 
   // Basic Error Handling
-  unknownError = function(response) {
-    $('#flash-holder').append($('.hidden .unknown-error').clone());
-  }
+  otherError = function(response) {
+    var message,text;
+    message = $('.hidden .unknown-error').clone()
+    text = (response.responseJSON||[])["error"]||message.child('.error-message').text
+    message.children('.error-message').text(text)
+    $('#flash-holder').append(message);
+  };
 
   // Enforce Linear Flow (Robot)
   robotSetup = {
@@ -80,7 +85,7 @@
           function(response){ if (response.status==404) {
             text_box.fail(response);
           } else {
-            unknownError(response);
+            otherError(response);
           } }
         );
       };
@@ -139,7 +144,7 @@
           stockValidator.processResponse(response.validation);
         },
         // Failure
-        function(response){unknownError(response);}
+        function(response){otherError(response);}
       )
     },
 
@@ -213,7 +218,7 @@
           bedValidator.processResponse(response.validation);
         },
         // Failure
-        function(response){unknownError(response);}
+        function(response){otherError(response);}
       )
     },
     request: function() {

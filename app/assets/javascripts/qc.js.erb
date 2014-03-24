@@ -1,12 +1,15 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-
 (function(window,$,undefined) {
 
-  var unknownError, QcStep, InitialStep;
+  var otherError, QcStep, InitialStep;
   // Basic Error Handling
-  unknownError = function(response) {
-    $('#flash-holder').append($('.hidden .unknown-error').clone());
+  otherError = function(response) {
+    var message,text;
+    message = $('.hidden .unknown-error').clone()
+    text = (response.responseJSON||[])["error"]||message.child('.error-message').text
+    message.child('.error-message').text(text)
+    $('#flash-holder').append(message);
   };
   /* TODO: Inheritance */
   /***************************/
@@ -40,7 +43,7 @@
             return;
           default:
             console.log(result);
-            unknownError();
+            otherError();
         }
       }
     },
@@ -261,7 +264,7 @@
             }
           default:
             console.log(response);
-            unknownError();
+            otherError(response);
         }
       }
     },
@@ -309,7 +312,7 @@
       var print = this;
       return function(response) {
         console.log(response);
-        unknownError();
+        otherError();
       }
     },
     pass: function() {
