@@ -5,6 +5,7 @@
   Find lot by lot number: 689a48a0-9d46-11e3-8fed-44fb42fffecc
   Find robot by barcode: 689a48a0-9d46-11e3-8fed-44fb42fffedd
   Find qcable by barcode: 689a48a0-9d46-11e3-8fed-44fb42fffeff
+  Find lot by batch id: d8986b60-b104-11e3-a4d5-44fb42fffecc
 :printers:
   96 Well Plate:
   - :name: plate_example

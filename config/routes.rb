@@ -10,6 +10,7 @@ Gatekeeper::Application.routes.draw do
       get :search
     end
     resources :qcables, :only => [:create]
+    resources :qc_decisions, :only => [:create,:new]
   end
 
   # We can't use the standard CRUD setup, as the user doesn't have the uuid
@@ -30,6 +31,12 @@ Gatekeeper::Application.routes.draw do
   end
 
   resources :qc_assets, :only => [:new,:create] do
+    collection do
+      get :search
+    end
+  end
+
+  resources :qc_decisions do
     collection do
       get :search
     end
