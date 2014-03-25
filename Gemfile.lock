@@ -16,6 +16,12 @@ GIT
     sanger_barcode (0.0.1)
       savon (= 0.9.2)
 
+GIT
+  remote: git@github.com:sanger/psd_logger.git
+  revision: dd2d634114df75b1d8535715c169a7fc99521389
+  specs:
+    psd_logger (0.1.6)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -157,6 +163,7 @@ DEPENDENCIES
   jquery-rails
   mocha
   pry
+  psd_logger!
   puma
   rails (~> 4.0.2)
   sanger_barcode!

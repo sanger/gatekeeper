@@ -25,6 +25,10 @@ group :development do
   gem "pry"
 end
 
+group :deployment do
+  gem "psd_logger", :git => "git@github.com:sanger/psd_logger.git"
+end
+
 group :test do
   gem 'mocha'
 end
