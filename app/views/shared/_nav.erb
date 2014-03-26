@@ -23,7 +23,19 @@
         </li>
         <li><%= link_to 'Stamp Plate', new_stamp_path, {:class=>'menu-item'} %></li>
         <li><%= link_to 'Create QC Pool', new_qc_asset_path, {:class=>'menu-item'} %></li>
-        <li><a href='#' class='menu-item'>Pass or Fail Plates</a></li>
+        <li class="dropdown">
+          <a href='#' class='dropdown-toggle' data-toggle="dropdown">Pass or Fail Plates <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <%= form_tag search_qc_decisions_path, :method => 'get' do %>
+            <li><div class="input-group">
+              <input type="text" class="form-control" id="lot_number" placeholder="Batch ID" required="required" name="batch_id">
+              <span class="input-group-btn">
+                <input class="btn btn-default" type="submit" value='Find'>
+              </span>
+            </div></li>
+            <% end %>
+          </ul>
+        </li>
       </ul>
 
       <%= form_tag search_lots_path, :method => 'get', :class=>'navbar-form navbar-right' do %>

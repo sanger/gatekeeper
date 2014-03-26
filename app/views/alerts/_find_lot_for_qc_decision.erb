@@ -1,0 +1,24 @@
+<!-- Modal -->
+<div class="modal fade" id="findLotForQcDecision" tabindex="-1" role="dialog" aria-labelledby="findLotForQcDecisionLabel" aria-hidden="true" data-focus='batch_id_to_find'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="findLotForQcDecisionLabel">Pass or Fail Plates</h4>
+      </div>
+      <%= form_tag search_qc_decisions_path, :method => 'get' do %>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="lot_number" class="control-label">Sequencing Batch ID</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="lot_number" placeholder="Input batch ID" required="required" name="batch_id">
+              <span class="input-group-btn">
+                <input class="btn btn-default" type="submit" value='Find'>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
