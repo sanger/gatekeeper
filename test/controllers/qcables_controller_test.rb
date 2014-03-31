@@ -65,4 +65,23 @@ class QcablesControllerTest < ActionController::TestCase
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
+  test "create outside range" do
+
+    api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
+
+    request.env["HTTP_REFERER"] = lot_url('11111111-2222-3333-4444-555555555556')
+
+    [0,-12,999999].each do |i|
+      post :create, {
+        :user_swipecard => 'abcdef',
+        :lot_id => '11111111-2222-3333-4444-555555555556',
+        :plate_number => i,
+        :barcode_printer => 'baac0dea-0000-0000-0000-000000000000'
+      }
+
+      assert_redirected_to :controller=>:lots, :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
+      assert_equal 'Number of plates created must be between 1 and 500 inclusive', flash[:danger]
+    end
+  end
+
 end
