@@ -8,6 +8,7 @@ class Presenter::QcAsset
     def children; Array.new; end
     def with; 'invalid'; end
     def as; end
+    def sibling; end
   end
 
   attr_reader :asset
