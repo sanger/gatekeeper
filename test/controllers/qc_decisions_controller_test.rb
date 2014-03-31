@@ -24,7 +24,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
     api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc').
     expects(:first).
     with(:batch_id => '999').
-    raises(StandardError,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
+    raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
     post :search, {:batch_id=>'999'}
 

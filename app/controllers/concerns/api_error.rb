@@ -7,16 +7,9 @@ module ApiError
   def rescue_no_results(message)
     begin
       yield
-    rescue StandardError => exception
-      raise UserError::InputError, message if no_search_result?(exception.message)
-      raise exception
+    rescue Sequencescape::Api::ResourceNotFound => exception
+      raise UserError::InputError, message
     end
   end
 
-  private
-  ##
-  # The client-api-gem currently only raises standard errors. We check the message to determine the content
-  def no_search_result?(message)
-    message.include?("no resources found with that search criteria")
-  end
 end

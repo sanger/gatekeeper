@@ -72,8 +72,7 @@ class LotsController < ApplicationController
   def find_lot
     begin
       @lot = api.lot.find(params[:id])
-    rescue StandardError => exception
-      raise exception unless exception.message.include?('UUID does not exist')
+    rescue Sequencescape::Api::ResourceNotFound => exception
       @message  = "Could not find lot with uuid: #{params[:id]}"
       render 'pages/error', :status => 404
     end

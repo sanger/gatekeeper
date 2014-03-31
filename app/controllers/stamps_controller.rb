@@ -130,9 +130,8 @@ class StampsController < ApplicationController
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
     begin
       @robot = api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
-    rescue StandardError => exception
-      return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}") if no_search_result?(exception.message)
-      raise exception
+    rescue Sequencescape::Api::ResourceNotFound => exception
+      return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
     end
   end
 

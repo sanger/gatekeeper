@@ -37,7 +37,7 @@ module MockApi
       def expect_create_with(options)
         received = options.delete(:received)
         returned = find(options.delete(:returns))
-        raise StandardError, "Creation expected with invalid options #{options.keys.join(',')}" unless options.empty?
+        raise Sequencescape::Api::ResourceInvalid, "Creation expected with invalid options #{options.keys.join(',')}" unless options.empty?
         if received.present?
           self.expects(:create!).with(received).returns(returned)
         else
@@ -181,7 +181,7 @@ module MockApi
 
     def mock_user_shared(user,barcode)
       user_search = @api.search.with_uuid('e7e52730-956f-11e3-8255-44fb42fffecc')
-      user_search.stubs(:first).raises(StandardError,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
+      user_search.stubs(:first).raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
       user_search.stubs(:first).with(:swipecard_code => barcode).returns(user)
     end
 
@@ -226,7 +226,7 @@ module MockApi
     def find(resource,uuid)
       raise Api::TestError, "No resouce found for #{resource.inspect}" if ralias(resource).detect {|al| registry[al] }.nil?
       ralias(resource).each {|al| return registry[al][uuid] unless registry[al][uuid].nil? }
-      raise(StandardError, "There is an issue with the API connection to Sequencescape (UUID does not exist)")
+      raise(Sequencescape::Api::ResourceNotFound, "UUID does not exist")
     end
 
   end

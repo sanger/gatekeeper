@@ -46,7 +46,7 @@ class AssetsControllerTest < ActionController::TestCase
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
       with(:barcode => '1220000010734').
-      raises(StandardError,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
+      raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
     delete :destroy, {
       :user_swipecard => '123456789',

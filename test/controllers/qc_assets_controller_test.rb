@@ -42,7 +42,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
     expects(:first).
     with(:barcode => '122000000867').
-    raises(StandardError,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
+    raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
     api.asset.with_uuid('11111111-2222-3333-4444-300000000008').class_eval do
       include Gatekeeper::Plate::ModelExtensions
