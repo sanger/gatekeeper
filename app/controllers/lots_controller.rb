@@ -35,15 +35,20 @@ class LotsController < ApplicationController
   # Create action for lot. Registers lot metadata
   # We convert the date into the big endian format to avoid ambiguity
   def create
-    @lot = api.lot_type.find(params[:lot_type]).lots.create!(
-      :user        => @user.uuid,
-      :lot_number  => params[:lot_number],
-      :template    => params[:template],
-      :received_at => Date.strptime(params[:received_at], '%d/%m/%Y').strftime('%Y-%m-%d')
-    )
-    flash[:success] = "Created lot #{@lot.lot_number}"
+    begin
+      @lot = api.lot_type.find(params[:lot_type]).lots.create!(
+        :user        => @user.uuid,
+        :lot_number  => params[:lot_number],
+        :template    => params[:template],
+        :received_at => Date.strptime(params[:received_at], '%d/%m/%Y').strftime('%Y-%m-%d')
+      )
+      flash[:success] = "Created lot #{@lot.lot_number}"
 
-    redirect_to lot_path(@lot)
+      redirect_to lot_path(@lot)
+    rescue Sequencescape::Api::ResourceInvalid => exception
+      flash[:danger] = "#{exception.resource.errors.full_messages.join('; ')}."
+      redirect_to new_lot_path
+    end
   end
 
   ##
