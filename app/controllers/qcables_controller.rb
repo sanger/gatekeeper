@@ -4,9 +4,7 @@ class QcablesController < ApplicationController
 
   include BarcodePrinting
 
-  before_filter :find_user, :find_printer, :find_lot
-  skip_before_filter :find_printer, :except => [:create]
-  skip_before_filter :find_lot, :except => [:create]
+  before_filter :find_user, :find_printer, :find_lot, :validate_plate_count
 
   ##
   # This action should generally get called through the nested
@@ -40,6 +38,12 @@ class QcablesController < ApplicationController
 
   def find_lot
     @lot = api.lot.find(params[:lot_id])
+  end
+
+  def validate_plate_count
+    return true if params[:plate_number].to_i >= 1
+    flash[:danger] = "Number of plates created must be one or more."
+    redirect_to :back
   end
 
 end
