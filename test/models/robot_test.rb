@@ -77,9 +77,21 @@ class RobotTest < ActiveSupport::TestCase
   end
 
   test "validate extra beds" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_b,'580000003835'=>@plate_b})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_b,'580000003835'=>@plate_c})
     assert_equal 'Invalid beds: 580000003835', message
     assert_equal false, valid
+  end
+
+  test "validate duplicate plates detected" do
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_a})
+    assert_equal false, valid
+    assert_equal 'Plates can only be located on one bed. Check for duplicates', message
+  end
+
+  test "validate duplicate beds detected" do
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000002810'=>@plate_b})
+    assert_equal false, valid
+    assert_equal 'Bed 3 should not be empty. 580000003824', message
   end
 
   test "beds for" do

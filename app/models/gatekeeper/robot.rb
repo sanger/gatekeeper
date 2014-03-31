@@ -18,6 +18,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
       valid_lot?(lot_bed,lot).tap do |valid,message|
         return [valid,message] unless valid
       end
+      return [false, 'Plates can only be located on one bed. Check for duplicates'] if beds.values.uniq!
       valid,message = true, ''
       each_destination_barcode do |barcode,name|
         qcable = beds.delete(barcode)

@@ -173,6 +173,36 @@ class StampsControllerTest < ActionController::TestCase
     assert_equal({"validation"=>{"status"=>false,"messages"=>["Not okay"]}}.to_json, assigns['validator'].to_json)
   end
 
+  test "validate full multiple barcodes" do
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
+    expects(:all).
+    with(Sequencescape::Lot,:lot_number => '123456789').
+    returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+    expects(:all).
+    with(Gatekeeper::Qcable,:barcode => ['122000000183']).
+    returns([@plate_a])
+
+    @request.headers["Accept"] = "application/json"
+    post :validation, {
+      :user_swipecard => '123456789',
+      :robot_barcode  => '488000000178',
+      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
+      :tip_lot        => '12345678',
+      :validate       => 'full',
+      :lot_bed        => '58000000180',
+      :lot_plate      => '123456789',
+      :beds           => {
+        '58000000281'=>'122000000183',
+        '58000000382'=>'122000000183'
+      }
+    }
+    assert_response :success
+    assert_equal @robot, assigns['robot']
+    assert_equal({"validation"=>{"status"=>false,"messages"=>["Plates can only be on one bed"]}}.to_json, assigns['validator'].to_json)
+  end
+
   test "validate multiple lots" do
 
     @robot.expects(:valid_lot?).

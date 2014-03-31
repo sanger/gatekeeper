@@ -114,7 +114,7 @@ class StampsController < ApplicationController
     return @bed_plates = Hash.new if params[:beds].nil?
 
     plate_barcodes = params[:beds].values
-    validator.add_error("Plates can only be on one bed") if plate_barcodes.uniq.count > plate_barcodes.count
+    validator.add_error("Plates can only be on one bed") if plate_barcodes.uniq!.present?
 
     plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable,:barcode=> plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? {|_,plates| plates.count > 1}
