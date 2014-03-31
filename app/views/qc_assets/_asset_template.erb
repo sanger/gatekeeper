@@ -1,3 +1,25 @@
+<%= form_tag({controller: 'barcode_labels',action: :create},{class: 'barcode-printing-form'}) do %>
+  <input type='hidden' name="prefix" value="DN" />
+  <div class="form-group">
+    <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
+    <div class="input-group col-sm-6">
+      <span class="input-group-addon glyphicon glyphicon-print"></span>
+      <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
+        <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
+          <option value='<%= uuid %>' class='plate-printer'><%= name %></option>
+        <% end %>
+        <% each_barcode_printer('1D Tube') do |name,uuid| -%>
+          <option value='<%= uuid %>' class='tube-printer'><%= name %></option>
+        <% end %>
+      </select>
+      <span class="input-group-btn">
+        <button class="btn btn-success">Print</button>
+      </span>
+    </div>
+  </div>
+  <div class="bc-feedback"></div>
+<% end %>
+
 <%= form_tag({},{class: 'main-form'}) do %>
   <div class="swipecard-reciever">
     <!-- Move the swipecard field here -->
@@ -22,23 +44,4 @@
 
   <div class="feedback"></div>
 
-<% end %>
-
-<%= form_tag({controller: 'barcode_labels',action: :create},{class: 'barcode-printing-form'}) do %>
-  <input type='hidden' name="prefix" value="DN" />
-  <div class="form-group">
-    <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
-    <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-print"></span>
-      <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
-        <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
-          <option value='<%= uuid %>'><%= name %></option>
-        <% end %>
-      </select>
-      <span class="input-group-btn">
-        <button class="btn btn-success">Print</button>
-      </span>
-    </div>
-  </div>
-  <div class="bc-feedback"></div>
 <% end %>

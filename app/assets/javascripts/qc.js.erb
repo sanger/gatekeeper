@@ -288,11 +288,14 @@
     button: null
   }
 
-  /* Ideally this would go elsewhere, but then I'd either polute the global namespace,
+  /* Ideally this would go elsewhere, but then I'd either pollute the global namespace,
      or need to add dependency management */
-  BarcodePrinter = function(form) {
+  BarcodePrinter = function(form,type) {
     this.form = $(form);
     this.form.on('submit',this.formSubmit())
+    this.type = type||this.type;
+    this.form.find(this.remove()).hide();
+    this.form.find(this.show()).show();
   }
   BarcodePrinter.prototype = {
     formSubmit: function(){
@@ -335,7 +338,14 @@
         box.addClass('alert alert-'+guide[status][0]).append(span).append(' '+message);
       })
       return box;
-    }
+    },
+    remove: function() {
+      return 'plate'==='plate'?'.tube-printer':'.plate-printer'
+    },
+    show: function() {
+      return this.type + '-printer';
+    },
+    type: 'plate'
   }
 
   $('.barcode-printing-form').each(function(){
