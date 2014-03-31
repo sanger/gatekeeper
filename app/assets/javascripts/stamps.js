@@ -264,7 +264,7 @@
   };
 
   $('#scan_bed').on('blur',function(event){
-    if ($('#scan_plate').val()!=="") {
+    if ($('#scan_plate').val()!=="" && $('#scan_bed').val()!=="") {
       bedValidator.addBed($('#scan_bed').val(), $('#scan_plate').val())
       $('.bed_field').val('');
     }
