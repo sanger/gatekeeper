@@ -7,8 +7,8 @@
   otherError = function(response) {
     var message,text;
     message = $('.hidden .unknown-error').clone()
-    text = (response.responseJSON||[])["error"]||message.child('.critical-error-message').text
-    message.child('.critical-error-message').text(text)
+    text = (response.responseJSON||[])["error"]||message.children('.critical-error-message').text
+    message.children('.critical-error-message').text(text)
     $('#flash-holder').append(message);
   };
   /* TODO: Inheritance */
