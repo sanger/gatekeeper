@@ -113,6 +113,7 @@
     },
     setBarcodeForm: function() {
       var study, number;
+      if (this.asset.handle.with==='plate_conversion') { return true; };
       study = document.createElement('input')
       study.type = 'hidden'
       study.value = this.asset.purpose;
@@ -182,6 +183,7 @@
       conversion = $('.hidden .conversion-interface').clone();
       conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
       this.element.find('.conversion-interface-receiver').append(conversion);
+      this.element.find('.barcode-printing-form').hide();
     },
     validates: function() {
       if (this.asset.handle.with==='invalid') {this.addError(this.asset.purpose+' can not be processed by this pipeline.')};
