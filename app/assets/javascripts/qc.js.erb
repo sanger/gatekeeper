@@ -123,7 +123,7 @@
       number.name = 'numbers['+this.asset.barcode.number+']';
       number.type = 'hidden';
       this.element.find('.barcode-printing-form').append(study).append(number);
-      new BarcodePrinter(this.element.find('.barcode-printing-form'));
+      new BarcodePrinter(this.element.find('.barcode-printing-form'),this.asset.handle.printer);
     },
     setPurpose: function(purpose) {
       this.element.find('.purpose').text(purpose);
@@ -293,11 +293,13 @@
   /* Ideally this would go elsewhere, but then I'd either pollute the global namespace,
      or need to add dependency management */
   BarcodePrinter = function(form,type) {
+    console.log(type);
     this.form = $(form);
     this.form.on('submit',this.formSubmit())
     this.type = type||this.type;
     this.form.find(this.remove()).hide();
     this.form.find(this.show()).show();
+    this.form.find('select').val($(this.show()).val());
   }
   BarcodePrinter.prototype = {
     formSubmit: function(){
@@ -342,10 +344,10 @@
       return box;
     },
     remove: function() {
-      return 'plate'==='plate'?'.tube-printer':'.plate-printer'
+      return this.type ==='plate'?'.tube-printer':'.plate-printer'
     },
     show: function() {
-      return this.type + '-printer';
+      return '.' + this.type + '-printer';
     },
     type: 'plate'
   }

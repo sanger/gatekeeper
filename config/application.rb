@@ -67,10 +67,12 @@ module Gatekeeper
         :with => 'tube_creation'
       },
       'Tag Stock-MX' => {
-        :with => 'tube_transfer'
+        :with => 'tube_transfer',
+        :printer => 'tube'
       },
       'Tag MX' => {
-        :with => 'completed'
+        :with => 'completed',
+        :printer => 'tube'
       }
     }
 

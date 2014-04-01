@@ -9,6 +9,7 @@ class Presenter::QcAsset
     def with; 'invalid'; end
     def as; end
     def sibling; end
+    def printer; end
   end
 
   attr_reader :asset
@@ -50,6 +51,7 @@ class Presenter::QcAsset
       'with'    => purpose_config.with||'plate_creation',
       'as'      => purpose_config.as||'',
       'sibling' => purpose_config.sibling||'',
+      'printer' => purpose_config.printer||'plate'
     }
   end
 
