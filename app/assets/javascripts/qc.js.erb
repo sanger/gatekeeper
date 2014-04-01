@@ -293,7 +293,6 @@
   /* Ideally this would go elsewhere, but then I'd either pollute the global namespace,
      or need to add dependency management */
   BarcodePrinter = function(form,type) {
-    console.log(type);
     this.form = $(form);
     this.form.on('submit',this.formSubmit())
     this.type = type||this.type;
