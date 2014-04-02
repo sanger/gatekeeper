@@ -23,6 +23,8 @@ class SubmissionsController < ApplicationController
       submission.submit!
 
       render(:json=>{'success'=>'Submission created!'},:root=>true)
+    rescue Sequencescape::Api::ConnectionFactory::Actions::ServerError => exception
+      render(:json=>{'error'=>'Submission Failed. ' + /.+\[([^\]]+)\]/.match(exception.message)[1] },:root=>true,:status=>403)
     rescue Sequencescape::Api::ResourceInvalid => exception
       render(:json=>{'error'=>'Submission Failed. ' + exception.resource.errors.full_messages.join('; ') },:root=>true,:status=>403)
     end
