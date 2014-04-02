@@ -1,5 +1,5 @@
 <%= form_tag({controller: 'barcode_labels',action: :create},{class: 'barcode-printing-form'}) do %>
-  <input type='hidden' name="prefix" value="DN" />
+  <input type='hidden' class="prefix-field" name="prefix" value="DN" />
   <div class="form-group">
     <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
     <div class="input-group col-sm-6">
