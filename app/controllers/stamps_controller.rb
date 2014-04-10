@@ -4,7 +4,7 @@
 class StampsController < ApplicationController
 
   before_filter :find_user
-  skip_before_filter :find_user, only: [:new,:validation]
+  skip_before_filter :find_user, only: [:new]
 
   before_filter :find_robot
   skip_before_filter :find_robot, only: [:new]
@@ -47,6 +47,7 @@ class StampsController < ApplicationController
   ##
   # Presents the stamping interface
   def new
+    @params = params
   end
 
   ##
@@ -92,7 +93,16 @@ class StampsController < ApplicationController
     )
 
     flash[:success] = 'Stamp completed!'
-    redir = params[:repeat].present? ? new_stamp_url : lot_url(@lot)
+    redir = params[:repeat].present? ?
+      {
+        :controller    => :stamps,
+        :action        => :new,
+        :robot_barcode => params[:robot_barcode ],
+        :tip_lot       => params[:tip_lot],
+        :lot_bed       => params[:lot_bed],
+        :lot_plate     => params[:lot_plate]
+      } :
+      lot_url(@lot)
     redirect_to redir
   end
 

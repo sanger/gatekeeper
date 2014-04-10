@@ -42,8 +42,9 @@ class QcablesController < ApplicationController
 
   def validate_plate_count
     range = Gatekeeper::Application.config.stamp_range
-    return true if range.cover?(params[:plate_number].to_i)
-    flash[:danger] = "Number of plates created must be between #{range.first} and #{range.last} inclusive"
+    step  = Gatekeeper::Application.config.stamp_step
+    return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i%step ==0)
+    flash[:danger] = "Number of plates created must be a multiple of #{step} between #{range.first} and #{range.last} inclusive"
     redirect_to :back
   end
 

@@ -8,7 +8,7 @@
       <span class="form-control-feedback"></span>
       <input type="text" class="form-control" id="robot_barcode"
       name="robot_barcode" placeholder="Scan robot barcode" required="required"
-      data-container="body" data-placement="top" data-content="Could not find robot with this barcode.">
+      data-container="body" data-placement="top" data-content="Could not find robot with this barcode." value="<%= robot_barcode %>">
     </div>
   </div>
   <div id="robot_barcode_feedback"></div>
@@ -17,7 +17,7 @@
     <label for="tip_lot" class="col-sm-5 control-label">Tip lot</label>
     <div class="input-group col-sm-6">
       <span class="input-group-addon glyphicon glyphicon-record"></span>
-      <input type="text" class="form-control" id="tip_lot" name="tip_lot" placeholder="Tip lot number" required="required">
+      <input type="text" class="form-control" id="tip_lot" name="tip_lot" placeholder="Tip lot number" required="required" value="<%= tip_lot %>">
     </div>
   </div>
 </div>

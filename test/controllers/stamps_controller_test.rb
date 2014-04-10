@@ -351,7 +351,7 @@ class StampsControllerTest < ActionController::TestCase
       },
       :repeat        => 'repeat'
     }
-    assert_redirected_to new_stamp_url
+    assert_redirected_to :controller=>:stamps, :action=>:new, :robot_barcode => '488000000178', :tip_lot => '12345678', :lot_bed => '58000000180', :lot_plate => '123456789'
     assert_equal 'Stamp completed!', flash[:success]
   end
 

@@ -30,6 +30,12 @@ Gatekeeper::Application.routes.draw do
     end
   end
 
+  resources :users, :only=>[] do
+    collection do
+      get :search
+    end
+  end
+
   resources :qc_assets, :only => [:new,:create] do
     collection do
       get :search

@@ -30,6 +30,8 @@ Gatekeeper::Application.configure do
   config.api_connection_options.url           = 'http://localhost:3000/api/1/'
   config.api_connection_options.authorisation = 'development'
 
+  config.support_mail = 'example@example.com'
+
   # We can either pass in an array of printer names, or accept all printers with :all
   # Note that this list is built as part of rake:config:generate
   config.approved_printers = :all

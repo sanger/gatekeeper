@@ -63,11 +63,13 @@
     :children:
     - 541b5170-a3c8-11e3-a7e1-44fb42fffecc
     :type: tube
+    :printer: tube
   541b5170-a3c8-11e3-a7e1-44fb42fffecc:
     :name: Tag MX
     :children: []
     :with: completed
     :type: tube
+    :printer: tube
 :transfer_templates:
   Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
   Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc

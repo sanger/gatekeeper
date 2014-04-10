@@ -39,7 +39,8 @@ module Gatekeeper
     config.qced_state = 'available'
     config.used_state = 'exhausted'
 
-    config.stamp_range = (1..500)
+    config.stamp_range = (10..500)
+    config.stamp_step = 10
 
     config.tracked_purposes = [
       'Tag Plate',

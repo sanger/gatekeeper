@@ -23,7 +23,7 @@
       :template_name: Example Tag Layout
     :associations:
       :lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc'
-      :user: '11111111-2222-3333-4444-555555555557'
+      :user: '11111111-2222-3333-4444-555555555555'
       :template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
       :qcables:
       - '11111111-2222-3333-4444-100000000001'
@@ -44,7 +44,7 @@
       :template_name: Example Plate Layout
     :associations:
       :lot_type: 'ee135640-956f-11e3-8255-44fb42fffecc'
-      :user: '11111111-2222-3333-4444-555555555557'
+      :user: '11111111-2222-3333-4444-555555555555'
       :template: '2f750200-9570-11e3-8f17-44fb42fffecc'
       :qcables:
       - '11111111-2222-3333-4444-200000000010'
@@ -359,8 +359,11 @@
       :purpose: '541b5170-a3c8-11e3-a7e1-44fb42fffecc'
       :requests: []
 :user:
-  '11111111-2222-3333-4444-555555555557':
+  '11111111-2222-3333-4444-555555555555':
     :attributes:
+      :first_name: Joe
+      :last_name: Bloggs
+      :login: JB1
     :associations:
 :search:
   'e7d2fec0-956f-11e3-8255-44fb42fffecc':

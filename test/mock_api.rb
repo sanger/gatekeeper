@@ -162,8 +162,7 @@ module MockApi
     ##
     # Mocks a user. Refactor to use the registry
     def mock_user(barcode,uuid)
-      mock('user').tap do |user|
-        user.stubs('uuid').returns(uuid)
+      @api.user.with_uuid(uuid).tap do |user|
         mock_user_shared(user,barcode)
       end
     end

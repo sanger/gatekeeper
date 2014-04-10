@@ -32,7 +32,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with' => 'plate_creation',
           'as' => '',
-          'sibling'=>''
+          'sibling'=>'',
+          'printer'=>'plate'
         }
       }
     },present.output)
@@ -61,7 +62,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with'    => 'plate_conversion',
           'as'      => 'target',
-          'sibling' => 'Reporter Plate'
+          'sibling' => 'Reporter Plate',
+          'printer'=>'plate'
         }
       }
     },present.output)
@@ -90,7 +92,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with'   => 'plate_conversion',
           'as'     => 'source',
-          'sibling'=> 'Tag Plate'
+          'sibling'=> 'Tag Plate',
+          'printer'=>'plate'
         }
       }
     },present.output)
@@ -117,7 +120,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with' => 'completed',
           'as' => '',
-          'sibling' => ''
+          'sibling' => '',
+          'printer'=>'tube'
         }
       }
     },present.output)

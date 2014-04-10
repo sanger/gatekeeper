@@ -15,7 +15,7 @@
   </div>
   <%= yield %>
   <div id='gk-app-info' class="well well-sm">
-    <p><%= Gatekeeper.application_string %></p>
+    <p><%= Gatekeeper.application_string %> - <a href='mailto:<%= Gatekeeper::Application.config.support_mail %>'>Need Help? Drop us an email.</a></p>
   </div>
   <%= javascript_include_tag "application" %>
 </body>

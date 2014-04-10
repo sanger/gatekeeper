@@ -4,11 +4,11 @@
   </div>
   <%= form_tag(stamps_path, {class: 'form-horizontal'}) do %>
     <div class='col-md-6'>
-      <%= render :partial => 'robot', :layout => :'layouts/section', :locals => {:title => "Robot Setup" } %>
-      <%= render :partial => 'stock', :layout => :'layouts/section', :locals => {:title => "Stock Setup" } %>
+      <%= render :partial => 'robot', :layout => :'layouts/section', :locals => {:title => "Robot Setup", :robot_barcode => @params[:robot_barcode], :tip_lot => @params[:tip_lot] } %>
+      <%= render :partial => 'stock', :layout => :'layouts/section', :locals => {:title => "Stock Setup", :lot_bed => @params[:lot_bed], :lot_plate => @params[:lot_plate]    } %>
     </div>
     <div class='col-md-6'>
-      <%= render :partial => 'beds',  :layout => :'layouts/section', :locals => {:title => "Bed Setup"   } %>
+      <%= render :partial => 'beds',  :layout => :'layouts/section', :locals => {:title => "Bed Setup" } %>
     </div>
   <% end %>
 </div>
@@ -36,7 +36,7 @@
   </div>
   <div class="bed list-group-item">
     <button type="button" class="close" aria-hidden="true">&times;</button>
-    <strong>Bed Barcode:</strong> <span class="bed-barcode"></span><br/>
-    <strong>Plate Barcode:</strong> <span class="plate-barcode"></span>
+    <strong>Plate Barcode:</strong> <span class="plate-barcode"></span><br/>
+    <strong>Bed Barcode:</strong> <span class="bed-barcode"></span>
   </div>
 </div>

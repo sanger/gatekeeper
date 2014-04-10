@@ -5,7 +5,7 @@
     <label for="plate_number" class="col-sm-5 control-label">Number of plates</label>
     <div class="input-group col-sm-6">
       <span class="input-group-addon glyphicon glyphicon-plus"></span>
-      <input type="number" class="form-control" id="plate_number" name="plate_number" placeholder="0" min=0 step=1 required="required">
+      <input type="number" class="form-control" id="plate_number" name="plate_number" placeholder="0" min=<%= lot.min_qcables %> step=<%= lot.step_qcables %> max=<%= lot.max_qcables %> required="required">
     </div>
   </div>
 

@@ -22,6 +22,14 @@ class Presenter::Lot
     @lot.received_at.to_date.strftime('%d/%m/%Y')
   end
 
+  def max_qcables
+  end
+
+  def min_qcables
+  end
+
+  def step_qcables
+  end
 
   def total_plates
     @total||= @lot.qcables.count

@@ -18,10 +18,4 @@ module UserLookup
     end
   end
 
-  ##
-  # The client-api-gem currently only raises standard errors. We check the message to determine the content
-  def user_not_found?(message)
-    message.include?("no resources found with that search criteria")
-  end
-
 end

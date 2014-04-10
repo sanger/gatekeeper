@@ -12,8 +12,8 @@
   otherError = function(response) {
     var message,text;
     message = $('.hidden .unknown-error').clone()
-    text = (response.responseJSON||[])["error"]||message.child('.error-message').text
-    message.children('.error-message').text(text)
+    text = (response.responseJSON||[])["error"]||message.child('.critical-error-message').text
+    message.children('.critical-error-message').text(text)
     $('#flash-holder').append(message);
   };
 
@@ -29,7 +29,7 @@
   })
 
   $('#user_swipecard').on('blur',function(){
-    if (this.value !== "") { robotSetup.user.resolve(); };
+    if (this.value !== "") { robotSetup.user.resolve(); bedValidator.checkNumber(); };
   })
 
   $('#tip_lot').on('blur',function(){
@@ -98,6 +98,7 @@
   stockValidator = {
     enable: function() {
       $('#stock-gate').addClass('gated_after').removeClass('gated_before');
+      this.validateIfNeeded();
     },
     request: function() {
       return $.ajax({
@@ -144,7 +145,7 @@
           stockValidator.processResponse(response.validation);
         },
         // Failure
-        function(response){otherError(response);}
+        function(response){stockValidator.addErrors(['Could not validate!']); otherError(response);}
       )
     },
 
@@ -152,6 +153,12 @@
       $('#stock-information').
       html('').
       append($('.hidden .stock-progress').clone());
+    },
+
+    validateIfNeeded: function() {
+      if ($.grep($('.stock_field'),function(item){return item.value===""}).length==0) {
+        this.validate();
+      }
     }
 
   }
@@ -159,9 +166,7 @@
   $('.stock_field').each(function(){
 
     $(this).on('blur',function(){
-      if ($.grep($('.stock_field'),function(item){return item.value===""}).length==0) {
-        stockValidator.validate();
-      }
+      stockValidator.validateIfNeeded();
     })
 
   })
@@ -218,7 +223,7 @@
           bedValidator.processResponse(response.validation);
         },
         // Failure
-        function(response){otherError(response);}
+        function(response){bedValidator.addErrors(['Could not validate!']); otherError(response);}
       )
     },
     request: function() {
@@ -269,7 +274,9 @@
       $('.bed_field').val('');
     }
     $('#scan_plate').focus();
-  })
+  });
+
+  $('#scan_bed').on('keydown',function(e){ if (e.keyCode===9){e.preventDefault(); this.blur();}});
 
 
 })(window,jQuery,undefined)
