@@ -28,9 +28,7 @@
     stockValidator.enable();
   })
 
-  $('#user_swipecard').on('blur',function(){
-    if (this.value !== "") { robotSetup.user.resolve(); bedValidator.checkNumber(); };
-  })
+  $('#user_swipecard')[0].onDone = function(){ robotSetup.user.resolve(); bedValidator.checkNumber(); };
 
   $('#tip_lot').on('blur',function(){
     if (this.value !== "") { robotSetup.tip.resolve(); };
