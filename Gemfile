@@ -15,7 +15,7 @@ gem 'hashie'
 gem 'exception_notification'
 
 gem 'sequencescape-client-api',
-  :git     => 'git+ssh://git@github.com/JamesGlover/sequencescape-client-api.git',
+  :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',
   :branch  => 'rails_4',
   :require => 'sequencescape'
 gem 'sanger_barcode',
