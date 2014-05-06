@@ -39,6 +39,11 @@ module QcAssetCreator::PlateConversion
       :destination => target,
       :user => @user.uuid
     )
+    api.tag_layout_template.find(tag_template).create!(
+      :user => @user.uuid,
+      :plate => target,
+      :substitutions => {}
+    )
   end
 
   ##
@@ -78,5 +83,13 @@ module QcAssetCreator::PlateConversion
 
   def compatible_siblings?
     Settings.purposes[@asset.purpose.uuid].sibling == @sibling.purpose.name
+  end
+
+  def target_barcode
+    asset_target ? @asset.barcode.ean13 : @sibling.barcode.ean13
+  end
+
+  def tag_template
+    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => target_barcode).lot.template.uuid
   end
 end
