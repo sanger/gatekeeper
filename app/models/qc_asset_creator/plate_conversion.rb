@@ -39,7 +39,7 @@ module QcAssetCreator::PlateConversion
       :destination => target,
       :user => @user.uuid
     )
-    tag_template.create!(
+    api.tag_layout_template.find(tag_template).create!(
       :user => @user.uuid,
       :plate => target,
       :substitutions => {}
@@ -90,6 +90,6 @@ module QcAssetCreator::PlateConversion
   end
 
   def tag_template
-    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => target_barcode).lot.template
+    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => target_barcode).lot.template.uuid
   end
 end

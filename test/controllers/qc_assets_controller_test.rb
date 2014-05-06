@@ -203,7 +203,7 @@ class QcAssetsControllerTest < ActionController::TestCase
         :destination => '11111111-2222-3333-4444-300000000008',
         :user        => '11111111-2222-3333-4444-555555555555'
       )
-    api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+    api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
         :user        => '11111111-2222-3333-4444-555555555555',
         :plate => '11111111-2222-3333-4444-300000000008',
         :substitutions => {}
@@ -282,7 +282,7 @@ class QcAssetsControllerTest < ActionController::TestCase
       :destination => '11111111-2222-3333-4444-300000000008',
       :user        => '11111111-2222-3333-4444-555555555555'
     )
-    api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+    api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
       :user        => '11111111-2222-3333-4444-555555555555',
       :plate => '11111111-2222-3333-4444-300000000008',
       :substitutions => {}
@@ -333,7 +333,7 @@ class QcAssetsControllerTest < ActionController::TestCase
       with(:barcode => '122000000867').
       returns(api.qcable.with_uuid('11111111-2222-3333-4444-100000000008'))
     2.times do
-      api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+      api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
         :user        => '11111111-2222-3333-4444-555555555555',
         :plate => '11111111-2222-3333-4444-300000000008',
         :substitutions => {}
