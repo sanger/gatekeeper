@@ -167,6 +167,10 @@ class QcAssetsControllerTest < ActionController::TestCase
       expects(:first).
       with(:barcode => '122000000867').
       returns(api.plate.with_uuid('11111111-2222-3333-4444-300000000008'))
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+      expects(:first).
+      with(:barcode => '122000000867').
+      returns(api.qcable.with_uuid('11111111-2222-3333-4444-100000000008'))
 
     api.state_change.expect_create_with(
       :received =>{
@@ -194,10 +198,15 @@ class QcAssetsControllerTest < ActionController::TestCase
         },
       :returns => '11111111-2222-3333-4444-340000000008'
       )
-      api.transfer_template.with_uuid('8c716230-a922-11e3-926d-44fb42fffecc').expects(:create!).with(
+    api.transfer_template.with_uuid('8c716230-a922-11e3-926d-44fb42fffecc').expects(:create!).with(
         :source      => '11111111-2222-3333-4444-100000000011',
         :destination => '11111111-2222-3333-4444-300000000008',
         :user        => '11111111-2222-3333-4444-555555555555'
+      )
+    api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+        :user        => '11111111-2222-3333-4444-555555555555',
+        :plate => '11111111-2222-3333-4444-300000000008',
+        :substitutions => {}
       )
 
     @request.headers["Accept"] = "application/json"
@@ -238,6 +247,11 @@ class QcAssetsControllerTest < ActionController::TestCase
       expects(:first).
       with(:barcode => '122000001174').
       returns(api.plate.with_uuid('11111111-2222-3333-4444-100000000011'))
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+      expects(:first).
+      with(:barcode => '122000000867').
+      returns(api.qcable.with_uuid('11111111-2222-3333-4444-100000000008'))
+
     api.state_change.expect_create_with(
       :received =>{
         :user => '11111111-2222-3333-4444-555555555555',
@@ -267,6 +281,11 @@ class QcAssetsControllerTest < ActionController::TestCase
       :source      => '11111111-2222-3333-4444-100000000011',
       :destination => '11111111-2222-3333-4444-300000000008',
       :user        => '11111111-2222-3333-4444-555555555555'
+    )
+    api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+      :user        => '11111111-2222-3333-4444-555555555555',
+      :plate => '11111111-2222-3333-4444-300000000008',
+      :substitutions => {}
     )
 
     @request.headers["Accept"] = "application/json"
@@ -309,6 +328,17 @@ class QcAssetsControllerTest < ActionController::TestCase
       stubs(:first).
       with(:barcode => reporter_plate_bc).
       returns(api.plate.with_uuid(reporter_plate))
+    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
+      stubs(:first).
+      with(:barcode => '122000000867').
+      returns(api.qcable.with_uuid('11111111-2222-3333-4444-100000000008'))
+    2.times do
+      api.qcable.with_uuid('11111111-2222-3333-4444-100000000008').lot.template.expects(:create!).with(
+        :user        => '11111111-2222-3333-4444-555555555555',
+        :plate => '11111111-2222-3333-4444-300000000008',
+        :substitutions => {}
+      )
+    end
 
     [
       {

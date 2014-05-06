@@ -490,6 +490,11 @@
     :attributes:
       :name: 'Flip Plate'
     :associations: {}
+:tag_layout_template:
+  'ecd5cd30-956f-11e3-8255-44fb42fffecc':
+    :attributes:
+      :name: 'Example Tag Template'
+    :associations: {}
 :plate_conversion:
   '11111111-2222-3333-4444-340000000008':
     :attributes: {}
