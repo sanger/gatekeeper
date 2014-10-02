@@ -25,7 +25,11 @@ class QcAssetCreator
   end
 
   def asset_update_state
-    # Nothing to do here
+    api.state_change.create!(
+      :user => @user.uuid,
+      :target => @asset.uuid,
+      :target_state => 'passed'
+    )
   end
 
   def asset_create

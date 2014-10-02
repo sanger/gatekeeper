@@ -46,7 +46,7 @@ module MockApi
       end
 
       def create!(*args)
-        raise Api::TestError, "Unexpected create! received with options #{args.inspect}"
+        raise Api::TestError, "Unexpected create! received with options #{args.inspect} on #{rname}"
       end
 
     end
@@ -214,7 +214,8 @@ module MockApi
         :plate_purpose => [:purpose],
         :target_asset => [:tube],
         :child => [:plate,:tube],
-        :target => [:plate,:tube]
+        :target => [:plate,:tube],
+        :template => [:tag_layout_template,:plate]
       }
     end
 

@@ -36,14 +36,12 @@ namespace :config do
         # Plates
         puts "Preparing plate templates ..."
         approved_plate_templates = Gatekeeper::Application.config.approved_templates.plate_template
-        plate_templates = api.plate_template.all
-        plate_templates.select! {|template| approved_plate_templates.include?(template.name) } unless approved_plate_templates == :all
+        plate_templates = api.plate_template.all.select {|template| approved_plate_templates == :all || approved_plate_templates.include?(template.name) }
         templates[:plate_template] = plate_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
         # Tag Templates
         puts "Preparing tag templates ..."
         approved_tag_layout_templates = Gatekeeper::Application.config.approved_templates.tag_layout_template
-        tag_layout_templates = api.tag_layout_template.all
-        tag_layout_templates.select! {|template| approved_tag_layout_templates.include?(template.name) } unless approved_tag_layout_templates == :all
+        tag_layout_templates = api.tag_layout_template.all.select {|template| approved_tag_layout_templates == :all || approved_tag_layout_templates.include?(template.name) }
         templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
       end
 
