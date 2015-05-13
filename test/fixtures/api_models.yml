@@ -4,6 +4,8 @@
     :attributes:
       :template_class: TagLayoutTemplate
       :name: IDT Tags
+      :qcable_name: Tag Plate
+      :printer_type: 96 Well Plate
     :associations:
       :lots:
       - '11111111-2222-3333-4444-555555555556'
@@ -11,6 +13,8 @@
     :attributes:
       :template_class: PlateTemplate
       :name: IDT Reporters
+      :qcable_name: Reporter Plate
+      :printer_type: 96 Well Plate
     :associations:
       :lots:
       - '11111111-2222-3333-4444-555555555557'
