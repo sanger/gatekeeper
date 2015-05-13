@@ -15,8 +15,8 @@ gem 'hashie'
 gem 'exception_notification'
 
 gem 'sequencescape-client-api',
-  :github     => 'sanger/sequencescape-client-api',
-  :branch  => 'rails_4',
+  :github     => 'jamesglover/sequencescape-client-api',
+  :branch  => 'r4_add_index_tag_layout',
   :require => 'sequencescape'
 gem 'sanger_barcode',
   :github => 'sanger/sanger_barcode'
