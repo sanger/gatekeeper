@@ -35,6 +35,14 @@ class Presenter::Lot
     @total||= @lot.qcables.count
   end
 
+  def child_type
+    lot.lot_type.qcable_name
+  end
+
+  def printer_type
+    lot.lot_type.printer_type
+  end
+
   ##
   # Returns each state, excluding any passed in as arguments
   # Aliased as each_state for readability where all states are needed
@@ -47,7 +55,7 @@ class Presenter::Lot
 
   ##
   # Yields for each state, and provides an array of Qcable presenters
-  def each_state_and_plates(reject=[])
+  def each_state_and_children(reject=[])
     sorted_qcables.each do |state,qcables|
       yield state, Presenter::Qcable.new_from_batch(qcables)
     end

@@ -1,12 +1,16 @@
 <%= render :partial => 'shared/nav' %>
 <div id='gk-show-lot-page' class='gk-page'>
-  <h1><%= @lot_presenter.lot_type %> Plate</h1>
+  <h1><%= @lot_presenter.lot_type %>: <%= @lot_presenter.lot_number %></h1>
   <div class='col-md-6'>
     <%= render :partial => 'summary', :layout => :'layouts/section', :locals => {:title => "Summary", :lot=>@lot_presenter} %>
   </div><div class='col-md-6'>
-    <%= render :partial => 'create_stamp_plates', :layout => :'layouts/section', :locals => {:title => "Create Stamp Plates", :lot=>@lot_presenter} %>
+    <%= render :partial => "create_children",
+               :layout => :'layouts/section',
+               :locals => {:title => "Create #{@lot_presenter.child_type.pluralize.titleize}", :lot=>@lot_presenter} %>
   </div><div class='col-md-12'>
-    <%= render :partial => 'plates', :layout => :'layouts/section', :locals => {:title => "Plates", :lot => @lot_presenter} %>
+    <%= render :partial => 'children',
+               :layout => :'layouts/section',
+               :locals => {:title => @lot_presenter.child_type.pluralize.titleize, :lot => @lot_presenter} %>
   </div>
 </div>
 <div class='hidden'>
