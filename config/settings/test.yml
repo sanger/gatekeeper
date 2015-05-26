@@ -29,9 +29,13 @@
   IDT Tags:
     :uuid: ee0b18e0-956f-11e3-8255-44fb42fffecc
     :template_class: TagLayoutTemplate
+    :printer_type: 96 Well Plate
+    :qcable_name: Tag Plate
   IDT Reporters:
     :uuid: ee135640-956f-11e3-8255-44fb42fffecc
     :template_class: PlateTemplate
+    :printer_type: 96 Well Plate
+    :qcable_name: Reporter Plate
 :purposes:
   ee0154e0-956f-11e3-8255-44fb42fffecc:
     :name: Tag Plate
