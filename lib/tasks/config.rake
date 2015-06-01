@@ -45,8 +45,8 @@ namespace :config do
         templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
         # Tag 2 Templates
         puts "Preparing tag 2 templates ..."
-        tag_2_layout_templates = api.tag_2_layout_template.all
-        templates[:tag_2_layout_template] = tag_2_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        tag2_layout_templates = api.tag2_layout_template.all
+        templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
       end
 
       configuration[:transfer_templates] = {}.tap do |transfer_templates|

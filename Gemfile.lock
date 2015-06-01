@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/jamesglover/sequencescape-client-api.git
-  revision: 42063c367a5a6505a0172d196fb9b2e5092333fa
+  revision: bab41b55b95c8d26b74f56c31be0888be1bb6cdc
   branch: r4_add_index_tag_layout
   specs:
     sequencescape-client-api (0.2.2)
