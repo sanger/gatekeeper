@@ -43,10 +43,10 @@ namespace :config do
         approved_tag_layout_templates = Gatekeeper::Application.config.approved_templates.tag_layout_template
         tag_layout_templates = api.tag_layout_template.all.select {|template| approved_tag_layout_templates == :all || approved_tag_layout_templates.include?(template.name) }
         templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
-        # Index Tag Templates
-        puts "Preparing index tag templates ..."
-        index_tag_layout_templates = api.index_tag_layout_template.all
-        templates[:index_tag_layout_template] = index_tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        # Tag 2 Templates
+        puts "Preparing tag 2 templates ..."
+        tag_2_layout_templates = api.tag_2_layout_template.all
+        templates[:tag_2_layout_template] = tag_2_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
       end
 
       configuration[:transfer_templates] = {}.tap do |transfer_templates|
