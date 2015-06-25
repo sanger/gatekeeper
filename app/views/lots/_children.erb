@@ -15,7 +15,7 @@
 </div>
 
 <input type='hidden' name="study"  value="<%= "#{lot.lot_number}:#{lot.template_name}" %>" />
-<input type='hidden' name="prefix" value="DN" />
+<input type='hidden' name="prefix" value="<%= lot.prefix %>"/>
 
 <div class="form-group">
   <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>

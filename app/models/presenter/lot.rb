@@ -43,6 +43,11 @@ class Presenter::Lot
     lot.lot_type.printer_type
   end
 
+  def prefix
+    return '' if @lot.qcables.empty?
+    @lot.qcables.first.barcode.prefix
+  end
+
   ##
   # Returns each state, excluding any passed in as arguments
   # Aliased as each_state for readability where all states are needed
