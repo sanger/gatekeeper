@@ -2,7 +2,7 @@
   <% lot.each_state do |state,count,_| -%>
   <div class="col-md-1">
     <span class="label label-<%= state %>" id="<%= state %>_plates_count"><%= count %></span>
-    <p><%= state.humanize %> Plates</p>
+    <p><%= state.humanize %> <%= lot.child_type.pluralize %></p>
   </div>
   <% end %>
 </div>

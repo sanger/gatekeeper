@@ -43,6 +43,10 @@ namespace :config do
         approved_tag_layout_templates = Gatekeeper::Application.config.approved_templates.tag_layout_template
         tag_layout_templates = api.tag_layout_template.all.select {|template| approved_tag_layout_templates == :all || approved_tag_layout_templates.include?(template.name) }
         templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        # Tag 2 Templates
+        puts "Preparing tag 2 templates ..."
+        tag2_layout_templates = api.tag2_layout_template.all
+        templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
       end
 
       configuration[:transfer_templates] = {}.tap do |transfer_templates|
@@ -57,7 +61,7 @@ namespace :config do
       configuration[:lot_types] = {}.tap do |lot_types|
         puts "Preparing lot types ..."
         api.lot_type.all.each do |lot_type|
-          lot_types[lot_type.name] = {:uuid=>lot_type.uuid,:template_class=>lot_type.template_class}
+          lot_types[lot_type.name] = {:uuid=>lot_type.uuid,:template_class=>lot_type.template_class,:printer_type=>lot_type.printer_type, :qcable_name=>lot_type.qcable_name}
         end
       end
 

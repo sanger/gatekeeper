@@ -7,8 +7,8 @@
     </tr>
   </thead>
   <tbody>
-  <%- plates.sort_by(&:index).each do |plate| %>
-    <%= render :partial => 'plate_row', :locals => {:state => state, :plate => plate} %>
+  <%- children.sort_by(&:index).each do |child| %>
+    <%= render :partial => 'child_row', :locals => {:state => state, :child => child} %>
   <% end %>
   </tbody>
 </table>
