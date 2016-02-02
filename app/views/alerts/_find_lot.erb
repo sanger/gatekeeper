@@ -11,7 +11,7 @@
           <div class="form-group">
             <label for="lot_number" class="control-label">Lot Number</label>
             <div class="input-group">
-              <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+              <%= input_glyph('barcode') %>
               <input type="text" class="form-control" id="lot_number" placeholder="Scan barcode or input IDT" required="required" name="lot_number">
               <span class="input-group-btn">
                 <input class="btn btn-default" type="submit" value='Find'>

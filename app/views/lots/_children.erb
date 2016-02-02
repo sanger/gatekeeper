@@ -20,7 +20,7 @@
 <div class="form-group">
   <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
   <div class="input-group col-sm-6">
-    <span class="input-group-addon glyphicon glyphicon-print"></span>
+    <%= input_glyph('barcode') %>
     <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
       <% each_barcode_printer(lot.printer_type) do |name,uuid| -%>
         <option value='<%= uuid %>'><%= name %></option>

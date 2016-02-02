@@ -4,7 +4,7 @@
   <div class="form-group has-feedback">
     <label for="robot_barcode" class="col-sm-5 control-label">Robot barcode</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+      <%= input_glyph('barcode') %>
       <span class="form-control-feedback"></span>
       <input type="text" class="form-control" id="robot_barcode"
       name="robot_barcode" placeholder="Scan robot barcode" required="required"
@@ -16,7 +16,7 @@
   <div class="form-group">
     <label for="tip_lot" class="col-sm-5 control-label">Tip lot</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-record"></span>
+      <%= input_glyph('record') %>
       <input type="text" class="form-control" id="tip_lot" name="tip_lot" placeholder="Tip lot number" required="required" value="<%= tip_lot %>">
     </div>
   </div>
