@@ -66,7 +66,7 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
           'printer'=>'plate'
         }
       }
-    },present.output)
+    }, present.output)
   end
 
   test "validate reporter" do

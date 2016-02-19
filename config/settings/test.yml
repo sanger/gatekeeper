@@ -52,6 +52,14 @@
     :with: plate_conversion
     :as: source
     :sibling: Tag Plate
+  762f7930-d972-11e5-9400-44fb42fffe72:
+    :name: QA Plate
+    :children:
+    - 53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc
+    :type: plate
+    :with: qa_plate_conversion
+    :as: source
+    :sibling: Tag Plate
   53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc:
     :name: Tag PCR
     :children:

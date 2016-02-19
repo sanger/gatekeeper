@@ -45,6 +45,7 @@ module Gatekeeper
     config.tracked_purposes = [
       'Tag Plate',
       'Reporter Plate',
+      'QA Plate',
       'Tag PCR',
       'Tag PCR-XP',
       'Tag Stock-MX',
@@ -53,12 +54,17 @@ module Gatekeeper
 
     config.purpose_handlers = {
       'Tag Plate' => {
-        :with    => 'plate_conversion',
+        :with    => 'qa_plate_conversion',
         :as      => 'target',
         :sibling => 'Reporter Plate'
       },
       'Reporter Plate' => {
         :with    => 'plate_conversion',
+        :as      => 'source',
+        :sibling => 'Tag Plate'
+      },
+      'QA Plate' => {
+        :with    => 'qa_plate_conversion',
         :as      => 'source',
         :sibling => 'Tag Plate'
       },

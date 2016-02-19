@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'mock_api'
+require 'pry'
 
 class QcAssetsControllerTest < ActionController::TestCase
 
@@ -415,6 +416,119 @@ class QcAssetsControllerTest < ActionController::TestCase
       end
     end
 
+  end
+
+  test "qa plate ignores state" do
+
+    qa_plate = 'e4c73db0-d972-11e5-b6f0-44fb42fffe72'
+    qcable_tag_plate      = '11111111-2222-3333-4444-100000000008'
+    tag_plate = '11111111-2222-3333-4444-300000000008'
+    tag_plate_bc   = '122000001867'
+    qa_plate_bc = '1229000001872'
+
+    qcable_barcode = '122000000867'
+
+    tag_pcr_plate = '11111111-2222-3333-4444-500000000008'
+    uuid_find_assets_by_barcode = 'e7d2fec0-956f-11e3-8255-44fb42fffecc'
+    uuid_find_qcable_by_barcode = '689a48a0-9d46-11e3-8fed-44fb42fffeff'
+    uuid_example_tag_template = 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+    uuid_transfer_columns_1_12 = '8c716230-a922-11e3-926d-44fb42fffecc'
+    uuid_tag_pcr_purpose = '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
+
+    api.asset.with_uuid(tag_plate).class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+    end
+    api.asset.with_uuid(qa_plate).class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+    end
+    api.plate.with_uuid(tag_pcr_plate).class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+    end
+
+    api.search.with_uuid(uuid_find_assets_by_barcode).
+      stubs(:first).
+      with(:barcode => tag_plate_bc).
+      returns(api.plate.with_uuid(tag_plate))
+    api.search.with_uuid(uuid_find_assets_by_barcode).
+      stubs(:first).
+      with(:barcode => qa_plate_bc).
+      returns(api.plate.with_uuid(qa_plate))
+    api.search.with_uuid(uuid_find_qcable_by_barcode).
+      stubs(:first).
+      with(:barcode => qcable_barcode).
+      returns(api.qcable.with_uuid(qcable_tag_plate))
+
+    api.tag_layout_template.with_uuid(uuid_example_tag_template).
+      stubs(:create!)
+
+    [
+      {
+        :protagonist => tag_plate,
+        :protagonist_bc => tag_plate_bc,
+        :sibling => qa_plate,
+        :sibling_bc => qa_plate_bc,
+        :protagonist_state => 'pending',
+        :sibling_state => 'available',
+        :success => false,
+      },
+      {
+        :protagonist => qa_plate,
+        :protagonist_bc => qa_plate_bc,
+        :sibling => tag_plate,
+        :sibling_bc => tag_plate_bc,
+        :protagonist_state => 'pending',
+        :sibling_state => 'available',
+        :success => true
+      },
+      {
+        :protagonist => qa_plate,
+        :protagonist_bc => qa_plate_bc,
+        :sibling => tag_plate,
+        :sibling_bc => tag_plate_bc,
+        :protagonist_state => 'pending',
+        :sibling_state => 'available',
+        :success => true
+      },
+      {
+        :protagonist => qa_plate,
+        :protagonist_bc => qa_plate_bc,
+        :sibling => tag_plate,
+        :sibling_bc => tag_plate_bc,
+        :protagonist_state => 'pending',
+        :sibling_state => 'available',
+        :success => true
+      },
+    ].each do |test|
+
+      pc = mock('qa_plate_conversion')
+      pc.stubs(:target).returns(api.plate.with_uuid(tag_plate))
+
+      api.plate_conversion.stubs(:create!).returns(pc)
+      api.state_change.stubs(:create!).returns(nil)
+
+      api.transfer_template.with_uuid(uuid_transfer_columns_1_12).stubs(:create!)
+
+      api.plate.with_uuid(test[:protagonist]).stubs(:state).returns(test[:protagonist_state])
+      api.plate.with_uuid(test[:sibling]).stubs(:state).returns(test[:sibling_state])
+
+      @request.headers["Accept"] = "application/json"
+      post :create, {
+        :user_swipecard =>'abcdef',
+        :asset_barcode => test[:protagonist_bc],
+        :purpose => uuid_tag_pcr_purpose,
+        :sibling => test[:sibling_bc]
+      }
+
+      if  test[:success]
+        assert_response 302
+      else
+        presenter = assigns['presenter']
+        assert_equal 'Presenter::Error', presenter.class.to_s
+      end
+    end
   end
 
 end

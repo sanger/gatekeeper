@@ -306,6 +306,17 @@
       :plate_purpose: 'ee039ed0-956f-11e3-8255-44fb42fffecc'
       :wells: []
       :source_transfers: []
+  'e4c73db0-d972-11e5-b6f0-44fb42fffe72':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '9000001'
+        :ean13: '1229000001872'
+      :state: available
+    :associations:
+      :plate_purpose: '762f7930-d972-11e5-9400-44fb42fffe72'
+      :wells: []
+      :source_transfers: []
   '11111111-2222-3333-4444-400000000008':
     :attributes:
       :barcode:
@@ -457,6 +468,10 @@
   'ee039ed0-956f-11e3-8255-44fb42fffecc':
     :attributes:
       :name: Reporter Plate
+    :associations:
+  '762f7930-d972-11e5-9400-44fb42fffe72':
+    :attributes:
+      :name: QA Plate
     :associations:
   '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc':
     :attributes:
