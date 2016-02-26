@@ -325,7 +325,6 @@
     pass: function() {
       var print = this;
       return function(response) {
-        nasty = response;
         print.form.find('button').attr('disabled',false);
         print.form.find('.bc-feedback').append(print.message(response));
       }
@@ -358,4 +357,3 @@
 
 })(window,jQuery,undefined)
 
-var nasty;

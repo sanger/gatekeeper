@@ -38,7 +38,7 @@ class QcablesControllerTest < ActionController::TestCase
     }
 
     assert_redirected_to :controller=>:lots, :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
-    assert_equal '10 plates have been created.', flash[:success]
+    assert_equal '10 Tag Plates have been created.', flash[:success]
   end
 
 

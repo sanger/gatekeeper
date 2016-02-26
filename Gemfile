@@ -15,18 +15,18 @@ gem 'hashie'
 gem 'exception_notification'
 
 gem 'sequencescape-client-api',
-  :git     => 'git+ssh://git@github.com/sanger/sequencescape-client-api.git',
-  :branch  => 'rails_4',
+  :github     => 'jamesglover/sequencescape-client-api',
+  :branch  => 'r4_add_index_tag_layout',
   :require => 'sequencescape'
 gem 'sanger_barcode',
-  :git     => 'git+ssh://git@github.com/sanger/sanger_barcode.git'
+  :github => 'sanger/sanger_barcode'
 
 group :development do
   gem "pry"
 end
 
 group :deployment do
-  gem "psd_logger", :git => "git@github.com:sanger/psd_logger.git"
+  gem "psd_logger", :github => "sanger/psd_logger"
 end
 
 group :test do

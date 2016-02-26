@@ -27,12 +27,18 @@ class Presenter::LotType
   end
 
   def each_template_option
-    Settings.templates[template_class].each do |template|
+    (Settings.templates[template_class]||no_template_options).each do |template|
       yield template.name, template.uuid
     end
   end
 
   private
+
+  NoTemplate = Struct.new(:name,:uuid)
+
+  def no_template_options
+    [NoTemplate.new('No template available',nil)]
+  end
 
   def template_class
     @settings.template_class.underscore

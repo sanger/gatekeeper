@@ -11,6 +11,9 @@ class QcablesController < ApplicationController
   # lot/qcables route, which will provide our lot id.
   def create
 
+    # If we have the lot type cached in settings, use that.
+    qcable_name = (Settings.lot_types[@lot.lot_type_name]||@lot.lot_type).qcable_name
+
     qc_creator = api.qcable_creator.create!(
       :user => @user.uuid,
       :lot  => @lot.uuid,
@@ -24,12 +27,12 @@ class QcablesController < ApplicationController
     begin
       BarcodeSheet.new(@printer,labels).print!
     rescue BarcodeSheet::PrintError => exception
-      flash[:danger] = "There was a problem printing your barcodes. Your plates have still been created."
+      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created."
     rescue Errno::ECONNREFUSED => exception
-      flash[:danger] = "Could not connect to the barcode printing service. Your plates have still been created."
+      flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
 
-    flash[:success] = "#{qc_creator.qcables.count} plates have been created."
+    flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
     redirect_to :controller=> :lots, :action=>:show, :id=>params[:lot_id]
   end

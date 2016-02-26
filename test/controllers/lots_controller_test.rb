@@ -103,7 +103,7 @@ class LotsControllerTest < ActionController::TestCase
     get :show, :id=>'11111111-2222-3333-4444-555555555556'
     assert_response :success
 
-    assert_select 'h1', 'IDT Tags Plate'
+    assert_select 'h1', 'IDT Tags: 123456789'
 
     assert_select '#lot_number', '123456789'
     assert_select '#lot_received_at', '01/02/2013'
@@ -118,7 +118,7 @@ class LotsControllerTest < ActionController::TestCase
     get :show, :id=>'11111111-2222-3333-4444-555555555557'
     assert_response :success
 
-    assert_select 'h1', 'IDT Reporters Plate'
+    assert_select 'h1', 'IDT Reporters: 123456790'
 
   end
 

@@ -1,9 +1,9 @@
 <div class="progress-collection">
-  <span id='total_plates_count'><%= lot.total_plates %></span> plates created
+  <span id='total_plates_count'><%= lot.total_plates %></span> <%= lot.child_type.pluralize %> created
   <div class="progress">
     <% lot.each_state_except('created') do |state,count,percentage| -%>
-      <div class="progress-bar progress-bar-<%= state %>" style="width: <%= percentage %>%" title='<%= count %> <%= state.humanize %> Plates'>
-        <span class="sr-only"><%= count %> <%= state.humanize %>Plates</span>
+      <div class="progress-bar progress-bar-<%= state %>" style="width: <%= percentage %>%" title='<%= count %> <%= state.humanize %> <%= lot.child_type.pluralize %>'>
+        <span class="sr-only"><%= count %> <%= state.humanize %> <%= lot.child_type.pluralize %></span>
       </div>
     <% end %>
   </div>

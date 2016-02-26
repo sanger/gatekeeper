@@ -133,6 +133,15 @@ class QcAssetsControllerTest < ActionController::TestCase
         :user        => '11111111-2222-3333-4444-555555555555'
     )
 
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => '11111111-2222-3333-4444-555555555555',
+        :target => '11111111-2222-3333-4444-500000000008',
+        :target_state => 'passed'
+      },
+      :returns => '55555555-6666-7777-8888-000000000004'
+    )
+
     @request.headers["Accept"] = "application/json"
     post :create, {
       :user_swipecard =>'abcdef',

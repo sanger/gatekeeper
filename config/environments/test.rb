@@ -42,4 +42,6 @@ Gatekeeper::Application.configure do
 
   config.support_mail = 'example@example.com'
 
+  config.secret_key_base = 'example_test_environment_key'
+
 end

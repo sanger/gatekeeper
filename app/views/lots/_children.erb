@@ -9,20 +9,20 @@
 
 <%= form_tag({:controller=>'barcode_labels',:action=>:create},{:class=>'barcode-printing-form'}) do %>
 <div class="tab-content">
-  <% lot.each_state_and_plates do |state,plates| -%>
-    <div class="tab-pane <%= lot.active?(state) %>" id="<%= state %>"><%= render :partial => 'plate_table', :locals=>{:plates=>plates,:state=>state} %></div>
+  <% lot.each_state_and_children do |state,children| -%>
+    <div class="tab-pane <%= lot.active?(state) %>" id="<%= state %>"><%= render :partial => 'child_table', :locals=>{:children=>children,:state=>state} %></div>
   <% end %>
 </div>
 
 <input type='hidden' name="study"  value="<%= "#{lot.lot_number}:#{lot.template_name}" %>" />
-<input type='hidden' name="prefix" value="DN" />
+<input type='hidden' name="prefix" value="<%= lot.prefix %>"/>
 
 <div class="form-group">
   <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
   <div class="input-group col-sm-6">
     <span class="input-group-addon glyphicon glyphicon-print"></span>
     <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
-      <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
+      <% each_barcode_printer(lot.printer_type) do |name,uuid| -%>
         <option value='<%= uuid %>'><%= name %></option>
       <% end %>
     </select>
