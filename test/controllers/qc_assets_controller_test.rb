@@ -488,7 +488,7 @@ class QcAssetsControllerTest < ActionController::TestCase
         :protagonist_bc => qa_plate_bc,
         :sibling => tag_plate,
         :sibling_bc => tag_plate_bc,
-        :protagonist_state => 'pending',
+        :protagonist_state => 'passed',
         :sibling_state => 'available',
         :success => true
       },
@@ -497,7 +497,7 @@ class QcAssetsControllerTest < ActionController::TestCase
         :protagonist_bc => qa_plate_bc,
         :sibling => tag_plate,
         :sibling_bc => tag_plate_bc,
-        :protagonist_state => 'pending',
+        :protagonist_state => 'failed',
         :sibling_state => 'available',
         :success => true
       },

@@ -54,7 +54,7 @@ module Gatekeeper
 
     config.purpose_handlers = {
       'Tag Plate' => {
-        :with    => 'qa_plate_conversion',
+        :with    => 'plate_conversion',
         :as      => 'target',
         :sibling => 'Reporter Plate'
       },
