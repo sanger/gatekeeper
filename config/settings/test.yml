@@ -36,6 +36,12 @@
     :template_class: PlateTemplate
     :printer_type: 96 Well Plate
     :qcable_name: Reporter Plate
+:default_purpose:
+  :with: plate_conversion_to_default
+  :convert_to: QA Plate
+  :as: target
+  :uuid: 411f8b70-e1fd-11e5-a20c-44fb42fffe72
+  :type: plate
 :purposes:
   ee0154e0-956f-11e3-8255-44fb42fffecc:
     :name: Tag Plate

@@ -317,6 +317,19 @@
       :plate_purpose: '762f7930-d972-11e5-9400-44fb42fffe72'
       :wells: []
       :source_transfers: []
+
+  'a6ef0a80-e1fc-11e5-b7e8-44fb42fffe72':
+    :attributes:
+      :barcode:
+        :prefix: DN
+        :number: '4'
+        :ean13: '1220000004863'
+      :state: available
+    :associations:
+      :plate_purpose: '6fe7d260-e1fc-11e5-9838-44fb42fffe72'
+      :wells: []
+      :source_transfers: []
+
   '11111111-2222-3333-4444-400000000008':
     :attributes:
       :barcode:

@@ -7,12 +7,13 @@ class Presenter::QcAsset
   class DefaultPurpose
     def initialize(purpose)
       @purpose = purpose
+      @default_purpose = Settings.default_purpose || {}
     end
-    def uuid ; Settings.default_purpose.uuid ; end
-    def children; [Settings.default_purpose.uuid]; end
-    def with; Settings.default_purpose.with; end
-    def as; Settings.default_purpose.as ; end
-    def convert_to ; Settings.default_purpose.convert_to ; end
+    def uuid ; @default_purpose.fetch(:uuid, nil) ; end
+    def children; [@default_purpose.fetch(:uuid, nil)].compact; end
+    def with; @default_purpose.fetch(:with, nil); end
+    def as; @default_purpose.fetch(:as, nil) ; end
+    def convert_to ; @default_purpose.fetch(:convert_to, nil) ; end
     def sibling; end
     def printer; end
   end
