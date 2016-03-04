@@ -99,6 +99,61 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
     },present.output)
   end
 
+  test "validate qa plate" do
+    present = Presenter::QcAsset.new(api.asset.with_uuid('e4c73db0-d972-11e5-b6f0-44fb42fffe72'))
+
+    api.asset.with_uuid('e4c73db0-d972-11e5-b6f0-44fb42fffe72').class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+    end
+
+    assert_equal({"qc_asset"=>{
+      "uuid"=>"e4c73db0-d972-11e5-b6f0-44fb42fffe72",
+      "purpose"=>"QA Plate",
+      "barcode"=>{
+        "ean13"=>"1229000001872",
+        "prefix"=>"DN",
+        "number"=>"9000001"
+      },
+      "child_purposes"=>[
+        ["Tag PCR", "53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc"]
+        ],
+        "state"=>"available",
+        "children"=>[],
+        "handle"=>{
+          "with"=>"qa_plate_conversion",
+          "as"=>"source",
+          "sibling"=>"Tag Plate",
+          "printer"=>"plate"}}}, present.output)
+  end
+
+  test "validate default presenter" do
+    present = Presenter::QcAsset.new(api.asset.with_uuid('e4c73db0-d972-11e5-b6f0-44fb42fffe72'))
+
+    api.asset.with_uuid('e4c73db0-d972-11e5-b6f0-44fb42fffe72').class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+    end
+
+    assert_equal({"qc_asset"=>{
+      "uuid"=>"e4c73db0-d972-11e5-b6f0-44fb42fffe72",
+      "purpose"=>"QA Plate",
+      "barcode"=>{
+        "ean13"=>"1229000001872",
+        "prefix"=>"DN",
+        "number"=>"9000001"
+      },
+      "child_purposes"=>[
+        ["Tag PCR", "53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc"]
+        ],
+        "state"=>"available",
+        "children"=>[],
+        "handle"=>{
+          "with"=>"qa_plate_conversion",
+          "as"=>"source",
+          "sibling"=>"Tag Plate",
+          "printer"=>"plate"}}}, present.output)
+  end
+
+
   test "validate final tube" do
     present = Presenter::QcAsset.new(api.asset.with_uuid('11111111-2222-3333-4444-700000000008'))
 

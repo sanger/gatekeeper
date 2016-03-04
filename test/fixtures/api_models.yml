@@ -461,6 +461,10 @@
     :attributes: {}
     :associations: {}
 :purpose:
+  '6fe7d260-e1fc-11e5-9838-44fb42fffe72':
+    :attributes:
+      :name: Cherrypicked
+    :associations:
   'ee0154e0-956f-11e3-8255-44fb42fffecc':
     :attributes:
       :name: Tag Plate
