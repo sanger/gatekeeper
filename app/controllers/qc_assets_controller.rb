@@ -33,13 +33,17 @@ class QcAssetsController < ApplicationController
       return false
     end
     redirect_to(
-      :controller => Settings.purposes[params[:purpose]].type.pluralize,
+      :controller => type_controller,
       :id         => child.uuid,
       :action     => :show
     )
   end
 
   private
+
+  def type_controller
+    ((Settings.purposes[params[:purpose]].nil?) ? Settings.default_purpose : Settings.purposes[params[:purpose]]).type.pluralize
+  end
 
   def find_asset_from_barcode
     raise UserError::InputError, "No barcode was provided!" if params[:asset_barcode].nil?

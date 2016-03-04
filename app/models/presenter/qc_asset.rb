@@ -4,10 +4,15 @@
 
 class Presenter::QcAsset
 
-  class UnsupportedPurpose
-    def children; Array.new; end
-    def with; 'invalid'; end
-    def as; end
+  class DefaultPurpose
+    def initialize(purpose)
+      @purpose = purpose
+    end
+    def uuid ; Settings.default_purpose.uuid ; end
+    def children; [Settings.default_purpose.uuid]; end
+    def with; Settings.default_purpose.with; end
+    def as; Settings.default_purpose.as ; end
+    def convert_to ; Settings.default_purpose.convert_to ; end
     def sibling; end
     def printer; end
   end
@@ -21,11 +26,18 @@ class Presenter::QcAsset
   delegate :uuid, :state, to: :asset
 
   def child_purposes
+    if is_default_purpose?
+      return [[purpose_config.convert_to, purpose_config.uuid]]
+    end
     (own_child_purpose||sibling_child_purpose).map {|uuid| [Settings.purposes[uuid].name,uuid]}
   end
 
   def purpose
     @asset.purpose.name
+  end
+
+  def is_default_purpose?
+    purpose_config.is_a?(DefaultPurpose)
   end
 
   def children
@@ -73,13 +85,14 @@ class Presenter::QcAsset
   private
 
   def purpose_config
-    Settings.purposes[@asset.purpose.uuid] || UnsupportedPurpose.new
+    Settings.purposes[@asset.purpose.uuid] || DefaultPurpose.new(@asset.purpose)
   end
 
   ##
   # I guess that makes this niece/nephew purpose
   def sibling_child_purpose
-    Settings.purposes.detect {|k,v| v.name == purpose_config.sibling }.last.children
+    return [] if is_default_purpose?
+    return Settings.purposes.detect {|k,v| v.name == purpose_config.sibling }.last.children
   end
 
   def own_child_purpose

@@ -83,6 +83,12 @@ module Gatekeeper
       }
     }
 
+    config.default_purpose_handler = {
+      :with    => 'plate_conversion_to_default',
+      :convert_to => 'QA Plate',
+      :as => 'target'
+    }
+
     # If no study or project is specified, the config will fall back
     # to the first study/project
     config.study_uuid = nil
