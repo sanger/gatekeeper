@@ -59,7 +59,7 @@ module QcAssetCreator::PlateConversion
     true
   end
 
-  protected
+  private
 
   def target
     asset_target ? @asset.uuid : @sibling.uuid
