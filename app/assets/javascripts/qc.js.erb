@@ -191,19 +191,14 @@
         step.submitSequencing();
       });
     },
-    _createConversionInterface: function(toDefault) {
-      if (!toDefault) {
-        var conversion = $('.hidden .conversion-interface').clone();
-        conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
-        this.element.find('.conversion-interface-receiver').append(conversion);
-      }
-      this.element.find('.barcode-printing-form').hide();
-    },
-    createConversionInterface: function() {
-      this._createConversionInterface();
+    createConversionInterface: function(toDefault) {
+      var conversion = $('.hidden .conversion-interface').clone();
+      conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
+      this.element.find('.conversion-interface-receiver').append(conversion);
+      this.createConversionInterfaceToDefault();
     },
     createConversionInterfaceToDefault: function() {
-      this._createConversionInterface(true);
+      this.element.find('.barcode-printing-form').hide();
     },
     validates: function() {
       if (this.asset.handle.with==='invalid') {this.addError(this.asset.purpose+' can not be processed by this pipeline.')};

@@ -42,7 +42,7 @@ class QcAssetsController < ApplicationController
   private
 
   def type_controller
-    ((Settings.purposes[params[:purpose]].nil?) ? Settings.default_purpose : Settings.purposes[params[:purpose]]).type.pluralize
+    Settings.purposes.fetch(params[:purpose], Settings.default_purpose).type.pluralize
   end
 
   def find_asset_from_barcode

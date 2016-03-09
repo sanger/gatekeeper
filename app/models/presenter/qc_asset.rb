@@ -1,21 +1,18 @@
 ##
 # Presents assets in json fomat to the
 # QC pipeline.
-
 class Presenter::QcAsset
 
   class DefaultPurpose
-    def initialize(purpose)
-      @purpose = purpose
-      @default_purpose = Settings.default_purpose || {}
+    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type
+    def initialize(default_purpose)
+      @uuid       = default_purpose[:uuid]
+      @name       = default_purpose[:name]
+      @with       = default_purpose[:with]
+      @as         = default_purpose[:as]
+      @type       = default_purpose[:type]
+      @children   = [uuid].compact
     end
-    def uuid ; @default_purpose.fetch(:uuid, nil) ; end
-    def children; [@default_purpose.fetch(:uuid, nil)].compact; end
-    def with; @default_purpose.fetch(:with, nil); end
-    def as; @default_purpose.fetch(:as, nil) ; end
-    def convert_to ; @default_purpose.fetch(:convert_to, nil) ; end
-    def sibling; end
-    def printer; end
   end
 
   attr_reader :asset
@@ -27,18 +24,11 @@ class Presenter::QcAsset
   delegate :uuid, :state, to: :asset
 
   def child_purposes
-    if is_default_purpose?
-      return [[purpose_config.convert_to, purpose_config.uuid]]
-    end
-    (own_child_purpose||sibling_child_purpose).map {|uuid| [Settings.purposes[uuid].name,uuid]}
+    (own_child_purpose||sibling_child_purpose).map {|uuid| [purpose_config_of_uuid(uuid).name,uuid]}
   end
 
   def purpose
     @asset.purpose.name
-  end
-
-  def is_default_purpose?
-    purpose_config.is_a?(DefaultPurpose)
   end
 
   def children
@@ -47,7 +37,7 @@ class Presenter::QcAsset
 
   def child_type
     (own_child_purpose||sibling_child_purpose).map do |uuid|
-      Settings.purposes[uuid].type.pluralize
+      purpose_config_of_uuid(uuid).type.pluralize
     end.first||'unknown'
   end
 
@@ -61,10 +51,10 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'    => purpose_config.with||'plate_creation',
-      'as'      => purpose_config.as||'',
-      'sibling' => purpose_config.sibling||'',
-      'printer' => purpose_config.printer||'plate'
+      'with'    => own_purpose_config.with||'plate_creation',
+      'as'      => own_purpose_config.as||'',
+      'sibling' => own_purpose_config.sibling||'',
+      'printer' => own_purpose_config.printer||'plate'
     }
   end
 
@@ -85,20 +75,23 @@ class Presenter::QcAsset
 
   private
 
-  def purpose_config
-    Settings.purposes[@asset.purpose.uuid] || DefaultPurpose.new(@asset.purpose)
+  def own_purpose_config
+    purpose_config_of_uuid(@asset.purpose.uuid)
+  end
+
+  def purpose_config_of_uuid(uuid)
+    Settings.purposes[uuid] || DefaultPurpose.new(Settings.default_purpose)
   end
 
   ##
   # I guess that makes this niece/nephew purpose
   def sibling_child_purpose
-    return [] if is_default_purpose?
-    return Settings.purposes.detect {|k,v| v.name == purpose_config.sibling }.last.children
+    return Settings.purposes.detect {|k,v| v.name == own_purpose_config.sibling }.last.children
   end
 
   def own_child_purpose
-    return nil if purpose_config.as == 'source'
-    purpose_config.children
+    return nil if own_purpose_config.as == 'source'
+    own_purpose_config.children
   end
 
 
