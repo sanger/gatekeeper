@@ -202,10 +202,10 @@
     },
     validates: function() {
       if (this.asset.handle.with==='invalid') {this.addError(this.asset.purpose+' can not be processed by this pipeline.')};
-      if (this.asset.handle.with==='plate_conversion' && this.asset.state !== this.qcablestate ) {
+      if ((this.asset.handle.with==='plate_conversion') && (this.asset.state !== this.qcablestate)) {
         this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
       };
-      if (this.asset.handle.with==='qa_plate_conversion' && this.asset.state !== this.qcablestate ) {
+      if ((this.asset.handle.with==='qa_plate_conversion') && (this.asset.state !== this.qcablestate)) {
         this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
       };
       return this.valid;
