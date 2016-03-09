@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'mock_api'
-require 'pry'
 
 class QcAssetsControllerTest < ActionController::TestCase
 
