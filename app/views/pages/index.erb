@@ -1,17 +1,26 @@
 <div id='gk-index-page' class='gk-page'>
   <h1 id='gk-index-title' class='gk-page-title'><%= Gatekeeper::Application.config.name %></h1>
-  <div id='gk-index-menu' class='panel panel-default'>
-    <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
-      <% Settings.lot_types.each do |lot_type,details| %>
-        <li><%= link_to "Register #{lot_type} Lot", new_lot_path({:lot_type=>lot_type}), {:class=>'menu-item'} %></li>
-      <% end %>
-
-      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View Lot Batch</a></li>
-      <li><%= link_to 'Stamp Plate', new_stamp_path, {:class=>'menu-item'} %></li>
-      <li><%= link_to 'Create QC Pool', new_qc_asset_path, {:class=>'menu-item'} %></a></li>
-      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findLotForQcDecision">Pass or Fail Plates</a></li>
-      <li><a href='#' class='menu-item' data-toggle="modal" data-target="#destroyQcable">Destroy Tag Plates</a></li>
-    </ul>
+  <div class="col-sm-6">
+    <div id='gk-index-menu' class='panel panel-primary'>
+      <div class="panel-heading">Register Lots</div>
+      <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
+        <% Settings.lot_types.each do |lot_type,details| %>
+          <li><%= link_to "Register #{lot_type} Lot", new_lot_path({:lot_type=>lot_type}), {:class=>'menu-item'} %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div id='gk-index-menu' class='panel panel-primary'>
+      <div class="panel-heading">Other Actions</div>
+      <ul id='gk-index-menu-list' class='nav nav-pills nav-stacked'>
+        <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findIDT">View Lot</a></li>
+        <li><%= link_to 'Stamp Plate', new_stamp_path, {:class=>'menu-item'} %></li>
+        <li><%= link_to 'Create QC Pool', new_qc_asset_path, {:class=>'menu-item'} %></a></li>
+        <li><a href='#' class='menu-item' data-toggle="modal" data-target="#findLotForQcDecision">Pass or Fail Plates</a></li>
+        <li><a href='#' class='menu-item' data-toggle="modal" data-target="#destroyQcable">Destroy Tag Plates</a></li>
+      </ul>
+    </div>
   </div>
 </div>
 <!--- Alerts and Dialogs -->

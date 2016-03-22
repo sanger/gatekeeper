@@ -20,4 +20,16 @@ module ApplicationHelper
   end
   private :no_printer
 
+  #<span class="glyphicon glyphicon-icon"></span>
+  def glyph(icon)
+    content_tag(:span,'',:class => "glyphicon glyphicon-#{icon}")
+  end
+
+  #<span class="input-group-addon"><span class="glyphicon glyphicon-icon"></span></span>
+  def input_glyph(icon)
+    content_tag(:span, :class => "input-group-addon") do
+      glyph(icon)
+    end
+  end
+
 end

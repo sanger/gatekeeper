@@ -3,30 +3,30 @@
 <%= render :partial => 'alerts/critical_error' %>
 
 <div class="alert alert-warning asset-lookup">
-  <span class="glyphicon glyphicon-time"></span> Looking up barcode, please wait...
+  <%= glyph('time') %> Looking up barcode, please wait...
 </div>
 
 <div class="alert alert-danger error-message">
-  <span class="glyphicon glyphicon-exclamation-sign"></span> <strong>Sorry!</strong> <span class="message"></span>
+  <%= glyph('exclamation-sign') %> <strong>Sorry!</strong> <span class="message"></span>
 </div>
 
 <div class="alert alert-success pipeline-complete">
-  <span class="glyphicon glyphicon-ok"></span> Pipeline completed! Use the button above to create a sequencing request!
+  <%= glyph('ok') %> Pipeline completed! Use the button above to create a sequencing request!
 </div>
 
 <div class="alert alert-success submission-complete">
-  <span class="glyphicon glyphicon-ok"></span> Your submission has been made.
+  <%= glyph('ok') %> Your submission has been made.
 </div>
 
 <div class="for-plate_conversion for-tube_creation for-tube_transfer">
   <div class="alert alert-success step-complete">
-    <span class="glyphicon glyphicon-ok"></span> Completed! Please proceed to the next step.
+    <%= glyph('ok') %> Completed! Please proceed to the next step.
   </div>
 </div>
 
 <div class="for-completed">
   <div class="alert alert-success step-complete">
-    <span class="glyphicon glyphicon-ok"></span> You have already created a submission for this tube. There is nothing left to do.
+    <%= glyph('ok') %> You have already created a submission for this tube. There is nothing left to do.
   </div>
 </div>
 
@@ -36,14 +36,14 @@
     <div class="form-group">
       <label for="sibling" class="col-sm-5 control-label"><span class="sibling-purpose"></span> barcode</label>
       <div class="input-group col-sm-6">
-        <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+        <%= input_glyph('barcode') %>
         <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan plate barcode" required="required" name="sibling">
       </div>
     </div>
       <div class="form-group">
       <label for="asset_barcode" class="col-sm-5 control-label">Orientation</label>
       <div class="input-group col-sm-6">
-        <span class="input-group-addon glyphicon glyphicon-refresh"></span>
+        <%= input_glyph('refresh') %>
         <select class="form-control form-control-dis" required="required" name="template">
           <option value='<%= Settings.transfer_templates['Transfer columns 1-12'] %>'>Standard</option>
           <option value='<%= Settings.transfer_templates['Flip Plate'] %>'           >Rotated </option>

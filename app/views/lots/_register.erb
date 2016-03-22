@@ -6,7 +6,7 @@
   <div class="form-group">
     <label for="lot_number" class="col-sm-5 control-label">Lot number</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+      <%= input_glyph('barcode') %>
       <input type="text" class="form-control" id="lot_number" name="lot_number" placeholder="Scan barcode or type number" required="required">
     </div>
   </div>
@@ -14,7 +14,7 @@
   <div class="form-group">
     <label for="template" class="col-sm-5 control-label"><%= lot_type.template_type %></label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-wrench"></span>
+      <%= input_glyph('wrench') %>
       <select class="form-control" id="template" name="template">
         <% lot_type.each_template_option do |name,uuid| -%>
           <option value="<%= uuid %>"><%= name %></option>
@@ -26,7 +26,7 @@
   <div class="form-group">
     <label for="received_at" class="col-sm-5 control-label">Received at</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-calendar"></span>
+      <%= input_glyph('calendar') %>
       <input type="text" data-provide="datepicker" data-date-format="dd/mm/yyyy" data-date-end-date="+0d" data-date-week-start=1 data-date-today-btn="linked" data-date-today-highlight="true" class="form-control" id="received_at" name="received_at" placeholder="Select Date" required="required">
     </div>
   </div>
