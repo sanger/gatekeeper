@@ -74,7 +74,7 @@ module QcAssetCreator::PlateConversion
   end
 
   def asset_target
-    Settings.purposes[@asset.purpose.uuid].as == 'target'
+    Settings.purposes.has_key?(@asset.purpose.uuid) && Settings.purposes[@asset.purpose.uuid].as == 'target'
   end
 
   def valid_children

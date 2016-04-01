@@ -114,6 +114,7 @@
     setBarcodeForm: function() {
       var study, number;
       if (this.asset.handle.with==='plate_conversion') { return true; };
+      if (this.asset.handle.with==='qa_plate_conversion') { return true; };
       study = document.createElement('input')
       study.type = 'hidden'
       study.value = this.asset.purpose;
@@ -134,24 +135,36 @@
           this.feedback($('.hidden .pipeline-complete'));
           this.createRequestButton();
           return false;
+        case 'qa_plate_conversion':
         case 'plate_conversion':
           this.createConversionInterface();
-        default:
-          this.createHiddenFields();
-          this.createButton();
-      }
+          this.createOperationButton('Create');
+          break;
+        case 'plate_conversion_to_default':
+          this.createConversionInterfaceToDefault();
+          this.createOperationButton('Convert to')
+          break;
+        default: /* plate */
+          this.createOperationButton('Create');
+          break;
+      };
+      this.createHiddenFields();
     },
-    createButton: function() {
+
+    createOperationButton: function(operationText) {
+      this.createButton(operationText+' '+this.asset.child_purposes[0][0]);
+    },
+    createButton: function(textContent) {
       // This assumes a single child purpose, it will need to be extended if we ever
       // deal with branching pipelines.
       var purpose;
       var step = this;
       this.button = $(document.createElement('button')).
-        text('Create '+this.asset.child_purposes[0][0]).
+        text(textContent).
         addClass('btn btn-success').
         attr('type','submit');
       this.element.find('.button-receiver').append(this.button);
-      this.button.data('text','Create '+this.asset.child_purposes[0][0]);
+      this.button.data('text', textContent);
       this.element.find('.main-form').on('submit',function(e){
         e.preventDefault();
         step.submit();
@@ -178,16 +191,21 @@
         step.submitSequencing();
       });
     },
-    createConversionInterface: function() {
-      var conversion;
-      conversion = $('.hidden .conversion-interface').clone();
+    createConversionInterface: function(toDefault) {
+      var conversion = $('.hidden .conversion-interface').clone();
       conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
       this.element.find('.conversion-interface-receiver').append(conversion);
+      this.createConversionInterfaceToDefault();
+    },
+    createConversionInterfaceToDefault: function() {
       this.element.find('.barcode-printing-form').hide();
     },
     validates: function() {
       if (this.asset.handle.with==='invalid') {this.addError(this.asset.purpose+' can not be processed by this pipeline.')};
-      if (this.asset.handle.with==='plate_conversion' && this.asset.state !== this.qcablestate ) {
+      if ((this.asset.handle.with==='plate_conversion') && (this.asset.state !== this.qcablestate)) {
+        this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
+      };
+      if ((this.asset.handle.with==='qa_plate_conversion') && (this.asset.state !== this.qcablestate)) {
         this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
       };
       return this.valid;

@@ -45,8 +45,17 @@ class QcAssetCreator
   ##
   # Determines which module to extend with
   def behaviour_module
-    "QcAssetCreator::#{(Settings.purposes[@asset.purpose.uuid].with||'plate_creation').classify}".constantize
+    behaviour_module_name= 'plate_creation'
+    if Settings.purposes.has_key?(@asset.purpose.uuid)
+      behaviour_module_name = Settings.purposes[@asset.purpose.uuid].with || behaviour_module_name
+    else
+      unless Settings.default_purpose.nil? || Settings.default_purpose.with.nil?
+        behaviour_module_name = Settings.default_purpose.with
+      end
+    end
+    return "QcAssetCreator::#{behaviour_module_name.classify}".constantize
   end
+
 
   ##
   # Determines which transfer template to use
