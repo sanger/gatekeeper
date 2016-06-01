@@ -4,7 +4,7 @@
   <div class="form-group">
     <label for="plate_number" class="col-sm-5 control-label">Number of  <%= lot.child_type.pluralize %></label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-plus"></span>
+      <%= input_glyph('plus') %>
       <input type="number" class="form-control" id="plate_number" name="plate_number" placeholder="0" min=<%= lot.min_qcables %> step=<%= lot.step_qcables %> max=<%= lot.max_qcables %> required="required">
     </div>
   </div>
@@ -12,7 +12,7 @@
   <div class="form-group">
     <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-print"></span>
+      <%= input_glyph('print') %>
       <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
         <% each_barcode_printer(lot.printer_type) do |name,uuid| -%>
           <option value='<%= uuid %>'><%= name %></option>

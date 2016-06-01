@@ -49,11 +49,17 @@ module Gatekeeper
       'Tag PCR',
       'Tag PCR-XP',
       'Tag Stock-MX',
-      'Tag MX'
+      'Tag MX',
+      'Pre Stamped Tag Plate'
     ]
 
     config.purpose_handlers = {
       'Tag Plate' => {
+        :with    => 'plate_conversion',
+        :as      => 'target',
+        :sibling => 'Reporter Plate'
+      },
+      'Pre Stamped Tag Plate' => {
         :with    => 'plate_conversion',
         :as      => 'target',
         :sibling => 'Reporter Plate'

@@ -12,7 +12,7 @@
     <div class="form-group">
       <label for="lot_plate" class="col-sm-5 control-label">Plate barcode</label>
       <div class="input-group col-sm-6">
-        <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+        <%= input_glyph('barcode') %>
         <input type="text" class="form-control bed_field" id="scan_plate" placeholder="Scan plate barcode"
         autocomplete="off">
       </div>
@@ -21,7 +21,7 @@
     <div class="form-group">
       <label for="bed" class="col-sm-5 control-label">Bed barcode</label>
       <div class="input-group col-sm-6">
-        <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+        <%= input_glyph('barcode') %>
         <input type="text" class="form-control bed_field" id="scan_bed" placeholder="Scan bed barcode"
         autocomplete="off">
       </div>

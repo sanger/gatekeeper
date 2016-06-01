@@ -16,21 +16,21 @@
   <%= render :partial => 'alerts/critical_error' %>
 
   <div class="alert alert-warning stock-progress bed-progress">
-    <span class="glyphicon glyphicon-time"></span> Validating...
+    <%= glyph('time') %> Validating...
   </div>
   <div class="alert alert-success stock-success">
-    <span class="glyphicon glyphicon-ok-sign"></span> Success, please proceed.
+    <%= glyph('ok-sign') %> Success, please proceed.
   </div>
   <div class="alert alert-danger stock-error">
-    <span class="glyphicon glyphicon-exclamation-sign"></span> There was a problem with the stock plate...
+    <%= glyph('exclamation-sign') %> There was a problem with the stock plate...
     <ul class="stock_error_list error_list">
     </ul>
   </div>
   <div class="alert alert-success bed-success">
-    <span class="glyphicon glyphicon-ok-sign"></span> The robot is set up correctly. Please choose one of the stamp options below, and then start the robot.
+    <%= glyph('ok-sign') %> The robot is set up correctly. Please choose one of the stamp options below, and then start the robot.
   </div>
   <div class="alert alert-danger bed-error">
-    <span class="glyphicon glyphicon-exclamation-sign"></span> There was a problem with the bed setup...
+    <%= glyph('exclamation-sign') %> There was a problem with the bed setup...
     <ul class="bed_error_list error_list">
     </ul>
   </div>

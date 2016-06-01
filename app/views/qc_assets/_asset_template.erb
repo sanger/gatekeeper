@@ -3,7 +3,7 @@
   <div class="form-group">
     <label for="barcode_printer" class="col-sm-5 control-label">Barcode Printer</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-print"></span>
+      <%= input_glyph('print') %>
       <select class="form-control" required="required" id="barcode_printer" name="barcode_printer">
         <% each_barcode_printer('96 Well Plate') do |name,uuid| -%>
           <option value='<%= uuid %>' class='plate-printer'><%= name %></option>
@@ -28,7 +28,7 @@
   <div class="form-group disabled">
     <label for="asset_barcode" class="col-sm-5 control-label"><span class="purpose"></span> barcode</label>
     <div class="input-group col-sm-6">
-      <span class="input-group-addon glyphicon glyphicon-barcode"></span>
+      <%= input_glyph('barcode') %>
       <input type="text" class="form-control asset-ean13 form-control-dis" name="asset_barcode" placeholder="..." required="required" readonly="readonly">
     </div>
   </div>

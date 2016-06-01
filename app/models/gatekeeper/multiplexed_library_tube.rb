@@ -4,6 +4,9 @@
 # Allows us to treat plates and tube the same
 class Gatekeeper::MultiplexedLibraryTube < Sequencescape::Tube
 
+  include StateExtensions
+  include BarcodeExtensions
+
   module ModelExtensions
     def children; []; end
     def children?;false; end

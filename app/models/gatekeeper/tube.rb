@@ -4,6 +4,9 @@
 # Allows us to treat plates and tube the same
 class Gatekeeper::Tube < Sequencescape::Tube
 
+  include StateExtensions
+  include BarcodeExtensions
+
   module ModelExtensions
     def children
       children? ? self.requests.map {|r| r.target_asset } : []
