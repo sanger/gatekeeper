@@ -1,15 +1,18 @@
 ##
 # Presents assets in json fomat to the
 # QC pipeline.
-
 class Presenter::QcAsset
 
-  class UnsupportedPurpose
-    def children; Array.new; end
-    def with; 'invalid'; end
-    def as; end
-    def sibling; end
-    def printer; end
+  class DefaultPurpose
+    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type
+    def initialize(default_purpose)
+      @uuid       = default_purpose[:uuid]
+      @name       = default_purpose[:name]
+      @with       = default_purpose[:with]
+      @as         = default_purpose[:as]
+      @type       = default_purpose[:type]
+      @children   = [uuid].compact
+    end
   end
 
   attr_reader :asset
@@ -21,7 +24,7 @@ class Presenter::QcAsset
   delegate :uuid, :state, to: :asset
 
   def child_purposes
-    (own_child_purpose||sibling_child_purpose).map {|uuid| [Settings.purposes[uuid].name,uuid]}
+    (own_child_purpose||sibling_child_purpose).map {|uuid| [purpose_config_of_uuid(uuid).name,uuid]}
   end
 
   def purpose
@@ -34,7 +37,7 @@ class Presenter::QcAsset
 
   def child_type
     (own_child_purpose||sibling_child_purpose).map do |uuid|
-      Settings.purposes[uuid].type.pluralize
+      purpose_config_of_uuid(uuid).type.pluralize
     end.first||'unknown'
   end
 
@@ -48,10 +51,10 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'    => purpose_config.with||'plate_creation',
-      'as'      => purpose_config.as||'',
-      'sibling' => purpose_config.sibling||'',
-      'printer' => purpose_config.printer||'plate'
+      'with'    => own_purpose_config.with||'plate_creation',
+      'as'      => own_purpose_config.as||'',
+      'sibling' => own_purpose_config.sibling||'',
+      'printer' => own_purpose_config.printer||'plate'
     }
   end
 
@@ -72,19 +75,23 @@ class Presenter::QcAsset
 
   private
 
-  def purpose_config
-    Settings.purposes[@asset.purpose.uuid] || UnsupportedPurpose.new
+  def own_purpose_config
+    purpose_config_of_uuid(@asset.purpose.uuid)
+  end
+
+  def purpose_config_of_uuid(uuid)
+    Settings.purposes[uuid] || DefaultPurpose.new(Settings.default_purpose)
   end
 
   ##
   # I guess that makes this niece/nephew purpose
   def sibling_child_purpose
-    Settings.purposes.detect {|k,v| v.name == purpose_config.sibling }.last.children
+    return Settings.purposes.detect {|k,v| v.name == own_purpose_config.sibling }.last.children
   end
 
   def own_child_purpose
-    return nil if purpose_config.as == 'source'
-    purpose_config.children
+    return nil if own_purpose_config.as == 'source'
+    own_purpose_config.children
   end
 
 

@@ -45,6 +45,7 @@ module Gatekeeper
     config.tracked_purposes = [
       'Tag Plate',
       'Reporter Plate',
+      'QA Plate',
       'Tag PCR',
       'Tag PCR-XP',
       'Tag Stock-MX',
@@ -68,6 +69,11 @@ module Gatekeeper
         :as      => 'source',
         :sibling => 'Tag Plate'
       },
+      'QA Plate' => {
+        :with    => 'qa_plate_conversion',
+        :as      => 'source',
+        :sibling => 'Tag Plate'
+      },
       'Tag PCR' => {
       },
       'Tag PCR-XP' => {
@@ -81,6 +87,12 @@ module Gatekeeper
         :with => 'completed',
         :printer => 'tube'
       }
+    }
+
+    config.default_purpose_handler = {
+      :with    => 'plate_conversion_to_default',
+      :name    => 'QA Plate',
+      :as      => 'target'
     }
 
     # If no study or project is specified, the config will fall back

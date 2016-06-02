@@ -68,7 +68,15 @@ namespace :config do
       configuration[:purposes] = {}.tap do |purpose|
         puts "Preparing purposes ..."
         puts "... plates"
+        raise 'No default purpose configuration specified.' if Gatekeeper::Application.config.default_purpose_handler.nil?
         api.plate_purpose.all.each do |plate_purpose|
+          # Loads the default purpose info
+          if Gatekeeper::Application.config.default_purpose_handler[:name].include?(plate_purpose.name)
+            configuration[:default_purpose] = Gatekeeper::Application.config.default_purpose_handler.merge({
+              :uuid => plate_purpose.uuid,
+              :type => 'plate'
+            })
+          end
           next unless Gatekeeper::Application.config.tracked_purposes.include?(plate_purpose.name)
           purpose[plate_purpose.uuid] = {
             :name     => plate_purpose.name,
