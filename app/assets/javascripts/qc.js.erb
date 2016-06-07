@@ -205,9 +205,6 @@
       if ((this.asset.handle.with==='plate_conversion') && (this.asset.state !== this.qcablestate)) {
         this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
       };
-      if ((this.asset.handle.with==='qa_plate_conversion') && (this.asset.state !== this.qcablestate)) {
-        this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
-      };
       return this.valid;
     },
     addError: function(message) {
