@@ -17,6 +17,14 @@ class QcAssetsController < ApplicationController
     render(:json=>@presenter.output,:root=>true)
   end
 
+  def tag2_tubes_barcodes
+    barcodes = []
+    12.times do |pos|
+      barcodes.push(params[:tag2_tube][pos])
+    end
+    barcodes
+  end
+
   def create
     begin
       child = QcAssetCreator.new(
@@ -25,7 +33,9 @@ class QcAssetsController < ApplicationController
         :user     => @user,
         :purpose  => params[:purpose],
         :sibling  => find_sibling_from_barcode,
-        :template => params[:template]
+        :sibling2 => find_sibling2_from_barcode,
+        :template => params[:template],
+        :tag2_tubes_barcodes => tag2_tubes_barcodes
       ).create!
     rescue QcAssetCreator::QcAssetException => exception
       @presenter = Presenter::Error.new(exception)
@@ -52,6 +62,10 @@ class QcAssetsController < ApplicationController
 
   def find_sibling_from_barcode
     find_from_barcode(params[:sibling]) if params[:sibling].present?
+  end
+
+  def find_sibling2_from_barcode
+    find_from_barcode(params[:sibling2]) if params[:sibling2].present?
   end
 
   def find_from_barcode(barcode)

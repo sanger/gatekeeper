@@ -129,6 +129,16 @@
     setPurpose: function(purpose) {
       this.element.find('.purpose').text(purpose);
     },
+    createMultipleTag2TubeInterface: function() {
+      var multipleTag = $('.hidden .multiple-tag2-tube-interface').clone();
+      multipleTag.find('.sibling-purpose').text(this.asset.handle.sibling);
+      this.element.find('.conversion-interface-receiver').append(multipleTag);
+      this.element.find('.conversion-interface-receiver').prev().hide();
+      var firstTube = $("input[name='tag2_tube[0]']");
+      firstTube.val($("input[name=asset_barcode]").val());
+      firstTube.attr('disabled', true);
+      this.createConversionInterfaceToDefault();
+    },
     createHandler: function() {
       switch(this.asset.handle.with) {
         case 'completed':
@@ -138,6 +148,10 @@
         case 'qa_plate_conversion':
         case 'plate_conversion':
           this.createConversionInterface();
+          this.createOperationButton('Create');
+          break;
+        case 'multiple_tag2_conversion':
+          this.createMultipleTag2TubeInterface();
           this.createOperationButton('Create');
           break;
         case 'plate_conversion_to_default':

@@ -46,6 +46,7 @@ module Gatekeeper
       'Tag Plate',
       'Reporter Plate',
       'QA Plate',
+      'Tag 2 Tube',
       'Tag PCR',
       'Tag PCR-XP',
       'Tag Stock-MX',
@@ -54,6 +55,11 @@ module Gatekeeper
     ]
 
     config.purpose_handlers = {
+      'Tag 2 Tube' => {
+        :with    => 'multiple_tag2_conversion',
+        :as      => 'source',
+        :sibling => 'Reporter Plate'
+      },
       'Tag Plate' => {
         :with    => 'plate_conversion',
         :as      => 'target',

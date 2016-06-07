@@ -6,11 +6,12 @@ class QcAssetCreator
 
   class QcAssetException < StandardError; end
 
-  attr_reader :api, :purpose, :sibling
+  attr_reader :api, :purpose, :sibling, :sibling2, :tag2_tubes_barcodes
   ##
   # Receives the parent asset, and composites itself
-  def initialize(api:,asset:,user:,purpose:,sibling: nil,template: nil)
-    @api,@asset,@user,@purpose,@sibling,@template = api,asset,user,purpose,sibling,template
+  def initialize(api:,asset:,user:,purpose:,sibling: nil,template: nil, tag2_tubes_barcodes:nil, sibling2: nil)
+    @api,@asset,@user,@purpose,@sibling,@template,@tag2_tubes_barcodes = api,asset,user,purpose,sibling,template,tag2_tubes_barcodes
+    @sibling2 = sibling2
     self.extend behaviour_module
   end
 
