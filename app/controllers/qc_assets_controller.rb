@@ -18,9 +18,10 @@ class QcAssetsController < ApplicationController
   end
 
   def tag2_tubes_barcodes
+    return nil unless params[:tag2_tube]
     barcodes = []
     12.times do |pos|
-      barcodes.push(params[:tag2_tube][pos])
+      barcodes.push(params[:tag2_tube][pos.to_s])
     end
     barcodes
   end
