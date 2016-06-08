@@ -6,9 +6,9 @@
   <div class='col-md-6'>
     <%= render :partial => 'lots/summary', :layout => :'layouts/section', :locals => {:title => "Lot Summary", :lot=>@lot_presenter} %>
   </div><div class='col-md-6'>
-    <%= render :partial => 'qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :lot=>@lot_presenter} %>
+    <%= render :partial => 'lots/qc_decisions/qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :lot=>@lot_presenter} %>
   </div><div class='col-md-12'>
-    <%= render :partial => 'pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :lot => @lot_presenter} %>
+    <%= render :partial => 'lots/qc_decisions/pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :lot => @lot_presenter} %>
   </div>
 </div>
 <% end %>

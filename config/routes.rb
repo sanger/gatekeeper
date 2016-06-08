@@ -10,7 +10,14 @@ Gatekeeper::Application.routes.draw do
       get :search
     end
     resources :qcables, :only => [:create]
-    resources :qc_decisions, :only => [:create,:new]
+    resources :qc_decisions, :only => [:create,:new], :controller => 'lots_qc_decisions'
+  end
+
+  resources :batches, :only => [:show] do
+    collection do
+      get :search
+    end
+    resources :qc_decisions, :only => [:create,:new], :controller => 'batches_qc_decisions'
   end
 
   # We can't use the standard CRUD setup, as the user doesn't have the uuid
