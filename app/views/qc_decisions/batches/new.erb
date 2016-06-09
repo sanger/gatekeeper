@@ -12,11 +12,12 @@
 
   <% @lots_presenter.each_lot_info do |lot, lot_number, lot_uuid, type_name, template_name, lot_received_at| %>
     <%= form_for(lot, :url => lot_qc_decisions_path(lot_uuid)) do %>
-      <h2>Lot <%= lot_number %> <a name="<%= lot_number %>" href="<%= new_lot_qc_decision_path(lot_uuid) %>"><button class="btn" type="button">Show</button></a></h2>
+      <h2>Lot <%= lot_number %> <a name="<%= lot_number %>" href="<%= new_lot_qc_decision_path(lot_uuid) %>"><button class="btn" type="button">Show</button></a>
+</h2>
       <div class='col-md-6'>
-        <%= render :partial => 'batches/qc_decisions/qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :presenter=>@lots_presenter.presenter_for(lot)} %>
+        <%= render :partial => 'qc_decisions/qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :presenter=>@lots_presenter.presenter_for(lot)} %>
       </div><div class='col-md-12'>
-        <%= render :partial => 'batches/qc_decisions/pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :presenter => @lots_presenter.presenter_for(lot)} %>
+        <%= render :partial => 'qc_decisions/pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :presenter => @lots_presenter.presenter_for(lot)} %>
       </div>
     <% end %>
   <% end %>

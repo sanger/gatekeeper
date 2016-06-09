@@ -9,7 +9,7 @@ class LotsQcDecisionsController < QcDecisionsController
   # On Lot
   def new
     @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
-    render 'lots/qc_decisions/new'
+    render 'qc_decisions/lots/new'
   end
 
   ##

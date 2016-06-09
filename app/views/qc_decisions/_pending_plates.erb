@@ -9,7 +9,7 @@
   <button class="btn btn-danger"  type="button" id="all-to-fail"   >Set All To Fail</button>
   </div>
 </div>
-<% @lot_presenter.each_plate_in('pending') do |plate| -%>
+<% presenter.each_plate_in('pending') do |plate| -%>
   <div class="form-group">
     <label for="decisions[<%= plate.uuid %>]" class="col-sm-3 control-label"><%= plate.barcode %></label>
     <div class="col-sm-7">

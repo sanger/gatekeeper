@@ -1,0 +1,31 @@
+
+<div>
+  <h3>Actions</h3>
+<%= form_tag({:action=>:create},{:class=>'form-horizontal pull-right'}) do %>
+  <div class="btn-group">
+    <button class="btn btn-success" type="button" id="all-to-release">Set All Lots To Release</button>
+    <button class="btn btn-danger"  type="button" id="all-to-fail"   >Set All Lots To Fail</button>
+  </div>
+<% end %>
+</div>
+
+<table class="table">
+  <thead>
+    <th>Lot Number</th><th>Lot Type</th><th>Template</th><th>Received at</th><th>Action</th>
+  </thead>
+  <tbody>
+    <% lots.each_lot_info do |lot, lot_number, lot_uuid, type_name, template_name, lot_received_at| %>
+      <tr>
+        <td><a href="#<%= lot_number %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= template_name %></td><td><%= lot_received_at %></td>
+        <td>
+          <%= form_for(lot, :url => lot_qc_decisions_path(lot_uuid)) do %>
+            <div class="btn-group">
+              <button class="btn btn-success" type="button" id="all-to-release">Release lot</button>
+              <button class="btn btn-danger"  type="button" id="all-to-fail"   >Fail lot</button>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

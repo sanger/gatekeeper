@@ -8,8 +8,8 @@ class BatchesQcDecisionsController < QcDecisionsController
   # For rendering a QC Decision
   # On Batch
   def new
-    @lot_presenters = find_lots_for_batch.map{|lot| Presenter::Lot.new(lot)}
-    render 'batches/qc_decisions/new'
+    @lots_presenter = Presenter::LotList.new(params[:batch_id], find_lots_for_batch)
+    render 'qc_decisions/batches/new'
   end
 
   ##
