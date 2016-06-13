@@ -3,13 +3,23 @@
 class LotsQcDecisionsController < QcDecisionsController
 
   before_filter :find_user, :except=>[:search,:new]
+  before_filter :find_lot_presenter, :except => [:search]
+
 
   ##
   # For rendering a QC Decision
   # On Lot
   def new
-    @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
     render 'qc_decisions/lots/new'
+  end
+
+  def find_lot_presenter
+    @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
+  end
+
+  def decisions
+    return @lot_presenter.all_qcables_uuid.map{|uuid| [uuid, params[:decision_to_all]]} if params[:decision_to_all]
+    params[:decisions].select {|uuid,decision| decision.present? }
   end
 
   ##
@@ -17,7 +27,6 @@ class LotsQcDecisionsController < QcDecisionsController
   # On Lot
   def create
     begin
-      decisions = params[:decisions].select {|uuid,decision| decision.present? }
       api.qc_decision.create!(
         :user => @user.uuid,
         :lot  => params[:lot_id],

@@ -80,6 +80,10 @@ class Presenter::Lot
     (@active||=state) == state ? 'active' : ''
   end
 
+  def all_qcables_uuid
+    @lot.qcables.map(&:uuid)
+  end
+
   private
 
   def state_index(state)

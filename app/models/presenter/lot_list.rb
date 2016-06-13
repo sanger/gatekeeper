@@ -10,8 +10,12 @@ class Presenter::LotList
     @presenters = lots.map{|lot| Presenter::Lot.new(lot)}
   end
 
-  def each_lot_info
-    @lots.each do |lot|
+  def decision_in_all_qcables?(lot)
+    lot.qcables.all?{|qcable| ['available', 'failed'].include?(qcable.state)}
+  end
+
+  def each_lot_without_decision
+    @lots.select{|lot| !decision_in_all_qcables?(lot)}.each do |lot|
       yield lot, lot.lot_number, lot.uuid, lot.lot_type.name, lot.template.name, lot.received_at.to_date.strftime('%d/%m/%Y')
     end
   end

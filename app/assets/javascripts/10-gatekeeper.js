@@ -11,6 +11,9 @@
   $('#user_swipecard').each(function(){
 
     $.extend(this, {
+      copyToAllInputs: function() {
+        $('input[name=user_swipecard]').val(this.value);
+      },
       wait : function() {
         $(this).parents('.form-group').addClass('has-warning');
         $(this).prev('.form-control-feedback').addClass('glyphicon glyphicon-time');
@@ -32,6 +35,7 @@
         $(this).parents('.form-group').addClass('has-success');
         $(this).prev('.form-control-feedback').removeClass('glyphicon-time glyphicon-exclamation-sign')
         $(this).prev('.form-control-feedback').addClass('glyphicon glyphicon-ok-sign');
+        this.copyToAllInputs();
         (this.onDone||$.noop)();
       },
       fail : function(response) {
@@ -39,6 +43,7 @@
         $(this).parents('.form-group').addClass('has-error');
         $(this).prev('.form-control-feedback').removeClass('glyphicon-time glyphicon-ok-sign')
         $(this).prev('.form-control-feedback').addClass('glyphicon glyphicon-exclamation-sign');
+        this.copyToAllInputs();
         $(this).popover('show');
       }
     })

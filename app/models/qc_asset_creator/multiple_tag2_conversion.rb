@@ -30,19 +30,32 @@ module QcAssetCreator::MultipleTag2Conversion
       :destination => tag_plate,
       :user => @user.uuid
     )
+
     api.tag_layout_template.find(tag_template).create!(
       :user => @user.uuid,
       :plate => tag_plate,
       :substitutions => {}
     )
 
-    tag2_templates.each_with_index do |tag2_template, pos|
+    each_tag2_template_with_tube_and_index do |tag2_template, tag2_tube, pos|
+      #transfer_template_tube_to_well.create!(
+      #  :source => tag2_tube,
+      #  :destination => tag_plate,
+      #  :user => @user.uuid,
+      #  :column => pos
+      #)
+
       api.tag2_layout_template.find(tag2_template).create!(
         :user => @user.uuid,
         :plate => tag_plate,
+        :source => tag2_tube,
         :column => pos
       )
     end
+  end
+
+  def transfer_template_tube_to_well
+    api.transfer_template.find('Transfer between specific tubes')
   end
 
   ##
@@ -65,6 +78,16 @@ module QcAssetCreator::MultipleTag2Conversion
 
   def tube
     source
+  end
+
+  def transfer_template_tube_to_well
+
+  end
+
+  def each_tag2_template_with_tube_and_index
+    tag2_templates.zip(tag2_tubes_barcodes).each_with_index do |template, barcode, pos|
+      yield template, api.tubes.find_by_barcode(barcode), pos
+    end
   end
 
   def tag2_templates
