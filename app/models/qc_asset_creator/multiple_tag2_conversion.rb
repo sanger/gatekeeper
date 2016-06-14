@@ -37,22 +37,20 @@ module QcAssetCreator::MultipleTag2Conversion
       :substitutions => {}
     )
 
-    each_tag2_template_with_tube_and_index do |tag2_template, tag2_tube, pos|
-      #transfer_template_tube_to_well.create!(
-      #  :source => tag2_tube,
-      #  :destination => tag_plate,
-      #  :user => @user.uuid,
-      #  :column => pos
-      #)
-
+    each_tag2_template_with_tube_and_column do |tag2_template, tag2_tube, column|
       api.tag2_layout_template.find(tag2_template).create!(
         :user => @user.uuid,
         :plate => tag_plate,
         :source => tag2_tube,
-        :column => pos
+        :column => column
       )
     end
   end
+
+  def tag_template
+    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => sibling2.barcode.ean13).lot.template.uuid
+  end
+
 
   def transfer_template_tube_to_well
     api.transfer_template.find('Transfer between specific tubes')
@@ -80,19 +78,15 @@ module QcAssetCreator::MultipleTag2Conversion
     source
   end
 
-  def transfer_template_tube_to_well
-
-  end
-
-  def each_tag2_template_with_tube_and_index
-    tag2_templates.zip(tag2_tubes_barcodes).each_with_index do |template, barcode, pos|
-      yield template, api.tubes.find_by_barcode(barcode), pos
+  def tag2_qcables
+    tag2_tubes_barcodes.map do |tag2_tube_barcode|
+      api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => tag2_tube_barcode)
     end
   end
 
-  def tag2_templates
-    tag2_tubes_barcodes.map do |tag2_tube_barcode|
-      api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => tag2_tube_barcode).lot.template.uuid
+  def each_tag2_template_with_tube_and_column
+    tag2_qcables.each_with_index do |qcable, pos|
+      yield qcable.lot.template.uuid, qcable.asset, pos+1
     end
   end
 
