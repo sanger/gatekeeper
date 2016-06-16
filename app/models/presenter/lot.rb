@@ -11,6 +11,10 @@ class Presenter::Lot
     @lot = lot
   end
 
+  def decidable_qcable?(qcable)
+    ['pending'].include?(qcable.state)
+  end
+
   delegate :lot_number, :uuid, :id, :lot_type_name, :template_name, :to=> :lot
   alias_method :lot_type, :lot_type_name
   alias_method :template, :template_name
@@ -81,7 +85,7 @@ class Presenter::Lot
   end
 
   def all_qcables_uuid
-    @lot.qcables.map(&:uuid)
+    @lot.qcables.select{|qcable| decidable_qcable?(qcable)}.map(&:uuid)
   end
 
   private

@@ -15,7 +15,7 @@
 
 <table class="table table-striped">
   <thead>
-    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Decision</th><th class="pull-right">Actions</th>
+    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Pending decisions</th><th class="pull-right">Actions</th>
   </thead>
   <tbody>
     <% lots.each_lot_with_its_decision do |lot, lot_number, lot_uuid, type_name, lot_received_at, decision| %>
@@ -23,7 +23,7 @@
         <td><a href="<%= new_lot_qc_decision_path(lot_uuid) %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= lot_received_at %></td><td class="decision"><%= decision %></td>
           <td class="action" data-lot-uuid="<%= lot_uuid %>">
 
-          <% if decision == 'unset' %>
+          <% if decision > 0 %>
               <%= form_for(:batches_qc_decisions, :url => {:action => :create}, :remote => true, :data => { :type => :json}) do %>
                 <input type="hidden" name="user_swipecard" />
                 <input type="hidden" name="lot_id" value="<%= lot_uuid %>" />

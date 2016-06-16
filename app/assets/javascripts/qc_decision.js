@@ -23,6 +23,7 @@
       data.forEach(function(obj,pos){
         var section = $("td[data-lot-uuid="+obj.lot.uuid+"]");
         section.html(obj.lot.decision);
+        section.prev().html("0");
         section.addClass("pull-right");
         $("button", section).remove();
       });
