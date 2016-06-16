@@ -1,30 +1,33 @@
 
-<div>
+<div class="batch-qc-decisions">
 
 <%= form_tag({:action=>:create},{:class=>'form-horizontal'}) do %>
 <%= render :partial => 'form_elements/user_swipecard' %>
-<h3>Actions</h3>
+<hr>
+<div>
+<h4>Actions</h4>
   <div class="btn-group pull-right">
-    <button class="btn btn-success" type="button" id="all-to-release">Set All Lots To Release</button>
-    <button class="btn btn-danger"  type="button" id="all-to-fail"   >Set All Lots To Fail</button>
+    <button class="btn btn-success" type="button" id="batch-release-all-lots">Release All Lots</button>
+    <button class="btn btn-danger"  type="button" id="batch-fail-all-lots">Fail All Lots</button>
   </div>
 <% end %>
 </div>
 
 <table class="table">
   <thead>
-    <th>Lot Number</th><th>Lot Type</th><th>Template</th><th>Received at</th><th>Action</th>
+    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Action</th>
   </thead>
   <tbody>
     <% lots.each_lot_without_decision do |lot, lot_number, lot_uuid, type_name, template_name, lot_received_at| %>
       <tr>
-        <td><a href="<%= new_lot_qc_decision_path(lot_uuid) %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= template_name %></td><td><%= lot_received_at %></td>
-        <td>
-          <%= form_for(lot, :url => lot_qc_decisions_path(lot_uuid), :method => :post, :remote => true) do %>
+        <td><a href="<%= new_lot_qc_decision_path(lot_uuid) %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= lot_received_at %></td>
+        <td data-lot-uuid="<%= lot_uuid %>">
+          <%= form_for(:batches_qc_decisions, :url => {:action => :create}, :remote => true, :data => { :type => :json}) do %>
             <input type="hidden" name="user_swipecard" />
-            <div class="btn-group">
-              <button name="decision_to_all" value="release" class="btn btn-success" type="submit" id="all-to-release">Release lot</button>
-              <button name="decision_to_all" value="fail" class="btn btn-danger"  type="submit" id="all-to-fail"   >Fail lot</button>
+            <input type="hidden" name="lot_id" value="<%= lot_uuid %>" />
+            <div class="btn-group pull-right">
+              <button name="decision" value="release" class="btn btn-success" type="submit" id="all-to-release">Release lot</button>
+              <button name="decision" value="fail" class="btn btn-danger"  type="submit" id="all-to-fail"   >Fail lot</button>
             </div>
           <% end %>
         </td>
@@ -32,3 +35,4 @@
     <% end %>
   </tbody>
 </table>
+</div>

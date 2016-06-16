@@ -24,6 +24,10 @@ class Presenter::LotList
     @presenters[@lots.find_index(lot)]
   end
 
+  def presenter_for_lot_uuid(lot_uuid)
+    @presenters.select{|p| p.lot.uuid == lot_uuid}.first
+  end
+
   def each_plate_in(state)
     plates = (sorted_qcables.detect {|qc_state,plates| qc_state == state }||[nil,[]]).last
     Presenter::Qcable.new_from_batch(plates).each do |qcable|

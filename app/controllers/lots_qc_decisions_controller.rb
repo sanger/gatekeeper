@@ -18,7 +18,6 @@ class LotsQcDecisionsController < QcDecisionsController
   end
 
   def decisions
-    return @lot_presenter.all_qcables_uuid.map{|uuid| [uuid, params[:decision_to_all]]} if params[:decision_to_all]
     params[:decisions].select {|uuid,decision| decision.present? }
   end
 

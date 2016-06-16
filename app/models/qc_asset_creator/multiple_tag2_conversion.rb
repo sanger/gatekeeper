@@ -9,13 +9,13 @@ module QcAssetCreator::MultipleTag2Conversion
   def asset_update_state
     api.state_change.create!(
       :user => @user.uuid,
-      :target => reporter_plate,
+      :target => reporter_plate.uuid,
       :reason => 'Used in QC',
       :target_state => Gatekeeper::Application.config.qcing_state
     )
     api.state_change.create!(
       :user => @user.uuid,
-      :target => tag_plate,
+      :target => tag_plate.uuid,
       :reason => 'Used to QC',
       :target_state => Gatekeeper::Application.config.used_state
     )
@@ -26,22 +26,22 @@ module QcAssetCreator::MultipleTag2Conversion
   # The child is ignored (Although it should be the same as the target plate)
   def asset_transfer(_)
     transfer_template.create!(
-      :source => reporter_plate,
-      :destination => tag_plate,
+      :source => reporter_plate.uuid,
+      :destination => tag_plate.uuid,
       :user => @user.uuid
     )
 
     api.tag_layout_template.find(tag_template).create!(
       :user => @user.uuid,
-      :plate => tag_plate,
+      :plate => tag_plate.uuid,
       :substitutions => {}
     )
 
     each_tag2_template_with_tube_and_column do |tag2_template, tag2_tube, column|
       api.tag2_layout_template.find(tag2_template).create!(
         :user => @user.uuid,
-        :plate => tag_plate,
-        :source => tag2_tube,
+        :plate => tag_plate.uuid,
+        :source => tag2_tube.uuid,
         :column => column
       )
     end
@@ -60,18 +60,18 @@ module QcAssetCreator::MultipleTag2Conversion
   # Actually converts the target plate to the specified purpose
   def asset_create
     api.plate_conversion.create!(
-      :target => tag_plate,
+      :target => tag_plate.uuid,
       :purpose => @purpose,
       :user => @user.uuid,
     ).target
   end
 
   def reporter_plate
-    target
+    sibling
   end
 
   def tag_plate
-    sibling2.uuid
+    sibling2
   end
 
   def tube

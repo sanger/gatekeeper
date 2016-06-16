@@ -3,21 +3,27 @@
 class BatchesQcDecisionsController < QcDecisionsController
 
   before_filter :find_user, :except=>[:search,:new]
+  before_filter :find_lots_presenter, :except => [:search]
+
+  def find_lots_presenter
+    @lots_presenter ||= Presenter::LotList.new(params[:batch_id], find_lots_for_batch)
+  end
 
   ##
   # For rendering a QC Decision
   # On Batch
   def new
-    @lots_presenter = Presenter::LotList.new(params[:batch_id], find_lots_for_batch)
     render 'qc_decisions/batches/new'
   end
 
-  ##
-  # For making a QC Decision
-  # On Lot
+  def decisions
+    @lots_presenter.presenter_for_lot_uuid(params[:lot_id]).all_qcables_uuid.map do |uuid|
+      [uuid, params[:decision]]
+    end
+  end
+
   def create
     begin
-      decisions = params[:decisions].select {|uuid,decision| decision.present? }
       api.qc_decision.create!(
         :user => @user.uuid,
         :lot  => params[:lot_id],
@@ -26,12 +32,18 @@ class BatchesQcDecisionsController < QcDecisionsController
         end
       )
       flash[:success] = "Qc decision has been updated."
-      return redirect_to lot_path(params[:lot_id])
-    rescue Sequencescape::Api::ResourceInvalid => exception
-      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ')<<'.'
-      flash[:danger] = "A decision was not made. #{message}"
-      redirect_to new_lot_qc_decision_path(params[:lot_id])
-      return
+
+      respond_to do |format|
+        format.json{
+          render :json => [{:lot => {
+            :uuid => params[:lot_id],
+            :decision => params[:decision]
+            }}]
+        }
+      end
+    rescue Sequencescape::Api::StandardError => exception
+      message = exception.message
+      render :json => {:error => "Sequencescape message: On decision #{params[:decision]} for Lot #{params[:lot_id]}: " + message}
     end
   end
 
