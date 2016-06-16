@@ -13,24 +13,28 @@
 <% end %>
 </div>
 
-<table class="table">
+<table class="table table-striped">
   <thead>
-    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Action</th>
+    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Decision</th><th class="pull-right">Actions</th>
   </thead>
   <tbody>
-    <% lots.each_lot_without_decision do |lot, lot_number, lot_uuid, type_name, template_name, lot_received_at| %>
+    <% lots.each_lot_with_its_decision do |lot, lot_number, lot_uuid, type_name, lot_received_at, decision| %>
       <tr>
-        <td><a href="<%= new_lot_qc_decision_path(lot_uuid) %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= lot_received_at %></td>
-        <td data-lot-uuid="<%= lot_uuid %>">
-          <%= form_for(:batches_qc_decisions, :url => {:action => :create}, :remote => true, :data => { :type => :json}) do %>
-            <input type="hidden" name="user_swipecard" />
-            <input type="hidden" name="lot_id" value="<%= lot_uuid %>" />
-            <div class="btn-group pull-right">
-              <button name="decision" value="release" class="btn btn-success" type="submit" id="all-to-release">Release lot</button>
-              <button name="decision" value="fail" class="btn btn-danger"  type="submit" id="all-to-fail"   >Fail lot</button>
-            </div>
+        <td><a href="<%= new_lot_qc_decision_path(lot_uuid) %>"><%= lot_number %></a></td><td><%= type_name %></td><td><%= lot_received_at %></td><td class="decision"><%= decision %></td>
+          <td class="action" data-lot-uuid="<%= lot_uuid %>">
+
+          <% if decision == 'unset' %>
+              <%= form_for(:batches_qc_decisions, :url => {:action => :create}, :remote => true, :data => { :type => :json}) do %>
+                <input type="hidden" name="user_swipecard" />
+                <input type="hidden" name="lot_id" value="<%= lot_uuid %>" />
+                <div class="btn-group pull-right">
+                  <button name="decision" value="release" class="btn btn-success" type="submit" id="all-to-release">Release lot</button>
+                  <button name="decision" value="fail" class="btn btn-danger"  type="submit" id="all-to-fail"   >Fail lot</button>
+                </div>
+              <% end %>
           <% end %>
-        </td>
+
+          </td>
       </tr>
     <% end %>
   </tbody>

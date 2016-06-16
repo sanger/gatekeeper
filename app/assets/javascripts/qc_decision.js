@@ -21,7 +21,10 @@
 
     function handleSuccess(data) {
       data.forEach(function(obj,pos){
-        $("[data-lot-uuid="+obj.lot.uuid+"]").html(obj.lot.decision);
+        var section = $("td[data-lot-uuid="+obj.lot.uuid+"]");
+        section.html(obj.lot.decision);
+        section.addClass("pull-right");
+        $("button", section).remove();
       });
     }
 

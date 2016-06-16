@@ -115,7 +115,7 @@ button.form-control { height: auto; min-height: 34px; }
   }
 }
 
-td[data-lot-uuid] {
+td.decision,td.action {
   text-transform: capitalize;
 }
 

@@ -14,9 +14,23 @@ class Presenter::LotList
     lot.qcables.all?{|qcable| ['available', 'failed'].include?(qcable.state)}
   end
 
-  def each_lot_without_decision
-    @lots.select{|lot| !decision_in_all_qcables?(lot)}.each do |lot|
-      yield lot, lot.lot_number, lot.uuid, lot.lot_type.name, lot.template.name, lot.received_at.to_date.strftime('%d/%m/%Y')
+  def decision_for_lot(lot)
+    #lot.qcables.all?{|qcable| ['available', 'failed'].include?(qcable.state)}
+    decisions = lot.qcables.map(&:state).uniq
+    if decisions.count == 1
+      return 'available' if decisions.first=='available'
+      return 'failed' if decisions.first=='failed'
+    end
+    return 'unset'
+  end
+
+#.select{|lot| !decision_in_all_qcables?(lot)}
+
+  def each_lot_with_its_decision
+    @lots.select do |lot|
+      lot.lot_type.name == 'Tag 2 Tubes'
+    end.each do |lot|
+      yield lot, lot.lot_number, lot.uuid, lot.lot_type.name, lot.received_at.to_date.strftime('%d/%m/%Y'), decision_for_lot(lot)
     end
   end
 
