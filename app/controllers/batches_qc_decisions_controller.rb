@@ -17,7 +17,7 @@ class BatchesQcDecisionsController < QcDecisionsController
   end
 
   def decisions
-    @lots_presenter.presenter_for_lot_uuid(params[:lot_id]).all_qcables_uuid.map do |uuid|
+    @lots_presenter.presenter_for_lot_uuid(params[:lot_id]).pending_qcable_uuids.map do |uuid|
       [uuid, params[:decision]]
     end
   end
@@ -41,7 +41,7 @@ class BatchesQcDecisionsController < QcDecisionsController
             }}]
         }
       end
-    rescue Sequencescape::Api::StandardError => exception
+    rescue Sequencescape::Api::ResourceInvalid => exception
       message = exception.message
       render :json => {:error => "Sequencescape message: On decision #{params[:decision]} for Lot #{params[:lot_id]}: " + message}
     end

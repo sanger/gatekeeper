@@ -28,6 +28,11 @@ class Presenter::Qcable
   def uuid
     @qcable.uuid
   end
+
+  def pending?(qcable)
+    qcable.state=='pending'
+  end
+
   alias_method :id, :uuid
 
 end

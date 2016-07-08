@@ -11,7 +11,7 @@ module QcAssetCreator::MultipleTag2Conversion
       :user => @user.uuid,
       :target => reporter_plate.uuid,
       :reason => 'Used in QC',
-      :target_state => Gatekeeper::Application.config.qcing_state
+      :target_state => Gatekeeper::Application.config.used_state
     )
     api.state_change.create!(
       :user => @user.uuid,
@@ -67,11 +67,11 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   def reporter_plate
-    sibling
+    (Settings.purposes[@asset.purpose.uuid].sibling == 'Reporter Plate') ? sibling : sibling2
   end
 
   def tag_plate
-    sibling2
+    (Settings.purposes[@asset.purpose.uuid].sibling2 == 'Tag Plate') ? sibling2 : sibling
   end
 
   def tube
@@ -94,15 +94,19 @@ module QcAssetCreator::MultipleTag2Conversion
     Settings.purposes[@sibling.purpose.uuid].sibling == @sibling2.purpose.name
   end
 
+  def tag2_qcables?
+    tag2_qcables.all?{|qcable| qcable.extend(StateExtensions).qcable? }
+  end
+
   ##
   # Raises QcAssetException if the asset is the wrong type, or is in the wrong state
   # We don't bother checking state if the type is wrong
   def validate!
     raise QcAssetCreator::QcAssetException, 'The type of plate or tube requested is not suitable.' unless valid_children.include?(purpose)
     errors = []
-    errors << "The asset being QCed should be '#{Gatekeeper::Application.config.qcable_state}'." unless @sibling.qcable?
-    errors << "The asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling2.qced?
-    errors << "#{@sibling2.purpose.name} plates can't be used to test #{@sibling.purpose.name} plates." unless compatible_siblings?
+    errors << "The Reporter plate should be '#{Gatekeeper::Application.config.qced_state}'." unless reporter_plate.qced?
+    errors << "The Tag plate should be '#{Gatekeeper::Application.config.qced_state}'" unless tag_plate.qced?
+    errors << "The Tag 2 tubes be '#{Gatekeeper::Application.config.qcable_state}'" unless tag2_qcables?
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
     true
   end

@@ -2,34 +2,43 @@
 // All this logic will automatically be available in application.js.
 (function(window,$,undefined) {
 
-  $('#all-to-release').on('click',function(){
+  function QcDecision() {
+
+  }
+
+  var proto = QcDecision.prototype;
+
+  proto.releaseAll = function(){
     $('.pending-decision').val('release')
-  })
-  $('#all-to-fail').on('click',function(){
+  };
+
+  proto.failAll = function(){
     $('.pending-decision').val('fail')
-  })
+  };
 
+  proto.handleError = function(data) {
+    var node = $('#qc-error-box');
+    $('span.msg', node).html(data.error);
+    $(document.body).prepend(node);
+    node.show();
+  };
 
-  $(document).ready(function() {
-    function handleError(data) {
-      var node = $(["<div class='alert alert-danger'>",
-      " <button type='button' class='close' data-dismiss='alert' aria-label='Close'>",
-      "    <span aria-hidden='true'>&times;</span>",
-      " </button>", data.error, "</div>"].join(""));
-      $(document.body).prepend(node);
-    }
+  proto.handleSuccess = function(data) {
+    data.forEach(function(obj,pos){
+      var section = $("td[data-lot-uuid="+obj.lot.uuid+"]");
+      section.html(obj.lot.decision);
+      section.prev().html("0");
+      section.addClass("pull-right");
+      $("button", section).remove();
+    });
+  };
 
-    function handleSuccess(data) {
-      data.forEach(function(obj,pos){
-        var section = $("td[data-lot-uuid="+obj.lot.uuid+"]");
-        section.html(obj.lot.decision);
-        section.prev().html("0");
-        section.addClass("pull-right");
-        $("button", section).remove();
-      });
-    }
+  proto.attachHandlers = function() {
+    $('#all-to-release').on('click', this.releaseAll);
+    $('#all-to-fail').on('click', this.failAll);
 
-    var spinnerTemplate = "<span class='spinner'><i class='icon-spin icon-refresh glyphicon glyphicon-refresh spin'></i></span>&nbsp;";
+    var spinnerTemplate = $("#spinnerTemplate");
+
     $('[data-lot-uuid] button').addClass('has-spinner').prepend(spinnerTemplate).click(function(e) {
       $('.spinner', e.target).show();
     });
@@ -44,18 +53,23 @@
       $("[data-lot-uuid] button[value=fail]").each(function(pos, n) { n.click();});
     });
 
-    $("#gk-new-qc-decision-page").on("ajax:success", function(e, data, status, xhr) {
+    $("#gk-new-qc-decision-page").on("ajax:success", $.bind(function(e, data, status, xhr) {
       if (typeof data.error !== 'undefined') {
-        handleError(data);
+        this.handleError(data);
       } else {
-        handleSuccess(data);
+        this.handleSuccess(data);
       }
-    }).on("ajax:error", function(e, xhr, status, error) {
+    }).on("ajax:error", $.bind(function(e, xhr, status, error) {
       var data = xhr.responseJSON;
       if (typeof data.error !== 'undefined') {
-        handleError(data);
+        this.handleError(data);
       }
-    });
+    }, this), this));
+  };
+
+  $(document).ready(function() {
+    var qc = new QcDecision();
+    qc.attachHandlers();
   });
 
 
