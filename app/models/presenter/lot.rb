@@ -81,7 +81,7 @@ class Presenter::Lot
   end
 
   def pending_qcable_uuids
-    @lot.qcables.select{|qcable| qcable.pending? }.map(&:uuid)
+    @lot.pending_qcable_uuids
   end
 
   private
