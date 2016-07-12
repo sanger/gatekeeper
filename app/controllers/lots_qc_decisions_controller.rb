@@ -5,7 +5,6 @@ class LotsQcDecisionsController < QcDecisionsController
   before_filter :find_user, :except=>[:search,:new]
   before_filter :find_lot_presenter, :except => [:search]
 
-
   ##
   # For rendering a QC Decision
   # On Lot

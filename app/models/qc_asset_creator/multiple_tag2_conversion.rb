@@ -10,7 +10,7 @@ module QcAssetCreator::MultipleTag2Conversion
     api.state_change.create!(
       :user => @user.uuid,
       :target => reporter_plate.uuid,
-      :reason => 'Used in QC',
+      :reason => 'Used to QC',
       :target_state => Gatekeeper::Application.config.used_state
     )
     api.state_change.create!(

@@ -11,10 +11,16 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
   end
 
   test "new" do
+
+    lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+
+    # We mock here, as this is out interface with the controller.
+    lot.expects(:pending_qcable_uuids).returns(['11111111-2222-3333-4444-100000000008','11111111-2222-3333-4444-100000000009'])
+
     api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc').
     expects(:all).
     with(Sequencescape::Lot, :batch_id => '12345').
-    returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    returns([lot])
 
     get :new, {:batch_id => '12345' }
     assert_response :success
