@@ -13,14 +13,6 @@ class LotsQcDecisionsController < QcDecisionsController
     render 'qc_decisions/lots/new'
   end
 
-  def find_lot_presenter
-    @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
-  end
-
-  def decisions
-    params[:decisions].select {|uuid,decision| decision.present? }
-  end
-
   ##
   # For making a QC Decision
   # On Lot
@@ -42,5 +34,12 @@ class LotsQcDecisionsController < QcDecisionsController
       return
     end
   end
+
+  private
+
+  def decisions
+    params[:decisions].select {|uuid,decision| decision.present? }
+  end
+
 
 end

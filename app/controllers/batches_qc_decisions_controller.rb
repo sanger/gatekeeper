@@ -3,7 +3,8 @@
 class BatchesQcDecisionsController < QcDecisionsController
 
   before_filter :find_user, :except=>[:search,:new]
-  before_filter :find_lots_presenter, :except => [:search]
+  before_filter :find_lots_presenter, :except => [:search,:create]
+  before_filter :find_lot_presenter, :only => :create
 
   def find_lots_presenter
     @lots_presenter ||= Presenter::LotList.new(params[:batch_id], find_lots_for_batch)
@@ -14,12 +15,6 @@ class BatchesQcDecisionsController < QcDecisionsController
   # On Batch
   def new
     render 'qc_decisions/batches/new'
-  end
-
-  def decisions
-    @lots_presenter.presenter_for_lot_uuid(params[:lot_id]).pending_qcable_uuids.map do |uuid|
-      [uuid, params[:decision]]
-    end
   end
 
   def create
@@ -34,7 +29,7 @@ class BatchesQcDecisionsController < QcDecisionsController
       flash[:success] = "Qc decision has been updated."
 
       respond_to do |format|
-        format.json{
+        format.json {
           render :json => [{:lot => {
             :uuid => params[:lot_id],
             :decision => params[:decision]
@@ -42,9 +37,16 @@ class BatchesQcDecisionsController < QcDecisionsController
         }
       end
     rescue Sequencescape::Api::ResourceInvalid => exception
-      message = exception.message
-      render :json => {:error => "Sequencescape message: On decision #{params[:decision]} for Lot #{params[:lot_id]}: " + message}
+      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ')<<'.'
+      render :json => {:error => "A decision was not made to #{params[:decision]} for Lot #{params[:lot_id]}: " + message}
     end
   end
+
+  private
+
+  def decisions
+    @lot_presenter.pending_qcable_uuids.map { |uuid| [uuid, params[:decision]] }
+  end
+
 
 end
