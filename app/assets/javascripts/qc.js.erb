@@ -132,6 +132,7 @@
     createMultipleTag2TubeInterface: function() {
       var multipleTag = $('.hidden .multiple-tag2-tube-interface').clone();
       multipleTag.find('.sibling-purpose').text(this.asset.handle.sibling);
+      multipleTag.find('.sibling2-purpose').text(this.asset.handle.sibling2);
       this.element.find('.conversion-interface-receiver').append(multipleTag);
       this.element.find('.conversion-interface-receiver').prev().hide();
       var firstTube = $("input[name='tag2_tube[1]']");
@@ -254,6 +255,7 @@
         addClass('btn-warning').
         text('Creating...').
         attr('disabled','disabled');
+      this.feedback(''); // Wipe feedback to avoid confusion
     },
     unWait: function() {
       this.button.removeClass('btn-warning').

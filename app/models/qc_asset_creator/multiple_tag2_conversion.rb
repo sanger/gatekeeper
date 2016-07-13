@@ -42,6 +42,7 @@ module QcAssetCreator::MultipleTag2Conversion
       :destination => target,
       :user => @user.uuid
     )
+
     api.tag_layout_template.find(tag_template).create!(
       :user => @user.uuid,
       :plate => target,
@@ -76,19 +77,19 @@ module QcAssetCreator::MultipleTag2Conversion
   private
 
   def target
-    @sibling2.uuid
-  end
-
-  def source
     @sibling.uuid
   end
 
+  def source
+    @sibling2.uuid
+  end
+
   def target_purpose
-    @sibling2.purpose.uuid
+    @sibling.purpose.uuid
   end
 
   def tag_template
-    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => sibling2.barcode.ean13).lot.template.uuid
+    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => sibling.barcode.ean13).lot.template.uuid
   end
 
   def compatible_sibling2s?

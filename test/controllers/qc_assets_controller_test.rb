@@ -655,8 +655,8 @@ class QcAssetsControllerTest < ActionController::TestCase
       :asset_barcode  => '3980000037732',
       :tag2_tube      => {"1"=>"3980000037732", "2"=>"", "3"=>"", "4"=>"3980000037733", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"", "10"=>"", "11"=>"", "12"=>""},
       :purpose        => child_purpose,
-      :sibling        => '122000001174',
-      :sibling2       => '122000000867',
+      :sibling        => '122000000867',
+      :sibling2       => '122000001174',
       :template       => flip_plate_template
     }
 

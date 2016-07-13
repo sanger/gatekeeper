@@ -93,9 +93,8 @@
     :children: []
     :type: tube
     :with: multiple_tag2_conversion
-    :as: secondary
-    :sibling: Reporter Plate
-    :sibling2: Tag Plate
+    :sibling: Tag Plate
+    :sibling2: Reporter Plate
 :transfer_templates:
   Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
   Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc

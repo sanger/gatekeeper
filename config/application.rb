@@ -61,7 +61,6 @@ module Gatekeeper
     config.purpose_handlers = {
       'Tag 2 Tube' => {
         :with     => 'multiple_tag2_conversion',
-        :as       => 'secondary',
         :sibling2 => 'Reporter Plate',
         :sibling  => 'Tag Plate'
       },

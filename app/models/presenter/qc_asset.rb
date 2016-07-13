@@ -4,7 +4,7 @@
 class Presenter::QcAsset
 
   class DefaultPurpose
-    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type
+    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type, :sibling2
     def initialize(default_purpose)
       @uuid       = default_purpose[:uuid]
       @name       = default_purpose[:name]
@@ -51,11 +51,13 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'    => own_purpose_config.with||'plate_creation',
-      'as'      => own_purpose_config.as||'',
-      'sibling' => own_purpose_config.sibling||'',
-      'printer' => own_purpose_config.printer||'plate'
-    }
+      'with'     => own_purpose_config.with||'plate_creation',
+      'as'       => own_purpose_config.as||'',
+      'sibling'  => own_purpose_config.sibling||'',
+      'printer'  => own_purpose_config.printer||'plate'
+    }.tap do |handle|
+      handle['sibling2'] = own_purpose_config.sibling2 if own_purpose_config.sibling2
+    end
   end
 
   ##
@@ -90,7 +92,7 @@ class Presenter::QcAsset
   end
 
   def own_child_purpose
-    return nil unless own_purpose_config.as == 'target'
+    return nil if own_purpose_config.as == 'source'
     own_purpose_config.children
   end
 
