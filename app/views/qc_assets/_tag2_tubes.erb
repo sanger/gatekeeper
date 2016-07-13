@@ -1,20 +1,21 @@
 <div class="multiple-tag2-tube-interface">
   <div class="form-group">
-    <label for="sibling" class="col-sm-5 control-label"><span class="purpose">Tag Plate</span> barcode</label>
+    <label for="sibling" class="col-sm-5 control-label"><span class="sibling-purpose"></span> barcode</label>
+    <div class="input-group col-sm-6">
+      <%= input_glyph('barcode') %>
+      <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan plate barcode" required="required" name="sibling">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="sibling2" class="col-sm-5 control-label"><span class="sibling2-purpose"></span> barcode</label>
     <div class="input-group col-sm-6">
       <%= input_glyph('barcode') %>
       <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan plate barcode" required="required" name="sibling2">
     </div>
   </div>
 
-    <div class="form-group">
-      <label for="sibling" class="col-sm-5 control-label"><span class="sibling-purpose"></span> barcode</label>
-      <div class="input-group col-sm-6">
-        <%= input_glyph('barcode') %>
-        <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan plate barcode" required="required" name="sibling">
-      </div>
-    </div>
-    <div class="form-group">
+  <div class="form-group">
     <label for="asset_barcode" class="col-sm-5 control-label">Orientation</label>
     <div class="input-group col-sm-6">
       <%= input_glyph('refresh') %>
@@ -29,7 +30,7 @@
 
   <% 12.times do |pos| %>
     <div class="form-group">
-      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(<%= pos+1 %>) Tag 2 Tube</span> barcode</label>
+      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(Column <%= pos+1 %>) Tag 2 Tube</span> barcode</label>
       <div class="input-group col-sm-6">
         <%= input_glyph('barcode') %>
         <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan tube barcode" name="tag2_tube[<%= pos + 1 %>]">

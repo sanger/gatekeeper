@@ -134,7 +134,7 @@
       multipleTag.find('.sibling-purpose').text(this.asset.handle.sibling);
       this.element.find('.conversion-interface-receiver').append(multipleTag);
       this.element.find('.conversion-interface-receiver').prev().hide();
-      var firstTube = $("input[name='tag2_tube[0]']");
+      var firstTube = $("input[name='tag2_tube[1]']");
       firstTube.val($("input[name=asset_barcode]").val());
       firstTube.attr('disabled', true);
       this.createConversionInterfaceToDefault();

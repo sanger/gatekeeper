@@ -90,7 +90,7 @@ class Presenter::QcAsset
   end
 
   def own_child_purpose
-    return nil if own_purpose_config.as == 'source'
+    return nil unless own_purpose_config.as == 'target'
     own_purpose_config.children
   end
 
