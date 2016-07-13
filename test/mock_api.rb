@@ -215,7 +215,7 @@ module MockApi
         :target_asset => [:tube],
         :child => [:plate,:tube],
         :target => [:plate,:tube],
-        :template => [:tag_layout_template,:plate]
+        :template => [:tag_layout_template,:plate,:tag2_layout_template]
       }
     end
 

@@ -53,7 +53,7 @@
       $("[data-lot-uuid] button[value=fail]").each(function(pos, n) { n.click();});
     });
 
-    $("#gk-new-qc-decision-page").on("ajax:success", $.bind(function(e, data, status, xhr) {
+    $("#gk-new-qc-decision-page").on("ajax:success", function(e, data, status, xhr) {
       if (typeof data.error !== 'undefined') {
         this.handleError(data);
       } else {
@@ -64,7 +64,7 @@
       if (typeof data.error !== 'undefined') {
         this.handleError(data);
       }
-    }, this), this));
+    }, this), this);
   };
 
   $(document).ready(function() {

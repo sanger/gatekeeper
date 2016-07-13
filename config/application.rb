@@ -54,12 +54,16 @@ module Gatekeeper
       'Pre Stamped Tag Plate'
     ]
 
+    # When configuring multiple_tag2_conversion
+    # steps, the recieving plate (The target)
+    # MUST be configured as sibling
+
     config.purpose_handlers = {
       'Tag 2 Tube' => {
-        :with    => 'multiple_tag2_conversion',
-        :as      => 'source',
-        :sibling => 'Reporter Plate',
-        :sibling2 => 'Tag Plate'
+        :with     => 'multiple_tag2_conversion',
+        :as       => 'secondary',
+        :sibling2 => 'Reporter Plate',
+        :sibling  => 'Tag Plate'
       },
       'Tag Plate' => {
         :with    => 'plate_conversion',

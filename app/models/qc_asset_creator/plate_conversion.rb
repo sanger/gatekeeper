@@ -53,8 +53,8 @@ module QcAssetCreator::PlateConversion
     raise QcAssetCreator::QcAssetException, 'The type of plate or tube requested is not suitable.' unless valid_children.include?(purpose)
     errors = []
     errors << "The asset being QCed should be '#{Gatekeeper::Application.config.qcable_state}'." unless @asset.qcable?
-    errors << "The asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling.qced?
-    errors << "#{@sibling.purpose.name} plates can't be used to test #{@asset.purpose.name} plates." unless compatible_siblings?
+    errors << "The #{expected_sibling} asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling.qced?
+    errors << "#{@sibling.purpose.name} plates can't be used to test #{@asset.purpose.name} plates, please use a #{expected_sibling}." unless compatible_siblings?
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
     true
   end
@@ -82,7 +82,11 @@ module QcAssetCreator::PlateConversion
   end
 
   def compatible_siblings?
-    Settings.purposes[@asset.purpose.uuid].sibling == @sibling.purpose.name
+    expected_sibling == @sibling.purpose.name
+  end
+
+  def expected_sibling
+    Settings.purposes[@asset.purpose.uuid].sibling
   end
 
   def target_barcode

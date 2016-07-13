@@ -530,4 +530,138 @@ class QcAssetsControllerTest < ActionController::TestCase
     end
   end
 
+  test "create convert tag2" do
+
+    tag_plate = '11111111-2222-3333-4444-300000000008'
+    reporter_plate = '11111111-2222-3333-4444-100000000011'
+    tag2_tube_1 = '11111111-2222-3333-4444-800000000008'
+    tag2_tube_2 = '11111111-2222-3333-4444-900000000008'
+    tag2_qc_1 = '11111111-2222-3333-4444-200000000011'
+    tag2_qc_2 = '11111111-2222-3333-4444-200000000012'
+    find_assets_by_barcode = 'e7d2fec0-956f-11e3-8255-44fb42fffecc'
+    user = '11111111-2222-3333-4444-555555555555'
+    qcable_tag_plate      = '11111111-2222-3333-4444-100000000007'
+    flip_plate_template = '58b72440-ab69-11e3-bb8f-44fb42fffecc'
+    child_purpose = '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
+    find_qcables_by_barcode = '689a48a0-9d46-11e3-8fed-44fb42fffeff'
+
+    api.asset.with_uuid(tag_plate).class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+      def state; 'available'; end
+    end
+    api.asset.with_uuid(reporter_plate).class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+      def state; 'available'; end
+    end
+    api.asset.with_uuid(tag2_tube_1).class_eval do
+      include Gatekeeper::Tube::ModelExtensions
+      include StateExtensions
+    end
+    api.asset.with_uuid(tag2_tube_2).class_eval do
+      include Gatekeeper::Tube::ModelExtensions
+      include StateExtensions
+    end
+    api.qcable.with_uuid(tag2_qc_1).class_eval do
+      include Gatekeeper::Tube::ModelExtensions
+      include StateExtensions
+    end
+    api.qcable.with_uuid(tag2_qc_2).class_eval do
+      include Gatekeeper::Tube::ModelExtensions
+      include StateExtensions
+    end
+    api.plate.with_uuid('11111111-2222-3333-4444-500000000008').class_eval do
+      include Gatekeeper::Plate::ModelExtensions
+      include StateExtensions
+    end
+
+    api.search.with_uuid(find_assets_by_barcode).
+      expects(:first).
+      with(:barcode => '122000000867').
+      returns(api.plate.with_uuid(tag_plate))
+    api.search.with_uuid(find_assets_by_barcode).
+      expects(:first).
+      with(:barcode => '122000001174').
+      returns(api.plate.with_uuid(reporter_plate))
+
+    api.search.with_uuid(find_qcables_by_barcode).
+      expects(:all).
+      with(Gatekeeper::Qcable, :barcode => ['3980000037732','3980000037733']).
+      returns([api.qcable.with_uuid(tag2_qc_1),api.qcable.with_uuid(tag2_qc_2)])
+    api.search.with_uuid(find_qcables_by_barcode).
+      stubs(:first).
+      with(:barcode => '122000000867').
+      returns(api.qcable.with_uuid(qcable_tag_plate))
+
+    # Would be nice to get rid of this
+    api.search.with_uuid(find_assets_by_barcode).
+      expects(:first).
+      with(:barcode => '3980000037732').
+      returns(api.tube.with_uuid(tag2_tube_1))
+
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => user,
+        :target => reporter_plate,
+        :target_state => 'exhausted',
+        :reason => 'Used to QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
+    api.state_change.expect_create_with(
+      :received =>{
+        :user => user,
+        :target => tag_plate,
+        :target_state => 'exhausted',
+        :reason => 'Used to QC'
+        },
+        :returns=>'55555555-6666-7777-8888-000000000003')
+
+    api.plate_conversion.expect_create_with(
+      :received => {
+          :target => tag_plate,
+          :purpose => child_purpose,
+          :user => user
+        },
+      :returns => '11111111-2222-3333-4444-340000000008'
+      )
+    api.transfer_template.with_uuid(flip_plate_template).expects(:create!).with(
+      :source      => reporter_plate,
+      :destination => tag_plate,
+      :user        => user
+    )
+    api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
+      :user        => user,
+      :plate => tag_plate,
+      :substitutions => {}
+    )
+    api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
+      :user        => user,
+      :plate => tag_plate,
+      :source => tag2_tube_1,
+      :column => '1'
+    )
+    api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
+      :user        => user,
+      :plate => tag_plate,
+      :source => tag2_tube_2,
+      :column => '4'
+    )
+
+    @request.headers["Accept"] = "application/json"
+
+    post :create, {
+      :user_swipecard => 'abcdef',
+      :asset_barcode  => '3980000037732',
+      :tag2_tube      => {"1"=>"3980000037732", "2"=>"", "3"=>"", "4"=>"3980000037733", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"", "10"=>"", "11"=>"", "12"=>""},
+      :purpose        => child_purpose,
+      :sibling        => '122000001174',
+      :sibling2       => '122000000867',
+      :template       => flip_plate_template
+    }
+
+    assert_equal nil, flash[:danger]
+    assert_redirected_to :controller=> :plates, :action => :show, :id=> '11111111-2222-3333-4444-500000000008'
+  end
+
 end

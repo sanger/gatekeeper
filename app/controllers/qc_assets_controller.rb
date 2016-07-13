@@ -1,5 +1,7 @@
 ##
 # Create QC Tubes
+
+require 'pry'
 class QcAssetsController < ApplicationController
 
   before_filter :find_user, :except => [:new,:search]
@@ -19,11 +21,7 @@ class QcAssetsController < ApplicationController
 
   def tag2_tubes_barcodes
     return nil unless params[:tag2_tube]
-    barcodes = []
-    12.times do |pos|
-      barcodes.push(params[:tag2_tube][pos.to_s])
-    end
-    barcodes
+    params[:tag2_tube].reject {|index,barcode| barcode.blank? }
   end
 
   def create
