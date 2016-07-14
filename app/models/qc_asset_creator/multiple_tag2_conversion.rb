@@ -24,30 +24,14 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   ##
-  # Actually converts the target plate to the specified purpose
-  def asset_create
-    api.plate_conversion.create!(
-      :target => target,
-      :purpose => @purpose,
-      :user => @user.uuid,
-    ).target
-  end
-
-  ##
   # Transfers the source plate into the target plate
   # The child is ignored (Although it should be the same as the target plate)
+  # Applies tags
+  # Applies tag2s
   def asset_transfer(_)
-    transfer_template.create!(
-      :source => source,
-      :destination => target,
-      :user => @user.uuid
-    )
 
-    api.tag_layout_template.find(tag_template).create!(
-      :user => @user.uuid,
-      :plate => target,
-      :substitutions => {}
-    )
+    super
+
     each_tag2_template_with_tube_and_column do |tag2_template, tag2_tube, column|
       api.tag2_layout_template.find(tag2_template).create!(
         :user => @user.uuid,
@@ -60,7 +44,6 @@ module QcAssetCreator::MultipleTag2Conversion
 
   ##
   # Raises QcAssetException if the asset is the wrong type, or is in the wrong state
-  # We don't bother checking state if the type is wrong
   def validate!
     errors = []
     errors << "The #{expected_sibling} asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling.qced?
@@ -76,20 +59,12 @@ module QcAssetCreator::MultipleTag2Conversion
 
   private
 
-  def target
-    @sibling.uuid
+  def target_asset
+    @sibling
   end
 
-  def source
-    @sibling2.uuid
-  end
-
-  def target_purpose
-    @sibling.purpose.uuid
-  end
-
-  def tag_template
-    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => sibling.barcode.ean13).lot.template.uuid
+  def source_asset
+    @sibling2
   end
 
   def compatible_sibling2s?

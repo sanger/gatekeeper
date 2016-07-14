@@ -6,9 +6,15 @@ module QcAssetCreator::QaPlateConversion
   include QcAssetCreator::PlateConversion
 
   ##
-  # Ensures no update of the state is performed
+  # Ensures no update of the @asset state is performed
+  # The @sibling still gets updated
   def asset_update_state
-    # No updates
+    api.state_change.create!(
+      :user => @user.uuid,
+      :target => @sibling.uuid,
+      :reason => 'Used to QC',
+      :target_state => Gatekeeper::Application.config.used_state
+    )
   end
 
   ##

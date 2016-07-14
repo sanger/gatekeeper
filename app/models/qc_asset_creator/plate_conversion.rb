@@ -33,6 +33,7 @@ module QcAssetCreator::PlateConversion
   ##
   # Transfers the source plate into the target plate
   # The child is ignored (Although it should be the same as the target plate)
+  # Applies tags
   def asset_transfer(_)
     transfer_template.create!(
       :source => source,
@@ -48,33 +49,44 @@ module QcAssetCreator::PlateConversion
 
   ##
   # Raises QcAssetException if the asset is the wrong type, or is in the wrong state
-  # We don't bother checking state if the type is wrong
   def validate!
-    raise QcAssetCreator::QcAssetException, 'The type of plate or tube requested is not suitable.' unless valid_children.include?(purpose)
     errors = []
     errors << "The asset being QCed should be '#{Gatekeeper::Application.config.qcable_state}'." unless @asset.qcable?
     errors << "The #{expected_sibling} asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling.qced?
     errors << "#{@sibling.purpose.name} plates can't be used to test #{@asset.purpose.name} plates, please use a #{expected_sibling}." unless compatible_siblings?
+    errors << 'The type of plate or tube requested is not suitable.' unless errors.present? || valid_children.include?(purpose)
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
     true
   end
 
   private
 
+  # Returns true if the config indicates that @asset is a 'target'
+  # targets receive material from sources
+  def asset_target
+    Settings.purposes.has_key?(@asset.purpose.uuid) && Settings.purposes[@asset.purpose.uuid].as == 'target'
+  end
+
+  # Returns the target asset for the conversion
+  def target_asset
+    asset_target ? @asset : @sibling
+  end
+
+  # Returns the source asset for the conversion
+  def source_asset
+    asset_target ? @sibling : @asset
+  end
+
   def target
-    asset_target ? @asset.uuid : @sibling.uuid
+    target_asset.uuid
   end
 
   def source
-    !asset_target ? @asset.uuid : @sibling.uuid
+    source_asset.uuid
   end
 
   def target_purpose
-    asset_target ? @asset.purpose.uuid : @sibling.purpose.uuid
-  end
-
-  def asset_target
-    Settings.purposes.has_key?(@asset.purpose.uuid) && Settings.purposes[@asset.purpose.uuid].as == 'target'
+    target_asset.purpose.uuid
   end
 
   def valid_children
@@ -90,7 +102,7 @@ module QcAssetCreator::PlateConversion
   end
 
   def target_barcode
-    asset_target ? @asset.barcode.ean13 : @sibling.barcode.ean13
+    target_asset.barcode.ean13
   end
 
   def tag_template
