@@ -1,7 +1,6 @@
 ##
 # Create QC Tubes
 
-require 'pry'
 class QcAssetsController < ApplicationController
 
   before_filter :find_user, :except => [:new,:search]
