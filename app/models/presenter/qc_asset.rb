@@ -80,7 +80,7 @@ class Presenter::QcAsset
   end
 
   def own_child_purpose
-    return nil if own_purpose_config.as == 'source'
+    return nil if ['source','secondary'].include?(own_purpose_config.as)
     own_purpose_config.children
   end
 

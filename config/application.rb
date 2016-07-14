@@ -62,6 +62,7 @@ module Gatekeeper
       'Tag 2 Tube' => {
         :with     => 'multiple_tag2_conversion',
         :sibling2 => 'Reporter Plate',
+        :as       => 'secondary',
         :sibling  => 'Tag Plate'
       },
       'Tag Plate' => {
