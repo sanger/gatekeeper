@@ -101,7 +101,7 @@ module Gatekeeper
 
     config.default_purpose_handler = {
       :with    => 'plate_conversion_to_default',
-      :name    => 'QA Plate',
+      :child_name    => 'QA Plate',
       :as      => 'target'
     }
 

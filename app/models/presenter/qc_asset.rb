@@ -3,18 +3,6 @@
 # QC pipeline.
 class Presenter::QcAsset
 
-  class DefaultPurpose
-    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type, :sibling2
-    def initialize(default_purpose)
-      @uuid       = default_purpose[:uuid]
-      @name       = default_purpose[:name]
-      @with       = default_purpose[:with]
-      @as         = default_purpose[:as]
-      @type       = default_purpose[:type]
-      @children   = [uuid].compact
-    end
-  end
-
   attr_reader :asset
 
   def initialize(record)
@@ -82,7 +70,7 @@ class Presenter::QcAsset
   end
 
   def purpose_config_of_uuid(uuid)
-    Settings.purposes[uuid] || DefaultPurpose.new(Settings.default_purpose)
+    Settings.purposes[uuid] || Settings.default_purpose
   end
 
   ##

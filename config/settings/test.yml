@@ -38,9 +38,10 @@
     :qcable_name: Reporter Plate
 :default_purpose:
   :with: plate_conversion_to_default
-  :name: QA Plate
+  :child_name: QA Plate
   :as: target
-  :uuid: 411f8b70-e1fd-11e5-a20c-44fb42fffe72
+  :children:
+  - 411f8b70-e1fd-11e5-a20c-44fb42fffe72
   :type: plate
 :purposes:
   ee0154e0-956f-11e3-8255-44fb42fffecc:
@@ -95,6 +96,13 @@
     :with: multiple_tag2_conversion
     :sibling: Tag Plate
     :sibling2: Reporter Plate
+  411f8b70-e1fd-11e5-a20c-44fb42fffe72:
+    :name: QA Plate
+    :children: []
+    :type: plate
+    :with: qa_plate_conversion
+    :as: source
+    :sibling: Tag Plate
 :transfer_templates:
   Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
   Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc
