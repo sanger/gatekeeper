@@ -61,11 +61,11 @@ class QcAssetsController < ApplicationController
   end
 
   def find_sibling_from_barcode
-    @sibling = find_from_barcode(params[:sibling])
+    @sibling = find_from_barcode(params[:sibling]) if params[:sibling].present?
   end
 
   def find_sibling2_from_barcode
-    @sibling2 = find_from_barcode(params[:sibling2])
+    @sibling2 = find_from_barcode(params[:sibling2]) if params[:sibling2].present?
   end
 
   def find_from_barcode(barcode)
