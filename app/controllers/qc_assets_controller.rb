@@ -5,6 +5,8 @@ class QcAssetsController < ApplicationController
 
   before_filter :find_user, :except => [:new,:search]
   before_filter :find_asset_from_barcode, :only => [:search,:create]
+  before_filter :find_sibling_from_barcode, :only => [:create]
+  before_filter :find_sibling2_from_barcode, :only => [:create]
 
   before_filter :validate_parameters, :only => [:create]
 
@@ -30,8 +32,8 @@ class QcAssetsController < ApplicationController
         :asset    => @asset,
         :user     => @user,
         :purpose  => params[:purpose],
-        :sibling  => find_sibling_from_barcode,
-        :sibling2 => find_sibling2_from_barcode,
+        :sibling  => @sibling,
+        :sibling2 => @sibling2,
         :template => params[:template],
         :tag2_tubes_barcodes => tag2_tubes_barcodes
       ).create!
@@ -59,11 +61,11 @@ class QcAssetsController < ApplicationController
   end
 
   def find_sibling_from_barcode
-    find_from_barcode(params[:sibling]) if params[:sibling].present?
+    @sibling = find_from_barcode(params[:sibling])
   end
 
   def find_sibling2_from_barcode
-    find_from_barcode(params[:sibling2]) if params[:sibling2].present?
+    @sibling2 = find_from_barcode(params[:sibling2])
   end
 
   def find_from_barcode(barcode)
