@@ -32,4 +32,19 @@ module ApplicationHelper
     end
   end
 
+  def well_location_plate_letter_range_for(dim_x, dim_y)
+    return range = ('A'..'H') if dim_y==8
+    first_letter = 'A'
+    last_letter = (first_letter.ord + (dim_y-1)).chr
+    (first_letter..last_letter)
+  end
+
+  def well_location_for(pos, dim_x=12, dim_y=8)
+    return nil if (pos >= (dim_x * dim_y))
+    return nil if pos < 0
+    l=well_location_plate_letter_range_for(dim_x, dim_y).to_a[pos%dim_y]
+    v=(pos/dim_y)+1
+    l+v.to_s
+  end
+
 end

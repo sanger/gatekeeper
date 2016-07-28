@@ -20,9 +20,9 @@ class QcAssetsController < ApplicationController
     render(:json=>@presenter.output,:root=>true)
   end
 
-  def tag2_tubes_barcodes
+  def tag2_tubes
     return nil unless params[:tag2_tube]
-    params[:tag2_tube].reject {|index,barcode| barcode.blank? }
+    params[:tag2_tube].reject {|index,tube| tube[:barcode].blank? }
   end
 
   def create
@@ -35,7 +35,7 @@ class QcAssetsController < ApplicationController
         :sibling  => @sibling,
         :sibling2 => @sibling2,
         :template => params[:template],
-        :tag2_tubes_barcodes => tag2_tubes_barcodes
+        :tag2_tubes => tag2_tubes
       ).create!
     rescue QcAssetCreator::QcAssetException => exception
       @presenter = Presenter::Error.new(exception)

@@ -32,12 +32,12 @@ module QcAssetCreator::MultipleTag2Conversion
 
     super
 
-    each_tag2_template_with_tube_and_column do |tag2_template, tag2_tube, column|
+    each_tag2_template_with_tube_and_locations do |tag2_template, tag2_tube, target_well_locations|
       api.tag2_layout_template.find(tag2_template).create!(
         :user => @user.uuid,
         :plate => target,
         :source => tag2_tube,
-        :column => column
+        :target_well_locations => target_well_locations
       )
     end
   end
@@ -84,10 +84,10 @@ module QcAssetCreator::MultipleTag2Conversion
       end
   end
 
-  def each_tag2_template_with_tube_and_column
+  def each_tag2_template_with_tube_and_locations
     tag2_tubes_barcodes.each do |index, barcode|
       qcable = tag2_qcables[barcode]
-      yield qcable.lot.template.uuid, qcable.asset.uuid, index
+      yield qcable.lot.template.uuid, qcable.asset.uuid, tag2_locations_for_barcode(barcode)
     end
   end
 
