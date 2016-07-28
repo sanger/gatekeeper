@@ -639,13 +639,13 @@ class QcAssetsControllerTest < ActionController::TestCase
       :user        => user,
       :plate => tag_plate,
       :source => tag2_tube_1,
-      :column => '1'
+      :target_well_locations => {"0" => "A1", "1" => "A3"}
     )
     api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
       :user        => user,
       :plate => tag_plate,
       :source => tag2_tube_2,
-      :column => '4'
+      :target_well_locations => {"0" => "D1", "1" => "D3"}
     )
 
     @request.headers["Accept"] = "application/json"
@@ -653,7 +653,24 @@ class QcAssetsControllerTest < ActionController::TestCase
     post :create, {
       :user_swipecard => 'abcdef',
       :asset_barcode  => '3980000037732',
-      :tag2_tube      => {"1"=>"3980000037732", "2"=>"", "3"=>"", "4"=>"3980000037733", "5"=>"", "6"=>"", "7"=>"", "8"=>"", "9"=>"", "10"=>"", "11"=>"", "12"=>""},
+      :tag2_tube      => {
+        "1"=> { :barcode => "3980000037732", :target_well_locations => {"0" => "A1", "1" => "A3"}},
+        "2"=>{},
+        "3"=>{},
+        "4"=> {:barcode => "3980000037733",:target_well_locations => {"0" => "D1", "1" => "D3"}},
+        "5"=>{},
+        "6"=>{},
+        "7"=>{},
+        "8"=>{},
+        "9"=>{},
+        "10"=>{},
+        "11"=>{},
+        "12"=>{},
+        "13"=>{},
+        "14"=>{},
+        "15"=>{},
+        "16"=>{}
+        },
       :purpose        => child_purpose,
       :sibling        => '122000000867',
       :sibling2       => '122000001174',

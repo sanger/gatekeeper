@@ -28,12 +28,14 @@
 
   <h3>Tag 2 Tubes</h3>
 
-  <% 12.times do |pos| %>
+  <% 16.times do |pos| %>
     <div class="form-group">
       <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(Column <%= pos+1 %>) Tag 2 Tube</span> barcode</label>
       <div class="input-group col-sm-6">
         <%= input_glyph('barcode') %>
-        <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan tube barcode" name="tag2_tube[<%= pos + 1 %>]">
+        <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan tube barcode" name="tag2_tube[<%= pos %>][barcode]">
+        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][0]" value="<%= well_location_for(pos) %>" />
+        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][1]" value="<%= well_location_for(pos+8) %>" />
       </div>
     </div>
   <% end %>
