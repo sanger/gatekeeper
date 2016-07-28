@@ -1,15 +1,11 @@
 class QcDecisionsController < ApplicationController
 
+  include BatchLookup
+
   def find_lot_presenter
     @lot_presenter = Presenter::Lot.new(api.lot.find(params[:lot_id]))
   end
 
-
-  def find_lots_for_batch
-    api.search.find(Settings.searches['Find lot by batch id']).all(
-        Sequencescape::Lot,
-        :batch_id => params[:batch_id])
-  end
 
   ##
   # Finds a lot for qcing on the basis of batch id
