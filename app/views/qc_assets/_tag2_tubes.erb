@@ -30,12 +30,14 @@
 
   <% 16.times do |pos| %>
     <div class="form-group">
-      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(Column <%= pos+1 %>) Tag 2 Tube</span> barcode</label>
+      <% location_1 = well_location_for(pos) %>
+      <% location_2 = well_location_for(pos+16) %>
+      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(<%= location_1 %>, <%= location_2 %>) Tag 2 Tube</span> barcode</label>
       <div class="input-group col-sm-6">
         <%= input_glyph('barcode') %>
         <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan tube barcode" name="tag2_tube[<%= pos %>][barcode]">
-        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][0]" value="<%= well_location_for(pos) %>" />
-        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][1]" value="<%= well_location_for(pos+8) %>" />
+        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][0]" value="<%= location_1 %>" />
+        <input type="hidden" name="tag2_tube[<%= pos %>][target_well_locations][1]" value="<%= location_2 %>" />
       </div>
     </div>
   <% end %>
