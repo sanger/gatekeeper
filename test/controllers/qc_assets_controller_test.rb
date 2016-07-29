@@ -639,13 +639,13 @@ class QcAssetsControllerTest < ActionController::TestCase
       :user        => user,
       :plate => tag_plate,
       :source => tag2_tube_1,
-      :target_well_locations => {"0" => "A1", "1" => "A3"}
+      :target_well_locations => ["A1", "A3"]
     )
     api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
       :user        => user,
       :plate => tag_plate,
       :source => tag2_tube_2,
-      :target_well_locations => {"0" => "D1", "1" => "D3"}
+      :target_well_locations => ["D1", "D3"]
     )
 
     @request.headers["Accept"] = "application/json"
