@@ -1,10 +1,13 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActiveSupport::TestCase
-  test "A number position in a plate should represent a string location" do
-    helper = Class.new do
+  setup do
+    @helper = Class.new do
       include ApplicationHelper
     end.new
+  end
+
+  test "A number position in a plate should represent a string location" do
     testing = [
       {:index_pos => 0, :dim_x => 12, :dim_y => 8, :result => 'A1'},
       {:index_pos => 1, :dim_x => 12, :dim_y => 8, :result => 'B1'},
@@ -14,14 +17,22 @@ class ApplicationHelperTest < ActiveSupport::TestCase
       {:index_pos => 9, :dim_x => 12, :dim_y => 8, :result => 'B2'},
       {:index_pos => 7, :dim_x => 12, :dim_y => 8, :result => 'H1'},
       {:index_pos => 95, :dim_x => 12, :dim_y => 8, :result => 'H12'},
-      {:index_pos => 96, :dim_x => 12, :dim_y => 8, :result => nil},
-      {:index_pos => -1, :dim_x => 12, :dim_y => 8, :result => nil},
-      {:index_pos => -120, :dim_x => 12, :dim_y => 8, :result => nil},
-      {:index_pos => 140, :dim_x => 12, :dim_y => 8, :result => nil},
       {:index_pos => 140, :dim_x => 12, :dim_y => 16, :result => 'M9'}
     ]
     testing.each do |r|
-      assert_equal r[:result], helper.well_location_for(r[:index_pos], r[:dim_x], r[:dim_y])
+      assert_equal r[:result], @helper.well_location_for(r[:index_pos], r[:dim_x], r[:dim_y])
     end
   end
+  test "A number position out of range in a plate should throw an exception" do
+    testing=[
+      {:index_pos => 96, :dim_x => 12, :dim_y => 8, :result => nil},
+      {:index_pos => -1, :dim_x => 12, :dim_y => 8, :result => nil},
+      {:index_pos => -120, :dim_x => 12, :dim_y => 8, :result => nil},
+      {:index_pos => 140, :dim_x => 12, :dim_y => 8, :result => nil}
+    ]
+    testing.each do |r|
+      assert_raises (RangeError){@helper.well_location_for(r[:index_pos], r[:dim_x], r[:dim_y])}
+    end
+  end
+
 end

@@ -37,7 +37,7 @@ module QcAssetCreator::MultipleTag2Conversion
         :user => @user.uuid,
         :plate => target,
         :source => tag2_tube,
-        :target_well_locations => target_well_locations
+        :target_well_locations => target_well_locations.values
       )
     end
   end
