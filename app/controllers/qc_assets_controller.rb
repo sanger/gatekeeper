@@ -73,7 +73,7 @@ class QcAssetsController < ApplicationController
       return api.search.find(Settings.searches['Find assets by barcode']).first(:barcode => barcode)
     rescue Sequencescape::Api::ResourceNotFound
       return render(
-        :json=>{'error'=>"Could not find an asset with the barcode #{params[:asset_barcode]}."},
+        :json=>{'error'=>"Could not find an asset with the barcode #{barcode}."},
         :root=>true,
         :status=>404
       )
