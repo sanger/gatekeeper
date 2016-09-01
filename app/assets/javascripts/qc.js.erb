@@ -289,6 +289,11 @@
       return function(response) {
         step.unWait();
         switch(response.status) {
+          case 0:
+            step.addError(
+              ['We could not perform the request due to a network connection problem.',
+              'Please, check network connectivity and ensure you are in the right network to perform the action.'].join(' '));
+            return false;
           case 403:
           case 404:
             if (response.responseJSON !== undefined && response.responseJSON['error'] !== null) {
