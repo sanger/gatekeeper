@@ -15,8 +15,8 @@ gem 'hashie'
 gem 'exception_notification'
 
 gem 'sequencescape-client-api',
-  :github     => 'emrojo/sequencescape-client-api',
-  :branch  => 'ss465_rails_4_track_i5_barcode_oligo_lots_and_do_qc_assay_workflow',
+  :github     => 'sanger/sequencescape-client-api',
+  :branch  => 'rails_4',
   :require => 'sequencescape'
 gem 'sanger_barcode',
   :github => 'sanger/sanger_barcode'
