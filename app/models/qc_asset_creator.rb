@@ -6,12 +6,24 @@ class QcAssetCreator
 
   class QcAssetException < StandardError; end
 
-  attr_reader :api, :purpose, :sibling
+  attr_reader :api, :purpose, :sibling, :sibling2, :tag2_tubes
   ##
   # Receives the parent asset, and composites itself
-  def initialize(api:,asset:,user:,purpose:,sibling: nil,template: nil)
-    @api,@asset,@user,@purpose,@sibling,@template = api,asset,user,purpose,sibling,template
+  def initialize(api:,asset:,user:,purpose:,sibling: nil,template: nil, tag2_tubes:nil, sibling2: nil)
+    @api,@asset,@user,@purpose,@sibling,@template,@tag2_tubes = api,asset,user,purpose,sibling,template,tag2_tubes
+    @sibling2 = sibling2
     self.extend behaviour_module
+  end
+
+  def tag2_locations_for_barcode(barcode)
+    tube = @tag2_tubes.select{|pos, t| t[:barcode]== barcode}
+    info = tube.values[0]
+    info[:target_well_locations]
+  end
+
+  def tag2_tubes_barcodes
+    return nil if @tag2_tubes.nil?
+    Hash[@tag2_tubes.map{|pos, tube| [pos, tube[:barcode]] }]
   end
 
   ##

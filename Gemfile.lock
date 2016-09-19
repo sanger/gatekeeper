@@ -1,7 +1,7 @@
 GIT
-  remote: git://github.com/jamesglover/sequencescape-client-api.git
-  revision: bab41b55b95c8d26b74f56c31be0888be1bb6cdc
-  branch: r4_add_index_tag_layout
+  remote: git://github.com/emrojo/sequencescape-client-api.git
+  revision: 7c530b3cb7ad3d0caeef169e992021ff05da43cd
+  branch: ss465_rails_4_track_i5_barcode_oligo_lots_and_do_qc_assay_workflow
   specs:
     sequencescape-client-api (0.2.2)
       activemodel (~> 4)

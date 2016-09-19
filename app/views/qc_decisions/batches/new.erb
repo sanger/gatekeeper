@@ -1,0 +1,13 @@
+<%= render :partial => 'spinner_template' %>
+<%= render :partial => 'shared/nav' %>
+<div id='gk-new-qc-decision-page' class='gk-page'>
+  <h1>QC Decision for Batch</h1>
+  <div class='col-md-12'>
+    <%= render :partial => 'batches/summary',
+      :layout => :'layouts/section',
+      :locals => {
+        :title => "Batch Summary",
+        :lots => @lots_presenter
+      } %>
+  </div>
+</div>

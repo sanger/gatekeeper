@@ -10,4 +10,10 @@ module StateExtensions
   def qced?
     Gatekeeper::Application.config.qced_state == self.state
   end
+  def stampable?
+    Gatekeeper::Application.config.stampable_state == self.state
+  end
+  def pending?
+    'pending' == self.state
+  end
 end

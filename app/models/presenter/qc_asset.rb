@@ -3,18 +3,6 @@
 # QC pipeline.
 class Presenter::QcAsset
 
-  class DefaultPurpose
-    attr_reader :uuid, :children, :with, :as, :name, :sibling, :printer, :type
-    def initialize(default_purpose)
-      @uuid       = default_purpose[:uuid]
-      @name       = default_purpose[:name]
-      @with       = default_purpose[:with]
-      @as         = default_purpose[:as]
-      @type       = default_purpose[:type]
-      @children   = [uuid].compact
-    end
-  end
-
   attr_reader :asset
 
   def initialize(record)
@@ -51,11 +39,13 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'    => own_purpose_config.with||'plate_creation',
-      'as'      => own_purpose_config.as||'',
-      'sibling' => own_purpose_config.sibling||'',
-      'printer' => own_purpose_config.printer||'plate'
-    }
+      'with'     => own_purpose_config.with||'plate_creation',
+      'as'       => own_purpose_config.as||'',
+      'sibling'  => own_purpose_config.sibling||'',
+      'printer'  => own_purpose_config.printer||'plate'
+    }.tap do |handle|
+      handle['sibling2'] = own_purpose_config.sibling2 if own_purpose_config.sibling2
+    end
   end
 
   ##
@@ -80,7 +70,7 @@ class Presenter::QcAsset
   end
 
   def purpose_config_of_uuid(uuid)
-    Settings.purposes[uuid] || DefaultPurpose.new(Settings.default_purpose)
+    Settings.purposes[uuid] || Settings.default_purpose
   end
 
   ##
@@ -90,7 +80,7 @@ class Presenter::QcAsset
   end
 
   def own_child_purpose
-    return nil if own_purpose_config.as == 'source'
+    return nil if ['source','secondary'].include?(own_purpose_config.as)
     own_purpose_config.children
   end
 

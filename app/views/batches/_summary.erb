@@ -1,0 +1,42 @@
+
+<div class="batch-qc-decisions">
+
+<%= form_tag({:action=>:create},{:class=>'form-horizontal'}) do %>
+<%= render :partial => 'form_elements/user_swipecard' %>
+<hr>
+<div>
+<h4>Actions</h4>
+  <div class="btn-group pull-right">
+    <button class="btn btn-success" type="button" id="batch-release-all-lots">Release All Lots</button>
+    <button class="btn btn-danger"  type="button" id="batch-fail-all-lots">Fail All Lots</button>
+  </div>
+<% end %>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <th>Lot Number</th><th>Lot Type</th><th>Received at</th><th>Pending decisions</th><th class="pull-right">Actions</th>
+  </thead>
+  <tbody>
+    <% lots.each_lot do |lot| %>
+      <tr>
+        <td><a href="<%= new_lot_qc_decision_path(lot) %>"><%= lot.lot_number %></a></td><td><%= lot.lot_type %></td><td><%= lot.received_at %></td><td class="decision"><%= lot.number_pending %></td>
+          <td class="action" data-lot-uuid="<%= lot.uuid %>">
+
+          <% if lot.number_pending > 0 %>
+              <%= form_for(:batches_qc_decisions, :url => {:action => :create}, :remote => true, :data => { :type => :json}) do %>
+                <input type="hidden" name="user_swipecard" />
+                <input type="hidden" name="lot_id" value="<%= lot.uuid %>" />
+                <div class="btn-group pull-right">
+                  <button name="decision" value="release" class="btn btn-success" type="submit" id="all-to-release">Release lot</button>
+                  <button name="decision" value="fail" class="btn btn-danger"  type="submit" id="all-to-fail"   >Fail lot</button>
+                </div>
+              <% end %>
+          <% end %>
+
+          </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>

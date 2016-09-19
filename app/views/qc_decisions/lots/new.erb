@@ -1,14 +1,15 @@
+<%= render :partial => 'spinner_template' %>
 <%= render :partial => 'shared/nav' %>
 <%= form_tag({:action=>:create},{:class=>'form-horizontal'}) do %>
 <div id='gk-new-qc-decision-page' class='gk-page'>
-  <h1>QC Decision</h1>
+  <h1>QC Decision for Lot</h1>
   <h2><%= @lot_presenter.lot_type %> Plate</h2>
   <div class='col-md-6'>
     <%= render :partial => 'lots/summary', :layout => :'layouts/section', :locals => {:title => "Lot Summary", :lot=>@lot_presenter} %>
   </div><div class='col-md-6'>
-    <%= render :partial => 'qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :lot=>@lot_presenter} %>
+    <%= render :partial => 'qc_decisions/qc_plates', :layout => :'layouts/section', :locals => {:title => "QC Plates", :presenter=>@lot_presenter} %>
   </div><div class='col-md-12'>
-    <%= render :partial => 'pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :lot => @lot_presenter} %>
+    <%= render :partial => 'qc_decisions/pending_plates', :layout => :'layouts/section', :locals => {:title => "Pending Plates", :presenter => @lot_presenter} %>
   </div>
 </div>
 <% end %>

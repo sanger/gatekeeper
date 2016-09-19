@@ -6,9 +6,9 @@
   // Basic Error Handling
   otherError = function(response) {
     var message,text;
-    message = $('.hidden .unknown-error').clone()
-    text = (response.responseJSON||[])["error"]||message.children('.critical-error-message').text
-    message.children('.critical-error-message').text(text)
+    message = $('.hidden .unknown-error').clone();
+    text = (response.responseJSON||[])["error"]||message.children('.critical-error-message').text();
+    message.children('.critical-error-message').text(text);
     $('#flash-holder').append(message);
   };
   /* TODO: Inheritance */
@@ -129,6 +129,17 @@
     setPurpose: function(purpose) {
       this.element.find('.purpose').text(purpose);
     },
+    createMultipleTag2TubeInterface: function() {
+      var multipleTag = $('.hidden .multiple-tag2-tube-interface').clone();
+      multipleTag.find('.sibling-purpose').text(this.asset.handle.sibling);
+      multipleTag.find('.sibling2-purpose').text(this.asset.handle.sibling2);
+      this.element.find('.conversion-interface-receiver').append(multipleTag);
+      this.element.find('.conversion-interface-receiver').prev().hide();
+      var firstTube = $("input[name='tag2_tube[1]']");
+      firstTube.val($("input[name=asset_barcode]").val());
+      firstTube.attr('disabled', true);
+      this.createConversionInterfaceToDefault();
+    },
     createHandler: function() {
       switch(this.asset.handle.with) {
         case 'completed':
@@ -138,6 +149,10 @@
         case 'qa_plate_conversion':
         case 'plate_conversion':
           this.createConversionInterface();
+          this.createOperationButton('Create');
+          break;
+        case 'multiple_tag2_conversion':
+          this.createMultipleTag2TubeInterface();
           this.createOperationButton('Create');
           break;
         case 'plate_conversion_to_default':
@@ -205,9 +220,6 @@
       if ((this.asset.handle.with==='plate_conversion') && (this.asset.state !== this.qcablestate)) {
         this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
       };
-      if ((this.asset.handle.with==='qa_plate_conversion') && (this.asset.state !== this.qcablestate)) {
-        this.addError('This '+this.asset.purpose+' is '+this.asset.state+'. Only '+this.qcablestate+' plates can be QCed.')
-      };
       return this.valid;
     },
     addError: function(message) {
@@ -243,6 +255,7 @@
         addClass('btn-warning').
         text('Creating...').
         attr('disabled','disabled');
+      this.feedback(''); // Wipe feedback to avoid confusion
     },
     unWait: function() {
       this.button.removeClass('btn-warning').
@@ -276,6 +289,11 @@
       return function(response) {
         step.unWait();
         switch(response.status) {
+          case 0:
+            step.addError(
+              ['We could not perform the request due to a network connection problem.',
+              'Please, check network connectivity and ensure you are in the right network to perform the action.'].join(' '));
+            return false;
           case 403:
           case 404:
             if (response.responseJSON !== undefined && response.responseJSON['error'] !== null) {

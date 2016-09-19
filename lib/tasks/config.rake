@@ -71,9 +71,9 @@ namespace :config do
         raise 'No default purpose configuration specified.' if Gatekeeper::Application.config.default_purpose_handler.nil?
         api.plate_purpose.all.each do |plate_purpose|
           # Loads the default purpose info
-          if Gatekeeper::Application.config.default_purpose_handler[:name].include?(plate_purpose.name)
+          if Gatekeeper::Application.config.default_purpose_handler[:child_name] == plate_purpose.name
             configuration[:default_purpose] = Gatekeeper::Application.config.default_purpose_handler.merge({
-              :uuid => plate_purpose.uuid,
+              :children => [ plate_purpose.uuid ],
               :type => 'plate'
             })
           end
