@@ -80,6 +80,14 @@ class Presenter::Lot
     (@active||=state) == state ? 'active' : ''
   end
 
+  def pending_qcable_uuids
+    @pending_qcable_uuids ||= @lot.pending_qcable_uuids
+  end
+
+  def number_pending
+    pending_qcable_uuids.count
+  end
+
   private
 
   def state_index(state)

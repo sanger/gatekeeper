@@ -4,7 +4,7 @@
   <p>Below is a list of the QC places created for this lot for which a QC decision is outstanding.
      To avoid making a decision on a given asset, select <em>no decision</em>. You will be able to make a decision later.</p>
 </div>
-<% @lot_presenter.each_plate_in('qc_in_progress') do |plate| -%>
+<% presenter.each_plate_in('qc_in_progress') do |plate| -%>
   <div class="form-group">
     <label for="decisions[<%= plate.uuid %>]" class="col-sm-5 control-label"><%= plate.barcode %></label>
     <div class="input-group col-sm-6">

@@ -24,7 +24,8 @@ class BarcodeSheet
   end
 
   def print!
-    service.print_labels(barcodes,printer_name,printer_layout)
+    service.print_labels(barcodes,printer_name,printer_layout) unless ENV['STUB_PRINTING']
+    true
   end
 
 end

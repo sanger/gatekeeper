@@ -28,6 +28,7 @@ class Presenter::Qcable
   def uuid
     @qcable.uuid
   end
+
   alias_method :id, :uuid
 
 end

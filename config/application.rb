@@ -46,6 +46,7 @@ module Gatekeeper
       'Tag Plate',
       'Reporter Plate',
       'QA Plate',
+      'Tag 2 Tube',
       'Tag PCR',
       'Tag PCR-XP',
       'Tag Stock-MX',
@@ -53,7 +54,17 @@ module Gatekeeper
       'Pre Stamped Tag Plate'
     ]
 
+    # When configuring multiple_tag2_conversion
+    # steps, the recieving plate (The target)
+    # MUST be configured as sibling
+
     config.purpose_handlers = {
+      'Tag 2 Tube' => {
+        :with     => 'multiple_tag2_conversion',
+        :sibling2 => 'Reporter Plate',
+        :as       => 'secondary',
+        :sibling  => 'Tag Plate'
+      },
       'Tag Plate' => {
         :with    => 'plate_conversion',
         :as      => 'target',
@@ -91,7 +102,7 @@ module Gatekeeper
 
     config.default_purpose_handler = {
       :with    => 'plate_conversion_to_default',
-      :name    => 'QA Plate',
+      :child_name    => 'QA Plate',
       :as      => 'target'
     }
 
@@ -103,7 +114,7 @@ module Gatekeeper
     config.request_options = {
       "read_length" => 25,
       "fragment_size_required" => {
-        "from" => 0,
+        "from" => 1,
         "to"   => 100
       },
       "library_type" => "QA1"
