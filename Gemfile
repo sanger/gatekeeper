@@ -27,6 +27,7 @@ end
 
 group :deployment do
   gem "psd_logger", :github => "sanger/psd_logger"
+  gem 'yard', require: false
 end
 
 group :test do
