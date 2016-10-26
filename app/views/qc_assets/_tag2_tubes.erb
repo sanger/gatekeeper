@@ -32,7 +32,7 @@
     <div class="form-group">
       <% location_1 = well_location_for(pos) %>
       <% location_2 = well_location_for(pos+16) %>
-      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(<%= location_1 %>, <%= location_2 %>) Tag 2 Tube</span> barcode</label>
+      <label for="sibling" class="col-sm-5 control-label"><span class="purpose">(<%= location_1 %>, <%= location_2 %>) Tag 2 Tube</span> barcode - Tag <%= pos+1%> </label>
       <div class="input-group col-sm-6">
         <%= input_glyph('barcode') %>
         <input type="text" class="form-control sibling-ean13 form-control-dis" placeholder="Scan tube barcode" name="tag2_tube[<%= pos %>][barcode]">
