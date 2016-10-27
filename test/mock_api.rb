@@ -59,11 +59,11 @@ module MockApi
       def initialize(parent,resource_name,records)
         @rname = resource_name
         @parent = parent
-        if records.is_a?(Array)
-          @records = records.map {|uuid| Record.from_registry(resource_name,uuid)}
-        else
-          @records = Record.from_registry(resource_name,records)
-        end
+        @records = if records.is_a?(Array)
+                     records.map {|uuid| Record.from_registry(resource_name,uuid)}
+                   else
+                     Record.from_registry(resource_name,records)
+                   end
       end
 
       ##

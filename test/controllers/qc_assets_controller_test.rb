@@ -636,7 +636,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.bulk_transfer.expects(:create!).with(
       :source      => reporter_plate,
       :user        => user,
-      :well_transfers => ['A1','A3','D1','D3'].map do |well|
+      :well_transfers => %w(A1 A3 D1 D3).map do |well|
         {
           "source_uuid" => reporter_plate,
           "source_location" => well,

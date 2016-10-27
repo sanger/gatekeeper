@@ -91,16 +91,16 @@ class Presenter::Lot
   private
 
   def state_index(state)
-    [
-      'created',
-      'qc_in_progress',
-      'failed',
-      'destroyed',
-      'passed',
-      'exhausted',
-      'pending',
-      'available'
-     ].index(state)
+    %w(
+      created
+      qc_in_progress
+      failed
+      destroyed
+      passed
+      exhausted
+      pending
+      available
+     ).index(state)
   end
 
   def sorted_qcables
