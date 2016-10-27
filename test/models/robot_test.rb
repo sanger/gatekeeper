@@ -88,8 +88,8 @@ class RobotTest < ActiveSupport::TestCase
     assert_equal 'Plates can only be located on one bed. Check for duplicates', message
   end
 
-  test "validate duplicate beds detected" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000002810'=>@plate_b})
+  test "validate missing beds detected" do
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a})
     assert_equal false, valid
     assert_equal 'Bed 3 should not be empty. 580000003824', message
   end
