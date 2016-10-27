@@ -576,19 +576,25 @@ class QcAssetsControllerTest < ActionController::TestCase
       include StateExtensions
     end
 
+    # Looks up the tag plate
     api.search.with_uuid(find_assets_by_barcode).
       expects(:first).
       with(:barcode => '122000000867').
       returns(api.plate.with_uuid(tag_plate))
+
+    # Looks up the reporter_plate
     api.search.with_uuid(find_assets_by_barcode).
       expects(:first).
       with(:barcode => '122000001174').
       returns(api.plate.with_uuid(reporter_plate))
 
+    # Looks up the qcables (in one go)
     api.search.with_uuid(find_qcables_by_barcode).
       expects(:all).
       with(Gatekeeper::Qcable, :barcode => ['3980000037732','3980000037733']).
       returns([api.qcable.with_uuid(tag2_qc_1),api.qcable.with_uuid(tag2_qc_2)])
+
+    # Looks up the tag plate again?
     api.search.with_uuid(find_qcables_by_barcode).
       stubs(:first).
       with(:barcode => '122000000867').
@@ -625,10 +631,19 @@ class QcAssetsControllerTest < ActionController::TestCase
         },
       :returns => '11111111-2222-3333-4444-340000000008'
       )
-    api.transfer_template.with_uuid(flip_plate_template).expects(:create!).with(
+
+    # Transfer only the relevant wells
+    api.bulk_transfer.expects(:create!).with(
       :source      => reporter_plate,
-      :destination => tag_plate,
-      :user        => user
+      :user        => user,
+      :well_transfers => ['A1','A3','D1','D3'].map do |well|
+        {
+          "source_uuid" => reporter_plate,
+          "source_location" => well,
+          "destination_uuid" => tag_plate,
+          "destination_location" => well
+        }
+      end
     )
     api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
       :user        => user,

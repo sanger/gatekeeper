@@ -152,8 +152,6 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         }}}, present.output)
   end
 
-
-
   test "validate final tube" do
     present = Presenter::QcAsset.new(api.asset.with_uuid('11111111-2222-3333-4444-700000000008'))
 

@@ -15,17 +15,6 @@ class QcAssetCreator
     self.extend behaviour_module
   end
 
-  def tag2_locations_for_barcode(barcode)
-    tube = @tag2_tubes.select{|pos, t| t[:barcode]== barcode}
-    info = tube.values[0]
-    info[:target_well_locations]
-  end
-
-  def tag2_tubes_barcodes
-    return nil if @tag2_tubes.nil?
-    Hash[@tag2_tubes.map{|pos, tube| [pos, tube[:barcode]] }]
-  end
-
   ##
   # Calls the appropriate api calls and returns the newly created asset
   def create!
@@ -36,6 +25,9 @@ class QcAssetCreator
     end
   end
 
+  private
+
+  # Default state update implimentation
   def asset_update_state
     api.state_change.create!(
       :user => @user.uuid,
@@ -44,15 +36,17 @@ class QcAssetCreator
     )
   end
 
+  # Impliment asset_create in the behaviour module to handle creation
+  # Creates the next asset in the pipeline if appropriate, or performs
+  # eg. plate conversion if no new asset is required
   def asset_create
     raise StandardError, 'Create not yet implemented for this asset!'
   end
 
+  # Impliment asset_transfer in the behaviour module to handle transfer
   def asset_transfer
     raise StandardError, 'Transfer not yet implemented for this asset!'
   end
-
-  private
 
   ##
   # Determines which module to extend with
@@ -68,13 +62,13 @@ class QcAssetCreator
     return "QcAssetCreator::#{behaviour_module_name.classify}".constantize
   end
 
-
   ##
   # Determines which transfer template to use
   def transfer_template
     api.transfer_template.find(@template||default_template)
   end
 
+  # The default transfer is an entire plate stamp
   def default_template
     Settings.transfer_templates['Transfer columns 1-12']
   end
