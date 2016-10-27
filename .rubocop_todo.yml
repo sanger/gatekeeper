@@ -17,12 +17,6 @@ Lint/ShadowingOuterLocalVariable:
     - 'app/controllers/stamps_controller.rb'
     - 'app/models/presenter/lot.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/UnneededSplatExpansion:
-  Exclude:
-    - 'config/initializers/settings.rb'
-
 # Offense count: 8
 # Cop supports --auto-correct.
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
