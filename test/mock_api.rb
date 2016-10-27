@@ -106,11 +106,11 @@ module MockApi
 
       def method_missing(method_name,*args,&block)
         return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
-        lookup_association(method_name)||super
+        lookup_association(method_name) || super
       end
 
       def respond_to?(method_name,pv=false)
-        return true if @record[:attributes].has_key?(method_name)||
+        return true if @record[:attributes].has_key?(method_name) ||
           (@record[:associations].present? && @record[:associations].has_key?(method_name))
         super
       end
@@ -142,7 +142,7 @@ module MockApi
       def lookup_association(assn)
         return nil if @record[:associations].nil?
         return nil unless @record[:associations].has_key?(assn)
-        association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn]||[])
+        association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn] || [])
       end
     end
 
@@ -220,7 +220,7 @@ module MockApi
     end
 
     def ralias(resource)
-      aliases[resource]||[resource]
+      aliases[resource] || [resource]
     end
 
     def find(resource,uuid)

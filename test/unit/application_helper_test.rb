@@ -24,7 +24,7 @@ class ApplicationHelperTest < ActiveSupport::TestCase
     end
   end
   test "A number position out of range in a plate should throw an exception" do
-    testing=[
+    testing = [
       {index_pos: 96, dim_x: 12, dim_y: 8, result: nil},
       {index_pos: -1, dim_x: 12, dim_y: 8, result: nil},
       {index_pos: -120, dim_x: 12, dim_y: 8, result: nil},

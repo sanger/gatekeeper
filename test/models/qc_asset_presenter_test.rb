@@ -32,8 +32,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with' => 'plate_creation',
           'as' => '',
-          'sibling'=>'',
-          'printer'=>'plate'
+          'sibling' => '',
+          'printer' => 'plate'
         }
       }
     },present.output)
@@ -63,7 +63,7 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
           'with'    => 'plate_conversion',
           'as'      => 'target',
           'sibling' => 'Reporter Plate',
-          'printer'=>'plate'
+          'printer' => 'plate'
         }
       }
     }, present.output)
@@ -92,8 +92,8 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
         'handle' => {
           'with'   => 'plate_conversion',
           'as'     => 'source',
-          'sibling'=> 'Tag Plate',
-          'printer'=>'plate'
+          'sibling' => 'Tag Plate',
+          'printer' => 'plate'
         }
       }
     },present.output)
@@ -106,24 +106,24 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
       include Gatekeeper::Plate::ModelExtensions
     end
 
-    assert_equal({"qc_asset"=>{
-      "uuid"=>"e4c73db0-d972-11e5-b6f0-44fb42fffe72",
-      "purpose"=>"QA Plate",
-      "barcode"=>{
-        "ean13"=>"1229000001872",
-        "prefix"=>"DN",
-        "number"=>"9000001"
+    assert_equal({"qc_asset" => {
+      "uuid" => "e4c73db0-d972-11e5-b6f0-44fb42fffe72",
+      "purpose" => "QA Plate",
+      "barcode" => {
+        "ean13" => "1229000001872",
+        "prefix" => "DN",
+        "number" => "9000001"
       },
-      "child_purposes"=>[
+      "child_purposes" => [
         ["Tag PCR", "53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc"]
         ],
-      "state"=>"available",
-      "children"=>[],
-      "handle"=>{
-          "with"=>"qa_plate_conversion",
-          "as"=>"source",
-          "sibling"=>"Tag Plate",
-          "printer"=>"plate"}}}, present.output)
+      "state" => "available",
+      "children" => [],
+      "handle" => {
+          "with" => "qa_plate_conversion",
+          "as" => "source",
+          "sibling" => "Tag Plate",
+          "printer" => "plate"}}}, present.output)
   end
 
   test "validate default presenter with default purpose" do
@@ -133,22 +133,22 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
       include Gatekeeper::Plate::ModelExtensions
     end
 
-    assert_equal({"qc_asset"=>{
-      "uuid"=>"a6ef0a80-e1fc-11e5-b7e8-44fb42fffe72",
-      "purpose"=>"Cherrypicked",
-      "barcode"=>{
-        "ean13"=>"1220000004863",
-        "prefix"=>"DN",
-        "number"=>"4"
+    assert_equal({"qc_asset" => {
+      "uuid" => "a6ef0a80-e1fc-11e5-b7e8-44fb42fffe72",
+      "purpose" => "Cherrypicked",
+      "barcode" => {
+        "ean13" => "1220000004863",
+        "prefix" => "DN",
+        "number" => "4"
       },
-      "child_purposes"=>[["QA Plate", "411f8b70-e1fd-11e5-a20c-44fb42fffe72"]],
-      "state"=>"available",
-      "children"=>[],
-      "handle"=>{
-        "with"=>"plate_conversion_to_default",
-        "as"=>"target",
-        "sibling"=>"",
-        "printer"=>"plate"
+      "child_purposes" => [["QA Plate", "411f8b70-e1fd-11e5-a20c-44fb42fffe72"]],
+      "state" => "available",
+      "children" => [],
+      "handle" => {
+        "with" => "plate_conversion_to_default",
+        "as" => "target",
+        "sibling" => "",
+        "printer" => "plate"
         }}}, present.output)
   end
 
@@ -174,7 +174,7 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
           'with' => 'completed',
           'as' => '',
           'sibling' => '',
-          'printer'=>'tube'
+          'printer' => 'tube'
         }
       }
     },present.output)

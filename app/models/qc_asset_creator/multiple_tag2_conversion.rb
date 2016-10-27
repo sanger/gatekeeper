@@ -114,7 +114,7 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   def tag2_locations_for_barcode(barcode)
-    tube = @tag2_tubes.detect { |pos, t| t[:barcode]== barcode }
+    tube = @tag2_tubes.detect { |pos, t| t[:barcode] == barcode }
     info = tube[1]
     info[:target_well_locations]
   end

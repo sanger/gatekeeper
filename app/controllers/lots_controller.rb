@@ -25,7 +25,7 @@ class LotsController < ApplicationController
       @lot_type = Presenter::LotType.new(params[:lot_type])
       render :new
     rescue Presenter::LotType::ConfigurationError => exception
-      @message  = "Could not register a lot. #{exception.message}"
+      @message = "Could not register a lot. #{exception.message}"
       render 'pages/error', status: 404
     end
   end
@@ -73,7 +73,7 @@ class LotsController < ApplicationController
     begin
       @lot = api.lot.find(params[:id])
     rescue Sequencescape::Api::ResourceNotFound => exception
-      @message  = "Could not find lot with uuid: #{params[:id]}"
+      @message = "Could not find lot with uuid: #{params[:id]}"
       render 'pages/error', status: 404
     end
   end

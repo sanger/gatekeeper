@@ -21,13 +21,13 @@ class LotsQcDecisionsController < QcDecisionsController
         user: @user.uuid,
         lot: params[:lot_id],
         decisions: decisions.map do |uuid,decision|
-          {'qcable'=>uuid, 'decision' => decision }
+          {'qcable' => uuid, 'decision' => decision }
         end
       )
       flash[:success] = "Qc decision has been updated."
       return redirect_to lot_path(params[:lot_id])
     rescue Sequencescape::Api::ResourceInvalid => exception
-      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ')<<'.'
+      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ') << '.'
       flash[:danger] = "A decision was not made. #{message}"
       redirect_to new_lot_qc_decision_path(params[:lot_id])
       return

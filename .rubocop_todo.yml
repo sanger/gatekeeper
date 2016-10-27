@@ -617,12 +617,6 @@ Style/SpaceAroundEqualsInParameterDefault:
     - 'lib/barcode.rb'
     - 'test/mock_api.rb'
 
-# Offense count: 379
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment.
-Style/SpaceAroundOperators:
-  Enabled: false
-
 # Offense count: 9
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

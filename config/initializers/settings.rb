@@ -18,7 +18,7 @@ class Settings
       return @instance if @instance.present?
       @instance = Hashie::Mash.new(YAML.load(ERB.new(File.read(configuration_filename)).result))
     rescue Errno::ENOENT => exception
-      star_length = [ 96, 12+configuration_filename.length ].max
+      star_length = [ 96, 12 + configuration_filename.length ].max
       $stderr.puts('*' * star_length)
       $stderr.puts "WARNING! No #{configuration_filename}"
       $stderr.puts "You need to run 'rake config:generate' and can ignore this message if that's what you are doing!"

@@ -40,8 +40,8 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
         user: '11111111-2222-3333-4444-555555555555',
         lot: '11111111-2222-3333-4444-555555555556',
         decisions: [
-          {'qcable'=>'11111111-2222-3333-4444-100000000008', 'decision' => 'release'}, # Was pending
-          {'qcable'=>'11111111-2222-3333-4444-100000000009', 'decision' => 'release'}  # Was pending
+          {'qcable' => '11111111-2222-3333-4444-100000000008', 'decision' => 'release'}, # Was pending
+          {'qcable' => '11111111-2222-3333-4444-100000000009', 'decision' => 'release'}  # Was pending
         ]
       },
       returns: '11111111-2222-3333-9999-330000000008'

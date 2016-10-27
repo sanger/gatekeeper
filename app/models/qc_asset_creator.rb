@@ -51,7 +51,7 @@ class QcAssetCreator
   ##
   # Determines which module to extend with
   def behaviour_module
-    behaviour_module_name= 'plate_creation'
+    behaviour_module_name = 'plate_creation'
     if Settings.purposes.has_key?(@asset.purpose.uuid)
       behaviour_module_name = Settings.purposes[@asset.purpose.uuid].with || behaviour_module_name
     else
@@ -65,7 +65,7 @@ class QcAssetCreator
   ##
   # Determines which transfer template to use
   def transfer_template
-    api.transfer_template.find(@template||default_template)
+    api.transfer_template.find(@template || default_template)
   end
 
   # The default transfer is an entire plate stamp

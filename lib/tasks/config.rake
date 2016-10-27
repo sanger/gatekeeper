@@ -82,7 +82,7 @@ namespace :config do
             name: plate_purpose.name,
             children: plate_purpose.children.map{|c| c.uuid},
             type: 'plate'
-            }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name]||{})
+            }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name] || {})
         end
         puts "... tubes"
         api.tube_purpose.all.each do |tube_purpose|
@@ -91,22 +91,22 @@ namespace :config do
             name: tube_purpose.name,
             children: tube_purpose.children.map{|c| c.uuid},
             type: 'tube'
-            }.merge(Gatekeeper::Application.config.purpose_handlers[tube_purpose.name]||{})
+            }.merge(Gatekeeper::Application.config.purpose_handlers[tube_purpose.name] || {})
         end
       end
 
       configuration[:submission_templates] = {}.tap do |submission_templates|
         puts "Preparing submission templates..."
-        submission_templates['miseq']= api.order_template.all.detect {|ot| ot.name=="MiSeq for TagQC"}.uuid
+        submission_templates['miseq'] = api.order_template.all.detect {|ot| ot.name == "MiSeq for TagQC"}.uuid
       end
 
       puts "Setting study..."
-      configuration[:study] = Gatekeeper::Application.config.study_uuid||
-        puts("No study specified, using first study")||
+      configuration[:study] = Gatekeeper::Application.config.study_uuid ||
+        puts("No study specified, using first study") ||
         api.study.first.uuid
       puts "Setting project..."
-      configuration[:project] = Gatekeeper::Application.config.project_uuid||
-        puts("No project specified, using first project")||
+      configuration[:project] = Gatekeeper::Application.config.project_uuid ||
+        puts("No project specified, using first project") ||
         api.project.first.uuid
 
     end

@@ -32,7 +32,7 @@ class Presenter::Lot
   end
 
   def total_plates
-    @total||= @lot.qcables.count
+    @total ||= @lot.qcables.count
   end
 
   def child_type
@@ -53,7 +53,7 @@ class Presenter::Lot
   # Aliased as each_state for readability where all states are needed
   def each_state_except(reject=[])
     state_counts.reject{|k,_| reject.include?(k) }.each do |state,count|
-      yield(state,count,count*100.0/total_plates)
+      yield(state,count,count * 100.0 / total_plates)
     end
   end
   alias_method :each_state, :each_state_except
@@ -67,7 +67,7 @@ class Presenter::Lot
   end
 
   def each_plate_in(state)
-    plates = (sorted_qcables.detect {|qc_state,plates| qc_state == state }||[nil,[]]).last
+    plates = (sorted_qcables.detect {|qc_state,plates| qc_state == state } || [nil,[]]).last
     Presenter::Qcable.new_from_batch(plates).each do |qcable|
       yield qcable
     end
@@ -77,7 +77,7 @@ class Presenter::Lot
   # Keeps track of the active tab. It will return true the first time it is called,
   # and subsequently is called with the same state again.
   def active?(state)
-    (@active||=state) == state ? 'active' : ''
+    (@active ||= state) == state ? 'active' : ''
   end
 
   def pending_qcable_uuids
@@ -104,7 +104,7 @@ class Presenter::Lot
   end
 
   def sorted_qcables
-    @sorted ||= @lot.qcables.group_by {|qcable| qcable.state }.sort {|a,b| state_index(a.first)<=>state_index(b.first)}
+    @sorted ||= @lot.qcables.group_by {|qcable| qcable.state }.sort {|a,b| state_index(a.first) <=> state_index(b.first)}
   end
 
   def state_counts

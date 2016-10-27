@@ -23,16 +23,16 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
         user: '11111111-2222-3333-4444-555555555555',
         lot: '11111111-2222-3333-4444-555555555556',
         decisions: [
-          {'qcable'=>'11111111-2222-3333-4444-100000000001', 'decision' => 'pass'},
+          {'qcable' => '11111111-2222-3333-4444-100000000001', 'decision' => 'pass'},
           # {'qcable'=>'11111111-2222-3333-4444-100000000002', 'decision' => 'pass'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000003', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000004', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000005', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000006', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000007', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000008', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000009', 'decision' => 'release'},
-          {'qcable'=>'11111111-2222-3333-4444-100000000010', 'decision' => 'release'}
+          {'qcable' => '11111111-2222-3333-4444-100000000003', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000004', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000005', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000006', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000007', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000008', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000009', 'decision' => 'release'},
+          {'qcable' => '11111111-2222-3333-4444-100000000010', 'decision' => 'release'}
         ]
       },
       returns: '11111111-2222-3333-9999-330000000008'
@@ -70,7 +70,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
         user: '11111111-2222-3333-4444-555555555555',
         lot: '11111111-2222-3333-4444-555555555556',
         decisions: [
-          {'qcable'=>'11111111-2222-3333-4444-100000000001', 'decision' => 'pass'}
+          {'qcable' => '11111111-2222-3333-4444-100000000001', 'decision' => 'pass'}
         ]).raises(Sequencescape::Api::ResourceInvalid.new(resource))
 
     post :create, {

@@ -10,6 +10,6 @@ class Presenter::Error
   end
 
   def output
-    {'error'=>@message}
+    {'error' => @message}
   end
 end

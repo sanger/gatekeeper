@@ -12,7 +12,7 @@ class QcablesController < ApplicationController
   def create
 
     # If we have the lot type cached in settings, use that.
-    qcable_name = (Settings.lot_types[@lot.lot_type_name]||@lot.lot_type).qcable_name
+    qcable_name = (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
 
     qc_creator = api.qcable_creator.create!(
       user: @user.uuid,
@@ -46,7 +46,7 @@ class QcablesController < ApplicationController
   def validate_plate_count
     range = Gatekeeper::Application.config.stamp_range
     step  = Gatekeeper::Application.config.stamp_step
-    return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i%step ==0)
+    return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i % step == 0)
     flash[:danger] = "Number of plates created must be a multiple of #{step} between #{range.first} and #{range.last} inclusive"
     redirect_to :back
   end

@@ -23,7 +23,7 @@ class BatchesQcDecisionsController < QcDecisionsController
         user: @user.uuid,
         lot: params[:lot_id],
         decisions: decisions.map do |uuid,decision|
-          {'qcable'=>uuid, 'decision' => decision }
+          {'qcable' => uuid, 'decision' => decision }
         end
       )
       flash[:success] = "Qc decision has been updated."
@@ -37,7 +37,7 @@ class BatchesQcDecisionsController < QcDecisionsController
         }
       end
     rescue Sequencescape::Api::ResourceInvalid => exception
-      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ')<<'.'
+      message = exception.resource.errors.messages.map {|k,v| "#{k.capitalize} #{v.to_sentence.chomp('.')}"}.join('; ') << '.'
       render json: {error: "A decision was not made to #{params[:decision]} for Lot #{params[:lot_id]}: " + message}
     end
   end

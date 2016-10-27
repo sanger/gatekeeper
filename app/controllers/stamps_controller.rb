@@ -31,7 +31,7 @@ class StampsController < ApplicationController
 
     def add_message(new_status,message)
       self.status = new_status
-      @messages  << message
+      @messages << message
       nil
     end
 
@@ -130,7 +130,7 @@ class StampsController < ApplicationController
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? {|_,plates| plates.count > 1}
 
     @bed_plates = Hash[params[:beds].map do |bed,plate_barcode|
-      [bed,plates[plate_barcode]||validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
+      [bed,plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
     end]
   end
 

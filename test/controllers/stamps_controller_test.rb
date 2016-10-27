@@ -46,7 +46,7 @@ class StampsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal @lot, assigns['lot']
-    assert_equal({"validation"=>{"status"=>true,"messages"=>['Okay']}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => true,"messages" => ['Okay']}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate lot when false" do
@@ -71,7 +71,7 @@ class StampsControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal @lot, assigns['lot']
-    assert_equal({"validation"=>{"status"=>false,"messages"=>['Not okay']}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => false,"messages" => ['Not okay']}}.to_json, assigns['validator'].to_json)
   end
 
 
@@ -96,7 +96,7 @@ class StampsControllerTest < ActionController::TestCase
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
-    assert_equal({"validation"=>{"status"=>false,"messages"=>["Could not find a lot with the lot number 'not_a_lot'","Okay"]}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => false,"messages" => ["Could not find a lot with the lot number 'not_a_lot'","Okay"]}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate full setup" do
@@ -113,8 +113,8 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?).
       with('58000000180',@lot,{
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_b
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_b
       }).
       returns([true,'Okay'])
     @request.headers["Accept"] = "application/json"
@@ -127,13 +127,13 @@ class StampsControllerTest < ActionController::TestCase
       lot_bed: '58000000180',
       lot_plate: '123456789',
       beds: {
-        '58000000281'=>'122000000183',
-        '58000000382'=>'122000000284'
+        '58000000281' => '122000000183',
+        '58000000382' => '122000000284'
       }
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
-    assert_equal({"validation"=>{"status"=>true,"messages"=>['Okay']}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => true,"messages" => ['Okay']}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate full invalid" do
@@ -149,8 +149,8 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?).
       with('58000000180',@lot,{
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_c
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_c
       }).
       returns([false,'Not okay'])
 
@@ -164,13 +164,13 @@ class StampsControllerTest < ActionController::TestCase
       lot_bed: '58000000180',
       lot_plate: '123456789',
       beds: {
-        '58000000281'=>'122000000183',
-        '58000000382'=>'122000000867'
+        '58000000281' => '122000000183',
+        '58000000382' => '122000000867'
       }
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
-    assert_equal({"validation"=>{"status"=>false,"messages"=>["Not okay"]}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => false,"messages" => ["Not okay"]}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate full multiple barcodes" do
@@ -194,13 +194,13 @@ class StampsControllerTest < ActionController::TestCase
       lot_bed: '58000000180',
       lot_plate: '123456789',
       beds: {
-        '58000000281'=>'122000000183',
-        '58000000382'=>'122000000183'
+        '58000000281' => '122000000183',
+        '58000000382' => '122000000183'
       }
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
-    assert_equal({"validation"=>{"status"=>false,"messages"=>["Plates can only be on one bed"]}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {"status" => false,"messages" => ["Plates can only be on one bed"]}}.to_json, assigns['validator'].to_json)
   end
 
   test "validate multiple lots" do
@@ -225,7 +225,10 @@ class StampsControllerTest < ActionController::TestCase
       lot_plate: '123456789'
     }
     assert_response :success
-    assert_equal({"validation"=>{"status"=>false,"messages"=>['Multiple lots with lot number 123456789. This is currently unsupported.',"Okay"]}}.to_json, assigns['validator'].to_json)
+    assert_equal({"validation" => {
+      "status" => false,
+      "messages" => ['Multiple lots with lot number 123456789. This is currently unsupported.',"Okay"]
+      }}.to_json, assigns['validator'].to_json)
 
   end
 
@@ -245,14 +248,14 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?).
       with('58000000180',@lot,{
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_b
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_b
       }).
       returns([true,'Okay'])
 
     @robot.expects(:beds_for).with({
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_b
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_b
       }).
       returns([
           {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
@@ -284,8 +287,8 @@ class StampsControllerTest < ActionController::TestCase
       lot_bed: '58000000180',
       lot_plate: '123456789',
       beds: {
-        '58000000281'=>'122000000183',
-        '58000000382'=>'122000000284'
+        '58000000281' => '122000000183',
+        '58000000382' => '122000000284'
       }
     }
     assert_redirected_to lot_url(@lot)
@@ -308,14 +311,14 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?).
       with('58000000180',@lot,{
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_b
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_b
       }).
       returns([true,'Okay'])
 
     @robot.expects(:beds_for).with({
-        '58000000281'=> @plate_a,
-        '58000000382'=> @plate_b
+        '58000000281' => @plate_a,
+        '58000000382' => @plate_b
       }).
       returns([
           {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
@@ -346,12 +349,19 @@ class StampsControllerTest < ActionController::TestCase
       lot_bed: '58000000180',
       lot_plate: '123456789',
       beds: {
-        '58000000281'=>'122000000183',
-        '58000000382'=>'122000000284'
+        '58000000281' => '122000000183',
+        '58000000382' => '122000000284'
       },
       repeat: 'repeat'
     }
-    assert_redirected_to controller: :stamps, action: :new, robot_barcode: '488000000178', tip_lot: '12345678', lot_bed: '58000000180', lot_plate: '123456789'
+    assert_redirected_to(
+      controller: :stamps,
+      action: :new,
+      robot_barcode: '488000000178',
+      tip_lot: '12345678',
+      lot_bed: '58000000180',
+      lot_plate: '123456789'
+    )
     assert_equal 'Stamp completed!', flash[:success]
   end
 

@@ -420,9 +420,9 @@ class QcAssetsControllerTest < ActionController::TestCase
   test "qa plate ignores state" do
 
     qa_plate = 'e4c73db0-d972-11e5-b6f0-44fb42fffe72'
-    qcable_tag_plate      = '11111111-2222-3333-4444-100000000008'
+    qcable_tag_plate = '11111111-2222-3333-4444-100000000008'
     tag_plate = '11111111-2222-3333-4444-300000000008'
-    tag_plate_bc   = '122000001867'
+    tag_plate_bc = '122000001867'
     qa_plate_bc = '1229000001872'
 
     qcable_barcode = '122000000867'
@@ -540,7 +540,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     tag2_qc_2 = '11111111-2222-3333-4444-200000000012'
     find_assets_by_barcode = 'e7d2fec0-956f-11e3-8255-44fb42fffecc'
     user = '11111111-2222-3333-4444-555555555555'
-    qcable_tag_plate      = '11111111-2222-3333-4444-100000000007'
+    qcable_tag_plate = '11111111-2222-3333-4444-100000000007'
     flip_plate_template = '58b72440-ab69-11e3-bb8f-44fb42fffecc'
     child_purpose = '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc'
     find_qcables_by_barcode = '689a48a0-9d46-11e3-8fed-44fb42fffeff'
@@ -669,22 +669,22 @@ class QcAssetsControllerTest < ActionController::TestCase
       user_swipecard: 'abcdef',
       asset_barcode: '3980000037732',
       tag2_tube: {
-        "1"=> { barcode: "3980000037732", target_well_locations: {"0" => "A1", "1" => "A3"}},
-        "2"=>{},
-        "3"=>{},
-        "4"=> {barcode: "3980000037733",target_well_locations: {"0" => "D1", "1" => "D3"}},
-        "5"=>{},
-        "6"=>{},
-        "7"=>{},
-        "8"=>{},
-        "9"=>{},
-        "10"=>{},
-        "11"=>{},
-        "12"=>{},
-        "13"=>{},
-        "14"=>{},
-        "15"=>{},
-        "16"=>{}
+        "1" => { barcode: "3980000037732", target_well_locations: {"0" => "A1", "1" => "A3"}},
+        "2" => {},
+        "3" => {},
+        "4" => {barcode: "3980000037733",target_well_locations: {"0" => "D1", "1" => "D3"}},
+        "5" => {},
+        "6" => {},
+        "7" => {},
+        "8" => {},
+        "9" => {},
+        "10" => {},
+        "11" => {},
+        "12" => {},
+        "13" => {},
+        "14" => {},
+        "15" => {},
+        "16" => {}
         },
       purpose: child_purpose,
       sibling: '122000000867',

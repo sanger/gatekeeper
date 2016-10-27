@@ -5,7 +5,7 @@ class Presenter::User
   attr_reader :user
 
   def initialize(user)
-    @user= user
+    @user = user
   end
 
   def name

@@ -12,7 +12,7 @@ class Presenter::QcAsset
   delegate :uuid, :state, to: :asset
 
   def child_purposes
-    (own_child_purpose||sibling_child_purpose).map {|uuid| [purpose_config_of_uuid(uuid).name,uuid]}
+    (own_child_purpose || sibling_child_purpose).map {|uuid| [purpose_config_of_uuid(uuid).name,uuid]}
   end
 
   def purpose
@@ -24,9 +24,9 @@ class Presenter::QcAsset
   end
 
   def child_type
-    (own_child_purpose||sibling_child_purpose).map do |uuid|
+    (own_child_purpose || sibling_child_purpose).map do |uuid|
       purpose_config_of_uuid(uuid).type.pluralize
-    end.first||'unknown'
+    end.first || 'unknown'
   end
 
   def barcode
@@ -39,10 +39,10 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'     => own_purpose_config.with||'plate_creation',
-      'as'       => own_purpose_config.as||'',
-      'sibling'  => own_purpose_config.sibling||'',
-      'printer'  => own_purpose_config.printer||'plate'
+      'with'     => own_purpose_config.with || 'plate_creation',
+      'as'       => own_purpose_config.as || '',
+      'sibling'  => own_purpose_config.sibling || '',
+      'printer'  => own_purpose_config.printer || 'plate'
     }.tap do |handle|
       handle['sibling2'] = own_purpose_config.sibling2 if own_purpose_config.sibling2
     end
