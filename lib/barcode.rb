@@ -14,7 +14,7 @@ module Barcode
   end
 
   # NT23432S => 398002343283
-  private
+  private_class_method
 
   def self.calculate_sanger_barcode(prefix, number)
       raise ArgumentError, "Number : #{number} to big to generate a barcode." if number.to_s.size > 7
