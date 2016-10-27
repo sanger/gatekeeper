@@ -30,9 +30,9 @@ class QcAssetCreator
   # Default state update implimentation
   def asset_update_state
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => @asset.uuid,
-      :target_state => 'passed'
+      user: @user.uuid,
+      target: @asset.uuid,
+      target_state: 'passed'
     )
   end
 

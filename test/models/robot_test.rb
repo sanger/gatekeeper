@@ -97,8 +97,8 @@ class RobotTest < ActiveSupport::TestCase
   test "beds for" do
     beds_for = @robot.beds_for({'580000002810'=>@plate_a,'580000003824'=>@plate_b})
     assert_equal [
-      {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-      {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+      {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+      {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
     ], beds_for
   end
 

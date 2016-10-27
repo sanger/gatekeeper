@@ -10,10 +10,10 @@ module QcAssetCreator::QaPlateConversion
   # The @sibling still gets updated
   def asset_update_state
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => @sibling.uuid,
-      :reason => 'Used to QC',
-      :target_state => Gatekeeper::Application.config.used_state
+      user: @user.uuid,
+      target: @sibling.uuid,
+      reason: 'Used to QC',
+      target_state: Gatekeeper::Application.config.used_state
     )
   end
 

@@ -155,15 +155,6 @@ Style/Alias:
     - 'app/models/presenter/qcable.rb'
     - 'test/mock_api.rb'
 
-# Offense count: 9
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedHashRocketStyle, EnforcedColonStyle, EnforcedLastArgumentHashStyle, SupportedLastArgumentHashStyles.
-# SupportedLastArgumentHashStyles: always_inspect, always_ignore, ignore_implicit, ignore_explicit
-Style/AlignHash:
-  Exclude:
-    - 'test/controllers/qc_assets_controller_test.rb'
-    - 'test/models/qc_asset_presenter_test.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
@@ -342,13 +333,6 @@ Style/FirstParameterIndentation:
     - 'app/controllers/concerns/batch_lookup.rb'
     - 'test/controllers/lots_qc_decisions_controller_test.rb'
     - 'test/controllers/qc_assets_controller_test.rb'
-
-# Offense count: 807
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-Style/HashSyntax:
-  Enabled: false
 
 # Offense count: 1
 # Cop supports --auto-correct.

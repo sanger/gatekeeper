@@ -11,7 +11,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
   end
 
   test "new" do
-    get :new, {:lot_id => '11111111-2222-3333-4444-555555555556' }
+    get :new, {lot_id: '11111111-2222-3333-4444-555555555556' }
     assert_response :success
     assert_equal '11111111-2222-3333-4444-555555555556', assigns['lot_presenter'].uuid
   end
@@ -19,10 +19,10 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
   test "create" do
 
     api.qc_decision.expect_create_with(
-      :received => {
-        :user =>    '11111111-2222-3333-4444-555555555555',
-        :lot =>     '11111111-2222-3333-4444-555555555556',
-        :decisions => [
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        lot: '11111111-2222-3333-4444-555555555556',
+        decisions: [
           {'qcable'=>'11111111-2222-3333-4444-100000000001', 'decision' => 'pass'},
           # {'qcable'=>'11111111-2222-3333-4444-100000000002', 'decision' => 'pass'},
           {'qcable'=>'11111111-2222-3333-4444-100000000003', 'decision' => 'release'},
@@ -35,13 +35,13 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
           {'qcable'=>'11111111-2222-3333-4444-100000000010', 'decision' => 'release'}
         ]
       },
-      :returns => '11111111-2222-3333-9999-330000000008'
+      returns: '11111111-2222-3333-9999-330000000008'
       )
 
     post :create, {
-      :lot_id    => '11111111-2222-3333-4444-555555555556',
-      :user_swipecard => 'abcdef',
-      :decisions => {
+      lot_id: '11111111-2222-3333-4444-555555555556',
+      user_swipecard: 'abcdef',
+      decisions: {
         '11111111-2222-3333-4444-100000000001' => 'pass',
         '11111111-2222-3333-4444-100000000002' => '',
         '11111111-2222-3333-4444-100000000003' => 'release',
@@ -55,7 +55,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
       }
     }
 
-    assert_redirected_to :controller=>:lots, :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
+    assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
     assert_equal "Qc decision has been updated.", flash[:success]
   end
 
@@ -63,20 +63,20 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
 
     resource = mock('resource')
     errors = mock('errors')
-    errors.stubs(:messages).returns({:user=>["doesn't have permission"],:second=>["bit is invalid"]})
+    errors.stubs(:messages).returns({user: ["doesn't have permission"],second: ["bit is invalid"]})
     resource.stubs(:errors).returns(errors)
 
     api.qc_decision.stubs(:create!).with(
-        :user =>    '11111111-2222-3333-4444-555555555555',
-        :lot =>     '11111111-2222-3333-4444-555555555556',
-        :decisions => [
+        user: '11111111-2222-3333-4444-555555555555',
+        lot: '11111111-2222-3333-4444-555555555556',
+        decisions: [
           {'qcable'=>'11111111-2222-3333-4444-100000000001', 'decision' => 'pass'}
         ]).raises(Sequencescape::Api::ResourceInvalid.new(resource))
 
     post :create, {
-      :lot_id    => '11111111-2222-3333-4444-555555555556',
-      :user_swipecard => 'abcdef',
-      :decisions => {
+      lot_id: '11111111-2222-3333-4444-555555555556',
+      user_swipecard: 'abcdef',
+      decisions: {
         '11111111-2222-3333-4444-100000000001' => 'pass'
       }
     }

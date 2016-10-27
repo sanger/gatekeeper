@@ -181,7 +181,7 @@ module MockApi
     def mock_user_shared(user,barcode)
       user_search = @api.search.with_uuid('e7e52730-956f-11e3-8255-44fb42fffecc')
       user_search.stubs(:first).raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
-      user_search.stubs(:first).with(:swipecard_code => barcode).returns(user)
+      user_search.stubs(:first).with(swipecard_code: barcode).returns(user)
     end
 
   end
@@ -209,13 +209,13 @@ module MockApi
 
     def aliases
       {
-        :asset => [:plate,:tube],
-        :destination => [:plate,:tube],
-        :plate_purpose => [:purpose],
-        :target_asset => [:tube],
-        :child => [:plate,:tube],
-        :target => [:plate,:tube],
-        :template => [:tag_layout_template,:plate,:tag2_layout_template]
+        asset: [:plate,:tube],
+        destination: [:plate,:tube],
+        plate_purpose: [:purpose],
+        target_asset: [:tube],
+        child: [:plate,:tube],
+        target: [:plate,:tube],
+        template: [:tag_layout_template,:plate,:tag2_layout_template]
       }
     end
 

@@ -12,7 +12,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
 
   test "#print!" do
 
-    labels  =   [Sanger::Barcode::Printing::Label.new(:prefix=>'DN',:number=>1,:study=>"test")]
+    labels  =   [Sanger::Barcode::Printing::Label.new(prefix: 'DN',number: 1,study: "test")]
 
     mock_service = mock('service')
     mock_service.expects(:print_labels).with(labels, 'plate_example', 1)

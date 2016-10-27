@@ -60,50 +60,50 @@ module Gatekeeper
 
     config.purpose_handlers = {
       'Tag 2 Tube' => {
-        :with     => 'multiple_tag2_conversion',
-        :sibling2 => 'Reporter Plate',
-        :as       => 'secondary',
-        :sibling  => 'Tag Plate'
+        with: 'multiple_tag2_conversion',
+        sibling2: 'Reporter Plate',
+        as: 'secondary',
+        sibling: 'Tag Plate'
       },
       'Tag Plate' => {
-        :with    => 'plate_conversion',
-        :as      => 'target',
-        :sibling => 'Reporter Plate'
+        with: 'plate_conversion',
+        as: 'target',
+        sibling: 'Reporter Plate'
       },
       'Pre Stamped Tag Plate' => {
-        :with    => 'plate_conversion',
-        :as      => 'target',
-        :sibling => 'Reporter Plate'
+        with: 'plate_conversion',
+        as: 'target',
+        sibling: 'Reporter Plate'
       },
       'Reporter Plate' => {
-        :with    => 'plate_conversion',
-        :as      => 'source',
-        :sibling => 'Tag Plate'
+        with: 'plate_conversion',
+        as: 'source',
+        sibling: 'Tag Plate'
       },
       'QA Plate' => {
-        :with    => 'qa_plate_conversion',
-        :as      => 'source',
-        :sibling => 'Tag Plate'
+        with: 'qa_plate_conversion',
+        as: 'source',
+        sibling: 'Tag Plate'
       },
       'Tag PCR' => {
       },
       'Tag PCR-XP' => {
-        :with => 'tube_creation'
+        with: 'tube_creation'
       },
       'Tag Stock-MX' => {
-        :with => 'tube_transfer',
-        :printer => 'tube'
+        with: 'tube_transfer',
+        printer: 'tube'
       },
       'Tag MX' => {
-        :with => 'completed',
-        :printer => 'tube'
+        with: 'completed',
+        printer: 'tube'
       }
     }
 
     config.default_purpose_handler = {
-      :with    => 'plate_conversion_to_default',
-      :child_name    => 'QA Plate',
-      :as      => 'target'
+      with: 'plate_conversion_to_default',
+      child_name: 'QA Plate',
+      as: 'target'
     }
 
     # If no study or project is specified, the config will fall back

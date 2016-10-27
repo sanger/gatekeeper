@@ -1,7 +1,7 @@
 namespace :config do
   desc 'Generates a configuration file for the current Rails environment'
 
-  task :generate => :environment do
+  task generate: :environment do
     api = Sequencescape::Api.new(Gatekeeper::Application.config.api_connection_options)
 
     barcode_printer_uuid = lambda do |printers|
@@ -26,7 +26,7 @@ namespace :config do
         approved_printers = Gatekeeper::Application.config.approved_printers
         puts "Preparing printers ..."
         selected = api.barcode_printer.all.select {|printer| printer.active && (approved_printers == :all || approved_printers.include?(printer.name) )}
-        selected.each {|printer| printers[printer.type.name] << {:name=>printer.name,:uuid=>printer.uuid} }
+        selected.each {|printer| printers[printer.type.name] << {name: printer.name,uuid: printer.uuid} }
       end
 
       # Might want to switch this out for something more dynamic, but seeing as we'll almost certainly be working with a filtered set
@@ -37,16 +37,16 @@ namespace :config do
         puts "Preparing plate templates ..."
         approved_plate_templates = Gatekeeper::Application.config.approved_templates.plate_template
         plate_templates = api.plate_template.all.select {|template| approved_plate_templates == :all || approved_plate_templates.include?(template.name) }
-        templates[:plate_template] = plate_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        templates[:plate_template] = plate_templates.map {|template| {name: template.name, uuid: template.uuid }}
         # Tag Templates
         puts "Preparing tag templates ..."
         approved_tag_layout_templates = Gatekeeper::Application.config.approved_templates.tag_layout_template
         tag_layout_templates = api.tag_layout_template.all.select {|template| approved_tag_layout_templates == :all || approved_tag_layout_templates.include?(template.name) }
-        templates[:tag_layout_template] = tag_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        templates[:tag_layout_template] = tag_layout_templates.map {|template| {name: template.name, uuid: template.uuid }}
         # Tag 2 Templates
         puts "Preparing tag 2 templates ..."
         tag2_layout_templates = api.tag2_layout_template.all
-        templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {:name=>template.name, :uuid=>template.uuid }}
+        templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {name: template.name, uuid: template.uuid }}
       end
 
       configuration[:transfer_templates] = {}.tap do |transfer_templates|
@@ -61,7 +61,7 @@ namespace :config do
       configuration[:lot_types] = {}.tap do |lot_types|
         puts "Preparing lot types ..."
         api.lot_type.all.each do |lot_type|
-          lot_types[lot_type.name] = {:uuid=>lot_type.uuid,:template_class=>lot_type.template_class,:printer_type=>lot_type.printer_type, :qcable_name=>lot_type.qcable_name}
+          lot_types[lot_type.name] = {uuid: lot_type.uuid,template_class: lot_type.template_class,printer_type: lot_type.printer_type, qcable_name: lot_type.qcable_name}
         end
       end
 
@@ -73,24 +73,24 @@ namespace :config do
           # Loads the default purpose info
           if Gatekeeper::Application.config.default_purpose_handler[:child_name] == plate_purpose.name
             configuration[:default_purpose] = Gatekeeper::Application.config.default_purpose_handler.merge({
-              :children => [ plate_purpose.uuid ],
-              :type => 'plate'
+              children: [ plate_purpose.uuid ],
+              type: 'plate'
             })
           end
           next unless Gatekeeper::Application.config.tracked_purposes.include?(plate_purpose.name)
           purpose[plate_purpose.uuid] = {
-            :name     => plate_purpose.name,
-            :children => plate_purpose.children.map{|c| c.uuid},
-            :type => 'plate'
+            name: plate_purpose.name,
+            children: plate_purpose.children.map{|c| c.uuid},
+            type: 'plate'
             }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name]||{})
         end
         puts "... tubes"
         api.tube_purpose.all.each do |tube_purpose|
           next unless Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
           purpose[tube_purpose.uuid] = {
-            :name=>tube_purpose.name,
-            :children=>tube_purpose.children.map{|c| c.uuid},
-            :type => 'tube'
+            name: tube_purpose.name,
+            children: tube_purpose.children.map{|c| c.uuid},
+            type: 'tube'
             }.merge(Gatekeeper::Application.config.purpose_handlers[tube_purpose.name]||{})
         end
       end
@@ -117,5 +117,5 @@ namespace :config do
     end
   end
 
-  task :default => :generate
+  task default: :generate
 end

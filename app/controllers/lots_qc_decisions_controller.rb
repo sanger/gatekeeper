@@ -2,8 +2,8 @@
 # Make QC Decisions
 class LotsQcDecisionsController < QcDecisionsController
 
-  before_filter :find_user, :except=>[:search,:new]
-  before_filter :find_lot_presenter, :except => [:search]
+  before_filter :find_user, except: [:search,:new]
+  before_filter :find_lot_presenter, except: [:search]
 
   ##
   # For rendering a QC Decision
@@ -18,9 +18,9 @@ class LotsQcDecisionsController < QcDecisionsController
   def create
     begin
       api.qc_decision.create!(
-        :user => @user.uuid,
-        :lot  => params[:lot_id],
-        :decisions => decisions.map do |uuid,decision|
+        user: @user.uuid,
+        lot: params[:lot_id],
+        decisions: decisions.map do |uuid,decision|
           {'qcable'=>uuid, 'decision' => decision }
         end
       )

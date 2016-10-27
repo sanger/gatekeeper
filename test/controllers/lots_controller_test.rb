@@ -11,7 +11,7 @@ class LotsControllerTest < ActionController::TestCase
 
   # NEW LOT PAGES
   test "new tag" do
-    get :new, :lot_type => 'IDT Tags'
+    get :new, lot_type: 'IDT Tags'
     assert_response :success
     assert_select 'title', "Gatekeeper"
     assert_select 'h1', 'Register IDT Tags Lot'
@@ -20,7 +20,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "new reporter" do
-    get :new, :lot_type => 'IDT Reporters'
+    get :new, lot_type: 'IDT Reporters'
     assert_response :success
     assert_select 'title', "Gatekeeper"
     assert_select 'h1', 'Register IDT Reporters Lot'
@@ -29,7 +29,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test "new unknown" do
-    get :new, :lot_type => 'News Reporters'
+    get :new, lot_type: 'News Reporters'
     assert_response :not_found
     assert_select 'title', "Gatekeeper"
     assert_select 'h1', 'There was a problem...'
@@ -49,35 +49,35 @@ class LotsControllerTest < ActionController::TestCase
     api.mock_user('abcdef','11111111-2222-3333-4444-555555555555')
 
     api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
-      :received => {
-        :user           => '11111111-2222-3333-4444-555555555555',
-        :lot_number     => '123456789',
-        :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-        :received_at    => '2013-02-01'
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        lot_number: '123456789',
+        template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+        received_at: '2013-02-01'
       },
-      :returns => '11111111-2222-3333-4444-555555555556'
+      returns: '11111111-2222-3333-4444-555555555556'
     )
     post :create, {
-      :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
-      :user_swipecard => 'abcdef',
-      :lot_number     => '123456789',
-      :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-      :received_at     => '01/02/2013'
+      lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+      user_swipecard: 'abcdef',
+      lot_number: '123456789',
+      template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      received_at: '01/02/2013'
     }
 
     assert_equal nil, flash[:danger]
     assert_equal 'Created lot 123456789', flash[:success]
-    assert_redirected_to :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
+    assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end
 
   test "create with no user" do
 
     api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
-      :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
-      :lot_number     => '123456789',
-      :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-      :received_at     => '01/02/2013'
+      lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+      lot_number: '123456789',
+      template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      received_at: '01/02/2013'
     }
     assert_redirected_to :root
     assert_equal 'User swipecard must be provided.', flash[:danger]
@@ -87,11 +87,11 @@ class LotsControllerTest < ActionController::TestCase
 
     api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
     post :create, {
-      :lot_type       => 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
-      :user_swipecard => 'fake_user',
-      :lot_number     => '123456789',
-      :template       => 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-      :received_at     => '01/02/2013'
+      lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+      user_swipecard: 'fake_user',
+      lot_number: '123456789',
+      template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      received_at: '01/02/2013'
     }
     assert_redirected_to :root
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
@@ -100,7 +100,7 @@ class LotsControllerTest < ActionController::TestCase
   # SHOW
   test 'show tag plate' do
 
-    get :show, :id=>'11111111-2222-3333-4444-555555555556'
+    get :show, id: '11111111-2222-3333-4444-555555555556'
     assert_response :success
 
     assert_select 'h1', 'IDT Tags: 123456789'
@@ -115,7 +115,7 @@ class LotsControllerTest < ActionController::TestCase
 
   test 'show reporter plate' do
 
-    get :show, :id=>'11111111-2222-3333-4444-555555555557'
+    get :show, id: '11111111-2222-3333-4444-555555555557'
     assert_response :success
 
     assert_select 'h1', 'IDT Reporters: 123456790'
@@ -125,21 +125,21 @@ class LotsControllerTest < ActionController::TestCase
   test 'find with one result' do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
       expects(:all).
-      with(Sequencescape::Lot,:lot_number => '123456789').
+      with(Sequencescape::Lot,lot_number: '123456789').
       returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
-    get :search, :lot_number => '123456789'
+    get :search, lot_number: '123456789'
 
-    assert_redirected_to :action => :show, :id=> '11111111-2222-3333-4444-555555555556'
+    assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end
 
   test 'find with multiple results' do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
       expects(:all).
-      with(Sequencescape::Lot,:lot_number => '123456789').
+      with(Sequencescape::Lot,lot_number: '123456789').
       returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556'), api.lot.with_uuid('11111111-2222-3333-4444-555555555557')])
 
-    get :search, :lot_number => '123456789'
+    get :search, lot_number: '123456789'
 
     assert_response 300
     assert_select 'h1', 'Multiple lots found'

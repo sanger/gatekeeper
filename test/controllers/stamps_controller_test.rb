@@ -27,7 +27,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate lot" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([@lot])
 
     @robot.expects(:valid_lot?).
@@ -35,13 +35,13 @@ class StampsControllerTest < ActionController::TestCase
       returns([true,'Okay'])
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'lot',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789'
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'lot',
+      lot_bed: '58000000180',
+      lot_plate: '123456789'
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
@@ -52,7 +52,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate lot when false" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     @robot.expects(:valid_lot?).
@@ -60,13 +60,13 @@ class StampsControllerTest < ActionController::TestCase
       returns([false,'Not okay'])
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'lot',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789'
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'lot',
+      lot_bed: '58000000180',
+      lot_plate: '123456789'
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
@@ -82,17 +82,17 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => 'not_a_lot').
+    with(Sequencescape::Lot,lot_number: 'not_a_lot').
     returns([])
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'lot',
-      :lot_bed        => '58000000180',
-      :lot_plate      => 'not_a_lot'
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'lot',
+      lot_bed: '58000000180',
+      lot_plate: 'not_a_lot'
     }
     assert_response :success
     assert_equal @robot, assigns['robot']
@@ -103,12 +103,12 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,barcode: ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -119,14 +119,14 @@ class StampsControllerTest < ActionController::TestCase
       returns([true,'Okay'])
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'full',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789',
-      :beds           => {
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'full',
+      lot_bed: '58000000180',
+      lot_plate: '123456789',
+      beds: {
         '58000000281'=>'122000000183',
         '58000000382'=>'122000000284'
       }
@@ -139,12 +139,12 @@ class StampsControllerTest < ActionController::TestCase
   test "validate full invalid" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000867']).
+    with(Gatekeeper::Qcable,barcode: ['122000000183','122000000867']).
     returns([@plate_a,@plate_c])
 
     @robot.expects(:valid?).
@@ -156,14 +156,14 @@ class StampsControllerTest < ActionController::TestCase
 
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'full',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789',
-      :beds           => {
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'full',
+      lot_bed: '58000000180',
+      lot_plate: '123456789',
+      beds: {
         '58000000281'=>'122000000183',
         '58000000382'=>'122000000867'
       }
@@ -176,24 +176,24 @@ class StampsControllerTest < ActionController::TestCase
   test "validate full multiple barcodes" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Qcable,:barcode => ['122000000183']).
+    with(Gatekeeper::Qcable,barcode: ['122000000183']).
     returns([@plate_a])
 
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'full',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789',
-      :beds           => {
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'full',
+      lot_bed: '58000000180',
+      lot_plate: '123456789',
+      beds: {
         '58000000281'=>'122000000183',
         '58000000382'=>'122000000183'
       }
@@ -211,18 +211,18 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([@lot,@lot])
 
     @request.headers["Accept"] = "application/json"
     post :validation, {
-      :user_swipecard => '123456789',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'lot',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789'
+      user_swipecard: '123456789',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'lot',
+      lot_bed: '58000000180',
+      lot_plate: '123456789'
     }
     assert_response :success
     assert_equal({"validation"=>{"status"=>false,"messages"=>['Multiple lots with lot number 123456789. This is currently unsupported.',"Okay"]}}.to_json, assigns['validator'].to_json)
@@ -235,12 +235,12 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,barcode: ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -255,35 +255,35 @@ class StampsControllerTest < ActionController::TestCase
         '58000000382'=> @plate_b
       }).
       returns([
-          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+          {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+          {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
         ])
 
     @request.headers["Accept"] = "application/json"
 
     api.stamp.expect_create_with(
-      :received => {
-        :user => '11111111-2222-3333-4444-555555555555',
-        :tip_lot => '12345678',
-        :lot => '11111111-2222-3333-4444-555555555556',
-        :robot => '40b07000-0000-0000-0000-000000000000',
-        :stamp_details => [
-          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        tip_lot: '12345678',
+        lot: '11111111-2222-3333-4444-555555555556',
+        robot: '40b07000-0000-0000-0000-000000000000',
+        stamp_details: [
+          {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+          {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
         ]
       },
-      :returns  => '10204050-0000-0000-0000-000000000000'
+      returns: '10204050-0000-0000-0000-000000000000'
     )
 
     post :create, {
-      :user_swipecard => 'abcdef',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'full',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789',
-      :beds           => {
+      user_swipecard: 'abcdef',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'full',
+      lot_bed: '58000000180',
+      lot_plate: '123456789',
+      beds: {
         '58000000281'=>'122000000183',
         '58000000382'=>'122000000284'
       }
@@ -298,12 +298,12 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,:lot_number => '123456789').
+    with(Sequencescape::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
     expects(:all).
-    with(Gatekeeper::Qcable,:barcode => ['122000000183','122000000284']).
+    with(Gatekeeper::Qcable,barcode: ['122000000183','122000000284']).
     returns([@plate_a,@plate_b])
 
     @robot.expects(:valid?).
@@ -318,40 +318,40 @@ class StampsControllerTest < ActionController::TestCase
         '58000000382'=> @plate_b
       }).
       returns([
-          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+          {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+          {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
         ])
     @request.headers["Accept"] = "application/json"
 
     api.stamp.expect_create_with(
-      :received => {
-        :user => '11111111-2222-3333-4444-555555555555',
-        :tip_lot => '12345678',
-        :lot => '11111111-2222-3333-4444-555555555556',
-        :robot => '40b07000-0000-0000-0000-000000000000',
-        :stamp_details => [
-          {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-          {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        tip_lot: '12345678',
+        lot: '11111111-2222-3333-4444-555555555556',
+        robot: '40b07000-0000-0000-0000-000000000000',
+        stamp_details: [
+          {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+          {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
         ]
       },
-      :returns  => '10204050-0000-0000-0000-000000000000'
+      returns: '10204050-0000-0000-0000-000000000000'
     )
 
     post :create, {
-      :user_swipecard => 'abcdef',
-      :robot_barcode  => '488000000178',
-      :robot_uuid     => '40b07000-0000-0000-0000-000000000000',
-      :tip_lot        => '12345678',
-      :validate       => 'full',
-      :lot_bed        => '58000000180',
-      :lot_plate      => '123456789',
-      :beds           => {
+      user_swipecard: 'abcdef',
+      robot_barcode: '488000000178',
+      robot_uuid: '40b07000-0000-0000-0000-000000000000',
+      tip_lot: '12345678',
+      validate: 'full',
+      lot_bed: '58000000180',
+      lot_plate: '123456789',
+      beds: {
         '58000000281'=>'122000000183',
         '58000000382'=>'122000000284'
       },
-      :repeat        => 'repeat'
+      repeat: 'repeat'
     }
-    assert_redirected_to :controller=>:stamps, :action=>:new, :robot_barcode => '488000000178', :tip_lot => '12345678', :lot_bed => '58000000180', :lot_plate => '123456789'
+    assert_redirected_to controller: :stamps, action: :new, robot_barcode: '488000000178', tip_lot: '12345678', lot_bed: '58000000180', lot_plate: '123456789'
     assert_equal 'Stamp completed!', flash[:success]
   end
 

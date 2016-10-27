@@ -11,7 +11,7 @@ class Presenter::Lot
     @lot = lot
   end
 
-  delegate :lot_number, :uuid, :id, :lot_type_name, :template_name, :to=> :lot
+  delegate :lot_number, :uuid, :id, :lot_type_name, :template_name, to: :lot
   alias_method :lot_type, :lot_type_name
   alias_method :template, :template_name
 

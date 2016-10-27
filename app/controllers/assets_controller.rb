@@ -5,7 +5,7 @@
 class AssetsController < ApplicationController
 
   before_filter :find_user
-  skip_before_filter :find_user, :only => [:search,:show]
+  skip_before_filter :find_user, only: [:search,:show]
   before_filter :find_asset_from_barcode
   ##
   # This doesn't actually destroy asset, just flags them as such
@@ -14,10 +14,10 @@ class AssetsController < ApplicationController
     raise UserError::InputError, "#{@asset.human_barcode} can not be destroyed while '#{@asset.state}'." unless @asset.destroyable?
 
     state_change = api.state_change.create!(
-      :user => @user.uuid,
-      :target => @asset.uuid,
-      :reason => params[:reason],
-      :target_state => Gatekeeper::Application.config.destroyed_state
+      user: @user.uuid,
+      target: @asset.uuid,
+      reason: params[:reason],
+      target_state: Gatekeeper::Application.config.destroyed_state
     )
 
     flash[:success] = "#{@asset.human_barcode} has been destroyed!" if state_change.target_state == 'destroyed'
@@ -33,7 +33,7 @@ class AssetsController < ApplicationController
   def find_asset_from_barcode
     raise UserError::InputError, "No barcode was provided!" if params[:asset_barcode].nil?
     rescue_no_results("Could not find an asset with the barcode #{params[:asset_barcode]}.") do
-      @asset = api.search.find(Settings.searches['Find assets by barcode']).first(:barcode => params[:asset_barcode])
+      @asset = api.search.find(Settings.searches['Find assets by barcode']).first(barcode: params[:asset_barcode])
     end
   end
 

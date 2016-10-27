@@ -73,7 +73,7 @@ class StampsController < ApplicationController
       raise StandardError, "An invalid validation option was provided: #{params[:validate]}"
     end
 
-    render(:json=>validator,:root=>true)
+    render(json: validator,root: true)
   end
 
   ##
@@ -85,22 +85,22 @@ class StampsController < ApplicationController
     raise StandardError, 'Validation Bypassed' unless valid
 
     api.stamp.create!(
-      :user  => @user.uuid,
-      :robot => @robot.uuid,
-      :lot   => @lot.uuid,
-      :tip_lot => params[:tip_lot],
-      :stamp_details => @robot.beds_for(@bed_plates)
+      user: @user.uuid,
+      robot: @robot.uuid,
+      lot: @lot.uuid,
+      tip_lot: params[:tip_lot],
+      stamp_details: @robot.beds_for(@bed_plates)
     )
 
     flash[:success] = 'Stamp completed!'
     redir = params[:repeat].present? ?
       {
-        :controller    => :stamps,
-        :action        => :new,
-        :robot_barcode => params[:robot_barcode ],
-        :tip_lot       => params[:tip_lot],
-        :lot_bed       => params[:lot_bed],
-        :lot_plate     => params[:lot_plate]
+        controller: :stamps,
+        action: :new,
+        robot_barcode: params[:robot_barcode ],
+        tip_lot: params[:tip_lot],
+        lot_bed: params[:lot_bed],
+        lot_plate: params[:lot_plate]
       } :
       lot_url(@lot)
     redirect_to redir
@@ -114,7 +114,7 @@ class StampsController < ApplicationController
   end
 
   def find_lot
-    @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Sequencescape::Lot,:lot_number=> params[:lot_plate]).tap do |lots|
+    @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Sequencescape::Lot,lot_number: params[:lot_plate]).tap do |lots|
       validator.add_error("Could not find a lot with the lot number '#{params[:lot_plate]}'") if lots.empty?
       validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.count > 1
     end.first
@@ -126,7 +126,7 @@ class StampsController < ApplicationController
     plate_barcodes = params[:beds].values
     validator.add_error("Plates can only be on one bed") if plate_barcodes.uniq!.present?
 
-    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable,:barcode=> plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
+    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable,barcode: plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? {|_,plates| plates.count > 1}
 
     @bed_plates = Hash[params[:beds].map do |bed,plate_barcode|
@@ -139,7 +139,7 @@ class StampsController < ApplicationController
   def find_robot
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
     begin
-      @robot = api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
+      @robot = api.search.find(Settings.searches['Find robot by barcode']).first(barcode: params[:robot_barcode])
     rescue Sequencescape::Api::ResourceNotFound => exception
       return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
     end

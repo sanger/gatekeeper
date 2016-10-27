@@ -117,9 +117,9 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
       "child_purposes"=>[
         ["Tag PCR", "53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc"]
         ],
-        "state"=>"available",
-        "children"=>[],
-        "handle"=>{
+      "state"=>"available",
+      "children"=>[],
+      "handle"=>{
           "with"=>"qa_plate_conversion",
           "as"=>"source",
           "sibling"=>"Tag Plate",

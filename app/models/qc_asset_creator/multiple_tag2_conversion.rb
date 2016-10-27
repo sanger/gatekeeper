@@ -27,16 +27,16 @@ module QcAssetCreator::MultipleTag2Conversion
   # Ensures the qcable state changes are recorded
   def asset_update_state
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => target,
-      :reason => 'Used to QC',
-      :target_state => Gatekeeper::Application.config.used_state
+      user: @user.uuid,
+      target: target,
+      reason: 'Used to QC',
+      target_state: Gatekeeper::Application.config.used_state
     )
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => source,
-      :reason => 'Used to QC',
-      :target_state => Gatekeeper::Application.config.used_state
+      user: @user.uuid,
+      target: source,
+      reason: 'Used to QC',
+      target_state: Gatekeeper::Application.config.used_state
     )
   end
 
@@ -50,22 +50,22 @@ module QcAssetCreator::MultipleTag2Conversion
   def asset_transfer(_)
 
     api.bulk_transfer.create!(
-      :source => source,
-      :user => @user.uuid,
-      :well_transfers => transfer_map
+      source: source,
+      user: @user.uuid,
+      well_transfers: transfer_map
     )
     api.tag_layout_template.find(tag_template).create!(
-      :user => @user.uuid,
-      :plate => target,
-      :substitutions => {}
+      user: @user.uuid,
+      plate: target,
+      substitutions: {}
     )
 
     each_tag2_template_with_tube_and_locations do |tag2_template, tag2_tube, target_well_locations|
       api.tag2_layout_template.find(tag2_template).create!(
-        :user => @user.uuid,
-        :plate => target,
-        :source => tag2_tube,
-        :target_well_locations => target_well_locations.values
+        user: @user.uuid,
+        plate: target,
+        source: tag2_tube,
+        target_well_locations: target_well_locations.values
       )
     end
   end
@@ -101,7 +101,7 @@ module QcAssetCreator::MultipleTag2Conversion
 
   def tag2_qcables
     return @tag2_qcables ||= api.search.find(Settings.searches['Find qcable by barcode']).
-      all(Gatekeeper::Qcable,:barcode => tag2_tubes_barcodes.values).
+      all(Gatekeeper::Qcable,barcode: tag2_tubes_barcodes.values).
       inject({}) do |hash,qcable|
         hash[qcable.barcode.ean13] = qcable
         hash

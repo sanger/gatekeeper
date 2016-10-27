@@ -15,13 +15,13 @@ class QcablesController < ApplicationController
     qcable_name = (Settings.lot_types[@lot.lot_type_name]||@lot.lot_type).qcable_name
 
     qc_creator = api.qcable_creator.create!(
-      :user => @user.uuid,
-      :lot  => @lot.uuid,
-      :count => params[:plate_number].to_i
+      user: @user.uuid,
+      lot: @lot.uuid,
+      count: params[:plate_number].to_i
     )
 
     labels = qc_creator.qcables.map do |q|
-      Sanger::Barcode::Printing::Label.new(:prefix=>q.barcode.prefix,:number=>q.barcode.number,:study=>"#{@lot.lot_number}:#{@lot.template_name}")
+      Sanger::Barcode::Printing::Label.new(prefix: q.barcode.prefix,number: q.barcode.number,study: "#{@lot.lot_number}:#{@lot.template_name}")
     end
 
     begin
@@ -34,7 +34,7 @@ class QcablesController < ApplicationController
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
-    redirect_to :controller=> :lots, :action=>:show, :id=>params[:lot_id]
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
   end
 
   private
