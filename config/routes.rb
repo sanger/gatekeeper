@@ -5,45 +5,45 @@ Gatekeeper::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'pages#index'
 
-  resources :lots, :only => [:create, :show, :new], :constraints => {:id => /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/} do
+  resources :lots, only: [:create, :show, :new], constraints: {id: /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/} do
     collection do
       get :search
     end
-    resources :qcables, :only => [:create]
-    resources :qc_decisions, :only => [:create,:new], :controller => 'lots_qc_decisions'
+    resources :qcables, only: [:create]
+    resources :qc_decisions, only: [:create,:new], controller: 'lots_qc_decisions'
   end
 
-  resources :batches, :only => [:show] do
+  resources :batches, only: [:show] do
     collection do
       get :search
     end
-    resources :qc_decisions, :only => [:create,:new], :controller => 'batches_qc_decisions'
+    resources :qc_decisions, only: [:create,:new], controller: 'batches_qc_decisions'
   end
 
   # We can't use the standard CRUD setup, as the user doesn't have the uuid
   # to hand. Instead we pass a barcode to the controller.
-  resource :asset, :only => [:destroy] do
+  resource :asset, only: [:destroy] do
   end
 
-  resources :stamps, :only => [:new,:create] do
+  resources :stamps, only: [:new,:create] do
     collection do
       post :validation
     end
   end
 
-  resources :robots, :only=>[] do
+  resources :robots, only: [] do
     collection do
       get :search
     end
   end
 
-  resources :users, :only=>[] do
+  resources :users, only: [] do
     collection do
       get :search
     end
   end
 
-  resources :qc_assets, :only => [:new,:create] do
+  resources :qc_assets, only: [:new,:create] do
     collection do
       get :search
     end
@@ -55,9 +55,9 @@ Gatekeeper::Application.routes.draw do
     end
   end
 
-  resources :plates, :only=> [:show]
-  resources :tubes,  :only=> [:show]
-  resources :submissions,  :only=> [:create]
-  resources :barcode_labels,  :only=> [:create]
+  resources :plates, only: [:show]
+  resources :tubes,  only: [:show]
+  resources :submissions,  only: [:create]
+  resources :barcode_labels,  only: [:create]
 
 end

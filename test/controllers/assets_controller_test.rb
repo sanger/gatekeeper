@@ -16,23 +16,23 @@ class AssetsControllerTest < ActionController::TestCase
     asset.class_eval { include BarcodeExtensions; include Gatekeeper::Asset::StateExtensions; }
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
-      with(:barcode => '1220000010734').
+      with(barcode: '1220000010734').
       returns(asset)
 
     api.state_change.expect_create_with(
-      :received =>{
-        :user => '11111111-2222-3333-4444-555555555555',
-        :target => '11111111-2222-3333-4444-300000000010',
-        :target_state => 'destroyed',
-        :reason => 'Plate Dropped'
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        target: '11111111-2222-3333-4444-300000000010',
+        target_state: 'destroyed',
+        reason: 'Plate Dropped'
         },
-      :returns  => '55555555-6666-7777-8888-000000000003'
+      returns: '55555555-6666-7777-8888-000000000003'
     )
 
     delete :destroy, {
-      :user_swipecard => '123456789',
-      :asset_barcode => '1220000010734',
-      :reason => 'Plate Dropped'
+      user_swipecard: '123456789',
+      asset_barcode: '1220000010734',
+      reason: 'Plate Dropped'
     }
 
     assert_redirected_to :root
@@ -45,13 +45,13 @@ class AssetsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
-      with(:barcode => '1220000010734').
+      with(barcode: '1220000010734').
       raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
     delete :destroy, {
-      :user_swipecard => '123456789',
-      :asset_barcode => '1220000010734',
-      :reason => 'Plate Dropped'
+      user_swipecard: '123456789',
+      asset_barcode: '1220000010734',
+      reason: 'Plate Dropped'
     }
 
     assert_redirected_to :root

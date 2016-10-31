@@ -67,7 +67,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
   module CreationMethods
     def beds_for(beds)
       (1..capacity).map do |i|
-        {:bed=>robot_properties["DEST#{i}"], :order=>i, :qcable=>beds[barcode_for(i)].uuid }
+        {bed: robot_properties["DEST#{i}"], order: i, qcable: beds[barcode_for(i)].uuid }
       end
     end
   end

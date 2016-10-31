@@ -10,7 +10,7 @@ class Presenter::LotType
   attr_reader :name
 
   def initialize(lot_type_name)
-    @name     = lot_type_name
+    @name = lot_type_name
     raise Presenter::LotType::ConfigurationError, "No lot type specified." if @name.nil?
     @settings = Settings.lot_types[lot_type_name]
     raise Presenter::LotType::ConfigurationError, "Unknown lot type '#{lot_type_name}'." if @settings.nil?
@@ -27,7 +27,7 @@ class Presenter::LotType
   end
 
   def each_template_option
-    (Settings.templates[template_class]||no_template_options).each do |template|
+    (Settings.templates[template_class] || no_template_options).each do |template|
       yield template.name, template.uuid
     end
   end

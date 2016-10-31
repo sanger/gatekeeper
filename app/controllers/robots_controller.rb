@@ -5,16 +5,16 @@ class RobotsController < ApplicationController
   def search
     begin
       @robot = Presenter::Robot.new(
-        api.search.find(Settings.searches['Find robot by barcode']).first(:barcode=>params[:robot_barcode])
+        api.search.find(Settings.searches['Find robot by barcode']).first(barcode: params[:robot_barcode])
         )
     rescue Sequencescape::Api::ResourceNotFound
       return render(
-        :json => Presenter::Robot.new(nil).output,
-        :status => 404
+        json: Presenter::Robot.new(nil).output,
+        status: 404
         )
     end
 
-    render(:json => @robot.output)
+    render(json: @robot.output)
   end
 
 end

@@ -7,16 +7,16 @@ module QcAssetCreator::PlateConversion
   # Ensures the qcable state changes are recorded
   def asset_update_state
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => @asset.uuid,
-      :reason => 'Used in QC',
-      :target_state => Gatekeeper::Application.config.qcing_state
+      user: @user.uuid,
+      target: @asset.uuid,
+      reason: 'Used in QC',
+      target_state: Gatekeeper::Application.config.qcing_state
     )
     api.state_change.create!(
-      :user => @user.uuid,
-      :target => @sibling.uuid,
-      :reason => 'Used to QC',
-      :target_state => Gatekeeper::Application.config.used_state
+      user: @user.uuid,
+      target: @sibling.uuid,
+      reason: 'Used to QC',
+      target_state: Gatekeeper::Application.config.used_state
     )
   end
 
@@ -24,9 +24,9 @@ module QcAssetCreator::PlateConversion
   # Actually converts the target plate to the specified purpose
   def asset_create
     api.plate_conversion.create!(
-      :target => target,
-      :purpose => @purpose,
-      :user => @user.uuid,
+      target: target,
+      purpose: @purpose,
+      user: @user.uuid,
     ).target
   end
 
@@ -36,14 +36,14 @@ module QcAssetCreator::PlateConversion
   # Applies tags
   def asset_transfer(_)
     transfer_template.create!(
-      :source => source,
-      :destination => target,
-      :user => @user.uuid
+      source: source,
+      destination: target,
+      user: @user.uuid
     )
     api.tag_layout_template.find(tag_template).create!(
-      :user => @user.uuid,
-      :plate => target,
-      :substitutions => {}
+      user: @user.uuid,
+      plate: target,
+      substitutions: {}
     )
   end
 
@@ -106,6 +106,6 @@ module QcAssetCreator::PlateConversion
   end
 
   def tag_template
-    api.search.find(Settings.searches['Find qcable by barcode']).first(:barcode => target_barcode).lot.template.uuid
+    api.search.find(Settings.searches['Find qcable by barcode']).first(barcode: target_barcode).lot.template.uuid
   end
 end
