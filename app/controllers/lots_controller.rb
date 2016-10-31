@@ -56,7 +56,7 @@ class LotsController < ApplicationController
   # or displays a choice if there are multiple results
   def search
     raise UserError::InputError, 'Please use the find lots by lot number feature to find specific lots.' if params[:lot_number].nil?
-    @found_lots = api.search.find(Settings.searches['Find lot by lot number']).all(Sequencescape::Lot,lot_number: params[:lot_number])
+    @found_lots = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot,lot_number: params[:lot_number])
 
     raise UserError::InputError, "Could not find a lot with the lot_number #{params[:lot_number]}." if @found_lots.empty?
 

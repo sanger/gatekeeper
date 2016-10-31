@@ -27,7 +27,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate lot" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([@lot])
 
     @robot.expects(:valid_lot?).
@@ -52,7 +52,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate lot when false" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     @robot.expects(:valid_lot?).
@@ -82,7 +82,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: 'not_a_lot').
+    with(Gatekeeper::Lot,lot_number: 'not_a_lot').
     returns([])
     @request.headers["Accept"] = "application/json"
     post :validation, {
@@ -103,7 +103,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
@@ -139,7 +139,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate full invalid" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
@@ -176,7 +176,7 @@ class StampsControllerTest < ActionController::TestCase
   test "validate full multiple barcodes" do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
@@ -211,7 +211,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([@lot,@lot])
 
     @request.headers["Accept"] = "application/json"
@@ -238,7 +238,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').
@@ -301,7 +301,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
     expects(:all).
-    with(Sequencescape::Lot,lot_number: '123456789').
+    with(Gatekeeper::Lot,lot_number: '123456789').
     returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff').

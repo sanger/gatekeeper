@@ -125,7 +125,7 @@ class LotsControllerTest < ActionController::TestCase
   test 'find with one result' do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
       expects(:all).
-      with(Sequencescape::Lot,lot_number: '123456789').
+      with(Gatekeeper::Lot,lot_number: '123456789').
       returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
     get :search, lot_number: '123456789'
@@ -136,7 +136,7 @@ class LotsControllerTest < ActionController::TestCase
   test 'find with multiple results' do
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc').
       expects(:all).
-      with(Sequencescape::Lot,lot_number: '123456789').
+      with(Gatekeeper::Lot,lot_number: '123456789').
       returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556'), api.lot.with_uuid('11111111-2222-3333-4444-555555555557')])
 
     get :search, lot_number: '123456789'
