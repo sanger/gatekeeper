@@ -34,32 +34,32 @@
   };
 
   proto.attachHandlers = function() {
-    $('#all-to-release').on('click', this.releaseAll);
-    $('#all-to-fail').on('click', this.failAll);
+    $('#all-to-release').on('click', $.proxy(this.releaseAll, this));
+    $('#all-to-fail').on('click', $.proxy(this.failAll, this));
 
     var spinnerTemplate = $("#spinnerTemplate");
 
-    $('[data-lot-uuid] button').addClass('has-spinner').prepend(spinnerTemplate).click(function(e) {
+    $('[data-lot-uuid] button').addClass('has-spinner').prepend(spinnerTemplate).click($.proxy(function(e) {
       $('.spinner', e.target).show();
-    });
+    }, this));
 
-    $('form').on('ajax:complete', function() { $('.spinner', this).hide();});
+    $('form').on('ajax:complete', $.proxy(function() { $('.spinner', this).hide();}, this));
 
-    $('#batch-release-all-lots').on('click', function(event) {
+    $('#batch-release-all-lots').on('click', $.proxy(function(event) {
       $("[data-lot-uuid] button[value=release]").each(function(pos, n) { n.click();});
-    });
+    }, this));
 
-    $('#batch-fail-all-lots').on('click', function(event) {
+    $('#batch-fail-all-lots').on('click', $.proxy(function(event) {
       $("[data-lot-uuid] button[value=fail]").each(function(pos, n) { n.click();});
-    });
+    }, this));
 
-    $("#gk-new-qc-decision-page").on("ajax:success", function(e, data, status, xhr) {
+    $("#gk-new-qc-decision-page").on("ajax:success", $.proxy(function(e, data, status, xhr) {
       if (typeof data.error !== 'undefined') {
         this.handleError(data);
       } else {
         this.handleSuccess(data);
       }
-    }).on("ajax:error", $.bind(function(e, xhr, status, error) {
+    }, this)).on("ajax:error", $.proxy(function(e, xhr, status, error) {
       var data = xhr.responseJSON;
       if (typeof data.error !== 'undefined') {
         this.handleError(data);
@@ -73,5 +73,5 @@
   });
 
 
-})(window,jQuery,undefined)
+})(window,jQuery)
 
