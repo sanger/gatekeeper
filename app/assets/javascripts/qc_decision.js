@@ -39,19 +39,19 @@
 
     var spinnerTemplate = $("#spinnerTemplate");
 
-    $('[data-lot-uuid] button').addClass('has-spinner').prepend(spinnerTemplate).click($.proxy(function(e) {
+    $('[data-lot-uuid] button').addClass('has-spinner').prepend(spinnerTemplate).click(function(e) {
       $('.spinner', e.target).show();
-    }, this));
+    });
 
-    $('form').on('ajax:complete', $.proxy(function() { $('.spinner', this).hide();}, this));
+    $('form').on('ajax:complete', function() { $('.spinner', this).hide();});
 
-    $('#batch-release-all-lots').on('click', $.proxy(function(event) {
+    $('#batch-release-all-lots').on('click', function(event) {
       $("[data-lot-uuid] button[value=release]").each(function(pos, n) { n.click();});
-    }, this));
+    });
 
-    $('#batch-fail-all-lots').on('click', $.proxy(function(event) {
+    $('#batch-fail-all-lots').on('click', function(event) {
       $("[data-lot-uuid] button[value=fail]").each(function(pos, n) { n.click();});
-    }, this));
+    });
 
     $("#gk-new-qc-decision-page").on("ajax:success", $.proxy(function(e, data, status, xhr) {
       if (typeof data.error !== 'undefined') {
@@ -61,10 +61,10 @@
       }
     }, this)).on("ajax:error", $.proxy(function(e, xhr, status, error) {
       var data = xhr.responseJSON;
-      if (typeof data.error !== 'undefined') {
+      if ((typeof data !== 'undefined') && (typeof data['error'] !== 'undefined')) {
         this.handleError(data);
       }
-    }, this), this);
+    }, this));
   };
 
   $(document).ready(function() {
@@ -73,5 +73,5 @@
   });
 
 
-})(window,jQuery)
+})(window,jQuery,undefined)
 

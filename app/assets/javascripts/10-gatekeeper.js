@@ -35,7 +35,6 @@
         $(this).parents('.form-group').addClass('has-success');
         $(this).prev('.form-control-feedback').removeClass('glyphicon-time glyphicon-exclamation-sign')
         $(this).prev('.form-control-feedback').addClass('glyphicon glyphicon-ok-sign');
-        this.copyToAllInputs();
         (this.onDone||$.noop)();
       },
       fail : function(response) {
@@ -43,7 +42,6 @@
         $(this).parents('.form-group').addClass('has-error');
         $(this).prev('.form-control-feedback').removeClass('glyphicon-time glyphicon-ok-sign')
         $(this).prev('.form-control-feedback').addClass('glyphicon glyphicon-exclamation-sign');
-        this.copyToAllInputs();
         $(this).popover('show');
       }
     })
@@ -51,10 +49,10 @@
     $(this).on('blur',function(){
       // Lookup user on blur if we have content
       if (this.value !== "") {
-        var text_box;
-        text_box = this;
-        this.wait();
-        this.request().then(
+        var text_box = this;
+        text_box.copyToAllInputs();
+        text_box.wait();
+        text_box.request().then(
           //success
           function(response){ text_box.success(response); },
           // fail

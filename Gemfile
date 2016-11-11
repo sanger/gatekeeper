@@ -32,5 +32,10 @@ group :deployment do
 end
 
 group :test do
+  gem 'minitest'
   gem 'mocha'
+  gem 'poltergeist'
+  gem 'launchy'
+  gem 'capybara'
+  gem 'minitest-rails-capybara'
 end
