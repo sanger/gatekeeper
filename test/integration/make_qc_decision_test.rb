@@ -3,6 +3,9 @@ require 'mock_api'
 
 class MakeQcDecisionTest < Capybara::Rails::TestCase
 
+  include MockApi
+
+
   def prepare_decision(decision)
     visit new_batch_qc_decision_path('12345')
 
@@ -23,7 +26,6 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
     find('td[data-lot-uuid="11111111-2222-3333-4444-555555555556"] input[name="user_swipecard"][value="abcdef"]',visible: :any)
   end
 
-  include MockApi
 
   setup do
     mock_api
