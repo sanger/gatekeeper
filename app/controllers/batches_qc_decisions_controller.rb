@@ -27,13 +27,12 @@ class BatchesQcDecisionsController < QcDecisionsController
         end
       )
       flash[:success] = "Qc decision has been updated."
-
       respond_to do |format|
         format.json {
-          render json: [{lot: {
+          render(json: [{lot: {
             uuid: params[:lot_id],
             decision: params[:decision]
-            }}]
+            }}])
         }
       end
     rescue Sequencescape::Api::ResourceInvalid => exception
