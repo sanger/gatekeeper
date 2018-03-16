@@ -2,6 +2,7 @@ require 'pry'
 Gatekeeper::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  config.secret_key_base = 'example_dev_environment_key'
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -39,7 +40,7 @@ Gatekeeper::Application.configure do
 
   # Set up approved templates List built on rake:config:generate
   # Split by class, set up with name
-  config.approved_templates = ActiveSupport::OrderedOptions.new
-  config.approved_templates.plate_template      = :all
-  config.approved_templates.tag_layout_template = :all
+  config.suggested_templates = ActiveSupport::OrderedOptions.new
+  config.suggested_templates.plate_template      = :all
+  config.suggested_templates.tag_layout_template = :all
 end

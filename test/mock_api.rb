@@ -24,6 +24,9 @@ module MockApi
         resource_cache[uuid] ||= Record.from_registry(rname,uuid)
       end
 
+      def all
+      end
+
       def resource_cache
         api.resource_cache
       end
