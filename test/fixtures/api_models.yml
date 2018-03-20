@@ -609,6 +609,7 @@
   'ecd5cd30-956f-11e3-8255-44fb42fffecc':
     :attributes:
       :name: 'Example Tag Template'
+      :walking_by: 'wells of plate'
     :associations: {}
 :tag2_layout_template:
   'ecd5cd30-956f-11e3-8255-44fb42fffedd':

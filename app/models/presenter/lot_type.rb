@@ -43,9 +43,9 @@ class Presenter::LotType
   def split_templates(templates)
     suggested_templates = []
     other_templates = []
-    suggested_names = Gatekeeper::Application.config.suggested_templates.tag_layout_template
+    suggested_names = Settings.templates[template_class].map { |t| t.name }
     templates.each do |template|
-      if (suggested_names == :all || suggested_names.include?(template.name))
+      if suggested_names.include?(template.name)
         suggested_templates << template
       else
         other_templates << template

@@ -1,4 +1,5 @@
 require 'pry'
+
 Gatekeeper::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -45,4 +46,7 @@ Gatekeeper::Application.configure do
 
   config.secret_key_base = 'example_test_environment_key'
 
+  config.suggested_templates = ActiveSupport::OrderedOptions.new
+  config.suggested_templates.plate_template      = :all
+  config.suggested_templates.tag_layout_template = :all
 end

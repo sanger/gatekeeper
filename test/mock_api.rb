@@ -25,6 +25,9 @@ module MockApi
       end
 
       def all
+        Registry.instance.resources(rname).map do |uuid, res|
+          resource_cache[uuid] ||= Record.new(res, rname, uuid)
+        end
       end
 
       def resource_cache
@@ -226,12 +229,18 @@ module MockApi
       aliases[resource] || [resource]
     end
 
-    def find(resource,uuid)
-      raise Api::TestError, "No resouce found for #{resource.inspect}" if ralias(resource).detect {|al| registry[al] }.nil?
-      ralias(resource).each {|al| return registry[al][uuid] unless registry[al][uuid].nil? }
-      raise(Sequencescape::Api::ResourceNotFound, "UUID does not exist")
+    def resources(resource_name)
+      res = {}
+      ralias(resource_name).each { |al| res.merge!(registry[al]) }
+      raise Api::TestError, "No resouce found for #{resource_name.inspect}" if res.empty?
+      res
     end
 
+    def find(resource_name, uuid)
+      res = resources(resource_name)
+      return res[uuid] unless res[uuid].nil?
+      raise(Sequencescape::Api::ResourceNotFound, "UUID does not exist")
+    end
   end
 
 
