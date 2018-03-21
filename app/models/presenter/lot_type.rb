@@ -30,17 +30,12 @@ class Presenter::LotType
   def template_options
     grouped_templates = template_type_presenter.templates
     grouped_templates.each do |group_name, templates|
-      grouped_templates[group_name] = [no_template_option] if templates.empty?
+      options = templates.map { |template| [template.name, template.uuid] }
+      grouped_templates[group_name] = options
     end
   end
 
   private
-
-  NoTemplate = Struct.new(:name, :uuid)
-
-  def no_template_option
-    NoTemplate.new('No template available', nil)
-  end
 
   def template_type_presenter
     "Presenter::#{@settings.template_class}".constantize.new(@api)
