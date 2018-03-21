@@ -10,4 +10,3 @@ class Presenter::Template
   end
 
 end
-

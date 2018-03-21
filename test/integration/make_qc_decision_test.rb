@@ -19,7 +19,7 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
         ]
       },
       returns: '11111111-2222-3333-9999-330000000008'
-      )
+    )
     fill_in('User swipecard',with: 'abcdef')
 
     # Check user been copied to the individual batch forms
@@ -34,21 +34,19 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
     lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
 
     lot.stubs(:pending_qcable_uuids).returns([
-      '11111111-2222-3333-4444-100000000008',
-      '11111111-2222-3333-4444-100000000009'
-    ])
+                                               '11111111-2222-3333-4444-100000000008',
+                                               '11111111-2222-3333-4444-100000000009'
+                                             ])
 
     # We mock here, as this is out interface with the controller.
 
-    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc').
-    expects(:all).
-    with(Gatekeeper::Lot, batch_id: '12345').
-    returns([lot])
-
+    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
+       .expects(:all)
+       .with(Gatekeeper::Lot, batch_id: '12345')
+       .returns([lot])
   end
 
   test "release lot" do
-
     prepare_decision('release')
 
     click_button('Release lot')
@@ -74,7 +72,6 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
 
 
   test "release all lots" do
-
     prepare_decision('release')
 
     click_button('Release All Lots')

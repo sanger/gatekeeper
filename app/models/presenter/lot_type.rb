@@ -43,11 +43,9 @@ class Presenter::LotType
   end
 
   def template_type_presenter
-    begin
-      "Presenter::#{@settings.template_class}".constantize.new(@api)
-    rescue NameError => exception
-      raise Presenter::LotType::ConfigurationError, "#{exception}. Cannot instanciate template type presenter."
-    end
+    "Presenter::#{@settings.template_class}".constantize.new(@api)
+  rescue NameError => exception
+    raise Presenter::LotType::ConfigurationError, "#{exception}. Cannot instanciate template type presenter."
   end
 
 end

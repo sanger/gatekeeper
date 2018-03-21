@@ -15,14 +15,14 @@ require 'capybara/poltergeist'
 
 
 Capybara.register_driver :poltergeist_debug do |app|
-  Capybara::Poltergeist::Driver.new(app, :inspector => true)
+  Capybara::Poltergeist::Driver.new(app, inspector: true)
 end
 
 Capybara.default_driver = :poltergeist_debug
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  #fixtures :all
+  # fixtures :all
 
   # Add more helper methods to be used by all tests here...
 end
