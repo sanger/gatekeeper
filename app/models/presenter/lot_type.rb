@@ -9,8 +9,9 @@ class Presenter::LotType
 
   attr_reader :name
 
-  def initialize(lot_type_name)
+  def initialize(lot_type_name, api)
     @name = lot_type_name
+    @api = api
     raise Presenter::LotType::ConfigurationError, "No lot type specified." if @name.nil?
     @settings = Settings.lot_types[lot_type_name]
     raise Presenter::LotType::ConfigurationError, "Unknown lot type '#{lot_type_name}'." if @settings.nil?
@@ -43,7 +44,7 @@ class Presenter::LotType
 
   def template_type_presenter
     begin
-      "Presenter::#{@settings.template_class}".constantize.new
+      "Presenter::#{@settings.template_class}".constantize.new(@api)
     rescue NameError => exception
       raise Presenter::LotType::ConfigurationError, "#{exception}. Cannot instanciate template type presenter."
     end
