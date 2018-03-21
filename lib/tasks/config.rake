@@ -38,15 +38,17 @@ namespace :config do
         approved_plate_templates = Gatekeeper::Application.config.suggested_templates.plate_template
         plate_templates = api.plate_template.all.select {|template| approved_plate_templates == :all || approved_plate_templates.include?(template.name) }
         templates[:plate_template] = plate_templates.map {|template| {name: template.name, uuid: template.uuid }}
+
         # Tag Templates
         # puts "Preparing tag templates ..."
         # approved_tag_layout_templates = Gatekeeper::Application.config.suggested_templates.tag_layout_template
         # tag_layout_templates = api.tag_layout_template.all.select {|template| approved_tag_layout_templates == :all || approved_tag_layout_templates.include?(template.name) }
         # templates[:tag_layout_template] = tag_layout_templates.map {|template| {name: template.name, uuid: template.uuid }}
+
         # Tag 2 Templates
-        puts "Preparing tag 2 templates ..."
-        tag2_layout_templates = api.tag2_layout_template.all
-        templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {name: template.name, uuid: template.uuid }}
+        # puts "Preparing tag 2 templates ..."
+        # tag2_layout_templates = api.tag2_layout_template.all
+        # templates[:tag2_layout_template] = tag2_layout_templates.map {|template| {name: template.name, uuid: template.uuid }}
       end
 
       configuration[:transfer_templates] = {}.tap do |transfer_templates|
