@@ -36,6 +36,11 @@
     :template_class: PlateTemplate
     :printer_type: 96 Well Plate
     :qcable_name: Reporter Plate
+  Tag 2 Tubes:
+    :uuid: b8d05a64-26de-11e8-90f5-8c85902a6503
+    :template_class: Tag2LayoutTemplate
+    :printer_type: 1D Tube
+    :qcable_name: Tag 2 Tube
 :default_purpose:
   :with: plate_conversion_to_default
   :child_name: QA Plate
