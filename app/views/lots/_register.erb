@@ -16,16 +16,13 @@
     <div class="input-group col-sm-6">
       <%= input_glyph('wrench') %>
       <select class="form-control" id="template" name="template">
-        <optgroup label="Suggested Templates">
-          <% lot_type.suggested_template_options.each do |template| -%>
-            <option value="<%= template.uuid %>"><%= template.name %></option>
-          <% end %>
-        </optgroup>
-        <optgroup label="Other Templates">
-          <% lot_type.other_template_options.each do |template| -%>
-            <option value="<%= template.uuid %>"><%= template.name %></option>
-          <% end %>
-        </optgroup>
+      <% lot_type.template_options.each do |group, templates| -%>
+        <% if group != :nil -%><optgroup label="<%= group.to_s.humanize %>"><% end %>
+        <% templates.each do |template| -%>
+          <option value="<%= template.uuid %>"><%= template.name %></option>
+        <% end %>
+        <% if group != :nil -%></optgroup><% end %>
+      <% end %>
       </select>
     </div>
   </div>
