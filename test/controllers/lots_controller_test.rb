@@ -19,6 +19,15 @@ class LotsControllerTest < ActionController::TestCase
     assert_select 'option', 'Example Tag Template'
   end
 
+  test "new tag from API" do
+    get :new, lot_type: 'IDT Tags'
+    assert_response :success
+    assert_select 'title', "Gatekeeper"
+    assert_select 'h1', 'Register IDT Tags Lot'
+    assert_select 'label', 'Tag layout template'
+    assert_select 'option', 'Example Tag Template (API only)'
+  end
+
   test "new tag2" do
     get :new, lot_type: 'Tag 2 Tubes'
     assert_response :success
