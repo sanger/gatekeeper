@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 ##
 # Very simple presenter class for users
 class Presenter::User
-
   attr_reader :user
 
   def initialize(user)
@@ -9,7 +10,7 @@ class Presenter::User
   end
 
   def name
-    [user.first_name,user.last_name].join(' ')
+    [user.first_name, user.last_name].join(' ')
   end
 
   def login
@@ -28,5 +29,4 @@ class Presenter::User
       'login' => login
     } : 'not found'
   end
-
 end

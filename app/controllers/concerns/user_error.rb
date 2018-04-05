@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 ##
 # Raise UserError::InputError to redirect a user to root
 # The exception message will be returned to the user as a flash.
 
 module UserError
-
   class InputError < StandardError; end
 
   def self.included(base)
@@ -16,15 +17,14 @@ module UserError
       def user_error(exception)
         @message = exception.message
         respond_to do |format|
-          format.html {
+          format.html do
             flash[:danger] = @message
             redirect_to :root
-          }
-          format.json { render json: {'error' => @message}, status: 403 }
+          end
+          format.json { render json: { 'error' => @message }, status: 403 }
         end
         false
       end
     end
   end
-
 end

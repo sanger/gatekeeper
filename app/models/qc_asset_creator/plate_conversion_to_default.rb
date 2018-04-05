@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 ##
 # Converts any given asset into @purpose without
 # performing any validation.
 module QcAssetCreator::PlateConversionToDefault
-
   include QcAssetCreator::PlateConversion
 
-  def asset_update_state ; end
-  def asset_transfer(_) ; end
+  def asset_update_state; end
+
+  def asset_transfer(_); end
 
   def validate!
     true
@@ -30,5 +32,4 @@ module QcAssetCreator::PlateConversionToDefault
   def asset_target
     true
   end
-
 end

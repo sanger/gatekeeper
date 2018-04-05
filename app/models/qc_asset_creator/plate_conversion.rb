@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 ##
 # Converts one plate type (The target) to another
 # and transfers the source in
 module QcAssetCreator::PlateConversion
-
   ##
   # Ensures the qcable state changes are recorded
   def asset_update_state
@@ -26,7 +27,7 @@ module QcAssetCreator::PlateConversion
     api.plate_conversion.create!(
       target: target,
       purpose: @purpose,
-      user: @user.uuid,
+      user: @user.uuid
     ).target
   end
 

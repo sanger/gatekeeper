@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Barcode
   InvalidBarcode = Class.new(StandardError)
 
   def self.calculate_barcode(prefix, number)
     barcode = calculate_sanger_barcode(prefix, number)
-    barcode * 10 + calculate_EAN13(barcode)
+    barcode * 10 + calculate_ean13(barcode)
   end
 
   def self.number_to_human(code)
@@ -17,28 +19,27 @@ module Barcode
   private_class_method
 
   def self.calculate_sanger_barcode(prefix, number)
-      raise ArgumentError, "Number : #{number} to big to generate a barcode." if number.to_s.size > 7
-      checksum = calculate_checksum(prefix, number)
-      barcode = prefix_to_number(prefix) + (number * 100) + checksum
+    raise ArgumentError, "Number : #{number} to big to generate a barcode." if number.to_s.size > 7
+    checksum = calculate_checksum(prefix, number)
+    barcode = prefix_to_number(prefix) + (number * 100) + checksum
   end
 
   def self.calculate_checksum(prefix, number)
     string = prefix + number.to_s
     len = string.length
 
-    sum = (0...len).inject(0) do |s,i|
+    sum = (0...len).inject(0) do |s, i|
       s + (string.getbyte(i) * (len - i))
     end
     (sum % 23 + 'A'.getbyte(0))
   end
 
-
-  def self.calculate_EAN13(code)
-    calculate_EAN(code)
+  def self.calculate_ean13(code)
+    calculate_ean(code)
   end
 
-  def self.calculate_EAN(code, initial_weight=3)
-    #The EAN is calculated by adding each digit modulo 10 ten weighted by 1 or 3 ( in seq)
+  def self.calculate_ean(code, initial_weight = 3)
+    # The EAN is calculated by adding each digit modulo 10 ten weighted by 1 or 3 ( in seq)
     code = code.to_i
     ean = 0
     weight = initial_weight
@@ -57,6 +58,4 @@ module Barcode
     second = 0 if second < 0
     return ((first * 27) + second) * 1000000000
   end
-
-
 end
