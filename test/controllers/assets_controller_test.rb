@@ -13,7 +13,7 @@ class AssetsControllerTest < ActionController::TestCase
     api.mock_user('123456789','11111111-2222-3333-4444-555555555555')
 
     asset = api.asset.with_uuid('11111111-2222-3333-4444-300000000010')
-    asset.class_eval { include BarcodeExtensions; include Gatekeeper::Asset::StateExtensions; }
+    asset.class_eval { include BarcodeExtensions; include StateExtensions; }
     api.search.with_uuid('e7d2fec0-956f-11e3-8255-44fb42fffecc').
       expects(:first).
       with(barcode: '1220000010734').

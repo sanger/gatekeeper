@@ -7,7 +7,10 @@ class Presenter::LotType
 
   class ConfigurationError < StandardError; end
 
-  attr_reader :name
+  attr_reader :name, :settings
+
+  delegate :uuid, :template_class, to: :settings
+  delegate :grouped_templates, to: :template_type_presenter
 
   def initialize(lot_type_name, api)
     @name = lot_type_name
@@ -20,15 +23,11 @@ class Presenter::LotType
   ##
   # A human formatted template name for labels etc.
   def template_type
-    @settings.template_class.underscore.humanize
-  end
-
-  def uuid
-    @settings.uuid
+    template_class.underscore.humanize
   end
 
   def template_options
-    grouped_templates = template_type_presenter.templates
+    grouped_templates = template_type_presenter.grouped_templates
     grouped_templates.each do |group_name, templates|
       options = templates.map { |template| [template.name, template.uuid] }
       grouped_templates[group_name] = options
@@ -38,9 +37,9 @@ class Presenter::LotType
   private
 
   def template_type_presenter
-    "Presenter::#{@settings.template_class}".constantize.new(@api)
+    @template_type_presenter ||= "Presenter::#{template_class}".constantize.new(@api)
   rescue NameError => exception
-    raise Presenter::LotType::ConfigurationError, "#{exception}. Cannot instanciate template type presenter."
+    raise Presenter::LotType::ConfigurationError, "#{exception}. Unrecognised template class '#{template_class}'."
   end
 
 end
