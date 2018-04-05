@@ -3,7 +3,7 @@ module Barcode
 
   def self.calculate_barcode(prefix, number)
     barcode = calculate_sanger_barcode(prefix, number)
-    barcode * 10 + calculate_EAN13(barcode)
+    barcode * 10 + calculate_ean13(barcode)
   end
 
   def self.number_to_human(code)
@@ -33,11 +33,11 @@ module Barcode
   end
 
 
-  def self.calculate_EAN13(code)
-    calculate_EAN(code)
+  def self.calculate_ean13(code)
+    calculate_ean(code)
   end
 
-  def self.calculate_EAN(code, initial_weight=3)
+  def self.calculate_ean(code, initial_weight=3)
     #The EAN is calculated by adding each digit modulo 10 ten weighted by 1 or 3 ( in seq)
     code = code.to_i
     ean = 0

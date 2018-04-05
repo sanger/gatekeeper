@@ -1,4 +1,5 @@
 inherit_from: .rubocop_todo.yml
+
 AllCops:
   TargetRubyVersion: 2.2
   Include:
@@ -8,7 +9,7 @@ AllCops:
 # The cop is meant to enforce conventions regarding variables containing numbers
 # However in 0.43.0 it is bugged. Both changed on master and disabled by default
 # The exclusions don't even get added to the rubocop_todo properly!
-Style/VariableNumber:
+Naming/VariableNumber:
   Enabled: false
 Rails:
   Enabled: true
