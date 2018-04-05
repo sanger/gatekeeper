@@ -17,13 +17,13 @@ class ApplicationController < ActionController::Base
     Gatekeeper::Application.config.api_connection_options
   end
 
-  rescue_from Errno::ECONNREFUSED, :with => :sequencescape_down
+  rescue_from Errno::ECONNREFUSED, with: :sequencescape_down
 
   def sequencescape_down
     @message = "There is a problem with the connection to Sequencescape. Sequencescape may be down."
     respond_to do |format|
-      format.html { render 'pages/error', :status => 500 }
-      format.json { render json: {'error' => @message}, :status => 500 }
+      format.html { render 'pages/error', status: 500 }
+      format.json { render json: {'error' => @message}, status: 500 }
     end
   end
 

@@ -4,9 +4,9 @@ module QcAssetCreator::TubeCreation
     # Creates a tube of the specified purpose
     def asset_create
       api.specific_tube_creation.create!(
-        :user           => @user.uuid,
-        :parent         => @asset.uuid,
-        :child_purposes => [@purpose]
+        user: @user.uuid,
+        parent: @asset.uuid,
+        child_purposes: [@purpose]
       ).children.first
     end
 
@@ -14,9 +14,9 @@ module QcAssetCreator::TubeCreation
     # Transfers the parent plate into the child plate
     def asset_transfer(child)
       transfer_template.create!(
-        :source => @asset.uuid,
-        :destination => child.uuid,
-        :user => @user.uuid
+        source: @asset.uuid,
+        destination: child.uuid,
+        user: @user.uuid
       )
     end
 

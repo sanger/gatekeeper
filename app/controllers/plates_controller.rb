@@ -7,7 +7,7 @@ class PlatesController < ApplicationController
    def show
      @asset = api.plate.find(params[:id])
      @presenter = Presenter::QcAsset.new(@asset)
-     render(:json=>@presenter.output,:root=>true,:status=>:created)
+     render(json: @presenter.output,root: true,status: :created)
    end
 
 end

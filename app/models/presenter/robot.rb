@@ -5,7 +5,7 @@ class Presenter::Robot
   attr_reader :robot
 
   def initialize(robot)
-    @robot= robot
+    @robot = robot
   end
 
   def name
@@ -13,7 +13,7 @@ class Presenter::Robot
   end
 
   def bed_count
-    robot.robot_properties['max_plates'].to_i-1
+    robot.robot_properties['max_plates'].to_i - 1
   end
 
   def output

@@ -34,8 +34,8 @@
   };
 
   proto.attachHandlers = function() {
-    $('#all-to-release').on('click', this.releaseAll);
-    $('#all-to-fail').on('click', this.failAll);
+    $('#all-to-release').on('click', $.proxy(this.releaseAll, this));
+    $('#all-to-fail').on('click', $.proxy(this.failAll, this));
 
     var spinnerTemplate = $("#spinnerTemplate");
 
@@ -53,18 +53,18 @@
       $("[data-lot-uuid] button[value=fail]").each(function(pos, n) { n.click();});
     });
 
-    $("#gk-new-qc-decision-page").on("ajax:success", function(e, data, status, xhr) {
+    $("#gk-new-qc-decision-page").on("ajax:success", $.proxy(function(e, data, status, xhr) {
       if (typeof data.error !== 'undefined') {
         this.handleError(data);
       } else {
         this.handleSuccess(data);
       }
-    }).on("ajax:error", $.bind(function(e, xhr, status, error) {
+    }, this)).on("ajax:error", $.proxy(function(e, xhr, status, error) {
       var data = xhr.responseJSON;
-      if (typeof data.error !== 'undefined') {
+      if ((typeof data !== 'undefined') && (typeof data['error'] !== 'undefined')) {
         this.handleError(data);
       }
-    }, this), this);
+    }, this));
   };
 
   $(document).ready(function() {

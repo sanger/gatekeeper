@@ -14,7 +14,7 @@ class Presenter::Qcable
   end
 
   def index
-    @qcable.stamp_index ? @qcable.stamp_index+1 : '-'
+    @qcable.stamp_index ? @qcable.stamp_index + 1 : '-'
   end
 
   def barcode

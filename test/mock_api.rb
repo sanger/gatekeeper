@@ -59,11 +59,11 @@ module MockApi
       def initialize(parent,resource_name,records)
         @rname = resource_name
         @parent = parent
-        if records.is_a?(Array)
-          @records = records.map {|uuid| Record.from_registry(resource_name,uuid)}
-        else
-          @records = Record.from_registry(resource_name,records)
-        end
+        @records = if records.is_a?(Array)
+                     records.map {|uuid| Record.from_registry(resource_name,uuid)}
+                   else
+                     Record.from_registry(resource_name,records)
+                   end
       end
 
       ##
@@ -106,11 +106,11 @@ module MockApi
 
       def method_missing(method_name,*args,&block)
         return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
-        lookup_association(method_name)||super
+        lookup_association(method_name) || super
       end
 
       def respond_to?(method_name,pv=false)
-        return true if @record[:attributes].has_key?(method_name)||
+        return true if @record[:attributes].has_key?(method_name) ||
           (@record[:associations].present? && @record[:associations].has_key?(method_name))
         super
       end
@@ -142,7 +142,7 @@ module MockApi
       def lookup_association(assn)
         return nil if @record[:associations].nil?
         return nil unless @record[:associations].has_key?(assn)
-        association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn]||[])
+        association_cache[assn] ||= Association.new(self,assn.to_s.singularize,@record[:associations][assn] || [])
       end
     end
 
@@ -181,7 +181,7 @@ module MockApi
     def mock_user_shared(user,barcode)
       user_search = @api.search.with_uuid('e7e52730-956f-11e3-8255-44fb42fffecc')
       user_search.stubs(:first).raises(Sequencescape::Api::ResourceNotFound,'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
-      user_search.stubs(:first).with(:swipecard_code => barcode).returns(user)
+      user_search.stubs(:first).with(swipecard_code: barcode).returns(user)
     end
 
   end
@@ -199,7 +199,7 @@ module MockApi
     include Singleton
 
     def registry
-      @registry ||= Hashie::Mash.new(YAML.load(eval(ERB.new(File.read('./test/fixtures/api_models.yml')).src, nil, '../fixtures/api_models.yml')))
+      @registry ||= Hashie::Mash.new(YAML.load(ERB.new(File.read('./test/fixtures/api_models.yml')).result))
     end
 
     def each_resource
@@ -209,18 +209,18 @@ module MockApi
 
     def aliases
       {
-        :asset => [:plate,:tube],
-        :destination => [:plate,:tube],
-        :plate_purpose => [:purpose],
-        :target_asset => [:tube],
-        :child => [:plate,:tube],
-        :target => [:plate,:tube],
-        :template => [:tag_layout_template,:plate,:tag2_layout_template]
+        asset: [:plate,:tube],
+        destination: [:plate,:tube],
+        plate_purpose: [:purpose],
+        target_asset: [:tube],
+        child: [:plate,:tube],
+        target: [:plate,:tube],
+        template: [:tag_layout_template,:plate,:tag2_layout_template]
       }
     end
 
     def ralias(resource)
-      aliases[resource]||[resource]
+      aliases[resource] || [resource]
     end
 
     def find(resource,uuid)

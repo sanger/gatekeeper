@@ -38,7 +38,7 @@ class RobotTest < ActiveSupport::TestCase
     include Gatekeeper::Robot::CreationMethods
 
     def initialize(api)
-      @api=api
+      @api = api
     end
 
     def method_missing(method, *params, &block)
@@ -59,46 +59,46 @@ class RobotTest < ActiveSupport::TestCase
   end
 
   test "validate full setup" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_b})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a,'580000003824' => @plate_b})
     assert_equal 'Okay', message
     assert_equal true, valid
   end
 
   test "validate wrong state" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_c})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a,'580000003824' => @plate_c})
     assert_equal "DN7 is 'pending'; only 'created' plates may be stamped.", message
     assert_equal false, valid
   end
 
   test "validate wrong child" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_d})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a,'580000003824' => @plate_d})
     assert_equal "DN8 is not in lot 123456789", message
     assert_equal false, valid
   end
 
   test "validate extra beds" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_b,'580000003835'=>@plate_c})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a,'580000003824' => @plate_b,'580000003835' => @plate_c})
     assert_equal 'Invalid beds: 580000003835', message
     assert_equal false, valid
   end
 
   test "validate duplicate plates detected" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000003824'=>@plate_a})
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a,'580000003824' => @plate_a})
     assert_equal false, valid
     assert_equal 'Plates can only be located on one bed. Check for duplicates', message
   end
 
-  test "validate duplicate beds detected" do
-    valid, message = @robot.valid?('580000001806', @lot, {'580000002810'=>@plate_a,'580000002810'=>@plate_b})
+  test "validate missing beds detected" do
+    valid, message = @robot.valid?('580000001806', @lot, {'580000002810' => @plate_a})
     assert_equal false, valid
     assert_equal 'Bed 3 should not be empty. 580000003824', message
   end
 
   test "beds for" do
-    beds_for = @robot.beds_for({'580000002810'=>@plate_a,'580000003824'=>@plate_b})
+    beds_for = @robot.beds_for({'580000002810' => @plate_a,'580000003824' => @plate_b})
     assert_equal [
-      {:bed=>'2',:order=>1,:qcable=>'11111111-2222-3333-4444-100000000001'},
-      {:bed=>'3',:order=>2,:qcable=>'11111111-2222-3333-4444-100000000002'}
+      {bed: '2',order: 1,qcable: '11111111-2222-3333-4444-100000000001'},
+      {bed: '3',order: 2,qcable: '11111111-2222-3333-4444-100000000002'}
     ], beds_for
   end
 
