@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 ##
 # Designed to present information about qcables
 # Used in the rendering of the qcable table on the lot page
 class Presenter::Qcable
-
   class << self
     def new_from_batch(qcables)
-      qcables.map {|qcable| Presenter::Qcable.new(qcable)}
+      qcables.map { |qcable| Presenter::Qcable.new(qcable) }
     end
   end
 
@@ -22,13 +23,12 @@ class Presenter::Qcable
   end
 
   def number
-    "#{@qcable.barcode.number}"
+    @qcable.barcode.number.to_s
   end
 
   def uuid
     @qcable.uuid
   end
 
-  alias_method :id, :uuid
-
+  alias id uuid
 end

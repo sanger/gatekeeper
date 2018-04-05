@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 ##
 # Controller to handle stamping of Qcables from lots
 # Validation itself is handled by the robot
 class StampsController < ApplicationController
-
   before_filter :find_user
   skip_before_filter :find_user, only: [:new]
 
@@ -22,14 +23,14 @@ class StampsController < ApplicationController
     end
 
     def status=(new_status)
-      @status = @status && new_status
+      @status &&= new_status
     end
 
     def add_error(message)
-      self.add_message(false,message)
+      add_message(false, message)
     end
 
-    def add_message(new_status,message)
+    def add_message(new_status, message)
       self.status = new_status
       @messages << message
       nil
@@ -61,26 +62,25 @@ class StampsController < ApplicationController
   # :beds           => Hash of bed barcodes to plate barcodes
   # :validate       => 'lot' or 'full' measures extent of validation
   def validation
-
     case params[:validate]
     when 'lot'
-      validator.add_message(*@robot.valid_lot?(params[:lot_bed],@lot)) unless @robot.nil?
+      validator.add_message(*@robot.valid_lot?(params[:lot_bed], @lot)) unless @robot.nil?
     when 'full'
       if validator.valid?
-        validator.add_message(*@robot.valid?(params[:lot_bed],@lot,@bed_plates))
+        validator.add_message(*@robot.valid?(params[:lot_bed], @lot, @bed_plates))
       end
     else
       raise StandardError, "An invalid validation option was provided: #{params[:validate]}"
     end
 
-    render(json: validator,root: true)
+    render(json: validator, root: true)
   end
 
   ##
   # Performs a stamp. Expects same parameters as with validate
   # except validate is not present
   def create
-    valid, _ = @robot.valid?(params[:lot_bed],@lot,@bed_plates)
+    valid, _ = @robot.valid?(params[:lot_bed], @lot, @bed_plates)
     # A last emergency catch all in case someone bypasses the client side controls
     raise StandardError, 'Validation Bypassed' unless valid
 
@@ -97,7 +97,7 @@ class StampsController < ApplicationController
       {
         controller: :stamps,
         action: :new,
-        robot_barcode: params[:robot_barcode ],
+        robot_barcode: params[:robot_barcode],
         tip_lot: params[:tip_lot],
         lot_bed: params[:lot_bed],
         lot_plate: params[:lot_plate]
@@ -108,13 +108,12 @@ class StampsController < ApplicationController
 
   private
 
-
   def validator
     @validator ||= Validation.new
   end
 
   def find_lot
-    @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot,lot_number: params[:lot_plate]).tap do |lots|
+    @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_plate]).tap do |lots|
       validator.add_error("Could not find a lot with the lot number '#{params[:lot_plate]}'") if lots.empty?
       validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.count > 1
     end.first
@@ -124,13 +123,13 @@ class StampsController < ApplicationController
     return @bed_plates = Hash.new if params[:beds].nil?
 
     plate_barcodes = params[:beds].values
-    validator.add_error("Plates can only be on one bed") if plate_barcodes.uniq!.present?
+    validator.add_error('Plates can only be on one bed') if plate_barcodes.uniq!.present?
 
-    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable,barcode: plate_barcodes ).group_by {|plate| plate.barcode.ean13 }
-    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? {|_,plates| plates.count > 1}
+    plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable, barcode: plate_barcodes).group_by { |plate| plate.barcode.ean13 }
+    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = Hash[params[:beds].map do |bed,plate_barcode|
-      [bed,plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
+    @bed_plates = Hash[params[:beds].map do |bed, plate_barcode|
+      [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
     end]
   end
 
@@ -144,5 +143,4 @@ class StampsController < ApplicationController
       return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
     end
   end
-
 end

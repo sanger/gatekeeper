@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 ##
 # Designed to present information about lot types
 # The relevant information should all be pretty static
 # so we store the relevant information in the configuration
 # on deployment.
 class Presenter::LotType
-
   class ConfigurationError < StandardError; end
 
   attr_reader :name, :settings
@@ -15,7 +16,7 @@ class Presenter::LotType
   def initialize(lot_type_name, api)
     @name = lot_type_name
     @api = api
-    raise Presenter::LotType::ConfigurationError, "No lot type specified." if @name.nil?
+    raise Presenter::LotType::ConfigurationError, 'No lot type specified.' if @name.nil?
     @settings = Settings.lot_types[lot_type_name]
     raise Presenter::LotType::ConfigurationError, "Unknown lot type '#{lot_type_name}'." if @settings.nil?
   end
@@ -41,5 +42,4 @@ class Presenter::LotType
   rescue NameError => exception
     raise Presenter::LotType::ConfigurationError, "#{exception}. Unrecognised template class '#{template_class}'."
   end
-
 end

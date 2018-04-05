@@ -1,5 +1,6 @@
-class Presenter::Tag2LayoutTemplate < Presenter::Template
+# frozen_string_literal: true
 
+class Presenter::Tag2LayoutTemplate < Presenter::Template
   def grouped_templates
     { 'All Templates': all_templates }
   end

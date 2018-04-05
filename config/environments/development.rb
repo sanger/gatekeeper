@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pry'
 
 Gatekeeper::Application.configure do

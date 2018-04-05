@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class Settings
   class << self
     def respond_to?(method, include_private = false)
-      super or self.instance.respond_to?(method, include_private)
+      super || instance.respond_to?(method, include_private)
     end
 
     def method_missing(method, *args, &block)
-      self.instance.send(method, *args, &block)
+      instance.send(method, *args, &block)
     end
     protected :method_missing
 
@@ -18,7 +20,7 @@ class Settings
       return @instance if @instance.present?
       @instance = Hashie::Mash.new(YAML.load(ERB.new(File.read(configuration_filename)).result))
     rescue Errno::ENOENT => exception
-      star_length = [ 96, 12 + configuration_filename.length ].max
+      star_length = [96, 12 + configuration_filename.length].max
       $stderr.puts('*' * star_length)
       $stderr.puts "WARNING! No #{configuration_filename}"
       $stderr.puts "You need to run 'rake config:generate' and can ignore this message if that's what you are doing!"

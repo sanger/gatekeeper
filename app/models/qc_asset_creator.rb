@@ -1,18 +1,19 @@
+# frozen_string_literal: true
+
 ##
 # Our plate creators work on behalf of the controllers
 # They ensure we can composite the relevant behaviour based
 # on the asset, without cluttering up the controller.
 class QcAssetCreator
-
   class QcAssetException < StandardError; end
 
   attr_reader :api, :purpose, :sibling, :sibling2, :tag2_tubes
   ##
   # Receives the parent asset, and composites itself
-  def initialize(api:,asset:,user:,purpose:,sibling: nil,template: nil, tag2_tubes:nil, sibling2: nil)
-    @api,@asset,@user,@purpose,@sibling,@template,@tag2_tubes = api,asset,user,purpose,sibling,template,tag2_tubes
+  def initialize(api:, asset:, user:, purpose:, sibling: nil, template: nil, tag2_tubes: nil, sibling2: nil)
+    @api, @asset, @user, @purpose, @sibling, @template, @tag2_tubes = api, asset, user, purpose, sibling, template, tag2_tubes
     @sibling2 = sibling2
-    self.extend behaviour_module
+    extend behaviour_module
   end
 
   ##
@@ -72,5 +73,4 @@ class QcAssetCreator
   def default_template
     Settings.transfer_templates['Transfer columns 1-12']
   end
-
 end

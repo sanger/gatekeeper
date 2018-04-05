@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Presenter::TagLayoutTemplate < Presenter::Template
   COMPATIBLE_WALKING_BY = ['wells of plate', 'quadrants'].freeze
 
@@ -17,5 +19,4 @@ class Presenter::TagLayoutTemplate < Presenter::Template
   def compatible_templates
     @api.tag_layout_template.all.select { |template| COMPATIBLE_WALKING_BY.include?(template.walking_by) }
   end
-
 end

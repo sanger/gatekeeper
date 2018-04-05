@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require File.expand_path('../boot', __FILE__)
 
 # We don't want ActiveRecord
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "sprockets/railtie"
-require "rails/test_unit/railtie"
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'sprockets/railtie'
+require 'rails/test_unit/railtie'
 require './lib/gatekeeper/version'
 
 # Require the gems listed in Gemfile, including any gems
@@ -31,7 +33,7 @@ module Gatekeeper
     # Ensures precompiling is faster by not loading the application
     config.assets.initialize_on_precompile = false
 
-    config.destroyable_states = ['pending','available']
+    config.destroyable_states = %w[pending available]
     config.destroyed_state = 'destroyed'
     config.stampable_state = 'created'
     config.qcable_state = 'pending'
@@ -112,29 +114,25 @@ module Gatekeeper
     config.project_uuid = nil
 
     config.request_options = {
-      "read_length" => 25,
-      "fragment_size_required" => {
-        "from" => 1,
-        "to"   => 100
+      'read_length' => 25,
+      'fragment_size_required' => {
+        'from' => 1,
+        'to'   => 100
       },
-      "library_type" => "QA1"
+      'library_type' => 'QA1'
     }
   end
 
   begin
     require './lib/deployed_version'
   rescue LoadError
-      module Deployed
-        VERSION_ID = 'LOCAL'
-        VERSION_STRING = "#{Gatekeeper::Application.config.name} LOCAL [#{ENV['RACK_ENV']}]"
-      end
+    module Deployed
+      VERSION_ID = 'LOCAL'
+      VERSION_STRING = "#{Gatekeeper::Application.config.name} LOCAL [#{ENV['RACK_ENV']}]"
+    end
   end
-
 
   def self.application_string
     Deployed::VERSION_STRING
   end
-
-
 end
-
