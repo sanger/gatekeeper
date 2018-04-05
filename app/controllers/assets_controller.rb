@@ -1,16 +1,16 @@
+# frozen_string_literal: true
+
 ##
 # Destruction of qcables is actually an action on asset
 # Not only is the user physically carrying the action out on a plate
 # but the state change action is conducted on a plate, not a qcable
 class AssetsController < ApplicationController
-
   before_filter :find_user
-  skip_before_filter :find_user, only: [:search,:show]
+  skip_before_filter :find_user, only: %i[search show]
   before_filter :find_asset_from_barcode
   ##
   # This doesn't actually destroy asset, just flags them as such
   def destroy
-
     raise UserError::InputError, "#{@asset.human_barcode} can not be destroyed while '#{@asset.state}'." unless @asset.destroyable?
 
     state_change = api.state_change.create!(
@@ -31,10 +31,9 @@ class AssetsController < ApplicationController
   private
 
   def find_asset_from_barcode
-    raise UserError::InputError, "No barcode was provided!" if params[:asset_barcode].nil?
+    raise UserError::InputError, 'No barcode was provided!' if params[:asset_barcode].nil?
     rescue_no_results("Could not find an asset with the barcode #{params[:asset_barcode]}.") do
       @asset = api.search.find(Settings.searches['Find assets by barcode']).first(barcode: params[:asset_barcode])
     end
   end
-
 end

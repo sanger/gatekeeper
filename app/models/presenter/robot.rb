@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 ##
 # Very simple presenter class for robots
 class Presenter::Robot
-
   attr_reader :robot
 
   def initialize(robot)
@@ -28,5 +29,4 @@ class Presenter::Robot
       'bed_count' => bed_count
     } : 'not found'
   end
-
 end

@@ -1,5 +1,6 @@
-module ApplicationHelper
+# frozen_string_literal: true
 
+module ApplicationHelper
   def flash_message(category)
     {
       success: 'Success',
@@ -11,23 +12,23 @@ module ApplicationHelper
 
   def each_barcode_printer(type)
     (Settings.printers[type] || no_printer).each do |printer|
-      yield printer[:name],printer[:uuid]
+      yield printer[:name], printer[:uuid]
     end
   end
 
   def no_printer
-    [{name: 'No printer found',uuid: nil}]
+    [{ name: 'No printer found', uuid: nil }]
   end
   private :no_printer
 
-  #<span class="glyphicon glyphicon-icon"></span>
+  # <span class="glyphicon glyphicon-icon"></span>
   def glyph(icon)
-    content_tag(:span,'',class: "glyphicon glyphicon-#{icon}")
+    content_tag(:span, '', class: "glyphicon glyphicon-#{icon}")
   end
 
-  #<span class="input-group-addon"><span class="glyphicon glyphicon-icon"></span></span>
+  # <span class="input-group-addon"><span class="glyphicon glyphicon-icon"></span></span>
   def input_glyph(icon)
-    content_tag(:span, class: "input-group-addon") do
+    content_tag(:span, class: 'input-group-addon') do
       glyph(icon)
     end
   end
@@ -39,13 +40,12 @@ module ApplicationHelper
     (first_letter..last_letter)
   end
 
-  def well_location_for(pos, dim_x=12, dim_y=8)
-    if ((pos < 0) || (pos >= (dim_x * dim_y)))
+  def well_location_for(pos, dim_x = 12, dim_y = 8)
+    if (pos < 0) || (pos >= (dim_x * dim_y))
       raise RangeError, 'Well location position is out of range'
     end
     l = well_location_plate_letter_range_for(dim_x, dim_y).to_a[pos % dim_y]
     v = (pos / dim_y) + 1
     l + v.to_s
   end
-
 end

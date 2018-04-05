@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # A sample Gemfile
 # We use http rather than https due to difficulties navigating the proxy otherwise
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 gem 'rails', '~>4.0.2'
 gem 'puma'
@@ -15,20 +17,20 @@ gem 'hashie'
 gem 'exception_notification'
 
 gem 'sequencescape-client-api',
-  :github     => 'sanger/sequencescape-client-api',
-  :branch  => 'rails_4',
-  :require => 'sequencescape'
+    github: 'sanger/sequencescape-client-api',
+    branch: 'rails_4',
+    require: 'sequencescape'
 gem 'sanger_barcode',
-  :github => 'sanger/sanger_barcode'
+    github: 'sanger/sanger_barcode'
 
 group :development do
-  gem "pry"
+  gem 'pry'
   gem 'yard', require: false
   gem 'rubocop', require: false
 end
 
 group :deployment do
-  gem "psd_logger", :github => "sanger/psd_logger"
+  gem 'psd_logger', github: 'sanger/psd_logger'
 end
 
 group :test do

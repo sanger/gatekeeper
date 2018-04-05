@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 ##
 # Slightly different behaviour from PlateConversion that does not change the state of the asset
 # and does not check that it is in qc state as QA plates could be in any state
 module QcAssetCreator::QaPlateConversion
-
   include QcAssetCreator::PlateConversion
 
   ##
@@ -26,5 +27,4 @@ module QcAssetCreator::QaPlateConversion
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
     true
   end
-
 end

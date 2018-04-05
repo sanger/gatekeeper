@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 ##
 # Presents assets in json fomat to the
 # QC pipeline.
 class Presenter::QcAsset
-
   attr_reader :asset
 
   def initialize(record)
@@ -12,7 +13,7 @@ class Presenter::QcAsset
   delegate :uuid, :state, to: :asset
 
   def child_purposes
-    (own_child_purpose || sibling_child_purpose).map {|uuid| [purpose_config_of_uuid(uuid).name,uuid]}
+    (own_child_purpose || sibling_child_purpose).map { |uuid| [purpose_config_of_uuid(uuid).name, uuid] }
   end
 
   def purpose
@@ -52,15 +53,14 @@ class Presenter::QcAsset
   # Used to define the json returned by the presenter
   def output
     { 'qc_asset' => {
-        'uuid'           => uuid,
-        'purpose'        => purpose,
-        'barcode'        => barcode,
-        'child_purposes' => child_purposes,
-        'state'          => state,
-        'children'       => children.map {|c| [child_type,c.uuid] },
-        'handle'         => handler
-      }
-    }
+      'uuid' => uuid,
+      'purpose'        => purpose,
+      'barcode'        => barcode,
+      'child_purposes' => child_purposes,
+      'state'          => state,
+      'children'       => children.map { |c| [child_type, c.uuid] },
+      'handle'         => handler
+    } }
   end
 
   private
@@ -76,14 +76,11 @@ class Presenter::QcAsset
   ##
   # I guess that makes this niece/nephew purpose
   def sibling_child_purpose
-    return Settings.purposes.detect {|k,v| v.name == own_purpose_config.sibling }.last.children
+    return Settings.purposes.detect { |k, v| v.name == own_purpose_config.sibling }.last.children
   end
 
   def own_child_purpose
-    return nil if ['source','secondary'].include?(own_purpose_config.as)
+    return nil if %w[source secondary].include?(own_purpose_config.as)
     own_purpose_config.children
   end
-
-
-
 end

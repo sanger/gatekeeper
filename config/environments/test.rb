@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'pry'
+
 Gatekeeper::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -15,7 +18,7 @@ Gatekeeper::Application.configure do
 
   # Configure static asset server for tests with Cache-Control for performance.
   config.serve_static_assets  = true
-  config.static_cache_control = "public, max-age=3600"
+  config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -45,4 +48,7 @@ Gatekeeper::Application.configure do
 
   config.secret_key_base = 'example_test_environment_key'
 
+  config.suggested_templates = ActiveSupport::OrderedOptions.new
+  config.suggested_templates.plate_template      = :all
+  config.suggested_templates.tag_layout_template = :all
 end

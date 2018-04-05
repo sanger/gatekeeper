@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ##
 # Converts one plate type (The target) to another and transfers the source in
 # Assumes that @sibling is the target and @sibling2 the source
@@ -48,7 +50,6 @@ module QcAssetCreator::MultipleTag2Conversion
   # Applies tags
   # Applies tag2s
   def asset_transfer(_)
-
     api.bulk_transfer.create!(
       source: source,
       user: @user.uuid,
@@ -75,10 +76,10 @@ module QcAssetCreator::MultipleTag2Conversion
   def transfer_map
     all_tag2_locations.map do |well|
       {
-        "source_uuid" => source,
-        "source_location" => well,
-        "destination_uuid" => target,
-        "destination_location" => well
+        'source_uuid' => source,
+        'source_location' => well,
+        'destination_uuid' => target,
+        'destination_location' => well
       }
     end
   end
@@ -100,17 +101,17 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   def tag2_qcables
-    return @tag2_qcables ||= api.search.find(Settings.searches['Find qcable by barcode']).
-      all(Gatekeeper::Qcable,barcode: tag2_tubes_barcodes.values).
-      inject({}) do |hash,qcable|
-        hash[qcable.barcode.ean13] = qcable
-        hash
-      end
+    return @tag2_qcables ||= api.search.find(Settings.searches['Find qcable by barcode'])
+                                .all(Gatekeeper::Qcable, barcode: tag2_tubes_barcodes.values)
+                                .inject({}) do |hash, qcable|
+             hash[qcable.barcode.ean13] = qcable
+             hash
+           end
   end
 
   def tag2_tubes_barcodes
     return nil if @tag2_tubes.nil?
-    Hash[@tag2_tubes.map{ |pos, tube| [pos, tube[:barcode]] }]
+    Hash[@tag2_tubes.map { |pos, tube| [pos, tube[:barcode]] }]
   end
 
   def tag2_locations_for_barcode(barcode)
@@ -131,11 +132,10 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   def all_tag2s_qcable?
-    tag2_qcables.all?{|barcode,qcable| qcable.qcable? }
+    tag2_qcables.all? { |barcode, qcable| qcable.qcable? }
   end
 
   def missing_tag2_qcables
     tag2_tubes_barcodes.values - tag2_qcables.keys
   end
-
 end
