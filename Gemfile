@@ -30,10 +30,6 @@ group :development do
   gem 'listen'
 end
 
-group :deployment do
-  gem 'psd_logger', github: 'sanger/psd_logger'
-end
-
 group :test do
   gem 'minitest'
   gem 'mocha'

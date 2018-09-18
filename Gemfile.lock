@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/sanger/psd_logger.git
-  revision: dd2d634114df75b1d8535715c169a7fc99521389
-  specs:
-    psd_logger (0.1.6)
-
-GIT
   remote: git://github.com/sanger/sanger_barcode.git
   revision: 11fb6cc077475d4a0ba6f8225fd5bdab60d5dc88
   specs:
@@ -262,7 +256,6 @@ DEPENDENCIES
   mocha
   poltergeist
   pry
-  psd_logger!
   puma
   rails (~> 5.1.2)
   rails-controller-testing
