@@ -2,7 +2,7 @@
 
 # A sample Gemfile
 # We use http rather than https due to difficulties navigating the proxy otherwise
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rails', '~>5.1.2'
 gem 'puma'
@@ -27,6 +27,7 @@ group :development do
   gem 'pry'
   gem 'yard', require: false
   gem 'rubocop', require: false
+  gem 'listen'
 end
 
 group :deployment do
@@ -39,4 +40,5 @@ group :test do
   gem 'poltergeist'
   gem 'launchy'
   gem 'minitest-rails-capybara'
+  gem 'rails-controller-testing'
 end

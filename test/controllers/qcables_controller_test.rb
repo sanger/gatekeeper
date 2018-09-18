@@ -30,31 +30,33 @@ class QcablesControllerTest < ActionController::TestCase
     mock_printer.expects(:print!).returns(true)
     BarcodeSheet.expects(:new).returns(mock_printer)
 
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          lot_id: '11111111-2222-3333-4444-555555555556',
          plate_number: 10,
          barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
-
+    }
     assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
     assert_equal '10 Tag Plates have been created.', flash[:success]
   end
 
   test 'create with no user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
-    post :create,
+    post :create, params: {
          lot_id: '11111111-2222-3333-4444-555555555556',
          plate_number: 10
+    }
     assert_redirected_to :root
     assert_equal 'User swipecard must be provided.', flash[:danger]
   end
 
   test '#create with fake user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
-    post :create,
+    post :create, params: {
          user_swipecard: 'fake_user',
          lot_id: '11111111-2222-3333-4444-555555555556',
          plate_number: 10
+    }
     assert_redirected_to :root
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
@@ -65,12 +67,12 @@ class QcablesControllerTest < ActionController::TestCase
     request.env['HTTP_REFERER'] = lot_url('11111111-2222-3333-4444-555555555556')
 
     [0, -12, 999999, 11].each do |i|
-      post :create,
+      post :create, params: {
            user_swipecard: 'abcdef',
            lot_id: '11111111-2222-3333-4444-555555555556',
            plate_number: i,
            barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
-
+      }
       assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
       assert_equal 'Number of plates created must be a multiple of 10 between 10 and 500 inclusive', flash[:danger]
     end

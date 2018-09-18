@@ -12,7 +12,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
   end
 
   test 'new' do
-    get :new, lot_id: '11111111-2222-3333-4444-555555555556'
+    get :new, params: { lot_id: '11111111-2222-3333-4444-555555555556' }
     assert_response :success
     assert_equal '11111111-2222-3333-4444-555555555556', assigns['lot_presenter'].uuid
   end
@@ -38,7 +38,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
       returns: '11111111-2222-3333-9999-330000000008'
     )
 
-    post :create,
+    post :create, params: {
          lot_id: '11111111-2222-3333-4444-555555555556',
          user_swipecard: 'abcdef',
          decisions: {
@@ -53,6 +53,7 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
            '11111111-2222-3333-4444-100000000009' => 'release',
            '11111111-2222-3333-4444-100000000010' => 'release'
          }
+    }
 
     assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
     assert_equal 'Qc decision has been updated.', flash[:success]
@@ -72,12 +73,13 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
       ]
     ).raises(Sequencescape::Api::ResourceInvalid.new(resource))
 
-    post :create,
+    post :create, params: {
          lot_id: '11111111-2222-3333-4444-555555555556',
          user_swipecard: 'abcdef',
          decisions: {
            '11111111-2222-3333-4444-100000000001' => 'pass'
          }
+    }
 
     assert_redirected_to '/lots/11111111-2222-3333-4444-555555555556/qc_decisions/new'
     assert_equal "A decision was not made. User doesn't have permission; Second bit is invalid.", flash[:danger]

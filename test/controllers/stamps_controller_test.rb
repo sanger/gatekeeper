@@ -35,7 +35,7 @@ class StampsControllerTest < ActionController::TestCase
           .with('58000000180', @lot)
           .returns([true, 'Okay'])
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -43,6 +43,7 @@ class StampsControllerTest < ActionController::TestCase
          validate: 'lot',
          lot_bed: '58000000180',
          lot_plate: '123456789'
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal @lot, assigns['lot']
@@ -59,7 +60,7 @@ class StampsControllerTest < ActionController::TestCase
           .with('58000000180', @lot)
           .returns([false, 'Not okay'])
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -67,6 +68,7 @@ class StampsControllerTest < ActionController::TestCase
          validate: 'lot',
          lot_bed: '58000000180',
          lot_plate: '123456789'
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal @lot, assigns['lot']
@@ -83,7 +85,7 @@ class StampsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, lot_number: 'not_a_lot')
        .returns([])
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -91,6 +93,7 @@ class StampsControllerTest < ActionController::TestCase
          validate: 'lot',
          lot_bed: '58000000180',
          lot_plate: 'not_a_lot'
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal({ 'validation' => { 'status' => false, 'messages' => ["Could not find a lot with the lot number 'not_a_lot'", 'Okay'] } }.to_json, assigns['validator'].to_json)
@@ -113,7 +116,7 @@ class StampsControllerTest < ActionController::TestCase
                 '58000000382' => @plate_b)
           .returns([true, 'Okay'])
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -125,6 +128,7 @@ class StampsControllerTest < ActionController::TestCase
            '58000000281' => '122000000183',
            '58000000382' => '122000000284'
          }
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal({ 'validation' => { 'status' => true, 'messages' => ['Okay'] } }.to_json, assigns['validator'].to_json)
@@ -148,7 +152,7 @@ class StampsControllerTest < ActionController::TestCase
           .returns([false, 'Not okay'])
 
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -160,6 +164,7 @@ class StampsControllerTest < ActionController::TestCase
            '58000000281' => '122000000183',
            '58000000382' => '122000000867'
          }
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal({ 'validation' => { 'status' => false, 'messages' => ['Not okay'] } }.to_json, assigns['validator'].to_json)
@@ -177,7 +182,7 @@ class StampsControllerTest < ActionController::TestCase
        .returns([@plate_a])
 
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -189,6 +194,7 @@ class StampsControllerTest < ActionController::TestCase
            '58000000281' => '122000000183',
            '58000000382' => '122000000183'
          }
+    }
     assert_response :success
     assert_equal @robot, assigns['robot']
     assert_equal({ 'validation' => { 'status' => false, 'messages' => ['Plates can only be on one bed'] } }.to_json, assigns['validator'].to_json)
@@ -205,7 +211,7 @@ class StampsControllerTest < ActionController::TestCase
        .returns([@lot, @lot])
 
     @request.headers['Accept'] = 'application/json'
-    post :validation,
+    post :validation, params: {
          user_swipecard: '123456789',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -213,6 +219,7 @@ class StampsControllerTest < ActionController::TestCase
          validate: 'lot',
          lot_bed: '58000000180',
          lot_plate: '123456789'
+    }
     assert_response :success
     assert_equal({ 'validation' => {
       'status' => false,
@@ -264,7 +271,7 @@ class StampsControllerTest < ActionController::TestCase
       returns: '10204050-0000-0000-0000-000000000000'
     )
 
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -276,6 +283,7 @@ class StampsControllerTest < ActionController::TestCase
            '58000000281' => '122000000183',
            '58000000382' => '122000000284'
          }
+    }
     assert_redirected_to lot_url(@lot)
     assert_equal 'Stamp completed!', flash[:success]
   end
@@ -323,7 +331,7 @@ class StampsControllerTest < ActionController::TestCase
       returns: '10204050-0000-0000-0000-000000000000'
     )
 
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          robot_barcode: '488000000178',
          robot_uuid: '40b07000-0000-0000-0000-000000000000',
@@ -336,6 +344,7 @@ class StampsControllerTest < ActionController::TestCase
            '58000000382' => '122000000284'
          },
          repeat: 'repeat'
+    }
     assert_redirected_to(
       controller: :stamps,
       action: :new,

@@ -5,8 +5,8 @@
 class BarcodeLabelsController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_printer
-  before_filter :generate_labels
+  before_action :find_printer
+  before_action :generate_labels
 
   def create
     BarcodeSheet.new(@printer, @labels).print!

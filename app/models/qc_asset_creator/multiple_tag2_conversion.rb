@@ -111,7 +111,7 @@ module QcAssetCreator::MultipleTag2Conversion
 
   def tag2_tubes_barcodes
     return nil if @tag2_tubes.nil?
-    Hash[@tag2_tubes.map { |pos, tube| [pos, tube[:barcode]] }]
+    Hash[@tag2_tubes.to_h.map { |pos, tube| [pos, tube[:barcode]] }]
   end
 
   def tag2_locations_for_barcode(barcode)

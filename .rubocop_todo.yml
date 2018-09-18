@@ -243,13 +243,6 @@ Style/LambdaCall:
   EnforcedStyle: braces
 
 # Offense count: 5
-Style/MethodMissing:
-  Exclude:
-    - 'config/initializers/settings.rb'
-    - 'test/mock_api.rb'
-    - 'test/models/robot_test.rb'
-
-# Offense count: 5
 Style/MultilineTernaryOperator:
   Exclude:
     - 'app/controllers/stamps_controller.rb'

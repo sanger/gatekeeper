@@ -5,7 +5,7 @@
 class QcablesController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_user, :find_printer, :find_lot, :validate_plate_count
+  before_action :find_user, :find_printer, :find_lot, :validate_plate_count
 
   ##
   # This action should generally get called through the nested
@@ -48,6 +48,6 @@ class QcablesController < ApplicationController
     step  = Gatekeeper::Application.config.stamp_step
     return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i % step == 0)
     flash[:danger] = "Number of plates created must be a multiple of #{step} between #{range.first} and #{range.last} inclusive"
-    redirect_to :back
+    redirect_back fallback_location: lots_path
   end
 end

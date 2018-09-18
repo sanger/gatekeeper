@@ -7,8 +7,8 @@
 # can be considered to apply to the whole batch.
 
 class LotsController < ApplicationController
-  before_filter :find_user, except: %i[show new search]
-  before_filter :find_lot, only: [:show]
+  before_action :find_user, except: %i[show new search]
+  before_action :find_lot, only: [:show]
 
   ##
   # Lot summary page.

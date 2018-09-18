@@ -4,17 +4,17 @@
 # Controller to handle stamping of Qcables from lots
 # Validation itself is handled by the robot
 class StampsController < ApplicationController
-  before_filter :find_user
-  skip_before_filter :find_user, only: [:new]
+  before_action :find_user
+  skip_before_action :find_user, only: [:new]
 
-  before_filter :find_robot
-  skip_before_filter :find_robot, only: [:new]
+  before_action :find_robot
+  skip_before_action :find_robot, only: [:new]
 
-  before_filter :find_lot
-  skip_before_filter :find_lot, only: [:new]
+  before_action :find_lot
+  skip_before_action :find_lot, only: [:new]
 
-  before_filter :find_bed_contents
-  skip_before_filter :find_bed_contents, only: [:new]
+  before_action :find_bed_contents
+  skip_before_action :find_bed_contents, only: [:new]
 
   class Validation
     def initialize
@@ -128,7 +128,7 @@ class StampsController < ApplicationController
     plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable, barcode: plate_barcodes).group_by { |plate| plate.barcode.ean13 }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = Hash[params[:beds].map do |bed, plate_barcode|
+    @bed_plates = Hash[params.permit([:beds]).to_h.map do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
     end]
   end

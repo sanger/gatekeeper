@@ -3,8 +3,8 @@
 ##
 # Create a submission for the given MX tube
 class SubmissionsController < ApplicationController
-  before_filter :find_user
-  before_filter :find_asset_from_barcode
+  before_action :find_user
+  before_action :find_asset_from_barcode
 
   def create
     order = api.order_template.find(Settings.submission_templates.miseq).orders.create!(

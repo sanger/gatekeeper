@@ -3,9 +3,9 @@
 ##
 # Make QC Decisions
 class BatchesQcDecisionsController < QcDecisionsController
-  before_filter :find_user, except: %i[search new]
-  before_filter :find_lots_presenter, except: %i[search create]
-  before_filter :find_lot_presenter, only: :create
+  before_action :find_user, except: %i[search new]
+  before_action :find_lots_presenter, except: %i[search create]
+  before_action :find_lot_presenter, only: :create
 
   def find_lots_presenter
     @lots_presenter ||= Presenter::LotList.new(params[:batch_id], find_lots_for_batch)

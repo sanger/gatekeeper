@@ -30,11 +30,11 @@ class AssetsControllerTest < ActionController::TestCase
       returns: '55555555-6666-7777-8888-000000000003'
     )
 
-    delete :destroy,
+    delete :destroy, params: {
            user_swipecard: '123456789',
            asset_barcode: '1220000010734',
            reason: 'Plate Dropped'
-
+    }
     assert_redirected_to :root
     assert_equal nil, flash[:danger]
     assert_equal 'DN10 has been destroyed!', flash[:success]
@@ -48,11 +48,11 @@ class AssetsControllerTest < ActionController::TestCase
        .with(barcode: '1220000010734')
        .raises(Sequencescape::Api::ResourceNotFound, 'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
-    delete :destroy,
+    delete :destroy, params: {
            user_swipecard: '123456789',
            asset_barcode: '1220000010734',
            reason: 'Plate Dropped'
-
+    }
     assert_redirected_to :root
     assert_equal 'Could not find an asset with the barcode 1220000010734.', flash[:danger]
   end
