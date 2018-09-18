@@ -5,8 +5,6 @@ bundler_args: "--without deployment"
 sudo: required
 cache:
   bundler: true
-before_script:
-- bundle exec rails webpacker:verify_install
 script:
   - "bundle exec rubocop"
   - "bundle exec rake"
