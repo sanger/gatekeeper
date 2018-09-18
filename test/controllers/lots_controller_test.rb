@@ -83,7 +83,7 @@ class LotsControllerTest < ActionController::TestCase
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
          received_at: '01/02/2013'
     }
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
     assert_equal 'Created lot 123456789', flash[:success]
     assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end

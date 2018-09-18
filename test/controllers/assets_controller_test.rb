@@ -36,7 +36,7 @@ class AssetsControllerTest < ActionController::TestCase
            reason: 'Plate Dropped'
     }
     assert_redirected_to :root
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
     assert_equal 'DN10 has been destroyed!', flash[:success]
   end
 

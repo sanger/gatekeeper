@@ -12,7 +12,7 @@ gem 'therubyracer'
 gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', '~>1.6.4.1'
 gem 'hashie'
 gem 'exception_notification'
 

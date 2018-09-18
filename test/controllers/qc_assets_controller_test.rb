@@ -147,7 +147,7 @@ class QcAssetsControllerTest < ActionController::TestCase
          asset_barcode: '1220000036833',
          purpose: '54088cc0-a3c8-11e3-a7e1-44fb42fffecc'
     }
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
 
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-510000000008'
   end
@@ -225,7 +225,7 @@ class QcAssetsControllerTest < ActionController::TestCase
          sibling: '122000001174',
          template: '8c716230-a922-11e3-926d-44fb42fffecc'
     }
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
 
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
@@ -309,7 +309,7 @@ class QcAssetsControllerTest < ActionController::TestCase
          sibling: '122000000867',
          template: '58b72440-ab69-11e3-bb8f-44fb42fffecc'
     }
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
 
@@ -695,7 +695,7 @@ class QcAssetsControllerTest < ActionController::TestCase
          sibling2: '122000001174',
          template: flip_plate_template
     }
-    assert_equal nil, flash[:danger]
+    assert_nil flash[:danger]
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
 end
