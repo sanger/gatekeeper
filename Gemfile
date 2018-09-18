@@ -4,7 +4,7 @@
 # We use http rather than https due to difficulties navigating the proxy otherwise
 source 'http://rubygems.org'
 
-gem 'rails', '~>4.0.2'
+gem 'rails', '~>5.1.2'
 gem 'puma'
 
 gem 'sass-rails', '>= 3.2'
@@ -38,6 +38,5 @@ group :test do
   gem 'mocha'
   gem 'poltergeist'
   gem 'launchy'
-  gem 'capybara'
   gem 'minitest-rails-capybara'
 end
