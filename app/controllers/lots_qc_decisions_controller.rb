@@ -36,6 +36,6 @@ class LotsQcDecisionsController < QcDecisionsController
   private
 
   def decisions
-    params.permit([:decisions]).select { |uuid, decision| decision.present? }
+    params[:decisions].permit!.select { |uuid, decision| decision.present? }
   end
 end

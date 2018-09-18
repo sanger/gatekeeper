@@ -128,7 +128,7 @@ class StampsController < ApplicationController
     plates = api.search.find(Settings.searches['Find qcable by barcode']).all(Gatekeeper::Qcable, barcode: plate_barcodes).group_by { |plate| plate.barcode.ean13 }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = Hash[params.permit([:beds]).to_h.map do |bed, plate_barcode|
+    @bed_plates = Hash[params[:beds].permit!.to_h.map do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
     end]
   end

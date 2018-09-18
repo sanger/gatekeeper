@@ -52,7 +52,7 @@ class LotsControllerTest < ActionController::TestCase
     assert_response :not_found
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'There was a problem...'
-    assert_select '.alert-danger', 'Sorry! Could not register a lot. Unknown lot type &#39;News Reporters&#39;.'
+    assert_select '.alert-danger', "Sorry! Could not register a lot. Unknown lot type 'News Reporters'."
   end
 
   test 'new unspecified' do

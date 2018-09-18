@@ -22,7 +22,7 @@ class QcAssetsController < ApplicationController
 
   def tag2_tubes
     return nil unless params[:tag2_tube]
-    params.permit([:tag2_tube]).reject { |index, tube| tube[:barcode].blank? }
+    params[:tag2_tube].permit!.reject { |index, tube| tube[:barcode].blank? }
   end
 
   def create
