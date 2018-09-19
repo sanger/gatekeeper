@@ -20,7 +20,7 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
       },
       returns: '11111111-2222-3333-9999-330000000008'
     )
-    fill_in('User swipecard', with: 'abcdef')
+    fill_in('User swipecard', with: 'abcdef').send_keys(:tab)
 
     # Check user been copied to the individual batch forms
     find('td[data-lot-uuid="11111111-2222-3333-4444-555555555556"] input[name="user_swipecard"][value="abcdef"]', visible: :any)
