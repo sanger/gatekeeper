@@ -75,7 +75,11 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    cliver (0.3.2)
+    capybara-selenium (0.0.6)
+      capybara
+      selenium-webdriver
+    childprocess (0.9.0)
+      ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
@@ -140,10 +144,6 @@ GEM
     parallel (1.12.1)
     parser (2.5.1.2)
       ast (~> 2.4.0)
-    poltergeist (1.18.1)
-      capybara (>= 2.1, < 4)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     powerpack (0.1.2)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -196,6 +196,7 @@ GEM
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
+    rubyzip (1.2.2)
     sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -213,6 +214,9 @@ GEM
       httpi (>= 0.7.8)
       nokogiri (>= 1.4.0)
       nori (>= 0.2.0)
+    selenium-webdriver (3.14.0)
+      childprocess (~> 0.5)
+      rubyzip (~> 1.2)
     socksify (1.7.1)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
@@ -246,6 +250,8 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-datepicker-rails (~> 1.6.4.1)
   bootstrap-sass
+  capybara
+  capybara-selenium
   exception_notification
   hashie
   jquery-rails
@@ -254,7 +260,6 @@ DEPENDENCIES
   minitest
   minitest-rails-capybara
   mocha
-  poltergeist
   pry
   puma
   rails (~> 5.1.2)

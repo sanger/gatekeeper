@@ -24,17 +24,18 @@ gem 'sanger_barcode',
     github: 'sanger/sanger_barcode'
 
 group :development do
-  gem 'pry'
-  gem 'yard', require: false
-  gem 'rubocop', require: false
   gem 'listen'
+  gem 'pry'
+  gem 'rubocop', require: false
+  gem 'yard', require: false
 end
 
 group :test do
-  gem 'minitest'
-  gem 'mocha'
-  gem 'poltergeist'
+  gem 'capybara'
+  gem 'capybara-selenium'
   gem 'launchy'
+  gem 'minitest'
   gem 'minitest-rails-capybara'
+  gem 'mocha'
   gem 'rails-controller-testing'
 end
