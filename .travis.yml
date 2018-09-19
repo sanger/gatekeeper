@@ -1,5 +1,4 @@
 language: ruby
-# We don't specify a list of ruby versions, as Travis will fall back to .ruby-version
 dist: xenial
 bundler_args: "--without deployment"
 sudo: required
@@ -19,5 +18,16 @@ env:
 before_install:
 - sh -e /etc/init.d/xvfb start
 script:
-  - "bundle exec rubocop"
-  - "bundle exec rake"
+- bundle exec rubocop
+- bundle exec rake
+before_deploy: "./compile-build"
+deploy:
+  provider: releases
+  api_key:
+    secure: dYC12rTvVpYJZysg+i/+LPMOwjdD6F+UraU3E8d4TQikN/QTqZrcOdRdxNKZrG4H6e1vSRbGkZaxRdHtzFkMIawwU6CcW21yjGBnqOJV05/ekMDgBrz3aPcsutMzNPbSEojWzTYYrrw8d0SUA+YWxucjt5ffWQJsok1ytrOW0JUwp7lSyaaj4NhaRou8S8cfZqrYH89x9YqPEyH5Yxjwo7HAoy1u6VdfognYac00ZXAiEnbfyQCjPo+TDbm2LCCL2F5jSboR5sisKk9CnQ7LAqMgp9ua26kK+Uv+AVaFcW2He27UerV1P5Xb4j/b5u1hg0Iol74+7N6rlvpMhysdKV72myimwUl6hZoSWqRGgqo2fLo5/fwJ+o9tBbufFdm94HR34IyEJZxzdqU9PuQrHNOpbR5uwnqcbcBOfzrJcFwtJGtESolIE5Ir4kVpImHQKMvXaE+/MW+JAByRjjKJ/Bl2Sde5X9ch5IOuVq1XMs9K+CZoDPZxwvX7jANvTaJlFx2UzI4bm/pp8iJDioXsa+vZFQ+XjEVUdFSYen5ZoO8gFmFwIjY/B+xOaNBldcXbbMyw5nDiQBWLM1p4vsUAHAWYk/prRSWpZ1LweCHmFh3S3cmFStSjMAMFvfvbeZv5xQAeiMP+44DbFY7NzsWxSaag3To0gUsRKzjw1N4wa18=
+  file: release.tar.gz
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: radome/gatekeeper
