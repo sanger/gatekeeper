@@ -3,6 +3,8 @@ language: ruby
 dist: xenial
 bundler_args: "--without deployment"
 sudo: required
+node_js:
+- '10'
 cache:
   bundler: true
 script:
