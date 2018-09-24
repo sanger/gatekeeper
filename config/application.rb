@@ -32,6 +32,7 @@ module Gatekeeper
 
     # Ensures precompiling is faster by not loading the application
     config.assets.initialize_on_precompile = false
+    config.disable_animations = false
 
     config.destroyable_states = %w[pending available]
     config.destroyed_state = 'destroyed'
