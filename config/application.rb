@@ -124,16 +124,25 @@ module Gatekeeper
     }
   end
 
-  begin
-    require './lib/deployed_version'
-  rescue LoadError
-    module Deployed
-      VERSION_ID = 'LOCAL'
-      VERSION_STRING = "#{Gatekeeper::Application.config.name} LOCAL [#{ENV['RACK_ENV']}]"
-    end
-  end
+  require './lib/deployed_version'
 
   def self.application_string
     Deployed::VERSION_STRING
+  end
+
+  def self.commit_information
+    Deployed::VERSION_COMMIT
+  end
+
+  def self.repo_url
+    Deployed::REPO_URL
+  end
+
+  def self.host_name
+    Deployed::HOSTNAME
+  end
+
+  def self.release_name
+    Deployed::RELEASE_NAME
   end
 end

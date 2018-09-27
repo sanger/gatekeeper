@@ -21,7 +21,8 @@
   </div>
   <%= yield %>
   <div id='gk-app-info' class="well well-sm">
-    <p><%= Gatekeeper.application_string %> <%= link_to Deployed::VERSION_COMMIT, Deployed::REPO_URL%> - <a href='mailto:<%= Gatekeeper::Application.config.support_mail %>'>Need Help? Drop us an email.</a></p>
+    <p><%= Gatekeeper.application_string %> <%= Gatekeeper.release_name %> <%= link_to Gatekeeper.commit_information, Gatekeeper.repo_url %> - <a href='mailto:<%= Gatekeeper::Application.config.support_mail %>'>Need Help? Drop us an email.</a></p>
+    <p><%= Gatekeeper.host_name %></p>
   </div>
   <%= javascript_include_tag "application" %>
 </body>
