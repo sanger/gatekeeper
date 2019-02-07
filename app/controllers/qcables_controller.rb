@@ -11,9 +11,6 @@ class QcablesController < ApplicationController
   # This action should generally get called through the nested
   # lot/qcables route, which will provide our lot id.
   def create
-    # If we have the lot type cached in settings, use that.
-    qcable_name = (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
-
     qc_creator = api.qcable_creator.create!(
       user: @user.uuid,
       lot: @lot.uuid,
@@ -41,6 +38,11 @@ class QcablesController < ApplicationController
   end
 
   private
+
+  def qcable_name
+    # If we have the lot type cached in settings, use that.
+    (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
+  end
 
   def find_lot
     @lot = api.lot.find(params[:lot_id])

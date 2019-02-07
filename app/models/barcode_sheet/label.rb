@@ -34,7 +34,7 @@ class BarcodeSheet::Label
         bottom_left: human_readable,
         top_right: human_readable,
         bottom_right: lot_template,
-        barcode: machine_barcode
+        barcode: code39_barcode
       }
     }
   end
@@ -47,18 +47,22 @@ class BarcodeSheet::Label
         bottom_line: date,
         round_label_top_line: @prefix,
         round_label_bottom_line: @number,
-        barcode: machine_barcode.to_s
+        barcode: ean13_barcode.to_s
       }
     }
   end
 
   private
 
+  def code39_barcode
+    @barcode || SBCF::SangerBarcode.new(prefix: @prefix, number: @number).human_barcode
+  end
+
   def lot_template
     @legacy_study || "#{@lot}:#{@template}"
   end
 
-  def machine_barcode
+  def ean13_barcode
     @barcode || SBCF::SangerBarcode.new(prefix: @prefix, number: @number).machine_barcode
   end
 
