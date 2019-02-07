@@ -21,19 +21,22 @@ class QcablesController < ApplicationController
     )
 
     labels = qc_creator.qcables.map do |q|
-      Sanger::Barcode::Printing::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, study: "#{@lot.lot_number}:#{@lot.template_name}")
+      BarcodeSheet::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, barcode: q.barcode.machine, lot: @lot.lot_number, template: @lot.template_name)
     end
 
     begin
       BarcodeSheet.new(@printer, labels).print!
     rescue BarcodeSheet::PrintError => exception
-      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created."
+      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{exception.message}"
     rescue Errno::ECONNREFUSED => exception
       flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  rescue Net::ReadTimeout
+    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
   end
 

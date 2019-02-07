@@ -31,7 +31,7 @@
 :lot:
   '11111111-2222-3333-4444-555555555556':
     :attributes:
-      :lot_number: 123456789
+      :lot_number: '123456789'
       :received_at: 2013-02-01
       :lot_type_name: IDT Tags
       :template_name: Example Tag Layout
@@ -52,7 +52,7 @@
       - '11111111-2222-3333-4444-100000000010'
   '11111111-2222-3333-4444-555555555557':
     :attributes:
-      :lot_number: 123456790
+      :lot_number: '123456790'
       :received_at: 2013-02-01
       :lot_type_name: IDT Reporters
       :template_name: Example Plate Layout
@@ -64,7 +64,7 @@
       - '11111111-2222-3333-4444-200000000010'
   '11111111-2222-3333-4444-555555555567':
     :attributes:
-      :lot_number: 123456790
+      :lot_number: '123456790'
       :received_at: 2013-02-01
       :lot_type_name: Tag 2
       :template_name: Second Tag
@@ -97,6 +97,7 @@
       :barcode:
         :prefix: DN
         :number: '1'
+        :machine: 'DN1S'
         :ean13: '122000000183'
       :state: created
       :stamp_bed:
@@ -110,6 +111,7 @@
       :barcode:
         :prefix: DN
         :number: '2'
+        :machine: 'DN2T'
         :ean13: '122000000284'
       :state: created
       :stamp_bed: nil
@@ -123,6 +125,7 @@
       :barcode:
         :prefix: DN
         :number: '3'
+        :machine: 'DN3U'
         :ean13: '122000000385'
       :state: qc_in_progress
       :stamp_bed: '1'
@@ -136,6 +139,7 @@
       :barcode:
         :prefix: DN
         :number: '4'
+        :machine: 'DN4V'
         :ean13: '122000000486'
       :state: destroyed
       :stamp_bed: '2'
@@ -149,6 +153,7 @@
       :barcode:
         :prefix: DN
         :number: '5'
+        :machine: 'DN5W'
         :ean13: '122000000587'
       :state: failed
       :stamp_bed: '4'
@@ -162,6 +167,7 @@
       :barcode:
         :prefix: DN
         :number: '6'
+        :machine: 'DN6A'
         :ean13: '122000000665'
       :state: exhausted
       :stamp_bed: '3'
@@ -175,6 +181,7 @@
       :barcode:
         :prefix: DN
         :number: '7'
+        :machine: 'DN7B'
         :ean13: '122000000766'
       :state: passed
       :stamp_bed: '5'
@@ -188,6 +195,7 @@
       :barcode:
         :prefix: DN
         :number: '8'
+        :machine: 'DN8C'
         :ean13: '122000000867'
       :state: pending
       :stamp_bed: '6'
@@ -201,6 +209,7 @@
       :barcode:
         :prefix: DN
         :number: '9'
+        :machine: 'DN9D'
         :ean13: '122000000968'
       :state: pending
       :stamp_bed: '7'
@@ -214,6 +223,7 @@
       :barcode:
         :prefix: DN
         :number: '10'
+        :machine: 'DN10I'
         :ean13: '122000001069'
       :state: available
       :stamp_bed: '8'

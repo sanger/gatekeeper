@@ -24,7 +24,10 @@ class QcablesControllerTest < ActionController::TestCase
 
     target_printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
 
-    (1..10).map { |i| Sanger::Barcode::Printing::Label.expects(:new).with(prefix: 'DN', number: i.to_s, study: '123456789:Example Tag Layout') }
+    (1..10).map do |i|
+      human_readable = SBCF::SangerBarcode.new(prefix: 'DN', number: i).human_barcode
+      BarcodeSheet::Label.expects(:new).with(prefix: 'DN', number: i.to_s, barcode: human_readable, lot: '123456789', template: 'Example Tag Layout')
+    end
 
     mock_printer = mock('printer')
     mock_printer.expects(:print!).returns(true)
