@@ -13,19 +13,47 @@ class BarcodeSheet
   def initialize(printer, barcodes)
     @printer = printer
     @barcodes = barcodes
-    @service = Sanger::Barcode::Printing::Service.new(@printer.service.url)
+  end
+
+  def print!
+    job.save || raise(PrintError, job.errors.full_messages.join('; '))
+  end
+
+  private
+
+  def config
+    Gatekeeper::Application.config.printer_type_options[printer_type] ||
+      raise(PrintError, "Unknown printer type: #{printer_type}")
+  end
+
+  def label_method
+    config[:label]
+  end
+
+  def job
+    PMB::PrintJob.new(
+      printer_name: printer_name,
+      label_template_id: label_template_id,
+      labels: { body: all_labels }
+    )
+  end
+
+  def all_labels
+    barcodes.map(&label_method)
+  end
+
+  def label_template_id
+    # This isn't a rails finder; so we disable the cop.
+    PMB::LabelTemplate.where(name: config[:template]).first.id # rubocop:disable Rails/FindBy
+  rescue JsonApiClient::Errors::ConnectionError
+    raise PrintError, 'PrintMyBarcode service is down'
   end
 
   def printer_name
     printer.name
   end
 
-  def printer_layout
-    @printer.type.layout
-  end
-
-  def print!
-    service.print_labels(barcodes, printer_name, printer_layout) unless ENV['STUB_PRINTING']
-    true
+  def printer_type
+    @printer.type.name
   end
 end

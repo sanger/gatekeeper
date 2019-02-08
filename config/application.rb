@@ -121,6 +121,11 @@ module Gatekeeper
       },
       'library_type' => 'QA1'
     }
+
+    config.printer_type_options = {
+      '1D Tube' => { label: :tube, template: 'sqsc_1dtube_label_template' },
+      '96 Well Plate' => { label: :plate, template: 'sqsc_96plate_label_template_code39' }
+    }
   end
 
   begin

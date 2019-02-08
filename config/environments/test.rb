@@ -51,4 +51,6 @@ Gatekeeper::Application.configure do
   config.suggested_templates = ActiveSupport::OrderedOptions.new
   config.suggested_templates.plate_template      = :all
   config.suggested_templates.tag_layout_template = :all
+
+  config.pmb_uri = 'http://example.com:3002/v1/'
 end
