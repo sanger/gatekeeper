@@ -163,5 +163,4 @@ class LotsControllerTest < ActionController::TestCase
     assert_redirected_to :root
     assert_equal 'Please use the find lots by lot number feature to find specific lots.', flash[:danger]
   end
-
 end

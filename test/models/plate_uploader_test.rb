@@ -3,11 +3,10 @@
 require 'test_helper'
 
 class PlateUploaderTest < ActiveSupport::TestCase
-
   attr_reader :test_file, :plate_uploader
 
   setup do
-    @test_file = Rack::Test::UploadedFile.new(Rails.root.join('test','fixtures','test_file.xlsx'), '')
+    @test_file = Rack::Test::UploadedFile.new(Rails.root.join('test', 'fixtures', 'test_file.xlsx'), '')
     @plate_uploader = PlateUploader.new(test_file)
   end
 
@@ -16,5 +15,4 @@ class PlateUploaderTest < ActiveSupport::TestCase
     assert_equal 11842563, plate_uploader.barcodes.first
     assert_equal 11842572, plate_uploader.barcodes.last
   end
-    
 end

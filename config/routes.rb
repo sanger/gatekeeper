@@ -19,7 +19,6 @@ Gatekeeper::Application.routes.draw do
 
   # post 'lots/upload', to: 'lots#upload'
 
-
   resources :batches, only: [:show] do
     collection do
       get :search

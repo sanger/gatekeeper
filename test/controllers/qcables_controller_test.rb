@@ -79,10 +79,10 @@ class QcablesControllerTest < ActionController::TestCase
     end
   end
 
-   test 'upload' do
+  test 'upload' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
-    test_file = Rack::Test::UploadedFile.new(Rails.root.join('test','fixtures','test_file.xlsx'), '')
+    test_file = Rack::Test::UploadedFile.new(Rails.root.join('test', 'fixtures', 'test_file.xlsx'), '')
     plate_uploader = PlateUploader.new(test_file)
 
     api.qcable_creator.expect_create_with(

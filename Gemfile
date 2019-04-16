@@ -20,7 +20,7 @@ gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'de
 gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 
-gem "roo", "~> 2.8.0"
+gem 'roo', '~> 2.8.0'
 
 group :development do
   gem 'pry'

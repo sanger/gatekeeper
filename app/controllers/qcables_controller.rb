@@ -45,7 +45,7 @@ class QcablesController < ApplicationController
       barcodes: PlateUploader.new(params[:upload]).barcodes
     )
 
-     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
+    flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
   rescue Net::ReadTimeout

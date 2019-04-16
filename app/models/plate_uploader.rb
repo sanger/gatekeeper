@@ -1,7 +1,8 @@
-class PlateUploader < ApplicationController
+# frozen_string_literal: true
 
+class PlateUploader < ApplicationController
   attr_reader :file, :sheet, :column
-  
+
   def initialize(file)
     @file = file
     @sheet = Roo::Spreadsheet.open(file, extension: :xlsx).sheet(0)
