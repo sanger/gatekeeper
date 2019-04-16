@@ -17,18 +17,18 @@ class CreateIDTTagPlateTest < Capybara::Rails::TestCase
   end
 
   test 'upload file' do
-    visit lot_path("11111111-2222-3333-4444-555555555556")
+    visit lot_path('11111111-2222-3333-4444-555555555556')
 
     page.must_have_content('Create IDT Tag Plate')
     page.must_have_content('User swipecard')
     page.must_have_content('Select a file to upload')
     page.must_have_button('Create IDT Tag Plate')
 
-    within(".swipecard") do
+    within('.swipecard') do
       fill_in 'User swipecard', with: 'abcdef'
     end
 
-    within(".upload") do
+    within('.upload') do
       attach_file 'upload', '/Users/hc6/sanger/gatekeeper/test/fixtures/test_file.xlsx'
     end
 
@@ -43,6 +43,6 @@ class CreateIDTTagPlateTest < Capybara::Rails::TestCase
 
     click_button('Create IDT Tag Plate')
 
-    assert_current_path "/lots/11111111-2222-3333-4444-555555555556"
+    assert_current_path '/lots/11111111-2222-3333-4444-555555555556'
   end
 end
