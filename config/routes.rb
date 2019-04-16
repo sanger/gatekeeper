@@ -11,9 +11,14 @@ Gatekeeper::Application.routes.draw do
     collection do
       get :search
     end
-    resources :qcables, only: [:create]
+    resources :qcables, only: [:create] do
+      post 'upload', on: :collection
+    end
     resources :qc_decisions, only: %i[create new], controller: 'lots_qc_decisions'
   end
+
+  # post 'lots/upload', to: 'lots#upload'
+
 
   resources :batches, only: [:show] do
     collection do

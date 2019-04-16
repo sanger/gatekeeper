@@ -78,4 +78,28 @@ class QcablesControllerTest < ActionController::TestCase
       assert_equal 'Number of plates created must be a multiple of 10 between 10 and 500 inclusive', flash[:danger]
     end
   end
+
+   test 'upload' do
+    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+
+    test_file = Rack::Test::UploadedFile.new(Rails.root.join('test','fixtures','test_file.xlsx'), '')
+    plate_uploader = PlateUploader.new(test_file)
+
+    api.qcable_creator.expect_create_with(
+      received: {
+        user: '11111111-2222-3333-4444-555555555555',
+        lot: '11111111-2222-3333-4444-555555555556',
+        barcodes: plate_uploader.barcodes
+      },
+      returns: '11111111-2222-3333-4444-555555555558'
+    )
+
+    post :upload,
+         user_swipecard: 'abcdef',
+         lot_id: '11111111-2222-3333-4444-555555555556',
+         upload: test_file
+
+    assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
+    assert_equal "#{plate_uploader.barcodes.length} Tag Plates have been created.", flash[:success]
+  end
 end
