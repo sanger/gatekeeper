@@ -29,7 +29,7 @@ class CreateIDTTagPlateTest < Capybara::Rails::TestCase
     end
 
     within('.upload') do
-      attach_file 'upload', '/Users/hc6/sanger/gatekeeper/test/fixtures/test_file.xlsx'
+      attach_file 'upload', Rails.root.join('test', 'fixtures', 'test_file.xlsx')
     end
 
     api.qcable_creator.expect_create_with(
