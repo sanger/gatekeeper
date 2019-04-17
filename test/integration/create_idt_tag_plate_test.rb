@@ -36,7 +36,7 @@ class CreateIDTTagPlateTest < Capybara::Rails::TestCase
       received: {
         user: '11111111-2222-3333-4444-555555555555',
         lot: '11111111-2222-3333-4444-555555555556',
-        barcodes: plate_uploader.barcodes
+        barcodes: plate_uploader.payload
       },
       returns: '11111111-2222-3333-4444-555555555558'
     )
