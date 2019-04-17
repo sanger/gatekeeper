@@ -13,4 +13,8 @@ class PlateUploader < ApplicationController
   def barcodes
     @barcodes ||= column.uniq
   end
+
+  def payload
+    barcodes.join(',')
+  end
 end

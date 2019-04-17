@@ -42,7 +42,7 @@ class QcablesController < ApplicationController
     qc_creator = api.qcable_creator.create!(
       user: @user.uuid,
       lot: @lot.uuid,
-      barcodes: PlateUploader.new(params[:upload]).barcodes
+      barcodes: PlateUploader.new(params[:upload]).barcodes.join(',')
     )
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."

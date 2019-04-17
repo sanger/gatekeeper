@@ -15,4 +15,8 @@ class PlateUploaderTest < ActiveSupport::TestCase
     assert_equal 11842563, plate_uploader.barcodes.first
     assert_equal 11842572, plate_uploader.barcodes.last
   end
+
+  it 'returns a payload' do
+    assert_equal '11842563,11842564,11842565,11842566,11842567,11842568,11842569,11842570,11842571,11842572', plate_uploader.payload
+  end
 end
