@@ -7,8 +7,7 @@
 class BarcodeSheet
   class PrintError < StandardError; end
 
-  attr_reader :printer, :barcodes, :service
-  private :service
+  attr_reader :printer, :barcodes
 
   def initialize(printer, barcodes)
     @printer = printer

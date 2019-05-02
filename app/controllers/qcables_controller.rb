@@ -5,7 +5,8 @@
 class QcablesController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_user, :find_printer, :find_lot, :validate_plate_count
+  before_filter :find_user, :find_lot
+  before_filter :find_printer, :validate_plate_count, only: [:create]
 
   ##
   # This action should generally get called through the nested
@@ -28,6 +29,21 @@ class QcablesController < ApplicationController
     rescue Errno::ECONNREFUSED => exception
       flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
+
+    flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
+
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  rescue Net::ReadTimeout
+    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  end
+
+  def upload
+    qc_creator = api.qcable_creator.create!(
+      user: @user.uuid,
+      lot: @lot.uuid,
+      barcodes: PlateUploader.new(params[:upload]).payload
+    )
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
