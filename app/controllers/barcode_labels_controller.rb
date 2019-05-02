@@ -27,7 +27,7 @@ class BarcodeLabelsController < ApplicationController
 
   def generate_labels
     @labels = (params[:numbers] || []).map do |_, number|
-      Sanger::Barcode::Printing::Label.new(
+      BarcodeSheet::Label.new(
         prefix: params[:prefix],
         number: number,
         study: params[:study]

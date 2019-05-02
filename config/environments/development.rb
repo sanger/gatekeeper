@@ -32,8 +32,8 @@ Gatekeeper::Application.configure do
   # Set up the API connection options
   config.api_connection_options               = ActiveSupport::OrderedOptions.new
   config.api_connection_options.namespace     = 'Gatekeeper'
-  config.api_connection_options.url           = 'http://localhost:3000/api/1/'
-  config.api_connection_options.authorisation = 'development'
+  config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
+  config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'development')
 
   config.support_mail = 'example@example.com'
 
@@ -46,4 +46,6 @@ Gatekeeper::Application.configure do
   config.suggested_templates = ActiveSupport::OrderedOptions.new
   config.suggested_templates.plate_template      = :all
   config.suggested_templates.tag_layout_template = :all
+
+  config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
 end

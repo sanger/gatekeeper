@@ -5,15 +5,13 @@
 class QcablesController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_user, :find_printer, :find_lot, :validate_plate_count
+  before_filter :find_user, :find_lot
+  before_filter :find_printer, :validate_plate_count, only: [:create]
 
   ##
   # This action should generally get called through the nested
   # lot/qcables route, which will provide our lot id.
   def create
-    # If we have the lot type cached in settings, use that.
-    qcable_name = (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
-
     qc_creator = api.qcable_creator.create!(
       user: @user.uuid,
       lot: @lot.uuid,
@@ -21,13 +19,13 @@ class QcablesController < ApplicationController
     )
 
     labels = qc_creator.qcables.map do |q|
-      Sanger::Barcode::Printing::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, study: "#{@lot.lot_number}:#{@lot.template_name}")
+      BarcodeSheet::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, barcode: q.barcode.machine, lot: @lot.lot_number, template: @lot.template_name)
     end
 
     begin
       BarcodeSheet.new(@printer, labels).print!
     rescue BarcodeSheet::PrintError => exception
-      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created."
+      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{exception.message}"
     rescue Errno::ECONNREFUSED => exception
       flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
@@ -35,9 +33,32 @@ class QcablesController < ApplicationController
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
 
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  rescue Net::ReadTimeout
+    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  end
+
+  def upload
+    qc_creator = api.qcable_creator.create!(
+      user: @user.uuid,
+      lot: @lot.uuid,
+      barcodes: PlateUploader.new(params[:upload]).payload
+    )
+
+    flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
+
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  rescue Net::ReadTimeout
+    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
   end
 
   private
+
+  def qcable_name
+    # If we have the lot type cached in settings, use that.
+    (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
+  end
 
   def find_lot
     @lot = api.lot.find(params[:lot_id])

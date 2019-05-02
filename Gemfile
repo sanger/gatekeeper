@@ -15,13 +15,12 @@ gem 'bootstrap-sass'
 gem 'bootstrap-datepicker-rails'
 gem 'hashie'
 gem 'exception_notification'
+gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 
-gem 'sequencescape-client-api',
-    github: 'sanger/sequencescape-client-api',
-    branch: 'rails_4',
-    require: 'sequencescape'
-gem 'sanger_barcode',
-    github: 'sanger/sanger_barcode'
+gem 'sequencescape-client-api', '~> 0.3.8', require: 'sequencescape'
+gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
+
+gem 'roo', '~> 2.8.0'
 
 group :development do
   gem 'pry'
@@ -36,6 +35,7 @@ end
 group :test do
   gem 'minitest'
   gem 'mocha'
+  gem 'timecop'
   gem 'poltergeist'
   gem 'launchy'
   gem 'capybara'
