@@ -18,4 +18,8 @@ class Gatekeeper::Qcable < Sequencescape::Qcable
     attribute_accessor :ean13               # The EAN13 barcode number
     attribute_accessor :machine             # The EAN13 barcode number
   end
+
+  def machine_barcode
+    barcode.machine
+  end
 end
