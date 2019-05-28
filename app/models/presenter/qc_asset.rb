@@ -40,10 +40,10 @@ class Presenter::QcAsset
 
   def handler
     {
-      'with'     => own_purpose_config.with || 'plate_creation',
-      'as'       => own_purpose_config.as || '',
-      'sibling'  => own_purpose_config.sibling || '',
-      'printer'  => own_purpose_config.printer || 'plate'
+      'with' => own_purpose_config.with || 'plate_creation',
+      'as' => own_purpose_config.as || '',
+      'sibling' => own_purpose_config.sibling || '',
+      'printer' => own_purpose_config.printer || 'plate'
     }.tap do |handle|
       handle['sibling2'] = own_purpose_config.sibling2 if own_purpose_config.sibling2
     end
@@ -54,12 +54,12 @@ class Presenter::QcAsset
   def output
     { 'qc_asset' => {
       'uuid' => uuid,
-      'purpose'        => purpose,
-      'barcode'        => barcode,
+      'purpose' => purpose,
+      'barcode' => barcode,
       'child_purposes' => child_purposes,
-      'state'          => state,
-      'children'       => children.map { |c| [child_type, c.uuid] },
-      'handle'         => handler
+      'state' => state,
+      'children' => children.map { |c| [child_type, c.uuid] },
+      'handle' => handler
     } }
   end
 

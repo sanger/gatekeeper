@@ -13,11 +13,11 @@ class BarcodeLabelsController < ApplicationController
     render(
       json: { 'success' => 'Your barcodes have been printed' }
     )
-  rescue BarcodeSheet::PrintError => exception
+  rescue BarcodeSheet::PrintError
     render(
       json: { 'error' => 'There was a problem printing your barcodes.' }
     )
-  rescue Errno::ECONNREFUSED => exception
+  rescue Errno::ECONNREFUSED
     render(
       json: { 'error' => 'Could not connect to the barcode printing service.' }
     )

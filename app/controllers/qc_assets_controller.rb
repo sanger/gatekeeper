@@ -37,8 +37,8 @@ class QcAssetsController < ApplicationController
         template: params[:template],
         tag2_tubes: tag2_tubes
       ).create!
-    rescue QcAssetCreator::QcAssetException => exception
-      @presenter = Presenter::Error.new(exception)
+    rescue QcAssetCreator::QcAssetException => e
+      @presenter = Presenter::Error.new(e)
       render(json: @presenter.output, root: true, status: 403)
       return false
     end

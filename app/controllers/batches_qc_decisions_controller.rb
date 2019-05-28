@@ -35,8 +35,8 @@ class BatchesQcDecisionsController < QcDecisionsController
                } }])
       end
     end
-  rescue Sequencescape::Api::ResourceInvalid => exception
-    message = exception.resource.errors.messages.map { |k, v| "#{k.capitalize} #{v.to_sentence.chomp('.')}" }.join('; ') << '.'
+  rescue Sequencescape::Api::ResourceInvalid => e
+    message = e.resource.errors.messages.map { |k, v| "#{k.capitalize} #{v.to_sentence.chomp('.')}" }.join('; ') << '.'
     render json: { error: "A decision was not made to #{params[:decision]} for Lot #{params[:lot_id]}: " + message }
   end
 

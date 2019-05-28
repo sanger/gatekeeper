@@ -118,7 +118,7 @@ module Gatekeeper
       'read_length' => 25,
       'fragment_size_required' => {
         'from' => 1,
-        'to'   => 100
+        'to' => 100
       },
       'library_type' => 'QA1'
     }
