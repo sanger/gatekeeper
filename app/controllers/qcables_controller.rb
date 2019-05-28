@@ -5,7 +5,8 @@
 class QcablesController < ApplicationController
   include BarcodePrinting
 
-  before_action :find_user, :find_printer, :find_lot, :validate_plate_count
+  before_action :find_user, :find_lot
+  before_action :validate_plate_count, :find_printer, only: [:create]
 
   ##
   # This action should generally get called through the nested

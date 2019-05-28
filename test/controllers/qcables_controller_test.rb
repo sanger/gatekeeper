@@ -22,7 +22,7 @@ class QcablesControllerTest < ActionController::TestCase
       returns: '11111111-2222-3333-4444-555555555558'
     )
 
-    target_printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
+    api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
 
     (1..10).map do |i|
       human_readable = SBCF::SangerBarcode.new(prefix: 'DN', number: i).human_barcode
@@ -96,10 +96,11 @@ class QcablesControllerTest < ActionController::TestCase
       returns: '11111111-2222-3333-4444-555555555558'
     )
 
-    post :upload,
+    post :upload, params: {
          user_swipecard: 'abcdef',
          lot_id: '11111111-2222-3333-4444-555555555556',
          upload: test_file
+    }
 
     assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
     assert_equal "#{plate_uploader.barcodes.length} Tag Plates have been created.", flash[:success]
