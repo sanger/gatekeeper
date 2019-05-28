@@ -1,18 +1,31 @@
 <%= render :partial => 'shared/nav' %>
+
 <div id='gk-show-lot-page' class='gk-page'>
   <h1><%= @lot_presenter.lot_type %>: <%= @lot_presenter.lot_number %></h1>
+
   <div class='col-md-6'>
     <%= render :partial => 'summary', :layout => :'layouts/section', :locals => {:title => "Summary", :lot=>@lot_presenter} %>
-  </div><div class='col-md-6'>
+  </div>
+
+  <div class='col-md-6'>
     <%= render :partial => "create_children",
                :layout => :'layouts/section',
                :locals => {:title => "Create #{@lot_presenter.child_type.pluralize.titleize}", :lot=>@lot_presenter} %>
-  </div><div class='col-md-12'>
+  </div>
+
+  <div class='col-md-6'>
     <%= render :partial => 'children',
                :layout => :'layouts/section',
                :locals => {:title => @lot_presenter.child_type.pluralize.titleize, :lot => @lot_presenter} %>
   </div>
+
+  <div class='col-md-6'>
+    <%= render :partial => "create_idt_tag_plate",
+               :layout => :'layouts/section',
+               :locals => {:title => "Create IDT Tag Plate", :lot=>@lot_presenter} %>
+  </div>
 </div>
+
 <div class='hidden'>
   <%= render :partial => 'alerts/critical_error' %>
 </div>

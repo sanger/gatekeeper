@@ -20,3 +20,5 @@ config/initializers/secret_token.rb
 config/settings/development.yml
 log/*
 gatekeeper.sublime-workspace
+
+.DS_Store

@@ -12,4 +12,14 @@ class Gatekeeper::Qcable < Sequencescape::Qcable
   def in_lot?(lot)
     self.lot.uuid == lot.uuid
   end
+
+  attribute_group :barcode do
+    attribute_accessor :prefix, :number     # The pieces that make up a barcode
+    attribute_accessor :ean13               # The EAN13 barcode number
+    attribute_accessor :machine             # The EAN13 barcode number
+  end
+
+  def machine_barcode
+    barcode.machine
+  end
 end

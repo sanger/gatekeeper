@@ -107,7 +107,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
-       .with(Gatekeeper::Qcable, barcode: %w[122000000183 122000000284])
+       .with(Gatekeeper::Qcable, barcode: %w[DN1S DN2T])
        .returns([@plate_a, @plate_b])
 
     @robot.expects(:valid?)
@@ -125,8 +125,8 @@ class StampsControllerTest < ActionController::TestCase
          lot_bed: '58000000180',
          lot_plate: '123456789',
          beds: {
-           '58000000281' => '122000000183',
-           '58000000382' => '122000000284'
+           '58000000281' => 'DN1S',
+           '58000000382' => 'DN2T'
          }
     }
     assert_response :success
@@ -142,7 +142,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
-       .with(Gatekeeper::Qcable, barcode: %w[122000000183 122000000867])
+       .with(Gatekeeper::Qcable, barcode: %w[DN1S DN8C])
        .returns([@plate_a, @plate_c])
 
     @robot.expects(:valid?)
@@ -161,8 +161,8 @@ class StampsControllerTest < ActionController::TestCase
          lot_bed: '58000000180',
          lot_plate: '123456789',
          beds: {
-           '58000000281' => '122000000183',
-           '58000000382' => '122000000867'
+           '58000000281' => 'DN1S',
+           '58000000382' => 'DN8C'
          }
     }
     assert_response :success
@@ -178,7 +178,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
-       .with(Gatekeeper::Qcable, barcode: ['122000000183'])
+       .with(Gatekeeper::Qcable, barcode: ['DN1S'])
        .returns([@plate_a])
 
     @request.headers['Accept'] = 'application/json'
@@ -191,8 +191,8 @@ class StampsControllerTest < ActionController::TestCase
          lot_bed: '58000000180',
          lot_plate: '123456789',
          beds: {
-           '58000000281' => '122000000183',
-           '58000000382' => '122000000183'
+           '58000000281' => 'DN1S',
+           '58000000382' => 'DN1S'
          }
     }
     assert_response :success
@@ -237,7 +237,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
-       .with(Gatekeeper::Qcable, barcode: %w[122000000183 122000000284])
+       .with(Gatekeeper::Qcable, barcode: %w[DN1S DN2T])
        .returns([@plate_a, @plate_b])
 
     @robot.expects(:valid?)
@@ -280,8 +280,8 @@ class StampsControllerTest < ActionController::TestCase
          lot_bed: '58000000180',
          lot_plate: '123456789',
          beds: {
-           '58000000281' => '122000000183',
-           '58000000382' => '122000000284'
+           '58000000281' => 'DN1S',
+           '58000000382' => 'DN2T'
          }
     }
     assert_redirected_to lot_url(@lot)
@@ -298,7 +298,7 @@ class StampsControllerTest < ActionController::TestCase
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
-       .with(Gatekeeper::Qcable, barcode: %w[122000000183 122000000284])
+       .with(Gatekeeper::Qcable, barcode: %w[DN1S DN2T])
        .returns([@plate_a, @plate_b])
 
     @robot.expects(:valid?)
@@ -340,8 +340,8 @@ class StampsControllerTest < ActionController::TestCase
          lot_bed: '58000000180',
          lot_plate: '123456789',
          beds: {
-           '58000000281' => '122000000183',
-           '58000000382' => '122000000284'
+           '58000000281' => 'DN1S',
+           '58000000382' => 'DN2T'
          },
          repeat: 'repeat'
     }
