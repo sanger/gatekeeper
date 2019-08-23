@@ -38,4 +38,5 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'mocha'
   gem 'rails-controller-testing'
+  gem 'webdrivers'
 end

@@ -9,13 +9,13 @@ addons:
     packages:
     - haveged
     - google-chrome-stable
-    - chromium-chromedriver
 cache:
   bundler: true
 env:
   global:
   - TZ=Europe/London
-  - PATH=$PATH:/usr/lib/chromium-browser/
+before_script:
+- bundle exec rake webdrivers:chromedriver:update
 script:
 - bundle exec rubocop
 - xvfb-run -a bundle exec rake
