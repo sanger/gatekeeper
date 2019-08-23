@@ -115,7 +115,7 @@ module Gatekeeper
     config.project_uuid = nil
 
     config.request_options = {
-      'read_length' => 25,
+      'read_length' => 11,
       'fragment_size_required' => {
         'from' => 1,
         'to' => 100
