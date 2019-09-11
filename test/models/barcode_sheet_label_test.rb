@@ -33,7 +33,7 @@ class BarcodeSheet::LabelTest < ActiveSupport::TestCase
       main_label: {
         top_line: 'lot_number:tag_set',
         middle_line: '1',
-        bottom_line: '10-Sep-2019',
+        bottom_line: @date,
         round_label_top_line: 'DN',
         round_label_bottom_line: '1',
         barcode: 'DN1S'
@@ -47,7 +47,7 @@ class BarcodeSheet::LabelTest < ActiveSupport::TestCase
     expected_labels = {
       main_label: {
         left_text: 'DN1S',
-        right_text: '10-Sep-2019',
+        right_text: @date,
         barcode: 'DN1S'
       },
       extra_label: {
