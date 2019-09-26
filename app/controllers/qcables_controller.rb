@@ -5,8 +5,8 @@
 class QcablesController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_user, :find_lot
-  before_filter :find_printer, :validate_plate_count, only: [:create]
+  before_action :find_user, :find_lot
+  before_action :validate_plate_count, :find_printer, only: [:create]
 
   ##
   # This action should generally get called through the nested
@@ -24,9 +24,9 @@ class QcablesController < ApplicationController
 
     begin
       BarcodeSheet.new(@printer, labels).print!
-    rescue BarcodeSheet::PrintError => exception
-      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{exception.message}"
-    rescue Errno::ECONNREFUSED => exception
+    rescue BarcodeSheet::PrintError => e
+      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{e.message}"
+    rescue Errno::ECONNREFUSED
       flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
 
@@ -69,6 +69,6 @@ class QcablesController < ApplicationController
     step  = Gatekeeper::Application.config.stamp_step
     return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i % step == 0)
     flash[:danger] = "Number of plates created must be a multiple of #{step} between #{range.first} and #{range.last} inclusive"
-    redirect_to :back
+    redirect_back fallback_location: lots_path
   end
 end

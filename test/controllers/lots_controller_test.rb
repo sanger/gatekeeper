@@ -12,7 +12,7 @@ class LotsControllerTest < ActionController::TestCase
 
   # NEW LOT PAGES
   test 'new tag' do
-    get :new, lot_type: 'IDT Tags'
+    get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'Register IDT Tags Lot'
@@ -21,7 +21,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new tag from API' do
-    get :new, lot_type: 'IDT Tags'
+    get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'Register IDT Tags Lot'
@@ -30,7 +30,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new tag2' do
-    get :new, lot_type: 'Tag 2 Tubes'
+    get :new, params: { lot_type: 'Tag 2 Tubes' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'Register Tag 2 Tubes Lot'
@@ -39,7 +39,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new reporter' do
-    get :new, lot_type: 'IDT Reporters'
+    get :new, params: { lot_type: 'IDT Reporters' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'Register IDT Reporters Lot'
@@ -48,11 +48,11 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new unknown' do
-    get :new, lot_type: 'News Reporters'
+    get :new, params: { lot_type: 'News Reporters' }
     assert_response :not_found
     assert_select 'title', 'Gatekeeper'
     assert_select 'h1', 'There was a problem...'
-    assert_select '.alert-danger', 'Sorry! Could not register a lot. Unknown lot type &#39;News Reporters&#39;.'
+    assert_select '.alert-danger', "Sorry! Could not register a lot. Unknown lot type 'News Reporters'."
   end
 
   test 'new unspecified' do
@@ -76,44 +76,46 @@ class LotsControllerTest < ActionController::TestCase
       },
       returns: '11111111-2222-3333-4444-555555555556'
     )
-    post :create,
+    post :create, params: {
          lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          user_swipecard: 'abcdef',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
          received_at: '01/02/2013'
-
-    assert_equal nil, flash[:danger]
+    }
+    assert_nil flash[:danger]
     assert_equal 'Created lot 123456789', flash[:success]
     assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end
 
   test 'create with no user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
-    post :create,
+    post :create, params: {
          lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
          received_at: '01/02/2013'
+    }
     assert_redirected_to :root
     assert_equal 'User swipecard must be provided.', flash[:danger]
   end
 
   test '#create with fake user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
-    post :create,
+    post :create, params: {
          lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          user_swipecard: 'fake_user',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
          received_at: '01/02/2013'
+    }
     assert_redirected_to :root
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
   # SHOW
   test 'show tag plate' do
-    get :show, id: '11111111-2222-3333-4444-555555555556'
+    get :show, params: { id: '11111111-2222-3333-4444-555555555556' }
     assert_response :success
 
     assert_select 'h1', 'IDT Tags: 123456789'
@@ -126,7 +128,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'show reporter plate' do
-    get :show, id: '11111111-2222-3333-4444-555555555557'
+    get :show, params: { id: '11111111-2222-3333-4444-555555555557' }
     assert_response :success
 
     assert_select 'h1', 'IDT Reporters: 123456790'
@@ -138,7 +140,7 @@ class LotsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, lot_number: '123456789')
        .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
-    get :search, lot_number: '123456789'
+    get :search, params: { lot_number: '123456789' }
 
     assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end
@@ -149,7 +151,7 @@ class LotsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, lot_number: '123456789')
        .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556'), api.lot.with_uuid('11111111-2222-3333-4444-555555555557')])
 
-    get :search, lot_number: '123456789'
+    get :search, params: { lot_number: '123456789' }
 
     assert_response 300
     assert_select 'h1', 'Multiple lots found'

@@ -28,7 +28,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     end
 
     @request.headers['Accept'] = 'application/json'
-    get :search, user_swipecard: 'abcdef', asset_barcode: '122000000867'
+    get :search, params: { user_swipecard: 'abcdef', asset_barcode: '122000000867' }
 
     assert_response :success
     present = assigns['presenter']
@@ -51,7 +51,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     end
 
     @request.headers['Accept'] = 'application/json'
-    get :search, user_swipecard: 'abcdef', asset_barcode: '122000000867'
+    get :search, params: { user_swipecard: 'abcdef', asset_barcode: '122000000867' }
 
     assert_response 404
   end
@@ -68,7 +68,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     end
 
     @request.headers['Accept'] = 'application/json'
-    get :search, user_swipecard: 'abcdef', asset_barcode: '122000000867'
+    get :search, params: { user_swipecard: 'abcdef', asset_barcode: '122000000867' }
 
     assert_response :success
     present = assigns['presenter']
@@ -91,7 +91,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     end
 
     @request.headers['Accept'] = 'application/json'
-    get :search, user_swipecard: 'abcdef', asset_barcode: '3980000037732'
+    get :search, params: { user_swipecard: 'abcdef', asset_barcode: '3980000037732' }
 
     assert_response :success
     present = assigns['presenter']
@@ -142,11 +142,12 @@ class QcAssetsControllerTest < ActionController::TestCase
     )
 
     @request.headers['Accept'] = 'application/json'
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          asset_barcode: '1220000036833',
          purpose: '54088cc0-a3c8-11e3-a7e1-44fb42fffecc'
-    assert_equal nil, flash[:danger]
+    }
+    assert_nil flash[:danger]
 
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-510000000008'
   end
@@ -217,13 +218,14 @@ class QcAssetsControllerTest < ActionController::TestCase
     )
 
     @request.headers['Accept'] = 'application/json'
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          asset_barcode: '122000000867',
          purpose: '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc',
          sibling: '122000001174',
          template: '8c716230-a922-11e3-926d-44fb42fffecc'
-    assert_equal nil, flash[:danger]
+    }
+    assert_nil flash[:danger]
 
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
@@ -300,13 +302,14 @@ class QcAssetsControllerTest < ActionController::TestCase
     )
 
     @request.headers['Accept'] = 'application/json'
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          asset_barcode: '122000001174',
          purpose: '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc',
          sibling: '122000000867',
          template: '58b72440-ab69-11e3-bb8f-44fb42fffecc'
-    assert_equal nil, flash[:danger]
+    }
+    assert_nil flash[:danger]
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
 
@@ -400,12 +403,12 @@ class QcAssetsControllerTest < ActionController::TestCase
       api.plate.with_uuid(test[:sibling]).stubs(:state).returns(test[:sibling_state])
 
       @request.headers['Accept'] = 'application/json'
-      post :create,
+      post :create, params: {
            user_swipecard: 'abcdef',
            asset_barcode: test[:protagonist_bc],
            purpose: '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc',
            sibling: test[:sibling_bc]
-
+      }
       if test[:success]
         assert_response 302
       else
@@ -511,12 +514,12 @@ class QcAssetsControllerTest < ActionController::TestCase
       api.plate.with_uuid(test[:sibling]).stubs(:state).returns(test[:sibling_state])
 
       @request.headers['Accept'] = 'application/json'
-      post :create,
+      post :create, params: {
            user_swipecard: 'abcdef',
            asset_barcode: test[:protagonist_bc],
            purpose: uuid_tag_pcr_purpose,
            sibling: test[:sibling_bc]
-
+      }
       if test[:success]
         assert_response 302
       else
@@ -666,7 +669,7 @@ class QcAssetsControllerTest < ActionController::TestCase
 
     @request.headers['Accept'] = 'application/json'
 
-    post :create,
+    post :create, params: {
          user_swipecard: 'abcdef',
          asset_barcode: '3980000037732',
          tag2_tube: {
@@ -691,8 +694,8 @@ class QcAssetsControllerTest < ActionController::TestCase
          sibling: '122000000867',
          sibling2: '122000001174',
          template: flip_plate_template
-
-    assert_equal nil, flash[:danger]
+    }
+    assert_nil flash[:danger]
     assert_redirected_to controller: :plates, action: :show, id: '11111111-2222-3333-4444-500000000008'
   end
 end

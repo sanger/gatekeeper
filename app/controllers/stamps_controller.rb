@@ -4,17 +4,17 @@
 # Controller to handle stamping of Qcables from lots
 # Validation itself is handled by the robot
 class StampsController < ApplicationController
-  before_filter :find_user
-  skip_before_filter :find_user, only: [:new]
+  before_action :find_user
+  skip_before_action :find_user, only: [:new]
 
-  before_filter :find_robot
-  skip_before_filter :find_robot, only: [:new]
+  before_action :find_robot
+  skip_before_action :find_robot, only: [:new]
 
-  before_filter :find_lot
-  skip_before_filter :find_lot, only: [:new]
+  before_action :find_lot
+  skip_before_action :find_lot, only: [:new]
 
-  before_filter :find_bed_contents
-  skip_before_filter :find_bed_contents, only: [:new]
+  before_action :find_bed_contents
+  skip_before_action :find_bed_contents, only: [:new]
 
   class Validation
     def initialize
@@ -130,7 +130,7 @@ class StampsController < ApplicationController
                 .group_by { |qcable| qcable.barcode.machine }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = Hash[params[:beds].map do |bed, plate_barcode|
+    @bed_plates = Hash[params[:beds].permit!.to_h.map do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
     end]
   end
@@ -141,7 +141,7 @@ class StampsController < ApplicationController
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
     begin
       @robot = api.search.find(Settings.searches['Find robot by barcode']).first(barcode: params[:robot_barcode])
-    rescue Sequencescape::Api::ResourceNotFound => exception
+    rescue Sequencescape::Api::ResourceNotFound
       return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
     end
   end

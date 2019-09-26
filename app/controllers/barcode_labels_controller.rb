@@ -5,8 +5,8 @@
 class BarcodeLabelsController < ApplicationController
   include BarcodePrinting
 
-  before_filter :find_printer
-  before_filter :generate_labels
+  before_action :find_printer
+  before_action :generate_labels
 
   def create
     BarcodeSheet.new(@printer, @labels).print!
@@ -18,7 +18,7 @@ class BarcodeLabelsController < ApplicationController
     render(
       json: { 'error' => "There was a problem printing your barcodes. #{exception.message}" }
     )
-  rescue Errno::ECONNREFUSED => exception
+  rescue Errno::ECONNREFUSED
     render(
       json: { 'error' => 'Could not connect to the barcode printing service.' }
     )

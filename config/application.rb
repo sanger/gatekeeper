@@ -32,6 +32,7 @@ module Gatekeeper
 
     # Ensures precompiling is faster by not loading the application
     config.assets.initialize_on_precompile = false
+    config.disable_animations = false
 
     config.destroyable_states = %w[pending available]
     config.destroyed_state = 'destroyed'
@@ -114,10 +115,10 @@ module Gatekeeper
     config.project_uuid = nil
 
     config.request_options = {
-      'read_length' => 25,
+      'read_length' => 11,
       'fragment_size_required' => {
         'from' => 1,
-        'to'   => 100
+        'to' => 100
       },
       'library_type' => 'QA1'
     }
@@ -130,16 +131,25 @@ module Gatekeeper
     }
   end
 
-  begin
-    require './lib/deployed_version'
-  rescue LoadError
-    module Deployed
-      VERSION_ID = 'LOCAL'
-      VERSION_STRING = "#{Gatekeeper::Application.config.name} LOCAL [#{ENV['RACK_ENV']}]"
-    end
-  end
+  require './lib/deployed_version'
 
   def self.application_string
     Deployed::VERSION_STRING
+  end
+
+  def self.commit_information
+    Deployed::VERSION_COMMIT
+  end
+
+  def self.repo_url
+    Deployed::REPO_URL
+  end
+
+  def self.host_name
+    Deployed::HOSTNAME
+  end
+
+  def self.release_name
+    Deployed::RELEASE_NAME
   end
 end
