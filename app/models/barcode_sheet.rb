@@ -43,7 +43,7 @@ class BarcodeSheet
 
   def label_template_id
     # This isn't a rails finder; so we disable the cop.
-    PMB::LabelTemplate.where(name: config[:template]).first.id # rubocop:disable Rails/FindBy
+    PMB::LabelTemplate.where(name: config[:template]).first.id
   rescue JsonApiClient::Errors::ConnectionError => e
     Rails.logger.error(e.message)
     raise PrintError, 'PrintMyBarcode service is down'

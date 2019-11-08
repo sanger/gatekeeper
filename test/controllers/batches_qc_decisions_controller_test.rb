@@ -15,7 +15,7 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
     lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
 
     # We mock here, as this is out interface with the controller.
-    lot.expects(:pending_qcable_uuids).returns(['11111111-2222-3333-4444-100000000008', '11111111-2222-3333-4444-100000000009'])
+    lot.expects(:pending_qcable_uuids).returns(%w[11111111-2222-3333-4444-100000000008 11111111-2222-3333-4444-100000000009])
 
     api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
        .expects(:all)
@@ -32,7 +32,7 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
     lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
 
     # We mock here, as this is out interface with the controller.
-    lot.expects(:pending_qcable_uuids).returns(['11111111-2222-3333-4444-100000000008', '11111111-2222-3333-4444-100000000009'])
+    lot.expects(:pending_qcable_uuids).returns(%w[11111111-2222-3333-4444-100000000008 11111111-2222-3333-4444-100000000009])
 
     api.qc_decision.expect_create_with(
       received: {
