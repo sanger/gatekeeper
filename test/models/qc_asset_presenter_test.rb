@@ -61,7 +61,7 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
                    'state' => 'passed',
                    'handle' => {
                      'with' => 'plate_conversion',
-                     'as'      => 'target',
+                     'as' => 'target',
                      'sibling' => 'Reporter Plate',
                      'printer' => 'plate'
                    }

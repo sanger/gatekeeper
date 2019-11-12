@@ -4,12 +4,12 @@
 # Create QC Tubes
 
 class QcAssetsController < ApplicationController
-  before_filter :find_user, except: %i[new search]
-  before_filter :find_asset_from_barcode, only: %i[search create]
-  before_filter :find_sibling_from_barcode, only: [:create]
-  before_filter :find_sibling2_from_barcode, only: [:create]
+  before_action :find_user, except: %i[new search]
+  before_action :find_asset_from_barcode, only: %i[search create]
+  before_action :find_sibling_from_barcode, only: [:create]
+  before_action :find_sibling2_from_barcode, only: [:create]
 
-  before_filter :validate_parameters, only: [:create]
+  before_action :validate_parameters, only: [:create]
 
   rescue_from UserError::InputError, with: :render_error
 
@@ -22,7 +22,7 @@ class QcAssetsController < ApplicationController
 
   def tag2_tubes
     return nil unless params[:tag2_tube]
-    params[:tag2_tube].reject { |index, tube| tube[:barcode].blank? }
+    params[:tag2_tube].permit!.reject { |index, tube| tube[:barcode].blank? }
   end
 
   def create
@@ -37,8 +37,8 @@ class QcAssetsController < ApplicationController
         template: params[:template],
         tag2_tubes: tag2_tubes
       ).create!
-    rescue QcAssetCreator::QcAssetException => exception
-      @presenter = Presenter::Error.new(exception)
+    rescue QcAssetCreator::QcAssetException => e
+      @presenter = Presenter::Error.new(e)
       render(json: @presenter.output, root: true, status: 403)
       return false
     end

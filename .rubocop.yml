@@ -1,15 +1,38 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
-  Include:
-    - Rakefile
-    - config.ru
-    - lib/**/*.rake
-# The cop is meant to enforce conventions regarding variables containing numbers
-# However in 0.43.0 it is bugged. Both changed on master and disabled by default
-# The exclusions don't even get added to the rubocop_todo properly!
+  TargetRubyVersion: 2.5
+  Exclude:
+    - bin/**/*
+    - vendor/**/*
+Rails/InverseOf:
+  Enabled: false
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
 Naming/VariableNumber:
   Enabled: false
 Rails:
   Enabled: true
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+    - background
+    - scenario
+    - namespace
+    - task
+    - included
+    - shared_context
+    - shared_examples
+    - state_machine
+    - configure
+    - draw
+    - feature
+    - subject
+    - let
+    - let!
+    - factory
+    - define
+    - guard

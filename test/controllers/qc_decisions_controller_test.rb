@@ -17,7 +17,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, batch_id: '12345')
        .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
 
-    post :search, batch_id: '12345'
+    post :search, params: { batch_id: '12345' }
     assert_redirected_to '/lots/11111111-2222-3333-4444-555555555556/qc_decisions/new'
   end
 
@@ -27,7 +27,7 @@ class QcDecisionsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, batch_id: '999')
        .raises(Sequencescape::Api::ResourceNotFound, 'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
-    post :search, batch_id: '999'
+    post :search, params: { batch_id: '999' }
 
     assert_redirected_to :root
     assert_equal 'Could not find an appropriate lot for batch 999.', flash[:danger]

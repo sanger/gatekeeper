@@ -27,6 +27,7 @@ class BarcodeSheet::Label
     @legacy_study = study
   end
 
+  # Payload suitable for a 96 well plate label template
   def plate
     {
       main_label: {
@@ -39,15 +40,30 @@ class BarcodeSheet::Label
     }
   end
 
+  # Payload suitable for a tube label template
   def tube
     {
       main_label: {
         top_line: lot_template,
-        middle_line: asset.barcode_number,
+        middle_line: @number,
         bottom_line: date,
         round_label_top_line: @prefix,
         round_label_bottom_line: @number,
         barcode: ean13_barcode.to_s
+      }
+    }
+  end
+
+  # Payload suitable for 2 x 384 well plate label template
+  def plate_double
+    {
+      main_label: {
+        left_text: human_readable,
+        right_text: date,
+        barcode: code39_barcode
+      },
+      extra_label: {
+        left_text: lot_template
       }
     }
   end

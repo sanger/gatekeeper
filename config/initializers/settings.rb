@@ -19,7 +19,7 @@ class Settings
     def instance
       return @instance if @instance.present?
       @instance = Hashie::Mash.new(YAML.load(ERB.new(File.read(configuration_filename)).result))
-    rescue Errno::ENOENT => exception
+    rescue Errno::ENOENT
       star_length = [96, 12 + configuration_filename.length].max
       $stderr.puts('*' * star_length)
       $stderr.puts "WARNING! No #{configuration_filename}"

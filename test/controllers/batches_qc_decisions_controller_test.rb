@@ -22,7 +22,7 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
        .with(Gatekeeper::Lot, batch_id: '12345')
        .returns([lot])
 
-    get :new, batch_id: '12345'
+    get :new, params: { batch_id: '12345' }
     assert_response :success
     assert_equal '11111111-2222-3333-4444-555555555556', assigns['lots_presenter'].lots.first.uuid
     assert_equal '12345', assigns['lots_presenter'].batch_id
@@ -48,21 +48,23 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
 
     @request.headers['Accept'] = 'application/json'
 
-    post :create,
+    post :create, params: {
          batch_id: '12345',
          lot_id: '11111111-2222-3333-4444-555555555556',
          user_swipecard: 'abcdef',
          decision: 'release'
+    }
   end
 
   test 'validate user before performing change' do
-    post :create,
+    post :create, params: {
          batch_id: '12345',
          lot_id: '11111111-2222-3333-4444-555555555556',
          user_swipecard: 'abcdeg',
          decisions: {
            '11111111-2222-3333-4444-100000000001' => 'passed'
          }
+    }
 
     assert_equal true, flash[:danger].include?('User could not be found')
   end

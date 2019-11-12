@@ -3,8 +3,8 @@
 ##
 # Create a submission for the given MX tube
 class SubmissionsController < ApplicationController
-  before_filter :find_user
-  before_filter :find_asset_from_barcode
+  before_action :find_user
+  before_action :find_asset_from_barcode
 
   def create
     order = api.order_template.find(Settings.submission_templates.miseq).orders.create!(
@@ -23,10 +23,10 @@ class SubmissionsController < ApplicationController
     submission.submit!
 
     render(json: { 'success' => 'Submission created!' }, root: true)
-  rescue Sequencescape::Api::ConnectionFactory::Actions::ServerError => exception
-    render(json: { 'error' => 'Submission Failed. ' + /.+\[([^\]]+)\]/.match(exception.message)[1] }, root: true, status: 403)
-  rescue Sequencescape::Api::ResourceInvalid => exception
-    render(json: { 'error' => 'Submission Failed. ' + exception.resource.errors.full_messages.join('; ') }, root: true, status: 403)
+  rescue Sequencescape::Api::ConnectionFactory::Actions::ServerError => e
+    render(json: { 'error' => 'Submission Failed. ' + /.+\[([^\]]+)\]/.match(e.message)[1] }, root: true, status: 403)
+  rescue Sequencescape::Api::ResourceInvalid => e
+    render(json: { 'error' => 'Submission Failed. ' + e.resource.errors.full_messages.join('; ') }, root: true, status: 403)
   end
 
   private

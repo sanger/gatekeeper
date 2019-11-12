@@ -39,7 +39,7 @@ class Presenter::LotType
 
   def template_type_presenter
     @template_type_presenter ||= "Presenter::#{template_class}".constantize.new(@api)
-  rescue NameError => exception
-    raise Presenter::LotType::ConfigurationError, "#{exception}. Unrecognised template class '#{template_class}'."
+  rescue NameError => e
+    raise Presenter::LotType::ConfigurationError, "#{e}. Unrecognised template class '#{template_class}'."
   end
 end

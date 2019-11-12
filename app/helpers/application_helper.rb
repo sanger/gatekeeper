@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  DEFAULT_PRINTER_TYPE = '96 Well Plate'
   def flash_message(category)
     {
       success: 'Success',
@@ -11,9 +12,44 @@ module ApplicationHelper
   end
 
   def each_barcode_printer(type)
-    (Settings.printers[type] || no_printer).each do |printer|
+    Settings.printers.fetch(type, no_printer).each do |printer|
       yield printer[:name], printer[:uuid]
     end
+  end
+
+  #
+  # Renders a grouped list of barcode printers, with preferred type at the top
+  # @param preferred_type [String] The printers to render at the top of the list.
+  #
+  # @return [String] The <option> tags for generating a select
+  def barcode_printer_select_options(preferred_type = DEFAULT_PRINTER_TYPE)
+    grouped_options_for_select(all_barcode_printers(preferred_type))
+  end
+
+  #
+  # Returns a hash suitable for grouped_options_for_select
+  # containing ALL barcode printers. The preferred type is listed
+  # first.
+  # @param preferred_type [String] A barcode printer type
+  #
+  # @return [Array] Array for rendering select
+  def all_barcode_printers(preferred_type)
+    sorted_barcode_printers(preferred_type).map do |group, printers|
+      [
+        group,
+        printers.map { |printer| printer.values_at(:name, :uuid) }
+      ]
+    end
+  end
+
+  #
+  # Returns an array of grouped barcode printers
+  # with the prefered_type first.
+  # @param preferred_type [String] The barcode printer type to show first
+  #
+  # @return [Array] array of printer types and their printers
+  def sorted_barcode_printers(preferred_type)
+    Settings.printers.sort_by { |type, _printers| type == preferred_type ? 0 : 1 }
   end
 
   def no_printer

@@ -5,9 +5,9 @@
 # Not only is the user physically carrying the action out on a plate
 # but the state change action is conducted on a plate, not a qcable
 class AssetsController < ApplicationController
-  before_filter :find_user
-  skip_before_filter :find_user, only: %i[search show]
-  before_filter :find_asset_from_barcode
+  before_action :find_user
+  skip_before_action :find_user, only: %i[search show]
+  before_action :find_asset_from_barcode
   ##
   # This doesn't actually destroy asset, just flags them as such
   def destroy
