@@ -2,11 +2,9 @@
 
 require 'test_helper'
 
-class ApplicationHelperTest < ActiveSupport::TestCase
+class ApplicationHelperTest < ActionView::TestCase
   setup do
-    @helper = Class.new do
-      include ApplicationHelper
-    end.new
+    @helper = self
   end
 
   test 'A number position in a plate should represent a string location' do
@@ -22,7 +20,7 @@ class ApplicationHelperTest < ActiveSupport::TestCase
       { index_pos: 140, dim_x: 12, dim_y: 16, result: 'M9' }
     ]
     testing.each do |r|
-      assert_equal r[:result], @helper.well_location_for(r[:index_pos], r[:dim_x], r[:dim_y])
+      assert_equal r[:result], well_location_for(r[:index_pos], r[:dim_x], r[:dim_y])
     end
   end
   test 'A number position out of range in a plate should throw an exception' do
@@ -33,7 +31,7 @@ class ApplicationHelperTest < ActiveSupport::TestCase
       { index_pos: 140, dim_x: 12, dim_y: 8, result: nil }
     ]
     testing.each do |r|
-      assert_raises (RangeError) { @helper.well_location_for(r[:index_pos], r[:dim_x], r[:dim_y]) }
+      assert_raises (RangeError) { well_location_for(r[:index_pos], r[:dim_x], r[:dim_y]) }
     end
   end
 end

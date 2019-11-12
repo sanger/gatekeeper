@@ -21,17 +21,17 @@ class ApplicationHelperTest < ActionView::TestCase
 
   test '#all_barcode_printers("1D Tube")' do
     assert_equal all_barcode_printers('1D Tube'), [
-      ['1D Tube', [['tube_example', 'baac0dea-0000-0000-0000-000000000001']]],
-      ['96 Well Plate', [['plate_example', 'baac0dea-0000-0000-0000-000000000000']]],
-      ['384 Well Plate', [['tef_plate_example', 'baac0dea-0000-0000-0000-000000000002']]]
+      ['1D Tube', [%w[tube_example baac0dea-0000-0000-0000-000000000001]]],
+      ['96 Well Plate', [%w[plate_example baac0dea-0000-0000-0000-000000000000]]],
+      ['384 Well Plate', [%w[tef_plate_example baac0dea-0000-0000-0000-000000000002]]]
     ]
   end
 
   test '#all_barcode_printers("96 Well Plate")' do
     assert_equal all_barcode_printers('96 Well Plate'), [
-      ['96 Well Plate', [['plate_example', 'baac0dea-0000-0000-0000-000000000000']]],
-      ['1D Tube', [['tube_example', 'baac0dea-0000-0000-0000-000000000001']]],
-      ['384 Well Plate', [['tef_plate_example', 'baac0dea-0000-0000-0000-000000000002']]]
+      ['96 Well Plate', [%w[plate_example baac0dea-0000-0000-0000-000000000000]]],
+      ['1D Tube', [%w[tube_example baac0dea-0000-0000-0000-000000000001]]],
+      ['384 Well Plate', [%w[tef_plate_example baac0dea-0000-0000-0000-000000000002]]]
     ]
   end
 end
