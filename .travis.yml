@@ -22,11 +22,14 @@ script:
 before_deploy: "./compile-build"
 deploy:
   provider: releases
+  api_key:
+    secure: e5/0gLHsked4UMyKvfyka8+VNyseG3FoqdtrRzudAXh3GOdGTIBgCS4AEh+PhOxc7yBXItZj4Az4JNnkWGiQu5l4S/lU2b2OC2hrbUROlC7uDH1H18GJ/vnCJvBTKgFWNbBodtnrSqJXUsPLmTqwAqrTm6z3hq3RJR5C0Um/D/8=
   file: release.tar.gz
+  on:
+    repo: sanger/gatekeeper
+    tags: true
   file_glob: true
   skip_cleanup: true
-  on:
-    tags: true
-    repo: sanger/gatekeeper
-  api_key:
-    secure: ThFrqAddjmmRkTvn1aLQzfiGErCfXZslUGAeScIdjTnoA21d7gb6qMQGAg3ewgr5u+p97ArenChDszFNGySsV+MpuChkkwYsFuMjqirp2F7zgLDHntvEwMnm4m4sKucka8CONa+cUMOnm3Z6kmcaGTomWTGg/JuFLPqqHpMAmNk=
+notifications:
+  slack:
+    secure: Rv8fbOpFnwzTRK75ArnRWzp3Yz7orJMp6uUXf1bVcdFQweOGVggyk/cNO/1oUtTGX0MDAI3NCzgd4Lpzow2lr7StIfL0yEI00ueGGGEW/jWnRC7odAlSpgl2QJFcfzizY3op2cudZD5z+EE+VE5eBJ4nKm0y3Qs9KZl3SQKpwx4=
