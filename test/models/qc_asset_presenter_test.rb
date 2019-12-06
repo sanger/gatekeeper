@@ -57,7 +57,7 @@ class QcAssetPresenterTest < ActiveSupport::TestCase
                    'child_purposes' => [
                      ['Tag PCR', '53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc']
                    ],
-                   'children' => [['plates', '11111111-2222-3333-4444-500000000008']],
+                   'children' => [%w[plates 11111111-2222-3333-4444-500000000008]],
                    'state' => 'passed',
                    'handle' => {
                      'with' => 'plate_conversion',

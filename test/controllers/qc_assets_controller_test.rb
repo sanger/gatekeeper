@@ -390,7 +390,6 @@ class QcAssetsControllerTest < ActionController::TestCase
         success: false
       }
     ].each do |test|
-
       pc = mock('plate_conversion')
       pc.stubs(:target).returns(api.plate.with_uuid(tag_plate))
 
@@ -501,7 +500,6 @@ class QcAssetsControllerTest < ActionController::TestCase
         success: true
       }
     ].each do |test|
-
       pc = mock('qa_plate_conversion')
       pc.stubs(:target).returns(api.plate.with_uuid(tag_plate))
 

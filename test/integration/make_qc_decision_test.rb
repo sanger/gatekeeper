@@ -32,9 +32,9 @@ class MakeQcDecisionTest < Capybara::Rails::TestCase
 
     lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
 
-    lot.stubs(:pending_qcable_uuids).returns([
-                                               '11111111-2222-3333-4444-100000000008',
-                                               '11111111-2222-3333-4444-100000000009'
+    lot.stubs(:pending_qcable_uuids).returns(%w[
+                                               11111111-2222-3333-4444-100000000008
+                                               11111111-2222-3333-4444-100000000009
                                              ])
 
     # We mock here, as this is out interface with the controller.
