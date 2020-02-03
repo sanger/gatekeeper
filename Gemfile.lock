@@ -91,7 +91,7 @@ GEM
     ffi (1.12.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
-    hashie (3.6.0)
+    hashie (4.1.0)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.4)
