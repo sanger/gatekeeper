@@ -29,6 +29,7 @@ module Gatekeeper
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.enforce_available_locales = false
     config.i18n.default_locale = :en
+    config.i18n.fallbacks = [I18n.default_locale]
 
     # Ensures precompiling is faster by not loading the application
     config.assets.initialize_on_precompile = false
