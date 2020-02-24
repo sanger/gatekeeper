@@ -58,7 +58,7 @@ GEM
     ast (2.4.0)
     autoprefixer-rails (9.7.4)
       execjs
-    bootstrap-datepicker-rails (1.6.4.1)
+    bootstrap-datepicker-rails (1.9.0.1)
       railties (>= 3.0)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -198,13 +198,11 @@ GEM
       rexml
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
-    rubocop-rails (2.4.1)
+    rubocop-rails (2.4.2)
       rack (>= 1.1)
       rubocop (>= 0.72.0)
     ruby-progressbar (1.10.1)
     rubyzip (2.2.0)
-    sass-rails (6.0.0)
-      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.2.1)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -256,7 +254,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bootstrap-datepicker-rails (~> 1.6.4.1)
+  bootstrap-datepicker-rails
   bootstrap-sass
   capybara
   capybara-selenium
@@ -277,7 +275,7 @@ DEPENDENCIES
   rubocop
   rubocop-rails
   sanger_barcode_format!
-  sass-rails (>= 3.2)
+  sassc-rails
   sequencescape-client-api
   therubyracer
   timecop
