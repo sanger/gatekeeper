@@ -15,6 +15,7 @@ env:
   global:
   - TZ=Europe/London
 before_install:
+- yes | gem update --system --force # use bundler 2.0 https://docs.travis-ci.com/user/languages/ruby/#bundler-20
 - gem install bundler # use bundler 2.0 https://docs.travis-ci.com/user/languages/ruby/#bundler-20
 before_script:
 - bundle exec rake webdrivers:chromedriver:update
