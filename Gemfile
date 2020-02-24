@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bootstrap-sass'
-gem 'bootstrap-datepicker-rails', '~>1.6.4.1'
+gem 'bootstrap-datepicker-rails', '~>1.9.0.1'
 gem 'hashie'
 gem 'jquery-rails'
 gem 'puma'
