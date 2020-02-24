@@ -19,10 +19,10 @@ class CreateIDTTagPlateTest < Capybara::Rails::TestCase
   test 'upload file' do
     visit lot_path('11111111-2222-3333-4444-555555555556')
 
-    page.must_have_content('Create IDT Tag Plate')
-    page.must_have_content('User swipecard')
-    page.must_have_content('Select a file to upload')
-    page.must_have_button('Create IDT Tag Plate')
+    _(page).must_have_content('Create IDT Tag Plate')
+    _(page).must_have_content('User swipecard')
+    _(page).must_have_content('Select a file to upload')
+    _(page).must_have_button('Create IDT Tag Plate')
 
     within('.swipecard') do
       fill_in 'User swipecard', with: 'abcdef'
