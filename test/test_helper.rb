@@ -15,9 +15,15 @@ require 'mocha/minitest'
 require 'minitest/rails/capybara'
 require 'selenium/webdriver'
 
-# Uncomment for awesome colorful output
-# require "minitest/pride"
-require 'pry'
+# Uncomment for awesome colourful output
+require 'minitest/pride'
+
+begin
+  require 'pry-rails'
+rescue LoadError
+  true
+  # No pry. We're probably on the CI
+end
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)

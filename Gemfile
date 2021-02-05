@@ -22,6 +22,9 @@ group :development do
   gem 'yard', require: false
 end
 
+group :test, :development do
+end
+
 group :lint do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
