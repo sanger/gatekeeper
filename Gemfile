@@ -19,9 +19,12 @@ gem 'roo', '~> 2.8.0'
 group :development do
   gem 'listen'
   gem 'pry-rails'
+  gem 'yard', require: false
+end
+
+group :lint do
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
-  gem 'yard', require: false
 end
 
 group :test do
