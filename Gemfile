@@ -9,7 +9,6 @@ gem 'jquery-rails'
 gem 'puma'
 gem 'rails', '~>5.1.2'
 gem 'sassc-rails'
-gem 'therubyracer'
 gem 'uglifier', '>= 1.3.0'
 gem 'exception_notification'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
@@ -19,7 +18,7 @@ gem 'roo', '~> 2.8.0'
 
 group :development do
   gem 'listen'
-  gem 'pry'
+  gem 'pry-rails'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
   gem 'yard', require: false
@@ -34,5 +33,6 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'mocha'
   gem 'rails-controller-testing'
+  gem 'simplecov', require: false
   gem 'webdrivers'
 end
