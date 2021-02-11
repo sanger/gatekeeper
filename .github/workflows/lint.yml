@@ -1,4 +1,3 @@
-
 name: Linting
 env:
   BUNDLE_WITHOUT: 'test development default'
