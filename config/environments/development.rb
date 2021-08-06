@@ -47,5 +47,6 @@ Gatekeeper::Application.configure do
   config.suggested_templates.plate_template      = :all
   config.suggested_templates.tag_layout_template = :all
 
-  config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
+  # Print My Barcode V2 api base
+  config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v2')
 end
