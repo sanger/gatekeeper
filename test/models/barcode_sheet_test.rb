@@ -11,7 +11,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     # PMB::TestSuiteStubs = Faraday::Adapter::Test::Stubs.new
     # PMB::Base.connection.delete(Faraday::Adapter::NetHttp)
     # PMB::Base.connection.faraday.adapter :test, PMB::TestSuiteStubs
-    mock_api
+
     @printer_name = 'printer'
     @label_template_name = 'sqsc_96plate_label_template_code39'
     @label_template_id = '1'
@@ -39,7 +39,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
       #     { content_type: 'application/json' },
       #     PmbSupport.label_template_response(@label_template_id, @label_template_name)
       #   ]
-      end
+      # end
 
       # PMB::TestSuiteStubs.post('/v1/print_jobs', PmbSupport.print_job_post('plate_example', @label_template_id, sent_labels)) do |_env|
       #   [
@@ -47,7 +47,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
       #     { content_type: 'application/json' },
       #     PmbSupport.print_job_response('plate_example', @label_template_id, sent_labels)
       #   ]
-      end
+      # end
 
       BarcodeSheet.new(printer, recieved_labels).print!
 
