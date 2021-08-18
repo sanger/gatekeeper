@@ -63,14 +63,14 @@ class BarcodeSheet
       response = Net::HTTP.post URI("#{Rails.configuration.pmb_uri}/print_jobs"),
                                 body.to_json,
                                 'Content-Type' => 'application/json'
-      if response.code == "200"
-        return true
+      if response.code == '200'
+        true
       else
         @errors = JSON.parse(response.body)
-        return false
+        false
       end
-    rescue StandardError => e
-      return false
+    rescue StandardError
+      false
     end
   end
 
