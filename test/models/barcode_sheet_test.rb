@@ -23,13 +23,13 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     Timecop.freeze(Date.parse('02-02-2019')) do
       recieved_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
-      sent_labels = [{
-        top_left: '02-Feb-2019',
-        bottom_left: 'DN1S',
-        top_right: 'DN1S',
-        bottom_right: 'lot_number:tag_set',
-        barcode: 'DN1S'
-      }]
+      # sent_labels = [{
+      #   top_left: '02-Feb-2019',
+      #   bottom_left: 'DN1S',
+      #   top_right: 'DN1S',
+      #   bottom_right: 'lot_number:tag_set',
+      #   barcode: 'DN1S'
+      # }]
 
       printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
 

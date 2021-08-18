@@ -19,5 +19,4 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
     # assert_equal 'Created lot 123456789', flash[:success]
     # assert_redirected_to action: :show, id: '11111111-2222-3333-4444-555555555556'
   end
-
 end
