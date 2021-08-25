@@ -27,7 +27,8 @@ class BarcodeSheet::Label
     @legacy_study = study
   end
 
-  # Payload suitable for a 96 well plate label template
+  # Payload suitable for a 96 well plate
+  # label template for PMB v1 Toshiba printers
   def plate
     {
       main_label: {
@@ -37,6 +38,19 @@ class BarcodeSheet::Label
         bottom_right: lot_template,
         barcode: code39_barcode
       }
+    }
+  end
+
+  # Payload suitable for a 96 well plate
+  # label template for PMB v2 Squix printers
+  def plate_for_pmb_v2
+    {
+      top_left: date,
+      bottom_left: human_readable,
+      top_right: human_readable,
+      bottom_right: lot_template,
+      barcode: code39_barcode,
+      label_name: "main_label"
     }
   end
 
