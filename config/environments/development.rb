@@ -49,4 +49,5 @@ Gatekeeper::Application.configure do
 
   # Print My Barcode V2 api base
   config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v2')
+  config.sprint_uri = 'http://sprint.psd.sanger.ac.uk/graphql'
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-# require 'pmb-client'
+require 'pmb-client'
 
-# PMB::Base.site = Rails.configuration.pmb_uri
+PMB::Base.site = Rails.configuration.pmb_uri
