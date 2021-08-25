@@ -130,9 +130,9 @@ class StampsController < ApplicationController
                 .group_by { |qcable| qcable.barcode.machine }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = Hash[params[:beds].permit!.to_h.map do |bed, plate_barcode|
+    @bed_plates = params[:beds].permit!.to_h.map do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
-    end]
+    end.to_h
   end
 
   ##
