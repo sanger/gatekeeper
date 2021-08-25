@@ -50,5 +50,5 @@ Gatekeeper::Application.configure do
   config.suggested_templates.plate_template      = :all
   config.suggested_templates.tag_layout_template = :all
   config.disable_animations = true
-  config.pmb_uri = 'http://example.com:3002/v2/'
+  config.pmb_uri = 'http://example.com:3002/v1/'
 end
