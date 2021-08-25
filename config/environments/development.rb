@@ -47,6 +47,6 @@ Gatekeeper::Application.configure do
   config.suggested_templates.plate_template      = :all
   config.suggested_templates.tag_layout_template = :all
 
-  config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1')
+  config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
   config.sprint_uri = 'http://sprint.psd.sanger.ac.uk/graphql'
 end

@@ -27,7 +27,7 @@ class BarcodeSheet::Label
     @legacy_study = study
   end
 
-  # Payload suitable for a 96 well plate
+  # Payload suitable for a 96 well plate label template
   def plate
     {
       main_label: {
