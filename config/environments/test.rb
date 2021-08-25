@@ -39,8 +39,8 @@ Gatekeeper::Application.configure do
   # Set up the API connection options
   config.api_connection_options               = ActiveSupport::OrderedOptions.new
   config.api_connection_options.namespace     = 'Gatekeeper'
-  config.api_connection_options.url           = 'http://localhost:3000/api/1/'
-  config.api_connection_options.authorisation = 'test'
+  config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
+  config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'test')
 
   config.support_mail = 'example@example.com'
 
@@ -51,4 +51,5 @@ Gatekeeper::Application.configure do
   config.suggested_templates.tag_layout_template = :all
   config.disable_animations = true
   config.pmb_uri = 'http://example.com:3002/v1/'
+  config.sprint_uri = 'http://example_sprint.com/graphql'
 end
