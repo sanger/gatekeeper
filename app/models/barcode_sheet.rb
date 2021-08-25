@@ -4,7 +4,6 @@
 # BarcodeSheet takes:
 # printer => A Sequencescape Client Api Printer object
 # labels  => An array of desired barcode labels
-# copies => Currently supporting only 1 copy of a label
 class BarcodeSheet
   class PrintError < StandardError; end
 
@@ -16,7 +15,7 @@ class BarcodeSheet
   end
 
   def print!
-    # return false unless valid?
+    # validate?
 
     case printer.print_service
     when 'PMB'
@@ -31,14 +30,6 @@ class BarcodeSheet
 
   def print_to_pmb
     job.save || raise(PrintError, job.errors.full_messages.join('; '))
-  end
-
-  def job
-    PMB::PrintJob.new(
-      printer_name: printer_name,
-      label_template_id: pmb_label_template_id,
-      labels: { body: all_labels }
-    )
   end
 
   def print_to_sprint
@@ -63,6 +54,14 @@ class BarcodeSheet
 
   def label_template_name
     config[:template]
+  end
+
+  def job
+    PMB::PrintJob.new(
+      printer_name: printer_name,
+      label_template_id: pmb_label_template_id,
+      labels: { body: all_labels }
+    )
   end
 
   def all_labels

@@ -28,7 +28,6 @@ class BarcodeSheet::Label
   end
 
   # Payload suitable for a 96 well plate
-  # label template for PMB v1 Toshiba printers
   def plate
     {
       main_label: {
@@ -42,7 +41,6 @@ class BarcodeSheet::Label
   end
 
   # Payload suitable for a tube label template
-  # label template for PMB v1 Toshiba printers
   def tube
     {
       main_label: {
@@ -57,7 +55,6 @@ class BarcodeSheet::Label
   end
 
   # Payload suitable for 2 x 384 well plate label template
-  # label template for PMB v1 Toshiba printers
   def plate_double
     {
       main_label: {
