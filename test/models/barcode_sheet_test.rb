@@ -29,10 +29,10 @@ class BarcodeSheetTest < ActiveSupport::TestCase
         bottom_left: 'DN1S',
         top_right: 'DN1S',
         bottom_right: 'lot_number:tag_set',
-        barcode: 'DN1S',
+        barcode: 'DN1S'
       }]
 
-      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000').expects(:print_service).returns("PMB")
+      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000').expects(:print_service).returns('PMB')
 
       PMB::TestSuiteStubs.get(@label_template_url) do |_env|
         [

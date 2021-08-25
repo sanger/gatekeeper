@@ -38,7 +38,7 @@ class BarcodeSheet
       "#{label_template_name}.yml.erb",
       all_labels
     )
-    raise(PrintError, "There was an error sending a print request to SPrint") unless response.code == '200'
+    raise(PrintError, 'There was an error sending a print request to SPrint') unless response.code == '200'
   end
 
   private
@@ -82,5 +82,4 @@ class BarcodeSheet
   def printer_type
     @printer.type.name
   end
-
 end
