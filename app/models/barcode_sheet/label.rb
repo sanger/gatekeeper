@@ -50,7 +50,7 @@ class BarcodeSheet::Label
       top_right: human_readable,
       bottom_right: lot_template,
       barcode: code39_barcode,
-      label_name: "main_label"
+      label_name: 'main_label'
     }
   end
 
