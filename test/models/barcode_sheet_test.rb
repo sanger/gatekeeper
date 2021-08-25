@@ -13,16 +13,18 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     PMB::Base.connection.faraday.adapter :test, PMB::TestSuiteStubs
 
     mock_api
-    @printer_name = 'printer'
-    @label_template_name = 'sqsc_96plate_label_template_code39'
+    @printer_name = 'printer_1'
+    @label_template_name = 'plate_96'
     @label_template_id = '1'
     @label_template_query = { 'filter[name]': @label_template_name, 'page[page]': 1, 'page[per_page]': 1 }
     @label_template_url = "/v1/label_templates?#{URI.encode_www_form(@label_template_query)}"
+    @print_job_url = '/v1/print_jobs'
   end
 
-  test '#print!' do
+  # PMB
+  test '#print! To PMB' do
     Timecop.freeze(Date.parse('02-02-2019')) do
-      recieved_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
+      received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
       sent_labels = [{
         top_left: '02-Feb-2019',
@@ -32,7 +34,9 @@ class BarcodeSheetTest < ActiveSupport::TestCase
         barcode: 'DN1S'
       }]
 
-      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000').expects(:print_service).returns('PMB')
+      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
+
+      printer.stubs(:print_service).returns('PMB')
 
       PMB::TestSuiteStubs.get(@label_template_url) do |_env|
         [
@@ -42,23 +46,29 @@ class BarcodeSheetTest < ActiveSupport::TestCase
         ]
       end
 
-      PMB::TestSuiteStubs.post('/v1/print_jobs', PmbSupport.print_job_post('plate_example', @label_template_id, sent_labels)) do |_env|
+      PMB::TestSuiteStubs.post('/v1/print_jobs', PmbSupport.print_job_post(@printer_name, @label_template_id, sent_labels)) do |_env|
         [
           200,
           { content_type: 'application/json' },
-          PmbSupport.print_job_response('plate_example', @label_template_id, sent_labels)
+          PmbSupport.print_job_response(@printer_name, @label_template_id, sent_labels)
         ]
       end
 
-      BarcodeSheet.new(printer, recieved_labels).print!
+      BarcodeSheet.new(printer, received_labels).print!
 
       PMB::TestSuiteStubs.verify_stubbed_calls
     end
   end
 
-  test '#initialise' do
-    barcode_sheet = BarcodeSheet.new(@printer_name, [])
-    assert_equal barcode_sheet.printer, @printer_name
-    assert_equal barcode_sheet.labels, []
-  end
+  # # SPrint
+  # test '#print! SPrint' do
+  #   printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000').expect(:print_service, 'PMB')
+  #   BarcodeSheet.new(printer, received_labels).print!
+  # end
+
+  # test '#initialise' do
+  #   barcode_sheet = BarcodeSheet.new(@printer_name, [])
+  #   assert_equal barcode_sheet.printer, @printer_name
+  #   assert_equal barcode_sheet.labels, []
+  # end
 end

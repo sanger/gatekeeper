@@ -496,7 +496,7 @@
 :barcode_printer:
   'baac0dea-0000-0000-0000-000000000000':
     :attributes:
-      :name: plate_example
+      :name: printer_1
       :active: true
       :type:
         :name: 96 Well Plate
