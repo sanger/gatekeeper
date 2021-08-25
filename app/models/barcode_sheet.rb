@@ -69,7 +69,7 @@ class BarcodeSheet
   end
 
   def pmb_label_template_id
-    PMB::LabelTemplate.where(name: config[:template]).first.id
+    PMB::LabelTemplate.where(name: label_template_name).first.id
   rescue JsonApiClient::Errors::ConnectionError => e
     Rails.logger.error(e.message)
     raise PrintError, 'PrintMyBarcode service is down'
