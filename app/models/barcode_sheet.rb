@@ -43,21 +43,18 @@ class BarcodeSheet
   # Will return true if successful
   # Will return false if there is either an unexpected error or a server error
   def post
-
-    begin
-      response = Net::HTTP.post URI("#{Rails.configuration.pmb_uri}/print_jobs"),
-                                body.to_json,
-                                'Content-Type' => 'application/json'
-      if response.code == '200'
-        true
-      else
-        @errors = JSON.parse(response.body)
-        false
-      end
-    rescue StandardError
-      @errors = ["An unexpected error has occured"]
+    response = Net::HTTP.post URI("#{Rails.configuration.pmb_uri}/print_jobs"),
+                              body.to_json,
+                              'Content-Type' => 'application/json'
+    if response.code == '200'
+      true
+    else
+      @errors = JSON.parse(response.body)
       false
     end
+  rescue StandardError
+    @errors = ['An unexpected error has occured']
+    false
   end
 
   def all_labels
