@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - gpl-803
 
 env:
   BUNDLE_WITHOUT: 'test lint'
