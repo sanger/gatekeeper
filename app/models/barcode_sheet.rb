@@ -5,9 +5,13 @@
 # printer => A Sequencescape Client Api Printer object
 # labels  => An array of desired barcode labels
 class BarcodeSheet
+  include ActiveModel::Model
+
   class PrintError < StandardError; end
 
   attr_reader :printer, :labels
+
+  validates :printer, :labels, presence: true
 
   def initialize(printer, labels)
     @printer = printer
@@ -15,7 +19,7 @@ class BarcodeSheet
   end
 
   def print!
-    # validate?
+    return false unless valid?
 
     case printer.print_service
     when 'PMB'
@@ -23,8 +27,7 @@ class BarcodeSheet
     when 'SPrint'
       print_to_sprint
     else
-      errors.add(:base, "Print service #{printer.print_service} not recognised.")
-      false
+      raise(PrintError, "Print service #{printer.print_service} not recognised.")
     end
   end
 
