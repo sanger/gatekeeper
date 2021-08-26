@@ -10,7 +10,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
   setup do
     mock_api
     @printer_name = 'printer_1'
-    @label_template_name = 'plate_96'
+    @label_template_name = 'sqsc_96plate_label_template_code39'
     @label_template_id = '1'
     @label_template_query = { 'filter[name]': @label_template_name, 'page[page]': 1, 'page[per_page]': 1 }
     @label_template_url = "/v1/label_templates?#{URI.encode_www_form(@label_template_query)}"

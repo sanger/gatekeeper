@@ -127,7 +127,7 @@ module Gatekeeper
     config.printer_type_options = {
       # tubes aren't used in GateKeeper
       '1D Tube' => { label: :tube, template: 'sqsc_1dtube_label_template' },
-      '96 Well Plate' => { label: :plate, template: 'plate_96' },
+      '96 Well Plate' => { label: :plate, template: 'sqsc_96plate_label_template_code39' },
       '384 Well Plate' => { label: :plate, template: 'sqsc_384plate_label_template' },
       '384 Well Plate Double' => { label: :plate_double, template: 'plate_6mm_double_code39' }
     }
