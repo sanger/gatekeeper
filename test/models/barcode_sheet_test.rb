@@ -8,10 +8,6 @@ class BarcodeSheetTest < ActiveSupport::TestCase
   include MockApi
 
   setup do
-    PMB::TestSuiteStubs = Faraday::Adapter::Test::Stubs.new
-    PMB::Base.connection.delete(Faraday::Adapter::NetHttp)
-    PMB::Base.connection.faraday.adapter :test, PMB::TestSuiteStubs
-
     mock_api
     @printer_name = 'printer_1'
     @label_template_name = 'plate_96'
@@ -21,8 +17,21 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     @print_job_url = '/v1/print_jobs'
   end
 
-  # PMB
-  test '#print! To PMB' do
+  test '#initialise' do
+    received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
+    printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
+    printer.stubs(:print_service).returns('PMB')
+
+    barcode_sheet = BarcodeSheet.new(printer, received_labels)
+    assert_equal barcode_sheet.printer.name, @printer_name
+    assert_equal barcode_sheet.labels, received_labels
+  end
+
+  test '#print! when print_service is PMB' do
+    PMB::TestSuiteStubs = Faraday::Adapter::Test::Stubs.new
+    PMB::Base.connection.delete(Faraday::Adapter::NetHttp)
+    PMB::Base.connection.faraday.adapter :test, PMB::TestSuiteStubs
+
     Timecop.freeze(Date.parse('02-02-2019')) do
       received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
@@ -60,15 +69,39 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     end
   end
 
-  # # SPrint
-  # test '#print! SPrint' do
-  #   printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000').expect(:print_service, 'PMB')
-  #   BarcodeSheet.new(printer, received_labels).print!
-  # end
+  test '#print! when print_service is SPrint on success' do
+    Timecop.freeze(Date.parse('02-02-2019')) do
+      received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
-  # test '#initialise' do
-  #   barcode_sheet = BarcodeSheet.new(@printer_name, [])
-  #   assert_equal barcode_sheet.printer, @printer_name
-  #   assert_equal barcode_sheet.labels, []
-  # end
+      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
+
+      printer.stubs(:print_service).returns('SPrint')
+
+      response = mock('response')
+      response.stubs(:code).returns('200')
+
+      SPrintClient.stubs(:send_print_request).returns(response)
+
+      BarcodeSheet.new(printer, received_labels).print!
+    end
+  end
+
+  test '#print! when print_service is SPrint on error' do
+    Timecop.freeze(Date.parse('02-02-2019')) do
+      received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
+
+      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
+
+      printer.stubs(:print_service).returns('SPrint')
+
+      response = mock('response')
+      response.stubs(:code).returns('422')
+
+      SPrintClient.stubs(:send_print_request).returns(response)
+
+      assert_raises BarcodeSheet::PrintError do
+        BarcodeSheet.new(printer, received_labels).print!
+      end
+    end
+  end
 end
