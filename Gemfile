@@ -7,6 +7,7 @@ gem 'bootstrap-sass'
 gem 'exception_notification'
 gem 'hashie'
 gem 'jquery-rails'
+gem 'oj', '~> 3.13'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 gem 'puma'
 gem 'rails', '~>5.1.2'
@@ -14,11 +15,12 @@ gem 'roo', '~> 2.8.0'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 gem 'sassc-rails'
 gem 'sequencescape-client-api', require: 'sequencescape'
-gem 'uglifier', '>= 1.3.0'
+gem 'sprint_client'
 
 group :development do
   gem 'listen'
   gem 'pry-rails'
+  gem 'uglifier', '>= 1.3.0'
   gem 'yard', require: false
 end
 
