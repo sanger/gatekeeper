@@ -141,6 +141,7 @@ GEM
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    oj (3.13.2)
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
@@ -276,6 +277,7 @@ DEPENDENCIES
   minitest
   minitest-rails-capybara
   mocha
+  oj (~> 3.13)
   pmb-client (= 0.1.0)!
   pry-rails
   puma

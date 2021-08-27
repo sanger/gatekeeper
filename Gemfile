@@ -15,12 +15,13 @@ gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'de
 gem 'sassc-rails'
 gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'sprint_client'
-gem 'uglifier', '>= 1.3.0'
+gem "oj", "~> 3.13"
 
 group :development do
   gem 'listen'
   gem 'pry-rails'
   gem 'yard', require: false
+  gem 'uglifier', '>= 1.3.0'
 end
 
 group :test, :development do
