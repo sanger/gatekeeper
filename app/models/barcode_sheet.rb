@@ -44,6 +44,10 @@ class BarcodeSheet
     raise(PrintError, 'There was an error sending a print request to SPrint') unless response.code == '200'
   end
 
+  def sprint_labels
+    all_labels.pluck(:main_label)
+  end
+
   private
 
   def config
