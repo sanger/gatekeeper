@@ -64,11 +64,4 @@ class QcablesController < ApplicationController
     @lot = api.lot.find(params[:lot_id])
   end
 
-  def validate_plate_count
-    range = Gatekeeper::Application.config.stamp_range
-    step  = Gatekeeper::Application.config.stamp_step
-    return true if range.cover?(params[:plate_number].to_i) && (params[:plate_number].to_i % step == 0)
-    flash[:danger] = "Number of plates created must be a multiple of #{step} between #{range.first} and #{range.last} inclusive"
-    redirect_back fallback_location: lots_path
-  end
 end
