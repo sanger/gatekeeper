@@ -39,7 +39,7 @@ class BarcodeSheet
     response = SPrintClient.send_print_request(
       printer_name,
       "#{label_template_name}.yml.erb",
-      all_labels
+      sprint_labels
     )
     raise(PrintError, 'There was an error sending a print request to SPrint') unless response.code == '200'
   end
