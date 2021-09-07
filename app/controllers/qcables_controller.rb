@@ -63,5 +63,4 @@ class QcablesController < ApplicationController
   def find_lot
     @lot = api.lot.find(params[:lot_id])
   end
-
 end
