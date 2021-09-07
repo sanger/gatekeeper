@@ -25,6 +25,7 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     barcode_sheet = BarcodeSheet.new(printer, received_labels)
     assert_equal barcode_sheet.printer.name, @printer_name
     assert_equal barcode_sheet.labels, received_labels
+    assert_equal barcode_sheet.sprint_labels, [received_labels.first.plate[:main_label]]
   end
 
   test '#print! when print_service is PMB' do
