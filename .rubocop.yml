@@ -6,6 +6,7 @@ AllCops:
   Exclude:
     - bin/**/*
     - vendor/**/*
+  NewCops: enable
 
 Rails/InverseOf:
   Enabled: false
@@ -20,7 +21,7 @@ Naming/VariableNumber:
   Enabled: false
 
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - describe
     - context
     - background
@@ -40,6 +41,7 @@ Metrics/BlockLength:
     - factory
     - define
     - guard
+    - test
 
 Style/HashEachMethods:
   Enabled: true

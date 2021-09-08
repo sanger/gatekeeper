@@ -3,3 +3,5 @@ tmp
 .yardoc
 config/settings/development.yml
 public/assets
+.bundle
+coverage

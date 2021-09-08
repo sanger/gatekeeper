@@ -48,4 +48,5 @@ Gatekeeper::Application.configure do
   config.suggested_templates.tag_layout_template = :all
 
   config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
+  config.sprint_uri = 'http://example_sprint.com/graphql'
 end
