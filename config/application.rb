@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 # We don't want ActiveRecord
 require 'action_controller/railtie'
@@ -11,7 +11,7 @@ require './lib/gatekeeper/version'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env)
+Bundler.require(*Rails.groups)
 
 module Gatekeeper
   class Application < Rails::Application

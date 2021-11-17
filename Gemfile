@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', require: false
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
 gem 'exception_notification'
