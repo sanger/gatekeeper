@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', require: false
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
 gem 'exception_notification'
@@ -10,7 +12,7 @@ gem 'jquery-rails'
 gem 'oj', '~> 3.13'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 gem 'puma'
-gem 'rails', '~>5.1.2'
+gem 'rails', '~> 5.2.6'
 gem 'roo', '~> 2.8.0'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 gem 'sassc-rails'
