@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - dpl-243-ss-gem-https
 
 env:
   BUNDLE_WITHOUT: 'test lint'
@@ -21,7 +22,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true # Runs bundle install and caches gems. See the ruby_test.yml
-                              # example if you need more control over bundler.
+            # example if you need more control over bundler.
 
       # Actually run our build
       - name: Create build
