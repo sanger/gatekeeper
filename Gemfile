@@ -16,7 +16,7 @@ gem 'rails', '~> 5.2.6'
 gem 'roo', '~> 2.8.0'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 gem 'sassc-rails'
-gem 'sequencescape-client-api', '0.8.2.pre.rcx', require: 'sequencescape'
+gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'sprint_client'
 
 group :development do
