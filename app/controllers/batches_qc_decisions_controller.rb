@@ -26,7 +26,7 @@ class BatchesQcDecisionsController < QcDecisionsController
         { 'qcable' => uuid, 'decision' => decision }
       end
     )
-    flash[:success] = 'Qc decision has been updated.'
+    flash[:success] = t(:qc_decision_updated)
     respond_to do |format|
       format.json do
         render(json: [{ lot: {
