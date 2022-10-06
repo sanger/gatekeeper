@@ -31,3 +31,5 @@
 
 en:
   hello: "Hello world"
+  qc_decision_updated: "Qc decision has been updated."
+  stamp_completed: "Stamp completed!"
