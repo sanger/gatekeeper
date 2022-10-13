@@ -114,7 +114,7 @@ namespace :config do
     end
 
     # Write out the current environment configuration file
-    File.open(File.join(Rails.root, %w{config settings}, "#{Rails.env}.yml"), 'w') do |file|
+    Rails.root.join('config', 'settings', "#{Rails.env}.yml").open('w') do |file|
       file.puts(CONFIG.to_yaml)
     end
   end

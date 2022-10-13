@@ -92,7 +92,7 @@ class StampsController < ApplicationController
       stamp_details: @robot.beds_for(@bed_plates)
     )
 
-    flash[:success] = 'Stamp completed!'
+    flash[:success] = t(:stamp_completed)
     redir = params[:repeat].present? ?
       {
         controller: :stamps,
@@ -130,9 +130,9 @@ class StampsController < ApplicationController
                 .group_by { |qcable| qcable.barcode.machine }
     raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
 
-    @bed_plates = params[:beds].permit!.to_h.map do |bed, plate_barcode|
+    @bed_plates = params[:beds].permit!.to_h.to_h do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
-    end.to_h
+    end
   end
 
   ##
