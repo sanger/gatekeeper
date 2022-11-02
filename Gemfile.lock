@@ -144,7 +144,7 @@ GEM
       minitest-capybara (~> 0.8)
       minitest-metadata (~> 0.6)
       minitest-rails (~> 3.0)
-    mocha (1.15.0)
+    mocha (2.0.0)
     msgpack (1.5.4)
     multi_json (1.15.0)
     multipart-post (2.1.1)
