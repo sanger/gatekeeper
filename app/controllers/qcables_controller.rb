@@ -50,6 +50,7 @@ class QcablesController < ApplicationController
   end
 
   private
+
   def create_qc_creator
     api.qcable_creator.create!(
       user: @user.uuid,
