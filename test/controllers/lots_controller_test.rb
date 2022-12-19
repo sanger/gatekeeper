@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'mock_api'
 
-class LotsControllerTest < ActionController::TestCase
+class LotsControllerTest < ActionDispatch::IntegrationTest
   include MockApi
 
   setup do

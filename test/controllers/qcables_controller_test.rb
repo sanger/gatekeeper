@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'mock_api'
 
-class QcablesControllerTest < ActionController::TestCase
+class QcablesControllerTest < ActionDispatch::IntegrationTest
   include MockApi
 
   setup do

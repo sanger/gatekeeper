@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class RobotsControllerTest < ActionController::TestCase
+class RobotsControllerTest < ActionDispatch::IntegrationTest
   include MockApi
 
   setup do

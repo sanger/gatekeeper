@@ -50,7 +50,7 @@ class Presenter::Lot
   # Returns each state, excluding any passed in as arguments
   # Aliased as each_state for readability where all states are needed
   def each_state_except(reject = [])
-    state_counts.reject { |k, _| reject.include?(k) }.each do |state, count|
+    state_counts.except(*reject).each do |state, count|
       yield(state, count, count * 100.0 / total_plates)
     end
   end

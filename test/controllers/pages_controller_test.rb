@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class PagesControllerTest < ActionController::TestCase
+class PagesControllerTest < ActionDispatch::IntegrationTest
   test '#index' do
     Sequencescape::Api.expects(:new)
     get :index

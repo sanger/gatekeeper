@@ -12,11 +12,7 @@ class QcablesController < ApplicationController
   # This action should generally get called through the nested
   # lot/qcables route, which will provide our lot id.
   def create
-    qc_creator = api.qcable_creator.create!(
-      user: @user.uuid,
-      lot: @lot.uuid,
-      count: params[:plate_number].to_i
-    )
+    qc_creator = create_qc_creator
 
     labels = qc_creator.qcables.map do |q|
       BarcodeSheet::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, barcode: q.barcode.machine, lot: @lot.lot_number, template: @lot.template_name)
@@ -25,9 +21,9 @@ class QcablesController < ApplicationController
     begin
       BarcodeSheet.new(@printer, labels).print!
     rescue BarcodeSheet::PrintError => e
-      flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{e.message}"
+      flash.now[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{e.message}"
     rescue Errno::ECONNREFUSED
-      flash[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
+      flash.now[:danger] = "Could not connect to the barcode printing service. Your #{qcable_name.pluralize} have still been created."
     end
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
@@ -54,6 +50,13 @@ class QcablesController < ApplicationController
   end
 
   private
+  def create_qc_creator
+    api.qcable_creator.create!(
+      user: @user.uuid,
+      lot: @lot.uuid,
+      count: params[:plate_number].to_i
+    )
+  end
 
   def qcable_name
     # If we have the lot type cached in settings, use that.

@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class StampsControllerTest < ActionController::TestCase
+class StampsControllerTest < ActionDispatch::IntegrationTest
   include MockApi
 
   test 'new' do

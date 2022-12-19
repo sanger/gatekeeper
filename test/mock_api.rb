@@ -6,7 +6,7 @@ module MockApi
   ##
   # A mocked Api for use during testing
   # Uses ./test/fixtures/api_models.yml to respond to queries
-  class Api < ActionController::TestCase
+  class Api < ActionDispatch::IntegrationTest
     class TestError < StandardError; end
 
     ##

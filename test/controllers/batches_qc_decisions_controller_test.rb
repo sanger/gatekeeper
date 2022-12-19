@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'mock_api'
 
-class BatchesQcDecisionsControllerTest < ActionController::TestCase
+class BatchesQcDecisionsControllerTest < ActionDispatch::IntegrationTest
   include MockApi
 
   setup do
