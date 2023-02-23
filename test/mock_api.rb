@@ -200,7 +200,11 @@ module MockApi
     include Singleton
 
     def registry
-      @registry ||= Hashie::Mash.new(YAML.load(ERB.new(File.read('./test/fixtures/api_models.yml')).result))
+      @registry ||= Hashie::Mash.new(YAML.load(
+        ERB.new(File.read('./test/fixtures/api_models.yml')).result,
+          permitted_classes: [Date, Symbol]
+        )
+      )
     end
 
     def each_resource
