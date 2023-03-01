@@ -30,7 +30,7 @@ module QcAssetCreator::MultipleTag2Conversion
   def asset_update_state
     api.state_change.create!(
       user: @user.uuid,
-      target: target,
+      target:,
       reason: 'Used to QC',
       target_state: Gatekeeper::Application.config.used_state
     )
@@ -51,7 +51,7 @@ module QcAssetCreator::MultipleTag2Conversion
   # Applies tag2s
   def asset_transfer(_)
     api.bulk_transfer.create!(
-      source: source,
+      source:,
       user: @user.uuid,
       well_transfers: transfer_map
     )

@@ -12,9 +12,9 @@ require 'minitest/rails'
 require 'mocha/minitest'
 # To add Capybara feature tests add `gem "minitest-rails-capybara"`
 # to the test group in the Gemfile and uncomment the following:
-#require 'minitest/rails/capybara'
 require 'capybara/rails'
 require 'capybara/minitest'
+require 'capybara/minitest/spec'
 
 class ActionDispatch::IntegrationTest
   # Make the Capybara DSL available in all integration tests
@@ -52,7 +52,7 @@ Capybara.register_driver :headless_chrome do |app|
   options.add_argument('--disable_gpu')
   # options.add_argument('--disable-popup-blocking')
   options.add_argument('--window-size=1600,1600')
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
 Capybara.default_driver = :headless_chrome

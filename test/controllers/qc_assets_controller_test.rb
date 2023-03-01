@@ -608,7 +608,7 @@ class QcAssetsControllerTest < ActionController::TestCase
 
     api.state_change.expect_create_with(
       received: {
-        user: user,
+        user:,
         target: reporter_plate,
         target_state: 'exhausted',
         reason: 'Used to QC'
@@ -617,7 +617,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     )
     api.state_change.expect_create_with(
       received: {
-        user: user,
+        user:,
         target: tag_plate,
         target_state: 'exhausted',
         reason: 'Used to QC'
@@ -629,7 +629,7 @@ class QcAssetsControllerTest < ActionController::TestCase
       received: {
         target: tag_plate,
         purpose: child_purpose,
-        user: user
+        user:
       },
       returns: '11111111-2222-3333-4444-340000000008'
     )
@@ -637,7 +637,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     # Transfer only the relevant wells
     api.bulk_transfer.expects(:create!).with(
       source: reporter_plate,
-      user: user,
+      user:,
       well_transfers: %w(A1 A3 D1 D3).map do |well|
         {
           'source_uuid' => reporter_plate,
@@ -648,18 +648,18 @@ class QcAssetsControllerTest < ActionController::TestCase
       end
     )
     api.tag_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffecc').expects(:create!).with(
-      user: user,
+      user:,
       plate: tag_plate,
       substitutions: {}
     )
     api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
-      user: user,
+      user:,
       plate: tag_plate,
       source: tag2_tube_1,
       target_well_locations: %w[A1 A3]
     )
     api.tag2_layout_template.with_uuid('ecd5cd30-956f-11e3-8255-44fb42fffedd').expects(:create!).with(
-      user: user,
+      user:,
       plate: tag_plate,
       source: tag2_tube_2,
       target_well_locations: %w[D1 D3]

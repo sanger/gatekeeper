@@ -12,7 +12,7 @@ class Presenter::LotList
     @presenters = lots.map { |lot| Presenter::Lot.new(lot) }
   end
 
-  def each_lot(&block)
-    @presenters.each(&block)
+  def each_lot(&)
+    @presenters.each(&)
   end
 end

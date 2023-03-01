@@ -8,7 +8,7 @@ module PmbSupport
         id: '',
         type: 'print_jobs',
         attributes: {
-          printer_name: printer_name,
+          printer_name:,
           label_template_id: template_id.to_s,
           labels: labels_to_label_hash(labels)
         }
@@ -21,7 +21,7 @@ module PmbSupport
       data: {
         type: 'print_jobs',
         attributes: {
-          printer_name: printer_name,
+          printer_name:,
           label_template_id: template_id,
           labels: labels_to_label_hash(labels)
         }
@@ -42,7 +42,7 @@ module PmbSupport
           {
             id: id.to_s,
             type: 'label_templates',
-            attributes: { name: name }
+            attributes: { name: }
           }
         ]
     }.to_json

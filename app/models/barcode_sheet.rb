@@ -65,7 +65,7 @@ class BarcodeSheet
 
   def job
     PMB::PrintJob.new(
-      printer_name: printer_name,
+      printer_name:,
       label_template_id: pmb_label_template_id,
       labels: { body: all_labels }
     )

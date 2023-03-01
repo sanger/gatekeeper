@@ -15,7 +15,7 @@ module UserLookup
     swipecard_code = params[:user_swipecard]
     raise UserError::InputError, 'User swipecard must be provided.' if swipecard_code.nil?
     rescue_no_results('User could not be found, is your swipecard registered?') do
-      @user = api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code: swipecard_code)
+      @user = api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code:)
     end
   end
 end
