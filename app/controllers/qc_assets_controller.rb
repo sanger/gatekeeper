@@ -28,14 +28,14 @@ class QcAssetsController < ApplicationController
   def create
     begin
       child = QcAssetCreator.new(
-        api: api,
+        api:,
         asset: @asset,
         user: @user,
         purpose: params[:purpose],
         sibling: @sibling,
         sibling2: @sibling2,
         template: params[:template],
-        tag2_tubes: tag2_tubes
+        tag2_tubes:
       ).create!
     rescue QcAssetCreator::QcAssetException => e
       @presenter = Presenter::Error.new(e)
@@ -69,7 +69,7 @@ class QcAssetsController < ApplicationController
   end
 
   def find_from_barcode(barcode)
-    return api.search.find(Settings.searches['Find assets by barcode']).first(barcode: barcode)
+    return api.search.find(Settings.searches['Find assets by barcode']).first(barcode:)
   rescue Sequencescape::Api::ResourceNotFound
     return render(
       json: { 'error' => "Could not find an asset with the barcode #{barcode}." },

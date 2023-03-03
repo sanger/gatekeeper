@@ -72,8 +72,8 @@ module MockApi
 
       ##
       # Method missing first tries passing things on to the association array
-      def method_missing(method_name, *args, &block)
-        return @records.send(:"#{method_name}", *args, &block) if @records.respond_to?(:"#{method_name}")
+      def method_missing(method_name, *args, &)
+        return @records.send(:"#{method_name}", *args, &) if @records.respond_to?(:"#{method_name}")
         super
       end
 
@@ -106,7 +106,7 @@ module MockApi
       attr_reader :uuid, :model_name
       alias id uuid
 
-      def method_missing(method_name, *args, &block)
+      def method_missing(method_name, *args, &)
         return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
         lookup_association(method_name) || super
       end
@@ -200,7 +200,10 @@ module MockApi
     include Singleton
 
     def registry
-      @registry ||= Hashie::Mash.new(YAML.load(ERB.new(File.read('./test/fixtures/api_models.yml')).result))
+      @registry ||= Hashie::Mash.new(YAML.load(
+                                       ERB.new(File.read('./test/fixtures/api_models.yml')).result,
+                                       permitted_classes: [Date, Symbol]
+                                     ))
     end
 
     def each_resource

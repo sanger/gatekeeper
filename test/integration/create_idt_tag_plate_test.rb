@@ -4,7 +4,7 @@ require 'test_helper'
 require 'mock_api'
 require 'minitest/autorun'
 
-class CreateIDTTagPlateTest < Capybara::Rails::TestCase
+class CreateIDTTagPlateTest < ActionDispatch::IntegrationTest
   include MockApi
   attr_reader :test_file, :plate_uploader
 

@@ -3,7 +3,7 @@
 require 'test_helper'
 require 'mock_api'
 
-class MakeQcDecisionTest < Capybara::Rails::TestCase
+class MakeQcDecisionTest < ActionDispatch::IntegrationTest
   include MockApi
 
   def prepare_decision(decision)

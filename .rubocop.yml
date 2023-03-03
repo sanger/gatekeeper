@@ -20,6 +20,9 @@ Style/ClassAndModuleChildren:
 Naming/VariableNumber:
   Enabled: false
 
+Rails/ActionControllerTestCase:
+  Enabled: false
+
 Metrics/BlockLength:
   IgnoredMethods:
     - describe

@@ -25,7 +25,7 @@ module QcAssetCreator::PlateConversion
   # Actually converts the target plate to the specified purpose
   def asset_create
     api.plate_conversion.create!(
-      target: target,
+      target:,
       purpose: @purpose,
       user: @user.uuid
     ).target
@@ -37,7 +37,7 @@ module QcAssetCreator::PlateConversion
   # Applies tags
   def asset_transfer(_)
     transfer_template.create!(
-      source: source,
+      source:,
       destination: target,
       user: @user.uuid
     )

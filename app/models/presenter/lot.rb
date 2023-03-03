@@ -49,12 +49,14 @@ class Presenter::Lot
   ##
   # Returns each state, excluding any passed in as arguments
   # Aliased as each_state for readability where all states are needed
+  # rubocop:disable Style/HashExcept
   def each_state_except(reject = [])
     state_counts.reject { |k, _| reject.include?(k) }.each do |state, count|
       yield(state, count, count * 100.0 / total_plates)
     end
   end
   alias each_state each_state_except
+  # rubocop:enable Style/HashExcept
 
   ##
   # Yields for each state, and provides an array of Qcable presenters
