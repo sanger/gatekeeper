@@ -89,8 +89,7 @@ module Gatekeeper
         as: 'source',
         sibling: 'Tag Plate'
       },
-      'Tag PCR' => {
-      },
+      'Tag PCR' => {},
       'Tag PCR-XP' => {
         with: 'tube_creation'
       },

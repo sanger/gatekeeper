@@ -40,8 +40,8 @@ class RobotTest < ActiveSupport::TestCase
       @api = api
     end
 
-    def method_missing(method, *params, &block)
-      @api.__send__(method, *params, &block)
+    def method_missing(method, *params, &)
+      @api.__send__(method, *params, &)
     end
   end
 

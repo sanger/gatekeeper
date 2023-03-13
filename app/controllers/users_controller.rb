@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     begin
       swipecard_code = params[:user_swipecard]
       @user = Presenter::User.new(
-        api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code: swipecard_code)
+        api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code:)
       )
     rescue Sequencescape::Api::ResourceNotFound
       return render(

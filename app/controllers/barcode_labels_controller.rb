@@ -30,7 +30,7 @@ class BarcodeLabelsController < ApplicationController
     @labels = (params[:numbers] || []).map do |_, number|
       BarcodeSheet::Label.new(
         prefix: params[:prefix],
-        number: number,
+        number:,
         study: params[:study]
       )
     end
