@@ -22,8 +22,6 @@ jobs:
       with:
         bundler-cache: true # Runs bundle install and caches gems. See the ruby_test.yml
                             # example if you need more control over bundler.
-    - name: Update webpacker
-      run: RAILS_ENV=test bundle exec rake webdrivers:chromedriver:update
     - name: Test & publish code coverage
       uses: paambaati/codeclimate-action@v2.7.5
       env:
