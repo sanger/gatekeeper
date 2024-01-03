@@ -43,7 +43,7 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'mocha'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver', '~> 4.1', require: false
   gem 'simplecov', require: false
   gem 'timecop'
-  gem 'webdrivers'
 end
