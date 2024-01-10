@@ -72,8 +72,8 @@ module MockApi
 
       ##
       # Method missing first tries passing things on to the association array
-      def method_missing(method_name, *args, &)
-        return @records.send(:"#{method_name}", *args, &) if @records.respond_to?(:"#{method_name}")
+      def method_missing(method_name, *, &)
+        return @records.send(:"#{method_name}", *, &) if @records.respond_to?(:"#{method_name}")
         super
       end
 
@@ -206,9 +206,9 @@ module MockApi
                                      ))
     end
 
-    def each_resource
-      registry.each { |resource, records| yield resource }
-      aliases.each { |resource, _| yield resource.to_s }
+    def each_resource(&)
+      registry.each_key(&)
+      aliases.each_key { |resource| yield resource.to_s }
     end
 
     def aliases
