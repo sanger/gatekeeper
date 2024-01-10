@@ -125,7 +125,7 @@ module QcAssetCreator::MultipleTag2Conversion
   end
 
   def each_tag2_template_with_tube_and_locations
-    tag2_tubes_barcodes.each do |index, barcode|
+    tag2_tubes_barcodes.each_value do |barcode|
       qcable = tag2_qcables[barcode]
       yield qcable.lot.template.uuid, qcable.asset.uuid, tag2_locations_for_barcode(barcode)
     end
