@@ -24,7 +24,7 @@ Rails/ActionControllerTestCase:
   Enabled: false
 
 Metrics/BlockLength:
-  IgnoredMethods:
+  AllowedMethods:
     - describe
     - context
     - background
