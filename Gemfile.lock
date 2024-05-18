@@ -181,7 +181,7 @@ GEM
     minitest-rails-capybara (0.0.2)
       capybara
       minitest-rails
-    mocha (2.1.0)
+    mocha (2.3.0)
       ruby2_keywords (>= 0.0.5)
     msgpack (1.7.2)
     multi_json (1.15.0)
