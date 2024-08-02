@@ -32,6 +32,6 @@ class RobotsControllerTest < ActionController::TestCase
        .raises(Sequencescape::Api::ResourceNotFound, 'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
 
     post :search, params: { robot_barcode: '1234567890123' }
-    assert_response 404
+    assert_response :not_found
   end
 end

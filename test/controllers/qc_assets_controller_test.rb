@@ -53,7 +53,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     @request.headers['Accept'] = 'application/json'
     get :search, params: { user_swipecard: 'abcdef', asset_barcode: '122000000867' }
 
-    assert_response 404
+    assert_response :not_found
   end
 
   test 'search with children' do
@@ -409,7 +409,7 @@ class QcAssetsControllerTest < ActionController::TestCase
            sibling: test[:sibling_bc]
       }
       if test[:success]
-        assert_response 302
+        assert_response :found
       else
         presenter = assigns['presenter']
         assert_equal 'Presenter::Error', presenter.class.to_s
@@ -519,7 +519,7 @@ class QcAssetsControllerTest < ActionController::TestCase
            sibling: test[:sibling_bc]
       }
       if test[:success]
-        assert_response 302
+        assert_response :found
       else
         presenter = assigns['presenter']
         assert_equal 'Presenter::Error', presenter.class.to_s
