@@ -12,7 +12,7 @@ gem 'jquery-rails'
 gem 'oj', '~> 3.13'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 gem 'puma'
-gem 'rails', '~> 6.1.7'
+gem 'rails', '~> 7.0.8'
 gem 'roo', '~> 2.8.0'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 gem 'sassc-rails'
@@ -43,7 +43,7 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'mocha'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver', '~> 4.1', require: false
   gem 'simplecov', require: false
   gem 'timecop'
-  gem 'webdrivers'
 end

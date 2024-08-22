@@ -6,8 +6,8 @@ class Settings
       super || instance.respond_to?(method, include_private)
     end
 
-    def method_missing(method, *args, &)
-      instance.send(method, *args, &)
+    def method_missing(method, *, &)
+      instance.send(method, *, &)
     end
     protected :method_missing
 

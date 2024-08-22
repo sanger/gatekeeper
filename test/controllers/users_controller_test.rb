@@ -32,6 +32,6 @@ class UsersControllerTest < ActionController::TestCase
 
     post :search, params: {  user_swipecard: '123456789' }
 
-    assert_response 404
+    assert_response :not_found
   end
 end

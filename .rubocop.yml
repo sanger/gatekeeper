@@ -3,6 +3,7 @@ require: rubocop-rails
 inherit_from: .rubocop_todo.yml
 
 AllCops:
+  SuggestExtensions: false
   Exclude:
     - bin/**/*
     - vendor/**/*
@@ -24,7 +25,7 @@ Rails/ActionControllerTestCase:
   Enabled: false
 
 Metrics/BlockLength:
-  IgnoredMethods:
+  AllowedMethods:
     - describe
     - context
     - background

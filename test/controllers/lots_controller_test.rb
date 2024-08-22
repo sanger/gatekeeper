@@ -153,7 +153,7 @@ class LotsControllerTest < ActionController::TestCase
 
     get :search, params: { lot_number: '123456789' }
 
-    assert_response 300
+    assert_response :multiple_choices
     assert_select 'h1', 'Multiple lots found'
     assert_select 'h3', 'IDT Tags'
     assert_select 'h3', 'IDT Reporters'
