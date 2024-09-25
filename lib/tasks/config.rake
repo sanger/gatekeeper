@@ -17,8 +17,7 @@ namespace :config do
     CONFIG = {}.tap do |configuration|
       configuration[:searches] = {}.tap do |searches|
         puts 'Preparing searches ...'
-
-        api.search.find_each do |search|
+        api.search.each do |search|
           searches[search.name] = search.uuid
         end
       end
@@ -55,7 +54,7 @@ namespace :config do
       configuration[:transfer_templates] = {}.tap do |transfer_templates|
         # Plates
         puts 'Preparing transfer templates ...'
-        api.transfer_template.find_each do |template|
+        api.transfer_template.each do |template|
           next unless ['Whole plate to tube', 'Transfer columns 1-12', 'Flip Plate', 'Transfer between specific tubes'].include?(template.name)
           transfer_templates[template.name] = template.uuid
         end
@@ -63,7 +62,7 @@ namespace :config do
 
       configuration[:lot_types] = {}.tap do |lot_types|
         puts 'Preparing lot types ...'
-        api.lot_type.find_each do |lot_type|
+        api.lot_type.each do |lot_type|
           lot_types[lot_type.name] = { uuid: lot_type.uuid, template_class: lot_type.template_class, printer_type: lot_type.printer_type, qcable_name: lot_type.qcable_name }
         end
       end
@@ -72,7 +71,7 @@ namespace :config do
         puts 'Preparing purposes ...'
         puts '... plates'
         raise 'No default purpose configuration specified.' if Gatekeeper::Application.config.default_purpose_handler.nil?
-        api.plate_purpose.find_each do |plate_purpose|
+        api.plate_purpose.each do |plate_purpose|
           # Loads the default purpose info
           if Gatekeeper::Application.config.default_purpose_handler[:child_name] == plate_purpose.name
             configuration[:default_purpose] = Gatekeeper::Application.config.default_purpose_handler.merge(
@@ -88,7 +87,7 @@ namespace :config do
           }.merge(Gatekeeper::Application.config.purpose_handlers[plate_purpose.name] || {})
         end
         puts '... tubes'
-        api.tube_purpose.find_each do |tube_purpose|
+        api.tube_purpose.each do |tube_purpose|
           next unless Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
           purpose[tube_purpose.uuid] = {
             name: tube_purpose.name,
