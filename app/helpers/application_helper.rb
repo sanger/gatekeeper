@@ -86,6 +86,6 @@ module ApplicationHelper
   end
 
   def fresh_sevice_link
-    link_to 'Fresh Service', Gatekeeper::Application.config.fresh_sevice_new_ticket_url
+    link_to 'FreshService', Gatekeeper::Application.config.fresh_sevice_new_ticket_url
   end
 end
