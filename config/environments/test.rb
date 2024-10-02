@@ -42,8 +42,6 @@ Rails.application.configure do
   config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
   config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'test')
 
-  config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
-
   config.secret_key_base = 'example_test_environment_key'
 
   config.suggested_templates = ActiveSupport::OrderedOptions.new

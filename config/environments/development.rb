@@ -58,8 +58,6 @@ Rails.application.configure do
   config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
   config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'development')
 
-  config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
-
   # We can either pass in an array of printer names, or accept all printers with :all
   # Note that this list is built as part of rake:config:generate
   config.approved_printers = :all
