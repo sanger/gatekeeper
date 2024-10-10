@@ -21,7 +21,7 @@
   </div>
   <%= yield %>
   <div id='gk-app-info' class="well well-sm">
-    <p><%= Gatekeeper.application_string %> <%= Gatekeeper.release_name %> <%= link_to Gatekeeper.commit_information, Gatekeeper.repo_url %> - <a href='mailto:<%= Gatekeeper::Application.config.support_mail %>'>Need Help? Drop us an email.</a></p>
+    <p><%= Gatekeeper.application_string %> <%= Gatekeeper.release_name %> <%= link_to Gatekeeper.commit_information, Gatekeeper.repo_url %> - Need Help? Please create a ticket in <%= fresh_sevice_link %>.</p>
     <p><%= Gatekeeper.host_name %></p>
   </div>
   <%= javascript_include_tag "application" %>
