@@ -27,7 +27,8 @@ class BarcodeLabelsController < ApplicationController
   private
 
   def generate_labels
-    @labels = (params[:numbers] || []).map do |_, number|
+    permitted_params = params.permit(:prefix, :study, :numbers)
+    @labels = (permitted_params[:numbers] || []).map do |_, number|
       BarcodeSheet::Label.new(
         prefix: params[:prefix],
         number:,

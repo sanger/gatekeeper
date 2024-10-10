@@ -13,18 +13,20 @@ It is designed to interface with the [Sequencescape](https://github.com/sanger/s
 
 ## Setup
 
-1. Setup config
 
-        bundle exec rake config:generate
-
-1. Start Sequencescape server
+1. Start Sequencescape server on port 3000
 
         # move to Sequencescape directory
         bundle exec rails server
 
-1. start Gatekeeper server on a different port (e.g. 3001)
 
-        # move back to Gatekeeper directory
+2. Setup config
+
+        # This runs `lib/tasks/config.rake` which creates an file in the `environments` directory
+        bundle exec rake config:generate
+
+3. Start Gatekeeper server on a different port (e.g. 3001)
+
         bundle exec rails server -p 3001
 
 ## Testing
