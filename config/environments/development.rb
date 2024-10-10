@@ -70,4 +70,7 @@ Rails.application.configure do
 
   config.pmb_uri = ENV.fetch('PMB_URI', 'http://localhost:3002/v1/')
   config.sprint_uri = 'http://example_sprint.com/graphql'
+
+  # FreshService URL
+  config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
 end

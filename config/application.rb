@@ -33,9 +33,6 @@ module Gatekeeper
     config.i18n.default_locale = :en
     config.i18n.fallbacks = [I18n.default_locale]
 
-    # FreshService URL
-    config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
-
     # Ensures precompiling is faster by not loading the application
     config.assets.initialize_on_precompile = false
     config.disable_animations = false

@@ -50,4 +50,7 @@ Rails.application.configure do
   config.disable_animations = true
   config.pmb_uri = 'http://example.com:3002/v1/'
   config.sprint_uri = 'http://example_sprint.com/graphql'
+
+  # FreshService URL
+  config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
 end
