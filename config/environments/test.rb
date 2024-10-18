@@ -52,5 +52,5 @@ Rails.application.configure do
   config.sprint_uri = 'http://example_sprint.com/graphql'
 
   # FreshService URL
-  config.fresh_sevice_new_ticket_url = 'https://sanger.freshservice.com/a/tickets/new'
+  config.fresh_sevice_new_ticket_url = 'https://example.freshservice.com'
 end
