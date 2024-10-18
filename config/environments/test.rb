@@ -42,8 +42,6 @@ Rails.application.configure do
   config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
   config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'test')
 
-  config.support_mail = 'example@example.com'
-
   config.secret_key_base = 'example_test_environment_key'
 
   config.suggested_templates = ActiveSupport::OrderedOptions.new
@@ -52,4 +50,7 @@ Rails.application.configure do
   config.disable_animations = true
   config.pmb_uri = 'http://example.com:3002/v1/'
   config.sprint_uri = 'http://example_sprint.com/graphql'
+
+  # FreshService URL
+  config.fresh_sevice_new_ticket_url = 'https://example.freshservice.com'
 end

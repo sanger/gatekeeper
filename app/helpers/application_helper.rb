@@ -84,4 +84,8 @@ module ApplicationHelper
     v = (pos / dim_y) + 1
     l + v.to_s
   end
+
+  def fresh_sevice_link
+    link_to 'FreshService', Gatekeeper::Application.config.fresh_sevice_new_ticket_url
+  end
 end
