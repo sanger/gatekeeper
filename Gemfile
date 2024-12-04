@@ -40,7 +40,7 @@ group :test do
   gem 'launchy'
   gem 'minitest'
   gem 'minitest-rails'
-  gem 'minitest-rails-capybara'
+  gem 'minitest-rails-capybara', '>= 0.1'
   gem 'mocha'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '~> 4.1', require: false
