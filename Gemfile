@@ -39,7 +39,7 @@ group :test do
   gem 'capybara-selenium'
   gem 'launchy'
   gem 'minitest'
-  gem 'minitest-rails'
+  gem 'minitest-rails', '>= 8.0.0'
   gem 'minitest-rails-capybara'
   gem 'mocha'
   gem 'rails-controller-testing'
