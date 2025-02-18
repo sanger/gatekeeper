@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 gem 'bootsnap', require: false
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
+gem 'concurrent-ruby', '1.3.4'
 gem 'exception_notification'
 gem 'hashie'
 gem 'jquery-rails'
