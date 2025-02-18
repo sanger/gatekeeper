@@ -20,9 +20,7 @@ class Presenter::QcAsset
     @asset.purpose.name
   end
 
-  def children
-    @asset.children
-  end
+  delegate :children, to: :@asset
 
   def child_type
     (own_child_purpose || sibling_child_purpose).map do |uuid|
