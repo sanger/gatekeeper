@@ -115,6 +115,7 @@ GEM
     csv (3.3.2)
     date (3.4.1)
     docile (1.4.0)
+    drb (2.2.1)
     erubi (1.13.1)
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
@@ -368,6 +369,7 @@ DEPENDENCIES
   capybara-selenium
   concurrent-ruby (= 1.3.4)
   csv
+  drb
   exception_notification
   hashie
   jquery-rails
