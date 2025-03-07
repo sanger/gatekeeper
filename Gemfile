@@ -10,6 +10,7 @@ gem 'concurrent-ruby', '1.3.4'
 gem 'exception_notification'
 gem 'hashie'
 gem 'jquery-rails'
+gem 'mutex_m'
 gem 'oj', '~> 3.13'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 gem 'puma'
@@ -19,7 +20,6 @@ gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'de
 gem 'sassc-rails'
 gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'sprint_client'
-gem 'mutex_m'
 
 group :development do
   gem 'listen'
