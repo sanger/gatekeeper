@@ -21,6 +21,7 @@ gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'de
 gem 'sassc-rails'
 gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'sprint_client'
+gem 'syslog'
 
 group :development do
   gem 'listen'
