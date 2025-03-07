@@ -196,6 +196,7 @@ GEM
     msgpack (1.7.2)
     multi_json (1.15.0)
     multipart-post (2.3.0)
+    mutex_m (0.3.0)
     net-imap (0.5.6)
       date
       net-protocol
@@ -353,6 +354,7 @@ GEM
 PLATFORMS
   arm64-darwin-22
   arm64-darwin-23
+  arm64-darwin-24
   x86_64-darwin-21
   x86_64-linux
 
@@ -372,6 +374,7 @@ DEPENDENCIES
   minitest-rails
   minitest-rails-capybara
   mocha
+  mutex_m
   oj (~> 3.13)
   pmb-client (= 0.1.0)!
   pry-rails
