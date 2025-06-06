@@ -85,7 +85,7 @@ GEM
     ast (2.4.3)
     autoprefixer-rails (10.4.7.0)
       execjs (~> 2)
-    base64 (0.2.0)
+    base64 (0.3.0)
     bigdecimal (3.2.2)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
@@ -309,7 +309,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.32.0)
+    selenium-webdriver (4.33.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
