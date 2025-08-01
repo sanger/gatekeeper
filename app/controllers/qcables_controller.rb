@@ -11,8 +11,11 @@ class QcablesController < ApplicationController
   ##
   # This action should generally get called through the nested
   # lot/qcables route, which will provide our lot id.
+  #
+  # pre stamped plates - _create_children
   def create
-    qc_creator = api.qcable_creator.create!(
+    # Make a qcable creator with the supplied count, under an existing lot, in SS.
+    qc_creator = Sequencescape::Api::V2::QcableCreator.create!(
       user: @user.uuid,
       lot: @lot.uuid,
       count: params[:plate_number].to_i
@@ -38,7 +41,9 @@ class QcablesController < ApplicationController
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
   end
 
+  # Create IDT tag plate hits here
   def upload
+    # Make a qcable creator with the supplied barcodes, under an existing lot, in SS.
     qc_creator = api.qcable_creator.create!(
       user: @user.uuid,
       lot: @lot.uuid,

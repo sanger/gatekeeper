@@ -4,5 +4,5 @@
 class Sequencescape::Api::V2::QcableCreator < Sequencescape::Api::V2::Base
   has_one :lot
   has_one :user
-  # has_many :qcables
+  has_many :qcables
 end
