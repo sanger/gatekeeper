@@ -73,4 +73,8 @@ Rails.application.configure do
 
   # FreshService URL
   config.fresh_sevice_new_ticket_url = 'https://example.freshservice.com'
+
+  # Certain UI elements are believed to be unused, so we've disabled them.
+  # This is a feature flag, to enable them again if needed.
+  config.disable_unused_ui = true
 end
