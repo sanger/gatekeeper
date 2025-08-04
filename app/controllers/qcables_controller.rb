@@ -15,11 +15,22 @@ class QcablesController < ApplicationController
   # pre stamped plates - _create_children
   def create
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
-    qc_creator = Sequencescape::Api::V2::QcableCreator.create!(
-      user: @user.uuid,
-      lot: @lot.uuid,
-      count: params[:plate_number].to_i
-    )
+    # Set the relationships using assignment rather than passing them in as params,
+    # because json_api_client gem was interpreting the params incorrectly as a hash of attributes.
+    qc_creator = Sequencescape::Api::V2::QcableCreator.new
+    qc_creator.user = Sequencescape::Api::V2::User.where(uuid: @user.id).first
+    qc_creator.lot = Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first
+    qc_creator.count = params[:plate_number].to_i
+
+    # TODO: error handling
+
+    result = qc_creator.save
+
+    if qc_creator.errors.any?
+      puts qc_creator.errors.full_messages
+    end
+
+    # TODO: check if qc_creator / qcables relationship works
 
     labels = qc_creator.qcables.map do |q|
       BarcodeSheet::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, barcode: q.barcode.machine, lot: @lot.lot_number, template: @lot.template_name)
