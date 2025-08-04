@@ -12,10 +12,17 @@ module UserLookup
   # Takes the user_swipecard parameter, and uses the api to find the corresponding user
   # Redirects to root with an error flash if no swipecard is found, or if it can't find a user
   def find_user
+    puts "find_user"
     swipecard_code = params[:user_swipecard]
     raise UserError::InputError, 'User swipecard must be provided.' if swipecard_code.nil?
     rescue_no_results('User could not be found, is your swipecard registered?') do
       @user = api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code:)
     end
+  end
+
+  # TODO: not working - encryption issue?
+  def find_user_v2
+    @user_v2 = Sequencescape::Api::V2::User.where(user_code: params[:user_swipecard]).first
+    raise UserError::InputError, 'User not found.' if @user.nil?
   end
 end

@@ -98,6 +98,48 @@ class QcablesControllerTest < ActionController::TestCase
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
+  test 'create_qcable_creator' do
+    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+
+    Sequencescape::Api::V2::User.expects(:where).returns([Sequencescape::Api::V2::User.new])
+    Sequencescape::Api::V2::Lot.expects(:where).returns([Sequencescape::Api::V2::Lot.new])
+    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new])
+    Sequencescape::Api::V2::QcableCreator.expects(:new).returns(mock('qc_creator'))
+    
+    self.expects(:print_labels).returns(nil) # temp
+    # expect(Rails.logger).not_to receive(:error)
+
+    post :create, params: {
+         user_swipecard: 'abcdef',
+         lot_id: '11111111-2222-3333-4444-555555555556',
+         plate_number: 10,
+         barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
+    }
+    assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
+    assert_equal nil, flash[:danger]
+    assert_equal '10 Tag Plates have been created.', flash[:success]
+  end
+
+  test 'create_qcable_creator_fail' do
+    # mock out Sequencescape::Api::V2::User.where(uuid: @user.id).first
+    # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first
+
+    # mock out qc_creator.save to return false
+    # check is flash danger
+    # check is error logging
+    # check returns nil
+  end
+
+  test 'create_qcable_creator_exception' do
+    # mock out Sequencescape::Api::V2::User.where(uuid: @user.id).first
+    # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first 
+
+    # mock out qc_creator.save to raise an exception
+    # check is flash danger
+    # check is error logging
+    # check returns nil
+  end
+
   test 'upload' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
