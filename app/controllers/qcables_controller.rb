@@ -15,21 +15,48 @@ class QcablesController < ApplicationController
   # pre stamped plates - _create_children
   def create
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
+    qcable_creator = create_qcable_creator
+    
+    print_labels(qcable_creator) if qcable_creator
+
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  rescue Net::ReadTimeout
+    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
+    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+  end
+
+  def create_qcable_creator
     # Set the relationships using assignment rather than passing them in as params,
     # because json_api_client gem was interpreting the params incorrectly as a hash of attributes.
-    qc_creator = Sequencescape::Api::V2::QcableCreator.new
+    qc_creator = Sequencescape::Api::V2::QcableCreator.new(count: params[:plate_number].to_i)
     qc_creator.user = Sequencescape::Api::V2::User.where(uuid: @user.id).first
     qc_creator.lot = Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first
-    qc_creator.count = params[:plate_number].to_i
 
-    # TODO: error handling
+    begin
+      result = qc_creator.save 
 
-    result = qc_creator.save
+      # Result is false if, for instance, server-side validation fails e.g. missing user or lot.
+      if !result || qc_creator.errors.any? 
+        message = "There was a problem creating plates in Sequencescape."
+        if qc_creator.errors.any?
+          message += " #{qc_creator.errors.full_messages.join(', ')}"
+        end
+        Rails.logger.error "Error creating qcables: #{message}"
+        flash[:danger] = message
+        return
+      end
+    rescue => e
+      # Throws an exception, for instance, if Sequencescape returns a 500 error.
+      Rails.logger.error "Error creating qcables: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      flash[:danger] = "There was a problem creating plates in Sequencescape."
+      return
+    end 
 
-    if qc_creator.errors.any?
-      puts qc_creator.errors.full_messages
-    end
+    qc_creator
+  end
 
+  def print_labels(qc_creator)
     # TODO: check if qc_creator / qcables relationship works
 
     labels = qc_creator.qcables.map do |q|
@@ -45,11 +72,6 @@ class QcablesController < ApplicationController
     end
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
-
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
-  rescue Net::ReadTimeout
-    flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
   end
 
   # Create IDT tag plate hits here
