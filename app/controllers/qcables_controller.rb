@@ -15,12 +15,11 @@ class QcablesController < ApplicationController
   # pre stamped plates - _create_children
   def create
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
-    puts "before create_qcable_creator"
     qcable_creator = create_qcable_creator({count: params[:plate_number].to_i})
-    puts "after create_qcable_creator"
+
     # print_labels(qcable_creator) if qcable_creator
 
-    # flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created."
+    flash[:success] = "#{qcable_creator.qcables.count} #{qcable_name.pluralize} have been created."
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
   rescue Net::ReadTimeout
     flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
@@ -48,7 +47,6 @@ class QcablesController < ApplicationController
   end
 
   def find_lot
-    puts "find_lot"
     @lot = Sequencescape::Api::V2::Lot.where(uuid: params[:lot_id]).first
   end
 

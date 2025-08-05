@@ -12,7 +12,6 @@ module UserLookup
   # Takes the user_swipecard parameter, and uses the api to find the corresponding user
   # Redirects to root with an error flash if no swipecard is found, or if it can't find a user
   def find_user
-    puts "find_user"
     swipecard_code = params[:user_swipecard]
     raise UserError::InputError, 'User swipecard must be provided.' if swipecard_code.nil?
     rescue_no_results('User could not be found, is your swipecard registered?') do

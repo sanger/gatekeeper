@@ -8,7 +8,6 @@ module BarcodePrinting
   end
 
   def find_printer_v2
-    puts "find_printer_v2"
     @printer_v2 = Sequencescape::Api::V2::BarcodePrinter.where(uuid: params[:barcode_printer]).first
   end
 end
