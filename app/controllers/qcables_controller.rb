@@ -17,7 +17,7 @@ class QcablesController < ApplicationController
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
     qcable_creator = create_qcable_creator({count: params[:plate_number].to_i})
 
-    # print_labels(qcable_creator) if qcable_creator
+    print_labels(qcable_creator)
 
     flash[:success] = "#{qcable_creator.qcables.count} #{qcable_name.pluralize} have been created."
     redirect_to controller: :lots, action: :show, id: params[:lot_id]
@@ -82,10 +82,8 @@ class QcablesController < ApplicationController
   end
 
   def print_labels(qc_creator)
-    # TODO: check if qc_creator / qcables relationship works
-
     labels = qc_creator.qcables.map do |q|
-      BarcodeSheet::Label.new(prefix: q.barcode.prefix, number: q.barcode.number, barcode: q.barcode.machine, lot: @lot.lot_number, template: @lot.template_name)
+      BarcodeSheet::Label.new(human_readable: q.labware_barcode['human_barcode'], barcode: q.labware_barcode['machine_barcode'], lot: @lot.lot_number, template: @lot.template_name)
     end
 
     begin
