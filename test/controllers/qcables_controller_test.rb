@@ -13,25 +13,29 @@ class QcablesControllerTest < ActionController::TestCase
   test 'create' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
-    api.qcable_creator.expect_create_with(
-      received: {
-        user: '11111111-2222-3333-4444-555555555555',
-        lot: '11111111-2222-3333-4444-555555555556',
-        count: 10
-      },
-      returns: '11111111-2222-3333-4444-555555555558'
-    )
+    mock_lot = Sequencescape::Api::V2::Lot.new(lot_type_name: 'Tags', lot_number: '123456789', template_name: 'Example Tag Layout')
+    mock_lot.lot_type = Sequencescape::Api::V2::LotType.new
+    mock_lot.lot_type.qcable_name = 'Tag Plate'
+    
+    Sequencescape::Api::V2::User.expects(:where).returns([Sequencescape::Api::V2::User.new])
+    Sequencescape::Api::V2::Lot.expects(:where).returns([mock_lot])
+    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer', barcode_type: 'something')])
+    mock_qcable_creator = Sequencescape::Api::V2::QcableCreator.new
+    Sequencescape::Api::V2::QcableCreator.expects(:new).returns(mock_qcable_creator)
+    mock_qcable_creator.expects(:save).returns(true)
 
-    api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-
-    (1..10).map do |i|
-      human_readable = SBCF::SangerBarcode.new(prefix: 'DN', number: i).human_barcode
-      BarcodeSheet::Label.expects(:new).with(prefix: 'DN', number: i.to_s, barcode: human_readable, lot: '123456789', template: 'Example Tag Layout')
+    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }
+    qcables.each_with_index do |qcable, index|
+      barcode = "DN#{index + 1}"
+      qcable.labware_barcode = { human_barcode: barcode, machine_barcode: barcode }
     end
+    mock_qcable_creator.expects(:qcables).returns(qcables).at_least_once
 
     mock_barcode_sheet = mock('printer')
     mock_barcode_sheet.expects(:print!).returns(true)
     BarcodeSheet.expects(:new).returns(mock_barcode_sheet)
+
+    Rails.logger.expects(:error).never
 
     post :create, params: {
          user_swipecard: 'abcdef',
@@ -40,6 +44,7 @@ class QcablesControllerTest < ActionController::TestCase
          barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
     }
     assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
+    assert_nil flash[:danger]
     assert_equal '10 Tag Plates have been created.', flash[:success]
   end
 
@@ -98,36 +103,7 @@ class QcablesControllerTest < ActionController::TestCase
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
-  test 'create_qcable_creator' do
-    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
-
-    mock_lot = Sequencescape::Api::V2::Lot.new(lot_type_name: 'Tags')
-    mock_lot.lot_type = Sequencescape::Api::V2::LotType.new
-    mock_lot.lot_type.qcable_name = 'Tag Plate'
-    
-    Sequencescape::Api::V2::User.expects(:where).returns([Sequencescape::Api::V2::User.new])
-    Sequencescape::Api::V2::Lot.expects(:where).returns([mock_lot])
-    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new])
-    mock_qcable_creator = Sequencescape::Api::V2::QcableCreator.new
-    Sequencescape::Api::V2::QcableCreator.expects(:new).returns(mock_qcable_creator)
-    mock_qcable_creator.expects(:save).returns(true)
-    mock_qcable_creator.expects(:qcables).returns((1..10).map { Sequencescape::Api::V2::Qcable.new })
-
-    # self.expects(:print_labels).returns(nil) # temp
-    Rails.logger.expects(:error).never
-
-    post :create, params: {
-         user_swipecard: 'abcdef',
-         lot_id: '11111111-2222-3333-4444-555555555556',
-         plate_number: 10,
-         barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
-    }
-    assert_redirected_to controller: :lots, action: :show, id: '11111111-2222-3333-4444-555555555556'
-    assert_nil flash[:danger]
-    assert_equal '10 Tag Plates have been created.', flash[:success]
-  end
-
-  test 'create_qcable_creator_fail' do
+  test 'create_fail' do
     # mock out Sequencescape::Api::V2::User.where(uuid: @user.id).first
     # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first
 
@@ -137,7 +113,7 @@ class QcablesControllerTest < ActionController::TestCase
     # check returns nil
   end
 
-  test 'create_qcable_creator_exception' do
+  test 'create_exception' do
     # mock out Sequencescape::Api::V2::User.where(uuid: @user.id).first
     # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first 
 
