@@ -28,7 +28,7 @@ class QcablesControllerTest < ActionController::TestCase
     mock_qcable_creator.expects(:save).returns(true)
 
     # Mock the retrieving of the QCables that would have been created (including barcodes).
-    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }    
+    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }
     qcables.each_with_index do |qcable, index|
       barcode = "DN#{index + 1}"
       qcable.labware_barcode = { human_barcode: barcode, machine_barcode: barcode }
@@ -73,7 +73,7 @@ class QcablesControllerTest < ActionController::TestCase
     mock_qcable_creator.expects(:save).returns(true)
 
     # Mock the retrieving of the QCables that would have been created (including barcodes).
-    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }    
+    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }
     qcables.each_with_index do |qcable, index|
       barcode = "DN#{index + 1}"
       qcable.labware_barcode = { human_barcode: barcode, machine_barcode: barcode }
@@ -156,7 +156,7 @@ class QcablesControllerTest < ActionController::TestCase
 
   test 'create when save raises exception' do
     # mock out Sequencescape::Api::V2::User.where(uuid: @user.id).first
-    # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first 
+    # mock out Sequencescape::Api::V2::Lot.where(uuid: @lot.id).first
 
     # mock out qc_creator.save to raise an exception
     # check is flash danger
@@ -175,7 +175,7 @@ class QcablesControllerTest < ActionController::TestCase
     # Mock the QCableCreator creation and saving.
     mock_qcable_creator = Sequencescape::Api::V2::QcableCreator.new
     Sequencescape::Api::V2::QcableCreator.expects(:new).returns(mock_qcable_creator)
-    mock_qcable_creator.expects(:save).raises(StandardError.new("Some error"))
+    mock_qcable_creator.expects(:save).raises(StandardError.new('Some error'))
 
     # Mock the finding of the barcode printer.
     Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer', barcode_type: 'something')])
@@ -213,7 +213,7 @@ class QcablesControllerTest < ActionController::TestCase
     mock_qcable_creator.expects(:save).returns(true)
 
     # Mock the retrieving of the QCables that would have been created (including barcodes).
-    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }    
+    qcables = (1..10).map { Sequencescape::Api::V2::Qcable.new }
     qcables.each_with_index do |qcable, index|
       barcode = "DN#{index + 1}"
       qcable.labware_barcode = { human_barcode: barcode, machine_barcode: barcode }

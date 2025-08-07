@@ -12,7 +12,7 @@ gem 'drb'
 gem 'exception_notification'
 gem 'hashie'
 gem 'jquery-rails'
-gem "json_api_client"
+gem 'json_api_client'
 gem 'mutex_m'
 gem 'oj', '~> 3.13'
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'

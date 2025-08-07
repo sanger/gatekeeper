@@ -15,8 +15,8 @@ class QcablesController < ApplicationController
   # pre stamped plates - _create_children
   def create
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
-    qcable_creator = create_qcable_creator({count: params[:plate_number].to_i})
-    
+    qcable_creator = create_qcable_creator({ count: params[:plate_number].to_i })
+
     if qcable_creator
       print_labels(qcable_creator)
       flash[:success] = "#{qcable_creator.qcables.count} #{qcable_name.pluralize} have been created." if qcable_creator
@@ -30,8 +30,8 @@ class QcablesController < ApplicationController
 
   # Create IDT tag plate hits here
   def upload
-    # Make a qcable creator with the supplied barcodes, under an existing lot, in SS. 
-    qc_creator = create_qcable_creator({barcodes: PlateUploader.new(params[:upload]).payload})
+    # Make a qcable creator with the supplied barcodes, under an existing lot, in SS.
+    qc_creator = create_qcable_creator({ barcodes: PlateUploader.new(params[:upload]).payload })
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created." if qc_creator
 
@@ -60,25 +60,23 @@ class QcablesController < ApplicationController
     qc_creator.lot = @lot
 
     begin
-      result = qc_creator.save 
+      result = qc_creator.save
 
       # Result is false if, for instance, server-side validation fails e.g. missing user or lot.
-      if !result || qc_creator.errors.any? 
-        message = "There was a problem creating plates in Sequencescape."
-        if qc_creator.errors.any?
-          message += " #{qc_creator.errors.full_messages.join(', ')}"
-        end
+      if !result || qc_creator.errors.any?
+        message = 'There was a problem creating plates in Sequencescape.'
+        message += " #{qc_creator.errors.full_messages.join(', ')}" if qc_creator.errors.any?
         Rails.logger.error "Error creating qcables: #{message}"
         flash[:danger] = message
         return
       end
-    rescue => e
+    rescue StandardError => e
       # Throws an exception, for instance, if Sequencescape returns a 500 error.
       Rails.logger.error "Error creating qcables: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
-      flash[:danger] = "There was a problem creating plates in Sequencescape."
+      flash[:danger] = 'There was a problem creating plates in Sequencescape.'
       return
-    end 
+    end
 
     qc_creator
   end
