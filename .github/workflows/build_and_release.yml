@@ -4,6 +4,9 @@ on:
   release:
     types: published
 
+env:
+  BUNDLE_WITHOUT: 'test lint'
+
 jobs:
   build_and_release:
     runs-on: ubuntu-latest
