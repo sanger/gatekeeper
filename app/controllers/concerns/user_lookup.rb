@@ -18,10 +18,4 @@ module UserLookup
       @user = api.search.find(Settings.searches['Find user by swipecard code']).first(swipecard_code:)
     end
   end
-
-  # TODO: not working - encryption issue?
-  def find_user_v2
-    @user_v2 = Sequencescape::Api::V2::User.where(user_code: params[:user_swipecard]).first
-    raise UserError::InputError, 'User not found.' if @user.nil?
-  end
 end
