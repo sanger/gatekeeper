@@ -17,7 +17,7 @@ class BarcodeSheet::Label
   # @param study: [String] Legacy compatibility field
   #
   # @return [type] [description]
-  def initialize(prefix:, number:, lot: nil, template: nil, barcode: nil, human_readable: nil, study: nil)
+  def initialize(prefix: nil, number: nil, lot: nil, template: nil, barcode: nil, human_readable: nil, study: nil)
     @barcode = barcode
     @prefix = prefix
     @number = number
@@ -40,6 +40,8 @@ class BarcodeSheet::Label
     }
   end
 
+  # Won't work if prefix and number are not passed in
+  # Not sure if tube labels are still used, can fix if they are
   # Payload suitable for a tube label template
   def tube
     {

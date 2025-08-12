@@ -375,6 +375,7 @@ DEPENDENCIES
   exception_notification
   hashie
   jquery-rails
+  json_api_client
   launchy
   listen
   minitest
