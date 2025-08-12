@@ -26,9 +26,7 @@ class Presenter::Qcable
     @qcable.barcode.number.to_s
   end
 
-  def uuid
-    @qcable.uuid
-  end
+  delegate :uuid, to: :@qcable
 
   alias id uuid
 end
