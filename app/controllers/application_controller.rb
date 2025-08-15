@@ -14,7 +14,11 @@ class ApplicationController < ActionController::Base
   include ApiError
 
   def initialize
-    @disable_unused_ui = Gatekeeper::Application.config.disable_unused_ui || true
+    @disable_unused_ui = if Gatekeeper::Application.config.respond_to? :disable_unused_ui
+                           Gatekeeper::Application.config.disable_unused_ui
+                         else
+                           true
+                         end
 
     super
   end
