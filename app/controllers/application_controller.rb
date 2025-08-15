@@ -13,6 +13,16 @@ class ApplicationController < ActionController::Base
   include UserLookup
   include ApiError
 
+  def initialize
+    @disable_unused_ui = if Gatekeeper::Application.config.respond_to? :disable_unused_ui
+                           Gatekeeper::Application.config.disable_unused_ui
+                         else
+                           true
+                         end
+
+    super
+  end
+
   private
 
   def api_connection_options
