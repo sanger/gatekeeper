@@ -62,8 +62,8 @@ namespace :config do
 
       configuration[:lot_types] = {}.tap do |lot_types|
         puts 'Preparing lot types ...'
-        api.lot_type.each do |lot_type|
-          lot_types[lot_type.name] = { uuid: lot_type.uuid, template_class: lot_type.template_class, printer_type: lot_type.printer_type, qcable_name: lot_type.qcable_name }
+        Sequencescape::Api::V2::LotType.all.each do |lot_type|
+          lot_types[lot_type.name] = { uuid: lot_type.uuid, template_class: lot_type.template_type, printer_type: lot_type.printer_type, qcable_name: lot_type.qcable_name }
         end
       end
 
