@@ -2,7 +2,8 @@
 
 ##
 # BarcodeSheet takes:
-# printer => A Sequencescape Client Api Printer object
+# printer => A Sequencescape Client Api Printer object, or a Sequencescape::Api::V2::BarcodePrinter
+#             (In the process of migrating to the V2 API)
 # labels  => An array of desired barcode labels
 class BarcodeSheet
   include ActiveModel::Model
@@ -87,7 +88,12 @@ class BarcodeSheet
     printer.name
   end
 
+  # Temporarily supports v1 API printers and v2 API printers.
   def printer_type
-    @printer.type.name
+    if @printer.is_a?(Sequencescape::Api::V2::BarcodePrinter)
+      @printer.barcode_type
+    else
+      @printer.type.name
+    end
   end
 end

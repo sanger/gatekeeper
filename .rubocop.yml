@@ -55,3 +55,7 @@ Style/HashTransformKeys:
 
 Style/HashTransformValues:
   Enabled: true
+
+# Not tackling this as planning to retire this app soon.
+Rails/I18nLocaleTexts:
+  Enabled: false
