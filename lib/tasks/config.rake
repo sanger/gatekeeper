@@ -62,7 +62,8 @@ namespace :config do
 
       configuration[:lot_types] = {}.tap do |lot_types|
         puts 'Preparing lot types ...'
-        Sequencescape::Api::V2::LotType.find_each do |lot_type|
+        # Rubocop is wrong here - find_each is an unknown method
+        Sequencescape::Api::V2::LotType.all.each do |lot_type| # rubocop:disable Rails/FindEach
           lot_types[lot_type.name] = { uuid: lot_type.uuid, template_class: lot_type.template_class, printer_type: lot_type.printer_type, qcable_name: lot_type.qcable_name }
         end
       end
