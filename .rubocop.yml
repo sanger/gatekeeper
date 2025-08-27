@@ -47,6 +47,10 @@ Metrics/BlockLength:
     - guard
     - test
 
+# Not tackling this as planning to retire this app soon.
+Style/Documentation:
+  Enabled: false
+
 Style/HashEachMethods:
   Enabled: true
 
