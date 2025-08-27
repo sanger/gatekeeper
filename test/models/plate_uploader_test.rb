@@ -6,7 +6,7 @@ class PlateUploaderTest < ActiveSupport::TestCase
   attr_reader :test_file, :plate_uploader
 
   setup do
-    @test_file = Rack::Test::UploadedFile.new(Rails.root.join('test', 'fixtures', 'test_file.xlsx'), '')
+    @test_file = Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/test_file.xlsx'), '')
     @plate_uploader = PlateUploader.new(test_file)
   end
 

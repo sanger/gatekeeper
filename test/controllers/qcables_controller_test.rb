@@ -198,7 +198,7 @@ class QcablesControllerTest < ActionController::TestCase
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
     Sequencescape::Api::V2::User.expects(:where).returns([Sequencescape::Api::V2::User.new])
 
-    test_file = Rack::Test::UploadedFile.new(Rails.root.join('test', 'fixtures', 'test_file.xlsx'), '')
+    test_file = Rack::Test::UploadedFile.new(Rails.root.join('test/fixtures/test_file.xlsx'), '')
     plate_uploader = PlateUploader.new(test_file)
 
     # Mock finding the Lot and Lot Type through the API (QCable Creator is created under a particular Lot).

@@ -239,15 +239,6 @@ Rails/Delegate:
     - 'app/models/presenter/user.rb'
     - 'test/mock_api.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: slashes, arguments
-Rails/FilePath:
-  Exclude:
-    - 'test/controllers/qcables_controller_test.rb'
-    - 'test/models/plate_uploader_test.rb'
-
 # Offense count: 13
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
