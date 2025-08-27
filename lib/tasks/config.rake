@@ -56,6 +56,7 @@ namespace :config do
         puts 'Preparing transfer templates ...'
         api.transfer_template.each do |template|
           next unless ['Whole plate to tube', 'Transfer columns 1-12', 'Flip Plate', 'Transfer between specific tubes'].include?(template.name)
+
           transfer_templates[template.name] = template.uuid
         end
       end
@@ -71,6 +72,7 @@ namespace :config do
         puts 'Preparing purposes ...'
         puts '... plates'
         raise 'No default purpose configuration specified.' if Gatekeeper::Application.config.default_purpose_handler.nil?
+
         api.plate_purpose.each do |plate_purpose|
           # Loads the default purpose info
           if Gatekeeper::Application.config.default_purpose_handler[:child_name] == plate_purpose.name
@@ -80,6 +82,7 @@ namespace :config do
             )
           end
           next unless Gatekeeper::Application.config.tracked_purposes.include?(plate_purpose.name)
+
           purpose[plate_purpose.uuid] = {
             name: plate_purpose.name,
             children: plate_purpose.children.map { |c| c.uuid },
@@ -89,6 +92,7 @@ namespace :config do
         puts '... tubes'
         api.tube_purpose.each do |tube_purpose|
           next unless Gatekeeper::Application.config.tracked_purposes.include?(tube_purpose.name)
+
           purpose[tube_purpose.uuid] = {
             name: tube_purpose.name,
             children: tube_purpose.children.map { |c| c.uuid },

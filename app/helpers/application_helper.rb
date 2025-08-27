@@ -71,6 +71,7 @@ module ApplicationHelper
 
   def well_location_plate_letter_range_for(dim_x, dim_y)
     return range = ('A'..'H') if dim_y == 8
+
     first_letter = 'A'
     last_letter = (first_letter.ord + (dim_y - 1)).chr
     (first_letter..last_letter)
@@ -80,6 +81,7 @@ module ApplicationHelper
     if (pos < 0) || (pos >= (dim_x * dim_y))
       raise RangeError, 'Well location position is out of range'
     end
+
     l = well_location_plate_letter_range_for(dim_x, dim_y).to_a[pos % dim_y]
     v = (pos / dim_y) + 1
     l + v.to_s

@@ -43,6 +43,7 @@ class Presenter::Lot
 
   def prefix
     return '' if @lot.qcables.empty?
+
     @lot.qcables.first.barcode.prefix
   end
 

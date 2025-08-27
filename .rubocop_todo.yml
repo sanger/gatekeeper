@@ -6,32 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 34
-# This cop supports safe autocorrection (--autocorrect).
-Layout/EmptyLineAfterGuardClause:
-  Exclude:
-    - 'app/controllers/assets_controller.rb'
-    - 'app/controllers/concerns/batch_lookup.rb'
-    - 'app/controllers/concerns/user_lookup.rb'
-    - 'app/controllers/lots_controller.rb'
-    - 'app/controllers/qc_assets_controller.rb'
-    - 'app/controllers/stamps_controller.rb'
-    - 'app/controllers/submissions_controller.rb'
-    - 'app/helpers/application_helper.rb'
-    - 'app/models/gatekeeper/robot.rb'
-    - 'app/models/presenter/lot.rb'
-    - 'app/models/presenter/lot_type.rb'
-    - 'app/models/presenter/qc_asset.rb'
-    - 'app/models/qc_asset_creator/multiple_tag2_conversion.rb'
-    - 'app/models/qc_asset_creator/plate_conversion.rb'
-    - 'app/models/qc_asset_creator/plate_creation.rb'
-    - 'app/models/qc_asset_creator/qa_plate_conversion.rb'
-    - 'app/models/qc_asset_creator/tube_creation.rb'
-    - 'app/models/qc_asset_creator/tube_transfer.rb'
-    - 'config/initializers/settings.rb'
-    - 'lib/tasks/config.rake'
-    - 'test/mock_api.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowAliasSyntax, AllowedMethods.

@@ -57,6 +57,7 @@ module QcAssetCreator::PlateConversion
     errors << "#{@sibling.purpose.name} plates can't be used to test #{@asset.purpose.name} plates, please use a #{expected_sibling}." unless compatible_siblings?
     errors << 'The type of plate or tube requested is not suitable.' unless errors.present? || valid_children.include?(purpose)
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
+
     true
   end
 

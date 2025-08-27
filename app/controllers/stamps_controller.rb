@@ -141,6 +141,7 @@ class StampsController < ApplicationController
   # Attempts to use the uuid to find the robot, but failing that falls back on the barcode search.
   def find_robot
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
+
     begin
       @robot = api.search.find(Settings.searches['Find robot by barcode']).first(barcode: params[:robot_barcode])
     rescue Sequencescape::Api::ResourceNotFound
