@@ -409,18 +409,6 @@ Style/PreferredHashMethods:
     - 'app/models/qc_asset_creator/plate_conversion.rb'
     - 'test/mock_api.rb'
 
-# Offense count: 8
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowMultipleReturnValues.
-Style/RedundantReturn:
-  Exclude:
-    - 'app/controllers/qc_assets_controller.rb'
-    - 'app/controllers/stamps_controller.rb'
-    - 'app/models/gatekeeper/robot.rb'
-    - 'app/models/presenter/qc_asset.rb'
-    - 'app/models/qc_asset_creator.rb'
-    - 'app/models/qc_asset_creator/multiple_tag2_conversion.rb'
-
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
 Style/StderrPuts:

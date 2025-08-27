@@ -74,7 +74,7 @@ class Presenter::QcAsset
   ##
   # I guess that makes this niece/nephew purpose
   def sibling_child_purpose
-    return Settings.purposes.detect { |k, v| v.name == own_purpose_config.sibling }.last.children
+    Settings.purposes.detect { |k, v| v.name == own_purpose_config.sibling }.last.children
   end
 
   def own_child_purpose

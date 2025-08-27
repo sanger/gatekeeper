@@ -27,7 +27,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
         return [false, "#{qcable.human_barcode} is '#{qcable.state}'; only '#{Gatekeeper::Application.config.stampable_state}' plates may be stamped."] unless qcable.stampable?
       end
       return [false, "Invalid beds: #{beds.keys.join(',')}"] unless beds.empty?
-      return [true, 'Okay']
+      [true, 'Okay']
     end
 
     ##
