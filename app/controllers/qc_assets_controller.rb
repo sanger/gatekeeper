@@ -39,7 +39,7 @@ class QcAssetsController < ApplicationController
       ).create!
     rescue QcAssetCreator::QcAssetException => e
       @presenter = Presenter::Error.new(e)
-      render(json: @presenter.output, root: true, status: 403)
+      render(json: @presenter.output, root: true, status: :forbidden)
       return false
     end
     redirect_to(
@@ -74,7 +74,7 @@ class QcAssetsController < ApplicationController
     return render(
       json: { 'error' => "Could not find an asset with the barcode #{barcode}." },
       root: true,
-      status: 404
+      status: :not_found
     )
   end
 
@@ -84,7 +84,7 @@ class QcAssetsController < ApplicationController
   end
 
   def render_error(exception)
-    render(json: { 'error' => exception.message }, root: true, status: 403)
+    render(json: { 'error' => exception.message }, root: true, status: :forbidden)
     return false
   end
 end

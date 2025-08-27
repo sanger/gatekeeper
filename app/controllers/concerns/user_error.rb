@@ -22,7 +22,7 @@ module UserError
             flash[:danger] = @message
             redirect_to :root
           end
-          format.json { render json: { 'error' => @message }, status: 403 }
+          format.json { render json: { 'error' => @message }, status: :forbidden }
         end
         false
       end

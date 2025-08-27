@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     rescue Sequencescape::Api::ResourceNotFound
       return render(
         json: Presenter::User.new(nil).output,
-        status: 404
+        status: :not_found
       )
     end
 

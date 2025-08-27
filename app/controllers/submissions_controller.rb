@@ -24,9 +24,9 @@ class SubmissionsController < ApplicationController
 
     render(json: { 'success' => 'Submission created!' }, root: true)
   rescue Sequencescape::Api::ConnectionFactory::Actions::ServerError => e
-    render(json: { 'error' => 'Submission Failed. ' + /.+\[([^\]]+)\]/.match(e.message)[1] }, root: true, status: 403)
+    render(json: { 'error' => 'Submission Failed. ' + /.+\[([^\]]+)\]/.match(e.message)[1] }, root: true, status: :forbidden)
   rescue Sequencescape::Api::ResourceInvalid => e
-    render(json: { 'error' => 'Submission Failed. ' + e.resource.errors.full_messages.join('; ') }, root: true, status: 403)
+    render(json: { 'error' => 'Submission Failed. ' + e.resource.errors.full_messages.join('; ') }, root: true, status: :forbidden)
   end
 
   private
