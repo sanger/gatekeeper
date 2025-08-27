@@ -11,7 +11,7 @@ class RobotsController < ApplicationController
     rescue Sequencescape::Api::ResourceNotFound
       return render(
         json: Presenter::Robot.new(nil).output,
-        status: 404
+        status: :not_found
       )
     end
 
