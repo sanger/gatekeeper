@@ -17,6 +17,7 @@ class Presenter::LotType
     @name = lot_type_name
     @api = api
     raise Presenter::LotType::ConfigurationError, 'No lot type specified.' if @name.nil?
+
     @settings = Settings.lot_types[lot_type_name]
     raise Presenter::LotType::ConfigurationError, "Unknown lot type '#{lot_type_name}'." if @settings.nil?
   end

@@ -22,6 +22,7 @@ class QcAssetsController < ApplicationController
 
   def tag2_tubes
     return nil unless params[:tag2_tube]
+
     params[:tag2_tube].permit!.reject { |index, tube| tube[:barcode].blank? }
   end
 
@@ -57,6 +58,7 @@ class QcAssetsController < ApplicationController
 
   def find_asset_from_barcode
     raise UserError::InputError, 'No barcode was provided!' if params[:asset_barcode].nil?
+
     @asset = find_from_barcode(params[:asset_barcode])
   end
 

@@ -27,6 +27,7 @@ module QcAssetCreator::TubeTransfer
 
   def validate!
     return true if valid_children.include?(purpose)
+
     raise QcAssetCreator::QcAssetException, 'The type of plate or tube requested is not suitable'
   end
 

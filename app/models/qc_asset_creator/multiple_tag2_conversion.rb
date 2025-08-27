@@ -20,6 +20,7 @@ module QcAssetCreator::MultipleTag2Conversion
     errors << "Could not find #{missing_tag2_qcables.to_sentence}." unless missing_tag2_qcables.empty?
     errors << "All #{@asset.purpose.name} should be '#{Gatekeeper::Application.config.qcable_state}'" unless all_tag2s_qcable?
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
+
     true
   end
 
@@ -111,6 +112,7 @@ module QcAssetCreator::MultipleTag2Conversion
 
   def tag2_tubes_barcodes
     return nil if @tag2_tubes.nil?
+
     @tag2_tubes.to_h.to_h { |pos, tube| [pos, tube[:barcode]] }
   end
 

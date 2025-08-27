@@ -33,6 +33,7 @@ class SubmissionsController < ApplicationController
 
   def find_asset_from_barcode
     raise UserError::InputError, 'No barcode was provided!' if params[:asset_barcode].nil?
+
     rescue_no_results("Could not find an asset with the barcode #{params[:asset_barcode]}.") do
       @asset = api.search.find(Settings.searches['Find assets by barcode']).first(barcode: params[:asset_barcode])
     end
