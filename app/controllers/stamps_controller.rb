@@ -115,7 +115,7 @@ class StampsController < ApplicationController
   def find_lot
     @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_plate]).tap do |lots|
       validator.add_error("Could not find a lot with the lot number '#{params[:lot_plate]}'") if lots.empty?
-      validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.count > 1
+      validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.many?
     end.first
   end
 
@@ -128,7 +128,7 @@ class StampsController < ApplicationController
     plates = api.search.find(Settings.searches['Find qcable by barcode'])
                 .all(Gatekeeper::Qcable, barcode: plate_barcodes)
                 .group_by { |qcable| qcable.barcode.machine }
-    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
+    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.many? }
 
     @bed_plates = params[:beds].permit!.to_h.to_h do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten

@@ -287,13 +287,6 @@ Rails/LexicallyScopedActionFilter:
     - 'app/controllers/batches_qc_decisions_controller.rb'
     - 'app/controllers/lots_qc_decisions_controller.rb'
 
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/CollectionQuerying:
-  Exclude:
-    - 'app/controllers/qc_decisions_controller.rb'
-    - 'app/controllers/stamps_controller.rb'
-
 # Offense count: 37
 # Configuration parameters: AllowedConstants.
 Style/Documentation:

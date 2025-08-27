@@ -12,7 +12,7 @@ class QcDecisionsController < ApplicationController
   def search
     rescue_no_results("Could not find an appropriate lot for batch #{params[:batch_id]}.") do
       lots = find_lots_for_batch
-      if lots.count > 1
+      if lots.many?
         redirect_to new_batch_qc_decision_path(params[:batch_id])
       else
         redirect_to new_lot_qc_decision_path(lots.first.uuid)
