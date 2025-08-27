@@ -421,13 +421,6 @@ Style/RedundantReturn:
     - 'app/models/qc_asset_creator.rb'
     - 'app/models/qc_asset_creator/multiple_tag2_conversion.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'test/controllers/assets_controller_test.rb'
-
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
 Style/StderrPuts:
