@@ -10,6 +10,7 @@ module UserError
   def self.included(base)
     base.class_eval do
       include ApiError
+
       rescue_from UserError::InputError, with: :user_error
 
       ##

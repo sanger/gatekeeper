@@ -11,10 +11,9 @@ class Gatekeeper::Plate < Sequencescape::Plate
     end
 
     def children
-      children? ? (
-        source_transfers.map do |st|
-          st.destination
-        end) :
+      children? ? source_transfers.map do |st|
+        st.destination
+      end :
         []
     end
 
