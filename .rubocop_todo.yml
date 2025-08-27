@@ -419,12 +419,6 @@ Style/PreferredHashMethods:
     - 'app/models/qc_asset_creator/plate_conversion.rb'
     - 'test/mock_api.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/RedundantFreeze:
-  Exclude:
-    - 'lib/psd_formatter.rb'
-
 # Offense count: 8
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowMultipleReturnValues.
