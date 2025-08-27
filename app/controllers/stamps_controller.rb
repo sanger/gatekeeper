@@ -93,16 +93,18 @@ class StampsController < ApplicationController
     )
 
     flash[:success] = t(:stamp_completed)
-    redir = params[:repeat].present? ?
-      {
-        controller: :stamps,
-        action: :new,
-        robot_barcode: params[:robot_barcode],
-        tip_lot: params[:tip_lot],
-        lot_bed: params[:lot_bed],
-        lot_plate: params[:lot_plate]
-      } :
-      lot_url(@lot)
+    redir = if params[:repeat].present?
+              {
+                controller: :stamps,
+                action: :new,
+                robot_barcode: params[:robot_barcode],
+                tip_lot: params[:tip_lot],
+                lot_bed: params[:lot_bed],
+                lot_plate: params[:lot_plate]
+              }
+            else
+              lot_url(@lot)
+            end
     redirect_to redir
   end
 

@@ -33,9 +33,11 @@ class Gatekeeper::Robot < Sequencescape::Robot
     ##
     # Checks that just the lot is valid (ie. it is a lot.)
     def valid_lot?(lot_bed, lot)
-      (lot_bed == lot_bed_barcode) ?
-        [true, 'Correct bed used.'] :
+      if lot_bed == lot_bed_barcode
+        [true, 'Correct bed used.']
+      else
         [false, "The lot plate should be placed on Bed #{lot_bed_name} to begin the process."]
+      end
     end
   end
 
