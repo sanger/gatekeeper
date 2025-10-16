@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
+# https://github.com/simplecov-ruby/simplecov#getting-started
+
 require 'simplecov'
-SimpleCov.start
+require 'simplecov_json_formatter'
+require 'simplecov-lcov'
+SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
+SimpleCov::Formatter::LcovFormatter.config.single_report_path = 'coverage/lcov.info'
+SimpleCov.formatters =
+  SimpleCov::Formatter::MultiFormatter.new(
+    [SimpleCov::Formatter::HTMLFormatter, SimpleCov::Formatter::JSONFormatter, SimpleCov::Formatter::LcovFormatter]
+  )
+SimpleCov.start :rails
 
 ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../../config/environment', __FILE__)
@@ -45,11 +55,12 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-
   options.add_argument('--headless')
   options.add_argument('--disable_gpu')
-  # options.add_argument('--disable-popup-blocking')
   options.add_argument('--window-size=1600,1600')
+  options.add_argument('--no-sandbox')
+  options.add_preference('profile.password_manager_leak_detection', false)
+
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
