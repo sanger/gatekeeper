@@ -55,11 +55,12 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-
   options.add_argument('--headless')
   options.add_argument('--disable_gpu')
-  # options.add_argument('--disable-popup-blocking')
   options.add_argument('--window-size=1600,1600')
+  options.add_argument('--no-sandbox')
+  options.add_preference('profile.password_manager_leak_detection', false)
+
   Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
 end
 
