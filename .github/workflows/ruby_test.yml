@@ -1,30 +1,47 @@
-
-name: Ruby RSpec Tests
+name: Ruby Tests
 
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
 
 env:
-  BUNDLE_WITHOUT: 'development lint'
+  BUNDLE_WITHOUT: "development lint"
 
 jobs:
   ruby_test:
-
+    name: Ruby tests
     runs-on: ubuntu-latest
     env:
       TZ: Europe/London
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true # Runs bundle install and caches gems. See the ruby_test.yml
-                            # example if you need more control over bundler.
-    - name: Test & publish code coverage
-      uses: paambaati/codeclimate-action@v2.7.5
-      env:
-        CC_TEST_REPORTER_ID:  ${{ secrets.CC_TEST_REPORTER_ID || '76bbf64dfeb5a367f6ea0cc50d7949cf2957a5c11305e5de64decfb89ed471f6' }}
-      with:
-        coverageCommand: bundle exec rake
+      - name: Checkout Repository
+        uses: sanger/.github/.github/actions/setup/checkout@master
+
+      - name: Setup Ruby
+        uses: sanger/.github/.github/actions/setup/ruby@master
+
+      - name: Setup Node
+        uses: sanger/.github/.github/actions/setup/node@master
+
+      - name: Setup stable Chrome
+        uses: sanger/.github/.github/actions/tests/setup-chrome@master
+        with:
+          chrome-version: 128
+          install-chromedriver: true
+          install-dependencies: true
+
+      - name: Additional setup
+        run: bin/setup
+
+      - name: Run tests using rake
+        run: bundle exec rake
+
+      - name: Upload coverage reports to Codecov
+        uses: sanger/.github/.github/actions/tests/codecov@master
+        with:
+          name: ${{ github.run_id }}_${{ github.job }}_${{ github.event_name }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: ruby,${{ github.event_name }}
+          disable-search: true
+          files: ${{ github.workspace }}/coverage/lcov.info

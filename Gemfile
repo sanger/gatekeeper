@@ -51,5 +51,6 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '~> 4.1', require: false
   gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
   gem 'timecop'
 end
