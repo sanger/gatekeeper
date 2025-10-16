@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gem 'bootsnap', require: false
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-sass'
-gem 'concurrent-ruby', '1.3.4'
+gem 'concurrent-ruby', '<= 1.3.4' # see https://github.com/rails/rails/issues/54271
 gem 'csv'
 gem 'drb'
 gem 'exception_notification'
