@@ -36,8 +36,8 @@ class LotsController < ApplicationController
   def create
     # Find the template being used to create this lot
     # If we can't find it, raise an error
-    # This is required because Lot's have polymorphic a association to templates
-    # And json_api resources can't handle that automatically
+    # This is required because Lots have a polymorphic association to templates
+    # And json api resources can't handle that automatically
     begin
       template_resource = "Sequencescape::Api::V2::#{params[:template_class]}".constantize
       template = template_resource.find(uuid: params[:template]).first
