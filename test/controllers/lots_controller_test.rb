@@ -107,6 +107,20 @@ class LotsControllerTest < ActionController::TestCase
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
   end
 
+  test '#create with invalid template' do
+    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+    post :create, params: {
+         lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         template_class: 'BadTemplateClass',
+         user_swipecard: 'abcdef',
+         lot_number: '123456789',
+         template: 'nonexistent-template-uuid',
+         received_at: '01/02/2013'
+    }
+    assert_redirected_to new_lot_path
+    assert_equal 'Could not find template with class BadTemplateClass or uuid nonexistent-template-uuid.', flash[:danger]
+  end
+
   # SHOW
   test 'show tag plate' do
     get :show, params: { id: '11111111-2222-3333-4444-555555555556' }

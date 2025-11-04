@@ -42,7 +42,7 @@ class LotsController < ApplicationController
       template_resource = "Sequencescape::Api::V2::#{params[:template_class]}".constantize
       template = template_resource.find(uuid: params[:template]).first
     rescue StandardError
-      raise UserError::InputError, "Could not find template with class #{params[:template_class]} or uuid #{params[:template]}"
+      raise UserError::InputError, "Could not find template with class #{params[:template_class]} or uuid #{params[:template]}."
     end
 
     @lot = Sequencescape::Api::V2::Lot.create!(
