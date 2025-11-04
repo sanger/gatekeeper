@@ -34,17 +34,29 @@ class LotsController < ApplicationController
   # Create action for lot. Registers lot metadata
   # We convert the date into the big endian format to avoid ambiguity
   def create
-    @lot = api.lot_type.find(params[:lot_type]).lots.create!(
-      user: @user.uuid,
+    # Find the template being used to create this lot
+    # If we can't find it, raise an error
+    # This is required because Lot's have polymorphic a association to templates
+    # And json_api resources can't handle that automatically
+    begin
+      template_resource = "Sequencescape::Api::V2::#{params[:template_class]}".constantize
+      template = template_resource.find(uuid: params[:template]).first
+    rescue StandardError
+      raise UserError::InputError, "Could not find template with class #{params[:template_class]} or uuid #{params[:template]}"
+    end
+
+    @lot = Sequencescape::Api::V2::Lot.create!(
+      user_uuid: @user.uuid,
       lot_number: params[:lot_number],
-      template: params[:template],
+      lot_type_uuid: params[:lot_type_uuid],
+      template_type: params[:template_class],
+      template_id: template.id,
       received_at: Date.strptime(params[:received_at], '%d/%m/%Y').strftime('%Y-%m-%d')
     )
     flash[:success] = "Created lot #{@lot.lot_number}"
-
-    redirect_to lot_path(@lot)
-  rescue Sequencescape::Api::ResourceInvalid => e
-    flash[:danger] = "#{e.resource.errors.full_messages.join('; ')}."
+    redirect_to lot_path(@lot.uuid)
+  rescue StandardError => e
+    flash[:danger] = e.message
     redirect_to new_lot_path
   end
 
