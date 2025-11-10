@@ -56,17 +56,19 @@ class LotsControllerTest < ActionController::TestCase
                                                                        )
                                                                      ])
 
-    Sequencescape::Api::V2::Lot.expects(:create!).with(
+    mock_lot = Sequencescape::Api::V2::Lot.new(
       user_uuid: '11111111-2222-3333-4444-555555555555',
       lot_number: '123456789',
       template_type: 'TagLayoutTemplate',
       template_id: 1,
       lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
       received_at: '2013-02-01'
-    ).returns(Sequencescape::Api::V2::Lot.new({
-      uuid: '11111111-2222-3333-4444-555555555556',
-      lot_number: '123456789'
-    }))
+    )
+    Sequencescape::Api::V2::Lot.expects(:new).returns(mock_lot)
+    mock_lot.expects(:save).returns(true).with do
+      mock_lot.uuid = '11111111-2222-3333-4444-555555555556'
+      true
+    end
     post :create, params: {
          lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          template_class: 'TagLayoutTemplate',
