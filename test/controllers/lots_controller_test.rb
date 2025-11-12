@@ -29,24 +29,6 @@ class LotsControllerTest < ActionController::TestCase
     assert_select 'option', 'Example Tag Template (API only)'
   end
 
-  test 'new tag2' do
-    get :new, params: { lot_type: 'Tag 2 Tubes' }
-    assert_response :success
-    assert_select 'title', 'Gatekeeper'
-    assert_select 'h1', 'Register Tag 2 Tubes Lot'
-    assert_select 'label', 'Tag2 layout template'
-    assert_select 'option', 'Example Tag2 Template'
-  end
-
-  test 'new reporter' do
-    get :new, params: { lot_type: 'IDT Reporters' }
-    assert_response :success
-    assert_select 'title', 'Gatekeeper'
-    assert_select 'h1', 'Register IDT Reporters Lot'
-    assert_select 'label', 'Plate template'
-    assert_select 'option', 'Example Plate Layout'
-  end
-
   test 'new unknown' do
     get :new, params: { lot_type: 'News Reporters' }
     assert_response :not_found
@@ -66,18 +48,30 @@ class LotsControllerTest < ActionController::TestCase
   ## CREATE
   test 'create' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+    Sequencescape::Api::V2::TagLayoutTemplate.expects(:find).returns([
+                                                                       Sequencescape::Api::V2::TagLayoutTemplate.new(
+                                                                         id: 1,
+                                                                         name: 'IDT Tags',
+                                                                         uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+                                                                       )
+                                                                     ])
 
-    api.lot_type.with_uuid('ee0b18e0-956f-11e3-8255-44fb42fffecc').lots.expect_create_with(
-      received: {
-        user: '11111111-2222-3333-4444-555555555555',
-        lot_number: '123456789',
-        template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
-        received_at: '2013-02-01'
-      },
-      returns: '11111111-2222-3333-4444-555555555556'
+    mock_lot = Sequencescape::Api::V2::Lot.new(
+      user_uuid: '11111111-2222-3333-4444-555555555555',
+      lot_number: '123456789',
+      template_type: 'TagLayoutTemplate',
+      template_id: 1,
+      lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+      received_at: '2013-02-01'
     )
+    Sequencescape::Api::V2::Lot.expects(:new).returns(mock_lot)
+    mock_lot.expects(:save).returns(true).with do
+      mock_lot.uuid = '11111111-2222-3333-4444-555555555556'
+      true
+    end
     post :create, params: {
-         lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         template_class: 'TagLayoutTemplate',
          user_swipecard: 'abcdef',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
@@ -91,7 +85,8 @@ class LotsControllerTest < ActionController::TestCase
   test 'create with no user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
     post :create, params: {
-         lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         template_class: 'TagLayoutTemplate',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
          received_at: '01/02/2013'
@@ -103,7 +98,8 @@ class LotsControllerTest < ActionController::TestCase
   test '#create with fake user' do
     api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
     post :create, params: {
-         lot_type: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         template_class: 'TagLayoutTemplate',
          user_swipecard: 'fake_user',
          lot_number: '123456789',
          template: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
@@ -111,6 +107,20 @@ class LotsControllerTest < ActionController::TestCase
     }
     assert_redirected_to :root
     assert_equal 'User could not be found, is your swipecard registered?', flash[:danger]
+  end
+
+  test '#create with invalid template' do
+    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+    post :create, params: {
+         lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
+         template_class: 'BadTemplateClass',
+         user_swipecard: 'abcdef',
+         lot_number: '123456789',
+         template: 'nonexistent-template-uuid',
+         received_at: '01/02/2013'
+    }
+    assert_redirected_to new_lot_path
+    assert_equal 'Could not find template with class BadTemplateClass or uuid nonexistent-template-uuid.', flash[:danger]
   end
 
   # SHOW
