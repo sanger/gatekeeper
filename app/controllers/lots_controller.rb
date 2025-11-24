@@ -88,11 +88,11 @@ class LotsController < ApplicationController
   def search
     raise UserError::InputError, 'Please use the find lots by lot number feature to find specific lots.' if params[:lot_number].nil?
 
-    @found_lots = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_number])
+    @found_lots = Sequencescape::Api::V2::Lot.find(lot_number: params[:lot_number])
 
     raise UserError::InputError, "Could not find a lot with the lot_number #{params[:lot_number]}." if @found_lots.empty?
 
-    return redirect_to lot_path(@found_lots.first) if @found_lots.count <= 1
+    return redirect_to lot_path(@found_lots.first.uuid) if @found_lots.count <= 1
 
     @lots = @found_lots.map { |lot| Presenter::Lot.new(lot) }
 
