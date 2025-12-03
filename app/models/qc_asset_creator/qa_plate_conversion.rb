@@ -25,6 +25,7 @@ module QcAssetCreator::QaPlateConversion
     errors << "The asset used to validate should be '#{Gatekeeper::Application.config.qced_state}'." unless @sibling.qced?
     errors << "#{@sibling.purpose.name} plates can't be used to test #{@asset.purpose.name} plates." unless compatible_siblings?
     raise QcAssetCreator::QcAssetException, errors.join(' ') unless errors.empty?
+
     true
   end
 end

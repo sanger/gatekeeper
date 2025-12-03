@@ -9,6 +9,7 @@ module BatchLookup
       batch_id: params[:batch_id]
     )
     raise Sequencescape::Api::ResourceNotFound, 'Could not find the batch id.' if @lots.nil? || @lots.empty?
+
     @lots
   end
 end

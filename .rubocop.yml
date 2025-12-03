@@ -18,6 +18,10 @@ Rails/HasManyOrHasOneDependent:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+# Not tackling this as planning to retire this app soon.
+Naming/PredicateMethod:
+  Enabled: false
+
 Naming/VariableNumber:
   Enabled: false
 
@@ -46,6 +50,10 @@ Metrics/BlockLength:
     - define
     - guard
     - test
+
+# Not tackling this as planning to retire this app soon.
+Style/Documentation:
+  Enabled: false
 
 Style/HashEachMethods:
   Enabled: true

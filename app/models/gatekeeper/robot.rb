@@ -19,6 +19,7 @@ class Gatekeeper::Robot < Sequencescape::Robot
         return [valid, message] unless valid
       end
       return [false, 'Plates can only be located on one bed. Check for duplicates'] if beds.values.uniq!
+
       valid, message = true, ''
       each_destination_barcode do |barcode, name|
         qcable = beds.delete(barcode)
@@ -27,15 +28,18 @@ class Gatekeeper::Robot < Sequencescape::Robot
         return [false, "#{qcable.human_barcode} is '#{qcable.state}'; only '#{Gatekeeper::Application.config.stampable_state}' plates may be stamped."] unless qcable.stampable?
       end
       return [false, "Invalid beds: #{beds.keys.join(',')}"] unless beds.empty?
-      return [true, 'Okay']
+
+      [true, 'Okay']
     end
 
     ##
     # Checks that just the lot is valid (ie. it is a lot.)
     def valid_lot?(lot_bed, lot)
-      (lot_bed == lot_bed_barcode) ?
-        [true, 'Correct bed used.'] :
+      if lot_bed == lot_bed_barcode
+        [true, 'Correct bed used.']
+      else
         [false, "The lot plate should be placed on Bed #{lot_bed_name} to begin the process."]
+      end
     end
   end
 

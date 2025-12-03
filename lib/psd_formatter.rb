@@ -4,7 +4,7 @@ require 'syslog/logger'
 require 'ostruct'
 
 class PsdFormatter < Syslog::Logger::Formatter
-  LINE_FORMAT = "(thread-%s) [%s] %5s -- : %s\n".freeze
+  LINE_FORMAT = "(thread-%s) [%s] %5s -- : %s\n"
   SEV_LABEL = %w[DEBUG INFO WARN ERROR FATAL ANY].each(&:freeze).freeze
 
   def initialize(deployment_info)

@@ -1,5 +1,7 @@
 <%= form_tag({controller: "lots", action: "create"}, {class: 'form-horizontal'}) do %>
-   <input type="hidden" id="lot_type" name="lot_type" value="<%= lot_type.uuid %>">
+   <input type="hidden" id="lot_type_uuid" name="lot_type_uuid" value="<%= lot_type.uuid %>">
+   <input type="hidden" id="template_class" name="template_class" value="<%= lot_type.template_class %>">
+   
 
   <%= render :partial => 'form_elements/user_swipecard' %>
 

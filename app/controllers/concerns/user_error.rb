@@ -10,18 +10,19 @@ module UserError
   def self.included(base)
     base.class_eval do
       include ApiError
-      rescue_from UserError::InputError, with: :user_error
+
+      rescue_from UserError::InputError, with: :redirect_on_user_error
 
       ##
       # Redirect to the root with a flash[:danger] of message
-      def user_error(exception)
+      def redirect_on_user_error(exception)
         @message = exception.message
         respond_to do |format|
           format.html do
             flash[:danger] = @message
             redirect_to :root
           end
-          format.json { render json: { 'error' => @message }, status: 403 }
+          format.json { render json: { 'error' => @message }, status: :forbidden }
         end
         false
       end

@@ -234,6 +234,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.asset.with_uuid('11111111-2222-3333-4444-300000000008').class_eval do
       include Gatekeeper::Plate::ModelExtensions
       include StateExtensions
+
       def state
         'available'
       end
@@ -241,6 +242,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.asset.with_uuid('11111111-2222-3333-4444-100000000011').class_eval do
       include Gatekeeper::Plate::ModelExtensions
       include StateExtensions
+
       def state
         'pending'
       end
@@ -544,6 +546,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.asset.with_uuid(tag_plate).class_eval do
       include Gatekeeper::Plate::ModelExtensions
       include StateExtensions
+
       def state
         'available'
       end
@@ -551,6 +554,7 @@ class QcAssetsControllerTest < ActionController::TestCase
     api.asset.with_uuid(reporter_plate).class_eval do
       include Gatekeeper::Plate::ModelExtensions
       include StateExtensions
+
       def state
         'available'
       end

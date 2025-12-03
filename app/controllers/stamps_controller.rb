@@ -93,16 +93,18 @@ class StampsController < ApplicationController
     )
 
     flash[:success] = t(:stamp_completed)
-    redir = params[:repeat].present? ?
-      {
-        controller: :stamps,
-        action: :new,
-        robot_barcode: params[:robot_barcode],
-        tip_lot: params[:tip_lot],
-        lot_bed: params[:lot_bed],
-        lot_plate: params[:lot_plate]
-      } :
-      lot_url(@lot)
+    redir = if params[:repeat].present?
+              {
+                controller: :stamps,
+                action: :new,
+                robot_barcode: params[:robot_barcode],
+                tip_lot: params[:tip_lot],
+                lot_bed: params[:lot_bed],
+                lot_plate: params[:lot_plate]
+              }
+            else
+              lot_url(@lot)
+            end
     redirect_to redir
   end
 
@@ -115,7 +117,7 @@ class StampsController < ApplicationController
   def find_lot
     @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_plate]).tap do |lots|
       validator.add_error("Could not find a lot with the lot number '#{params[:lot_plate]}'") if lots.empty?
-      validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.count > 1
+      validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.many?
     end.first
   end
 
@@ -128,7 +130,7 @@ class StampsController < ApplicationController
     plates = api.search.find(Settings.searches['Find qcable by barcode'])
                 .all(Gatekeeper::Qcable, barcode: plate_barcodes)
                 .group_by { |qcable| qcable.barcode.machine }
-    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.count > 1 }
+    raise StandardError, 'Multiple Plates with same barcode!' if plates.any? { |_, plates| plates.many? }
 
     @bed_plates = params[:beds].permit!.to_h.to_h do |bed, plate_barcode|
       [bed, plates[plate_barcode] || validator.add_error("Could not find a plate with the barcode #{plate_barcode}.")].flatten
@@ -139,10 +141,11 @@ class StampsController < ApplicationController
   # Attempts to use the uuid to find the robot, but failing that falls back on the barcode search.
   def find_robot
     return @robot = api.robot.find(params[:robot_uuid]) if params[:robot_uuid]
+
     begin
       @robot = api.search.find(Settings.searches['Find robot by barcode']).first(barcode: params[:robot_barcode])
     rescue Sequencescape::Api::ResourceNotFound
-      return validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
+      validator.add_error("Could not find robot with barcode #{params[:robot_barcode]}")
     end
   end
 end

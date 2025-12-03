@@ -26,7 +26,7 @@ class LotsController < ApplicationController
     render :new
   rescue Presenter::LotType::ConfigurationError => e
     @message = "Could not register a lot. #{e.message}"
-    render 'pages/error', status: 404
+    render 'pages/error', status: :not_found
   end
 
   ##
@@ -34,18 +34,52 @@ class LotsController < ApplicationController
   # Create action for lot. Registers lot metadata
   # We convert the date into the big endian format to avoid ambiguity
   def create
-    @lot = api.lot_type.find(params[:lot_type]).lots.create!(
-      user: @user.uuid,
+    # Find the template being used to create this lot
+    # If we can't find it, raise an error
+    # This is required because Lots have a polymorphic association to templates
+    # And json api resources can't handle that automatically
+    begin
+      template_resource = "Sequencescape::Api::V2::#{params[:template_class]}".constantize
+      template = template_resource.find(uuid: params[:template]).first
+    rescue StandardError => e
+      Rails.logger.error "Error creating lot: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      flash[:danger] = "Could not find template with class #{params[:template_class]} or uuid #{params[:template]}."
+      redirect_to new_lot_path
+      return
+    end
+
+    lot = Sequencescape::Api::V2::Lot.new(
+      user_uuid: @user.uuid,
       lot_number: params[:lot_number],
-      template: params[:template],
+      lot_type_uuid: params[:lot_type_uuid],
+      template_type: params[:template_class],
+      template_id: template.id,
       received_at: Date.strptime(params[:received_at], '%d/%m/%Y').strftime('%Y-%m-%d')
     )
-    flash[:success] = "Created lot #{@lot.lot_number}"
+    begin
+      result = lot.save
 
-    redirect_to lot_path(@lot)
-  rescue Sequencescape::Api::ResourceInvalid => e
-    flash[:danger] = "#{e.resource.errors.full_messages.join('; ')}."
-    redirect_to new_lot_path
+      # Result is false if, for instance, server-side validation fails e.g. missing user.
+      if !result || lot.errors.any?
+        message = 'There was a problem creating the lot in Sequencescape.'
+        message += " #{lot.errors.full_messages.join(', ')}" if lot.errors.any?
+        Rails.logger.error "Error creating lots: #{message}"
+        flash[:danger] = message
+        redirect_to new_lot_path
+        return
+      end
+
+      flash[:success] = "Created lot #{lot.lot_number}"
+      redirect_to lot_path(lot.uuid)
+    rescue StandardError => e
+      # Throws an exception, for instance, if Sequencescape returns a 500 error.
+      Rails.logger.error "Error creating lot: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      flash[:danger] = 'There was a problem creating the lot in Sequencescape.'
+
+      redirect_to new_lot_path
+    end
   end
 
   ##
@@ -53,6 +87,7 @@ class LotsController < ApplicationController
   # or displays a choice if there are multiple results
   def search
     raise UserError::InputError, 'Please use the find lots by lot number feature to find specific lots.' if params[:lot_number].nil?
+
     @found_lots = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_number])
 
     raise UserError::InputError, "Could not find a lot with the lot_number #{params[:lot_number]}." if @found_lots.empty?
@@ -61,7 +96,7 @@ class LotsController < ApplicationController
 
     @lots = @found_lots.map { |lot| Presenter::Lot.new(lot) }
 
-    render :search, status: 300
+    render :search, status: :multiple_choices
   end
 
   private
@@ -70,6 +105,6 @@ class LotsController < ApplicationController
     @lot = api.lot.find(params[:id])
   rescue Sequencescape::Api::ResourceNotFound
     @message = "Could not find lot with uuid: #{params[:id]}"
-    render 'pages/error', status: 404
+    render 'pages/error', status: :not_found
   end
 end

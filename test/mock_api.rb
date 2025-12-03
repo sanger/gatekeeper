@@ -43,6 +43,7 @@ module MockApi
         received = options.delete(:received)
         returned = find(options.delete(:returns))
         raise Sequencescape::Api::ResourceInvalid, "Creation expected with invalid options #{options.keys.join(',')}" unless options.empty?
+
         if received.present?
           expects(:create!).with(received).returns(returned)
         else
@@ -74,6 +75,7 @@ module MockApi
       # Method missing first tries passing things on to the association array
       def method_missing(method_name, *, &)
         return @records.send(:"#{method_name}", *, &) if @records.respond_to?(:"#{method_name}")
+
         super
       end
 
@@ -108,12 +110,14 @@ module MockApi
 
       def method_missing(method_name, *args, &)
         return lookup_attribute(method_name) if @record[:attributes].has_key?(method_name)
+
         lookup_association(method_name) || super
       end
 
       def respond_to?(method_name, pv = false)
         return true if @record[:attributes].has_key?(method_name) ||
                        (@record[:associations].present? && @record[:associations].has_key?(method_name))
+
         super
       end
 
@@ -144,6 +148,7 @@ module MockApi
       def lookup_association(assn)
         return nil if @record[:associations].nil?
         return nil unless @record[:associations].has_key?(assn)
+
         association_cache[assn] ||= Association.new(self, assn.to_s.singularize, @record[:associations][assn] || [])
       end
     end
@@ -231,12 +236,14 @@ module MockApi
       res = {}
       ralias(resource_name).each { |al| res.merge!(registry[al]) }
       raise Api::TestError, "No resouce found for #{resource_name.inspect}" if res.empty?
+
       res
     end
 
     def find(resource_name, uuid)
       res = resources(resource_name)
       return res[uuid] unless res[uuid].nil?
+
       raise(Sequencescape::Api::ResourceNotFound, 'UUID does not exist')
     end
   end

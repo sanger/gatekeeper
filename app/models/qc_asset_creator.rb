@@ -60,7 +60,7 @@ class QcAssetCreator
         behaviour_module_name = Settings.default_purpose.with
       end
     end
-    return "QcAssetCreator::#{behaviour_module_name.classify}".constantize
+    "QcAssetCreator::#{behaviour_module_name.classify}".constantize
   end
 
   ##

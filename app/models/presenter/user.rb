@@ -24,9 +24,13 @@ class Presenter::User
   private
 
   def json
-    @user.present? ? {
-      'name' => name,
-      'login' => login
-    } : 'not found'
+    if @user.present?
+      {
+        'name' => name,
+        'login' => login
+      }
+    else
+      'not found'
+    end
   end
 end

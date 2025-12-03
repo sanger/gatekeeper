@@ -24,9 +24,13 @@ class Presenter::Robot
   private
 
   def json
-    @robot.present? ? {
-      'name' => name,
-      'bed_count' => bed_count
-    } : 'not found'
+    if @robot.present?
+      {
+        'name' => name,
+        'bed_count' => bed_count
+      }
+    else
+      'not found'
+    end
   end
 end
