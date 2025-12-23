@@ -145,10 +145,11 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'find with one result' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:find)
+                               .with(lot_number: '123456789')
+                               .returns([Sequencescape::Api::V2::Lot.new(
+                                 uuid: '11111111-2222-3333-4444-555555555556'
+                               )])
 
     get :search, params: { lot_number: '123456789' }
 
@@ -156,10 +157,22 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'find with multiple results' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556'), api.lot.with_uuid('11111111-2222-3333-4444-555555555557')])
+    Sequencescape::Api::V2::Lot.expects(:find)
+                               .with(lot_number: '123456789')
+                               .returns([
+                                          Sequencescape::Api::V2::Lot.new(
+                                            uuid: '11111111-2222-3333-4444-555555555556',
+                                            lot_type_name: 'IDT Tags',
+                                            received_at: '2024/01/01',
+                                            template_name: 'IDT Tags'
+                                          ),
+                                          Sequencescape::Api::V2::Lot.new(
+                                            uuid: '11111111-2222-3333-4444-555555555557',
+                                            lot_type_name: 'IDT Reporters',
+                                            received_at: '2024/01/01',
+                                            template_name: 'IDT Reporters'
+                                          )
+                                        ])
 
     get :search, params: { lot_number: '123456789' }
 
