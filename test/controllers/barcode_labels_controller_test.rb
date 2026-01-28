@@ -7,8 +7,6 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
 
   setup do
     mock_api
-    printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-    printer.stubs(:print_service).returns('PMB')
     @params = {
       prefix: 'ABC',
       study: 'Study1',
@@ -19,6 +17,9 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
   end
 
   test 'should print barcodes and return success' do
+    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new(
+      print_service: 'PMB', name: 'Test Printer', barcode_type: 'something'
+    )])
     mock_barcode_sheet = mock('printer')
     mock_barcode_sheet.expects(:print!).returns(true)
     BarcodeSheet.expects(:new).returns(mock_barcode_sheet)
@@ -31,6 +32,9 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
   end
 
   test 'should handle BarcodeSheet::PrintError' do
+    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new(
+      print_service: 'PMB', name: 'Test Printer', barcode_type: 'something'
+    )])
     mock_barcode_sheet = mock('printer')
     mock_barcode_sheet.expects(:print!).raises(BarcodeSheet::PrintError.new('Printer jammed'))
     BarcodeSheet.expects(:new).returns(mock_barcode_sheet)
@@ -44,6 +48,9 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
   end
 
   test 'should handle connection refused error' do
+    Sequencescape::Api::V2::BarcodePrinter.expects(:where).returns([Sequencescape::Api::V2::BarcodePrinter.new(
+      print_service: 'PMB', name: 'Test Printer', barcode_type: 'something'
+    )])
     mock_barcode_sheet = mock('printer')
     mock_barcode_sheet.expects(:print!).raises(Errno::ECONNREFUSED)
     BarcodeSheet.expects(:new).returns(mock_barcode_sheet)
