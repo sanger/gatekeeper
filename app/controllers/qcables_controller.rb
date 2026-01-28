@@ -6,7 +6,7 @@ class QcablesController < ApplicationController
   include BarcodePrinting
 
   before_action :find_user, :find_lot
-  before_action :find_printer_v2, only: [:create]
+  before_action :find_printer, only: [:create]
 
   ##
   # This action should generally get called through the nested
@@ -87,7 +87,7 @@ class QcablesController < ApplicationController
     end
 
     begin
-      BarcodeSheet.new(@printer_v2, labels).print!
+      BarcodeSheet.new(@printer, labels).print!
     rescue BarcodeSheet::PrintError => e
       flash[:danger] = "There was a problem printing your barcodes. Your #{qcable_name.pluralize} have still been created. #{e.message}"
     rescue Errno::ECONNREFUSED
