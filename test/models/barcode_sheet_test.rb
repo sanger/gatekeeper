@@ -19,8 +19,9 @@ class BarcodeSheetTest < ActiveSupport::TestCase
 
   test '#initialise' do
     received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
-    printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-    printer.stubs(:print_service).returns('PMB')
+    printer = Sequencescape::Api::V2::BarcodePrinter.new(
+      print_service: 'PMB', name: @printer_name, barcode_type: '96 Well Plate'
+    )
 
     barcode_sheet = BarcodeSheet.new(printer, received_labels)
     assert_equal barcode_sheet.printer.name, @printer_name
@@ -44,9 +45,9 @@ class BarcodeSheetTest < ActiveSupport::TestCase
         barcode: 'DN1S'
       }]
 
-      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-
-      printer.stubs(:print_service).returns('PMB')
+      printer = Sequencescape::Api::V2::BarcodePrinter.new(
+        print_service: 'PMB', name: @printer_name, barcode_type: '96 Well Plate'
+      )
 
       PMB::TestSuiteStubs.get(@label_template_url) do |_env|
         [
@@ -74,9 +75,9 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     Timecop.freeze(Date.parse('02-02-2019')) do
       received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
-      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-
-      printer.stubs(:print_service).returns('SPrint')
+      printer = Sequencescape::Api::V2::BarcodePrinter.new(
+        print_service: 'SPrint', name: @printer_name, barcode_type: '96 Well Plate'
+      )
 
       response = mock('response')
       response.stubs(:code).returns('200')
@@ -91,9 +92,9 @@ class BarcodeSheetTest < ActiveSupport::TestCase
     Timecop.freeze(Date.parse('02-02-2019')) do
       received_labels = [BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')]
 
-      printer = api.barcode_printer.find('baac0dea-0000-0000-0000-000000000000')
-
-      printer.stubs(:print_service).returns('SPrint')
+      printer = Sequencescape::Api::V2::BarcodePrinter.new(
+        print_service: 'SPrint', name: @printer_name, barcode_type: '96 Well Plate'
+      )
 
       response = mock('response')
       response.stubs(:code).returns('422')
