@@ -112,8 +112,8 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?)
           .with('58000000180', @lot,
-                '58000000281' => @plate_a,
-                '58000000382' => @plate_b)
+                { '58000000281' => @plate_a,
+                  '58000000382' => @plate_b })
           .returns([true, 'Okay'])
     @request.headers['Accept'] = 'application/json'
     post :validation, params: {
@@ -147,8 +147,8 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?)
           .with('58000000180', @lot,
-                '58000000281' => @plate_a,
-                '58000000382' => @plate_c)
+                { '58000000281' => @plate_a,
+                  '58000000382' => @plate_c })
           .returns([false, 'Not okay'])
 
     @request.headers['Accept'] = 'application/json'
@@ -242,13 +242,12 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?)
           .with('58000000180', @lot,
-                '58000000281' => @plate_a,
-                '58000000382' => @plate_b)
+                { '58000000281' => @plate_a, '58000000382' => @plate_b })
           .returns([true, 'Okay'])
 
     @robot.expects(:beds_for).with(
-      '58000000281' => @plate_a,
-      '58000000382' => @plate_b
+      { '58000000281' => @plate_a,
+        '58000000382' => @plate_b }
     )
           .returns([
                      { bed: '2', order: 1, qcable: '11111111-2222-3333-4444-100000000001' },
@@ -303,13 +302,13 @@ class StampsControllerTest < ActionController::TestCase
 
     @robot.expects(:valid?)
           .with('58000000180', @lot,
-                '58000000281' => @plate_a,
-                '58000000382' => @plate_b)
+                { '58000000281' => @plate_a,
+                  '58000000382' => @plate_b })
           .returns([true, 'Okay'])
 
     @robot.expects(:beds_for).with(
-      '58000000281' => @plate_a,
-      '58000000382' => @plate_b
+      { '58000000281' => @plate_a,
+        '58000000382' => @plate_b }
     )
           .returns([
                      { bed: '2', order: 1, qcable: '11111111-2222-3333-4444-100000000001' },
