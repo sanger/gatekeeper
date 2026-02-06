@@ -105,8 +105,8 @@ module QcAssetCreator::MultipleTag2Conversion
     @tag2_qcables ||= api.search.find(Settings.searches['Find qcable by barcode'])
                          .all(Gatekeeper::Qcable, barcode: tag2_tubes_barcodes.values)
                          .inject({}) do |hash, qcable|
-      hash[qcable.barcode.ean13] = qcable
-      hash
+                           hash[qcable.barcode.ean13] = qcable
+                           hash
     end
   end
 
