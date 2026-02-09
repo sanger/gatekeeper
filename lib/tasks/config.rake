@@ -6,13 +6,6 @@ namespace :config do
   task generate: :environment do
     api = Sequencescape::Api.new(Gatekeeper::Application.config.api_connection_options)
 
-    barcode_printer_uuid = lambda do |printers|
-      ->(printer_name) {
-        printers.detect { |prt| prt.name == printer_name }.try(:uuid) ||
-          raise("Printer #{printer_name}: not found!")
-      }
-    end.(api.barcode_printer.all)
-
     # Build the configuration file based on the server we are connected to.
     CONFIG = {}.tap do |configuration|
       configuration[:searches] = {}.tap do |searches|
@@ -25,8 +18,8 @@ namespace :config do
       configuration[:printers] = Hash.new { |h, i| h[i] = Array.new }.tap do |printers|
         approved_printers = Gatekeeper::Application.config.approved_printers
         puts 'Preparing printers ...'
-        selected = api.barcode_printer.all.select { |printer| printer.active && (approved_printers == :all || approved_printers.include?(printer.name)) }
-        selected.each { |printer| printers[printer.type.name] << { name: printer.name, uuid: printer.uuid } }
+        selected = Sequencescape::Api::V2::BarcodePrinter.all.select { |printer| printer.active && (approved_printers == :all || approved_printers.include?(printer.name)) }
+        selected.each { |printer| printers[printer.barcode_type] << { name: printer.name, uuid: printer.uuid } }
       end
 
       # Might want to switch this out for something more dynamic, but seeing as we'll almost certainly be working with a filtered set
