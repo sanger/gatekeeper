@@ -48,7 +48,7 @@ Rails.application.config.action_controller.allow_deprecated_parameters_hash_equa
 # +config.active_support.key_generator_hash_digest_class+ configured as SHA1 (the default
 # before Rails 7.0), you need to configure SHA-1 for Active Record Encryption too:
 #++
-Rails.application.config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA1
+# Rails.application.config.active_record.encryption.hash_digest_class = OpenSSL::Digest::SHA1
 #
 # 2. If you have +config.active_support.key_generator_hash_digest_class+ configured as SHA256 (the new default
 # in 7.0), then you need to configure SHA-256 for Active Record Encryption:
@@ -67,7 +67,7 @@ Rails.application.config.active_record.encryption.hash_digest_class = OpenSSL::D
 # state which matches what was committed to the database, typically the last
 # instance to save.
 #++
-Rails.application.config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = true
+# Rails.application.config.active_record.run_commit_callbacks_on_first_saved_instances_in_transaction = true
 
 ###
 # Configures SQLite with a strict strings mode, which disables double-quoted string literals.
@@ -83,7 +83,7 @@ Rails.application.config.active_record.run_commit_callbacks_on_first_saved_insta
 ###
 # Disable deprecated singular associations names.
 #++
-Rails.application.config.active_record.allow_deprecated_singular_associations_name = true
+# Rails.application.config.active_record.allow_deprecated_singular_associations_name = true
 
 ###
 # Enable the Active Job `BigDecimal` argument serializer, which guarantees
@@ -168,14 +168,14 @@ Rails.application.config.log_file_size = 100 * 1024 * 1024 if Rails.env.local?
 # behavior would allow assignment but silently not persist changes to the
 # database.
 #++
-Rails.application.config.active_record.raise_on_assign_to_attr_readonly = false
+# Rails.application.config.active_record.raise_on_assign_to_attr_readonly = false
 
 ###
 # Enable validating only parent-related columns for presence when the parent is mandatory.
 # The previous behavior was to validate the presence of the parent record, which performed an extra query
 # to get the parent every time the child record was updated, even when parent has not changed.
 #++
-Rails.application.config.active_record.belongs_to_required_validates_foreign_key = true
+# Rails.application.config.active_record.belongs_to_required_validates_foreign_key = true
 
 ###
 # Enable precompilation of `config.filter_parameters`. Precompilation can
@@ -188,7 +188,7 @@ Rails.application.config.precompile_filter_parameters = true
 # The previous behavior was to only run the callbacks on the first copy of a record
 # if there were multiple copies of the same record enrolled in the transaction.
 #++
-Rails.application.config.active_record.before_committed_on_all_records = false
+# Rails.application.config.active_record.before_committed_on_all_records = false
 
 ###
 # Disable automatic column serialization into YAML.
@@ -196,7 +196,7 @@ Rails.application.config.active_record.before_committed_on_all_records = false
 # recommended to explicitly define the serialization method for each column
 # rather than to rely on a global default.
 #++
-Rails.application.config.active_record.default_column_serializer = YAML
+# Rails.application.config.active_record.default_column_serializer = YAML
 
 ###
 # Enable a performance optimization that serializes Active Record models
@@ -207,24 +207,24 @@ Rails.application.config.active_record.default_column_serializer = YAML
 # leave this optimization off on the first deploy, then enable it on a
 # subsequent deploy.
 #++
-Rails.application.config.active_record.marshalling_format_version = 7.1
+# Rails.application.config.active_record.marshalling_format_version = 7.1
 
 ###
 # Run `after_commit` and `after_*_commit` callbacks in the order they are defined in a model.
 # This matches the behaviour of all other callbacks.
 # In previous versions of Rails, they ran in the inverse order.
 #++
-Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = false
+# Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = false
 
 ###
 # Whether a `transaction` block is committed or rolled back when exited via `return`, `break` or `throw`.
 #++
-Rails.application.config.active_record.commit_transaction_on_non_local_return = false
+# Rails.application.config.active_record.commit_transaction_on_non_local_return = false
 
 ###
 # Controls when to generate a value for <tt>has_secure_token</tt> declarations.
 #++
-Rails.application.config.active_record.generate_secure_token_on = :initialize
+# Rails.application.config.active_record.generate_secure_token_on = :initialize
 
 ###
 # ** Please read carefully, this must be configured in config/application.rb **
@@ -250,7 +250,7 @@ Rails.application.config.active_record.generate_secure_token_on = :initialize
 #
 # In previous versions of Rails, Action View always used `Rails::HTML4::Sanitizer` as its vendor.
 #++
-Rails.application.config.action_view.sanitizer_vendor = Rails::HTML4::Sanitizer.best_supported_vendor
+Rails.application.config.action_view.sanitizer_vendor = Rails::HTML4::Sanitizer
 
 ###
 # Configure Action Text to use an HTML5 standards-compliant sanitizer when it is supported on your
@@ -261,7 +261,7 @@ Rails.application.config.action_view.sanitizer_vendor = Rails::HTML4::Sanitizer.
 #
 # In previous versions of Rails, Action Text always used `Rails::HTML4::Sanitizer` as its vendor.
 #++
-Rails.application.config.action_text.sanitizer_vendor = Rails::HTML4::Sanitizer.best_supported_vendor
+# Rails.application.config.action_text.sanitizer_vendor = Rails::HTML4::Sanitizer
 
 ###
 # Configure the log level used by the DebugExceptions middleware when logging
