@@ -103,8 +103,9 @@ class LotsController < ApplicationController
 
   def find_lot
     @lot = Sequencescape::Api::V2::Lot.includes(:lot_type, :qcables).where(uuid: params[:id]).first
-    raise Sequencescape::Api::ResourceNotFound if @lot.nil?
-  rescue Sequencescape::Api::ResourceNotFound
+
+    return if @lot.present?
+
     @message = "Could not find lot with uuid: #{params[:id]}"
     render 'pages/error', status: :not_found
   end
