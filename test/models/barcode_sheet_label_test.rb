@@ -10,6 +10,7 @@ class BarcodeSheet::LabelTest < ActiveSupport::TestCase
   setup do
     @label = BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')
     @legacy_label = BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', study: 'lot_number:tag_set')
+    @human_readable_label = BarcodeSheet::Label.new(human_readable: 'DN1S', lot: 'lot_number', template: 'tag_set')
     # We might fail if the test runs at midnight, but timecop (or stubbing time ourselves) feels like overkill
     @date = Time.zone.today.strftime('%d-%b-%Y')
   end
@@ -26,6 +27,7 @@ class BarcodeSheet::LabelTest < ActiveSupport::TestCase
     }
     assert_equal @label.plate, expected_labels
     assert_equal @legacy_label.plate, expected_labels
+    assert_equal @human_readable_label.plate, expected_labels
   end
 
   test '#tube' do
@@ -56,5 +58,6 @@ class BarcodeSheet::LabelTest < ActiveSupport::TestCase
     }
     assert_equal @label.plate_double, expected_labels
     assert_equal @legacy_label.plate_double, expected_labels
+    assert_equal @human_readable_label.plate_double, expected_labels
   end
 end
