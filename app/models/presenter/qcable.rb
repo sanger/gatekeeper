@@ -19,29 +19,52 @@ class Presenter::Qcable
   end
 
   def human_readable
-    if @qcable.respond_to?(:labware_barcode)
-      lb = @qcable.labware_barcode
-      return (lb['human_barcode'] || lb[:human_barcode]).to_s if lb.is_a?(Hash)
-    end
-
-    if @qcable.respond_to?(:barcode)
-      bc = @qcable.barcode
-      if bc.is_a?(Hash)
-        return (bc['machine'] || bc[:machine]).to_s if bc['machine'] || bc[:machine]
-
-        return "#{bc['prefix'] || bc[:prefix]}#{bc['number'] || bc[:number]}"
-      elsif bc.respond_to?(:machine)
-        return bc.machine.to_s if bc.machine
-      elsif bc.respond_to?(:prefix) && bc.respond_to?(:number)
-        return "#{bc.prefix}#{bc.number}"
-      end
-    end
-
-    ''
+    labware_human_barcode ||
+      barcode_machine ||
+      barcode_prefix_number ||
+      ''
   end
 
   def barcode
     human_readable
+  end
+
+  private
+
+  def labware_human_barcode
+    return unless @qcable.respond_to?(:labware_barcode)
+
+    lb = @qcable.labware_barcode
+    return unless lb.is_a?(Hash)
+
+    (lb['human_barcode'] || lb[:human_barcode])&.to_s
+  end
+
+  def barcode_machine
+    return unless @qcable.respond_to?(:barcode)
+
+    bc = @qcable.barcode
+
+    if bc.is_a?(Hash)
+      machine = bc['machine'] || bc[:machine]
+      machine&.to_s
+    elsif bc.respond_to?(:machine)
+      bc.machine&.to_s
+    end
+  end
+
+  def barcode_prefix_number
+    return unless @qcable.respond_to?(:barcode)
+
+    bc = @qcable.barcode
+
+    if bc.is_a?(Hash)
+      prefix = bc['prefix'] || bc[:prefix]
+      number = bc['number'] || bc[:number]
+      "#{prefix}#{number}"
+    elsif bc.respond_to?(:prefix) && bc.respond_to?(:number)
+      "#{bc.prefix}#{bc.number}"
+    end
   end
 
   delegate :uuid, to: :@qcable

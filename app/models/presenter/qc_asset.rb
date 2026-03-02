@@ -61,18 +61,47 @@ class Presenter::QcAsset
   end
 
   def human_readable
-    return @asset.human_readable if @asset.respond_to?(:human_readable)
-    return @asset.human_barcode if @asset.respond_to?(:human_barcode)
-
-    # Fallback for mock objects that only have the barcode hash
-    bc = @asset.barcode
-    if bc.respond_to?(:prefix) && bc.respond_to?(:number)
-      "#{bc.prefix}#{bc.number}"
-    elsif bc.is_a?(Hash)
-      "#{bc['prefix'] || bc[:prefix]}#{bc['number'] || bc[:number]}"
-    else
+    direct_human_readable ||
+      direct_human_barcode ||
+      barcode_fallback ||
       ''
-    end
+  end
+
+  def direct_human_readable
+    return unless @asset.respond_to?(:human_readable)
+
+    @asset.human_readable
+  end
+
+  def direct_human_barcode
+    return unless @asset.respond_to?(:human_barcode)
+
+    @asset.human_barcode
+  end
+
+  def barcode_fallback
+    return unless @asset.respond_to?(:barcode)
+
+    barcode = @asset.barcode
+
+    object_barcode(barcode) ||
+      hash_barcode(barcode)
+  end
+
+  def object_barcode(barcode)
+    return unless barcode.respond_to?(:prefix) && barcode.respond_to?(:number)
+
+    "#{barcode.prefix}#{barcode.number}"
+  end
+
+  def hash_barcode(barcode)
+    return unless barcode.is_a?(Hash)
+
+    prefix = barcode['prefix'] || barcode[:prefix]
+    number = barcode['number'] || barcode[:number]
+    return unless prefix || number
+
+    "#{prefix}#{number}"
   end
 
   private

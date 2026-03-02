@@ -45,15 +45,10 @@ class Presenter::Lot
     return '' if @lot.qcables.empty?
 
     qcable = @lot.qcables.first
-    # V2 style
-    if qcable.respond_to?(:labware_barcode)
-      human = (qcable.labware_barcode['human_barcode'] || qcable.labware_barcode[:human_barcode]).to_s
-      return human[/\A([A-Za-z]+)/, 1] || ''
-    end
-    # V1/Mock style
-    return qcable.barcode.prefix if qcable.respond_to?(:barcode) && qcable.barcode.respond_to?(:prefix)
 
-    ''
+    labware_prefix(qcable) ||
+      barcode_prefix(qcable) ||
+      ''
   end
 
   ##
@@ -98,8 +93,6 @@ class Presenter::Lot
     pending_qcable_uuids.count
   end
 
-  private
-
   def state_index(state)
     %w(
       created
@@ -119,5 +112,32 @@ class Presenter::Lot
 
   def state_counts
     @counts ||= sorted_qcables.map { |state, qcables| [state, qcables.count] }
+  end
+
+  private
+
+  def labware_prefix(qcable)
+    return unless qcable.respond_to?(:labware_barcode)
+
+    human = human_barcode(qcable)
+    return unless human
+
+    human[/\A([A-Za-z]+)/, 1]
+  end
+
+  def barcode_prefix(qcable)
+    return unless qcable.respond_to?(:barcode)
+
+    barcode = qcable.barcode
+    return unless barcode.respond_to?(:prefix)
+
+    barcode.prefix
+  end
+
+  def human_barcode(qcable)
+    lb = qcable.labware_barcode
+    return unless lb
+
+    (lb['human_barcode'] || lb[:human_barcode])&.to_s
   end
 end
