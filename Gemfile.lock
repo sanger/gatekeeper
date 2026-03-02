@@ -391,6 +391,7 @@ DEPENDENCIES
   csv
   drb
   exception_notification
+  faraday
   hashie
   jquery-rails
   json_api_client

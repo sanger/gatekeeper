@@ -10,6 +10,7 @@ gem 'concurrent-ruby', '<= 1.3.4' # see https://github.com/rails/rails/issues/54
 gem 'csv'
 gem 'drb'
 gem 'exception_notification'
+gem 'faraday' # used for Sequencescape health check
 gem 'hashie'
 gem 'jquery-rails'
 gem 'json_api_client'
