@@ -44,7 +44,16 @@ class Presenter::Lot
   def prefix
     return '' if @lot.qcables.empty?
 
-    @lot.qcables.first.barcode.prefix
+    qcable = @lot.qcables.first
+    # V2 style
+    if qcable.respond_to?(:labware_barcode)
+      human = (qcable.labware_barcode['human_barcode'] || qcable.labware_barcode[:human_barcode]).to_s
+      return human[/\A([A-Za-z]+)/, 1] || ''
+    end
+    # V1/Mock style
+    return qcable.barcode.prefix if qcable.respond_to?(:barcode) && qcable.barcode.respond_to?(:prefix)
+
+    ''
   end
 
   ##

@@ -31,8 +31,7 @@ class Presenter::QcAsset
   def barcode
     {
       'ean13' => @asset.barcode.ean13,
-      'prefix' => @asset.barcode.prefix,
-      'number' => @asset.barcode.number
+      'human_readable' => human_readable
     }
   end
 
@@ -59,6 +58,21 @@ class Presenter::QcAsset
       'children' => children.map { |c| [child_type, c.uuid] },
       'handle' => handler
     } }
+  end
+
+  def human_readable
+    return @asset.human_readable if @asset.respond_to?(:human_readable)
+    return @asset.human_barcode if @asset.respond_to?(:human_barcode)
+
+    # Fallback for mock objects that only have the barcode hash
+    bc = @asset.barcode
+    if bc.respond_to?(:prefix) && bc.respond_to?(:number)
+      "#{bc.prefix}#{bc.number}"
+    elsif bc.is_a?(Hash)
+      "#{bc['prefix'] || bc[:prefix]}#{bc['number'] || bc[:number]}"
+    else
+      ''
+    end
   end
 
   private

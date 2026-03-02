@@ -6,7 +6,7 @@
 </div>
 <% presenter.each_plate_in('qc_in_progress') do |plate| -%>
   <div class="form-group">
-    <label for="decisions[<%= plate.uuid %>]" class="col-sm-5 control-label"><%= plate.barcode %></label>
+    <label for="decisions[<%= plate.uuid %>]" class="col-sm-5 control-label"><%= plate.human_readable %></label>
     <div class="input-group col-sm-6">
       <select class="form-control" id="decisions[<%= plate.uuid %>]" name="decisions[<%= plate.uuid %>]">
           <option value=""    >No decision</option>
