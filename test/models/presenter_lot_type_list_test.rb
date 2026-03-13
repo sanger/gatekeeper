@@ -61,7 +61,7 @@ class Presenter::LotListTest < ActiveSupport::TestCase
       l.stubs(:lot_number).returns('n')
       l.stubs(:lot_type_name).returns('t')
       l.stubs(:template_name).returns('tpl')
-      l.stubs(:received_at).returns(Date.today)
+      l.stubs(:received_at).returns(Time.zone.today)
     end
 
     list = Presenter::LotList.new('batch1', [lot1, lot2])
