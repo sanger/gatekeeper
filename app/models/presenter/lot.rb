@@ -133,9 +133,9 @@ class Presenter::Lot
   end
 
   def human_barcode(qcable)
-    lb = qcable.labware_barcode
+    lb = qcable.labware_barcode&.symbolize_keys
     return unless lb
 
-    (lb['human_barcode'] || lb[:human_barcode])&.to_s
+    lb[:human_barcode]&.to_s
   end
 end

@@ -97,8 +97,10 @@ class Presenter::QcAsset
   def hash_barcode(barcode)
     return unless barcode.is_a?(Hash)
 
-    prefix = barcode['prefix'] || barcode[:prefix]
-    number = barcode['number'] || barcode[:number]
+    barcode = barcode.transform_keys(&:to_sym)
+
+    prefix = barcode[:prefix]
+    number = barcode[:number]
     return unless prefix || number
 
     "#{prefix}#{number}"

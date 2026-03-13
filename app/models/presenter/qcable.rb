@@ -34,10 +34,10 @@ class Presenter::Qcable
   def labware_human_barcode
     return unless @qcable.respond_to?(:labware_barcode)
 
-    lb = @qcable.labware_barcode
-    return unless lb.is_a?(Hash)
+    lb = @qcable.labware_barcode&.symbolize_keys
+    return unless lb
 
-    (lb['human_barcode'] || lb[:human_barcode])&.to_s
+    lb[:human_barcode]&.to_s
   end
 
   def barcode_machine
@@ -46,8 +46,8 @@ class Presenter::Qcable
     bc = @qcable.barcode
 
     if bc.is_a?(Hash)
-      machine = bc['machine'] || bc[:machine]
-      machine&.to_s
+      bc = bc.symbolize_keys
+      bc[:machine]&.to_s
     elsif bc.respond_to?(:machine)
       bc.machine&.to_s
     end
@@ -59,9 +59,8 @@ class Presenter::Qcable
     bc = @qcable.barcode
 
     if bc.is_a?(Hash)
-      prefix = bc['prefix'] || bc[:prefix]
-      number = bc['number'] || bc[:number]
-      "#{prefix}#{number}"
+      bc = bc.symbolize_keys
+      "#{bc[:prefix]}#{bc[:number]}"
     elsif bc.respond_to?(:prefix) && bc.respond_to?(:number)
       "#{bc.prefix}#{bc.number}"
     end
