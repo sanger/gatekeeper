@@ -46,9 +46,7 @@ class Presenter::Lot
 
     qcable = @lot.qcables.first
 
-    labware_prefix(qcable) ||
-      barcode_prefix(qcable) ||
-      ''
+    labware_prefix(qcable) || barcode_prefix(qcable) || ''
   end
 
   ##
