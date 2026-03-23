@@ -66,10 +66,3 @@ end
 
 Capybara.default_driver = :headless_chrome
 Capybara.default_max_wait_time = 5
-
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
-  # fixtures :all
-
-  # Add more helper methods to be used by all tests here...
-end

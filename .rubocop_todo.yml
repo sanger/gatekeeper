@@ -49,13 +49,6 @@ Lint/EmptyBlock:
     - 'Gemfile'
     - 'config/routes.rb'
 
-# Offense count: 2
-# Configuration parameters: AllowComments.
-Lint/EmptyClass:
-  Exclude:
-    - 'app/models/presenter.rb'
-    - 'test/test_helper.rb'
-
 # Offense count: 3
 # Configuration parameters: AllowedParentClasses.
 Lint/MissingSuper:
