@@ -1,14 +1,32 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class Presenter::LotTest < ActiveSupport::TestCase
-  include MockApi
-
   setup do
-    mock_api
-    @lot_v2 = api.lot.find('11111111-2222-3333-4444-555555555556')
+    mock_lot_type = Sequencescape::Api::V2::LotType.new
+    mock_lot_type.qcable_name = 'Tag Plate'
+    mock_lot_type.printer_type = '96 Well Plate'
+
+    mock_qcables = (1..10).map do |i|
+      Sequencescape::Api::V2::Qcable.new(
+        uuid: "11111111-2222-3333-4444-10000000000#{i}",
+        labware_barcode: { 'human_barcode' => "DN#{i}S" },
+        state: 'created',
+        stamp_index: nil
+      )
+    end
+
+    @lot_v2 = Sequencescape::Api::V2::Lot.new(
+      uuid: '11111111-2222-3333-4444-555555555556',
+      lot_number: '123456789',
+      lot_type_name: 'IDT Tags',
+      template_name: 'Example Tag Layout',
+      received_at: '2013-02-01'
+    )
+    @lot_v2.stubs(:lot_type).returns(mock_lot_type)
+    @lot_v2.stubs(:qcables).returns(mock_qcables)
+
     @presenter = Presenter::Lot.new(@lot_v2)
   end
 

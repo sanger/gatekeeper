@@ -30,8 +30,15 @@ class MakeQcDecisionTest < ActionDispatch::IntegrationTest
     mock_api
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
-    lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+    lot = Sequencescape::Api::V2::Lot.new(
+      uuid: '11111111-2222-3333-4444-555555555556',
+      lot_number: '123456789',
+      lot_type_name: 'IDT Tags',
+      template_name: 'Example Tag Layout',
+      received_at: '2013-02-01'
+    )
 
+    lot.stubs(:qcables).returns([])
     lot.stubs(:pending_qcable_uuids).returns(%w[
                                                11111111-2222-3333-4444-100000000008
                                                11111111-2222-3333-4444-100000000009
@@ -39,10 +46,10 @@ class MakeQcDecisionTest < ActionDispatch::IntegrationTest
 
     # We mock here, as this is out interface with the controller.
 
-    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, batch_id: '12345')
-       .returns([lot])
+    Sequencescape::Api::V2::Lot.expects(:where).with(batch_id: '12345').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([lot]) }
+    )
+    Sequencescape::Api::V2::Lot.stubs(:find).with { |arg| arg.is_a?(String) }.returns(lot)
   end
 
   test 'release lot' do
