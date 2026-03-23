@@ -9,6 +9,9 @@ AllCops:
     - vendor/**/*
   NewCops: enable
 
+Layout/IndentationWidth:
+  EnforcedStyleAlignWith: relative_to_receiver
+
 Rails/InverseOf:
   Enabled: false
 
