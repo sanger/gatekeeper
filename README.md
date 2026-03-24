@@ -1,7 +1,7 @@
 [![Ruby Tests](https://github.com/sanger/gatekeeper/actions/workflows/ruby_test.yml/badge.svg)](https://github.com/sanger/gatekeeper/actions/workflows/ruby_test.yml)
 [![codecov](https://codecov.io/gh/sanger/gatekeeper/graph/badge.svg?token=VbxDtCNFAh)](https://codecov.io/gh/sanger/gatekeeper)
 
-# Gatekeeper
+# <img src="public/images/gate-kk.svg" alt="Reflected K Logo" height="20pt" /> Gatekeeper
 
 Gatekeeper is used to track the production and validation of batches of tag plates for sequencing.
 It is designed to interface with the [Sequencescape](https://github.com/sanger/sequencescape) LIMS.
