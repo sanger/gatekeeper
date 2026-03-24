@@ -60,7 +60,7 @@ module Middleware
       tags
     end
 
-    def log_request(request, response, elapsed_ms) # rubocop:disable Metrics/AbcSize
+    def log_request(request, response, elapsed_ms) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       status_code, _headers, _body = response
 
       status_message = Rack::Utils::HTTP_STATUS_CODES[status_code] || 'Unknown Status'
