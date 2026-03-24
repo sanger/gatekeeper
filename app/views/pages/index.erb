@@ -1,5 +1,8 @@
 <div id='gk-index-page' class='gk-page'>
-  <h1 id='gk-index-title' class='gk-page-title'><%= Gatekeeper::Application.config.name %></h1>
+  <h1 id='gk-index-title' class='gk-page-title'>
+    <%= image_tag 'gate-kk.svg', alt: 'Reflected K Logo', class: 'logo'%>
+    <%= Gatekeeper::Application.config.name %>
+  </h1>
   <div class="col-sm-6">
     <div id='gk-index-menu' class='panel panel-primary'>
       <div class="panel-heading">Register Lots</div>
