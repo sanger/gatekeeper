@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class Presenter::QcableTest < ActiveSupport::TestCase
-  include MockApi
-
   setup do
-    mock_api
-    @qcable_v2 = api.qcable.find('11111111-2222-3333-4444-100000000001')
+    @qcable_v2 = Sequencescape::Api::V2::Qcable.new(
+      uuid: '11111111-2222-3333-4444-100000000001',
+      labware_barcode: { 'human_barcode' => 'DN1S', 'machine_barcode' => 'DN1S' },
+      stamp_index: nil
+    )
     @presenter = Presenter::Qcable.new(@qcable_v2)
   end
 

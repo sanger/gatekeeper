@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 require_relative '../support/pmb_support'
 
 class BarcodeSheetTest < ActiveSupport::TestCase
-  include MockApi
-
   setup do
-    mock_api
     @printer_name = 'printer_1'
     @label_template_name = 'sqsc_96plate_label_template_code39'
     @label_template_id = '1'

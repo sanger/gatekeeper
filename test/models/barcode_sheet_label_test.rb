@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 require_relative '../support/pmb_support'
 
 class BarcodeSheet::LabelTest < ActiveSupport::TestCase
-  include MockApi
 
   setup do
     @label = BarcodeSheet::Label.new(barcode: 'DN1S', prefix: 'DN', number: '1', lot: 'lot_number', template: 'tag_set')
