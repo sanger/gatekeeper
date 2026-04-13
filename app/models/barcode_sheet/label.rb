@@ -73,7 +73,7 @@ class BarcodeSheet::Label
   private
 
   def code39_barcode
-    @barcode || SBCF::SangerBarcode.new(prefix: @prefix, number: @number).human_barcode
+    @barcode || human_readable
   end
 
   def lot_template

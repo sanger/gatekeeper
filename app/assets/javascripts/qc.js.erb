@@ -106,25 +106,25 @@
     },
     setTitle: function(title) {this.element.find('.panel-heading h2').text(title);},
     humanBarcode: function() {
-      return this.asset.barcode.prefix+this.asset.barcode.number
+      return this.asset.barcode.human_readable
     },
     setBarcode: function() {
       this.element.find('.asset-ean13').val(this.asset.barcode.ean13);
     },
     setBarcodeForm: function() {
-      var study, number;
+      var study, barcode;
       if (this.asset.handle.with==='plate_conversion') { return true; };
       if (this.asset.handle.with==='qa_plate_conversion') { return true; };
       study = document.createElement('input')
       study.type = 'hidden'
       study.value = this.asset.purpose;
       study.name = 'study'
-      number = document.createElement('input')
-      number.value = this.asset.barcode.number;
-      number.name = 'numbers['+this.asset.barcode.number+']';
-      number.type = 'hidden';
-      this.element.find('.barcode-printing-form').append(study).append(number);
-      new BarcodePrinter(this.element.find('.barcode-printing-form'),this.asset.handle.printer,this.asset.barcode.prefix);
+      barcode = document.createElement('input')
+      barcode.value = this.asset.barcode.human_readable;
+      barcode.name = 'barcodes['+this.asset.barcode.human_readable+']';
+      barcode.type = 'hidden';
+      this.element.find('.barcode-printing-form').append(study).append(barcode);
+      new BarcodePrinter(this.element.find('.barcode-printing-form'),this.asset.handle.printer);
     },
     setPurpose: function(purpose) {
       this.element.find('.purpose').text(purpose);
@@ -328,13 +328,12 @@
 
   /* Ideally this would go elsewhere, but then I'd either pollute the global namespace,
      or need to add dependency management */
-  BarcodePrinter = function(form,type,prefix) {
+  BarcodePrinter = function(form,type) {
     this.form = $(form);
     this.form.on('submit',this.formSubmit())
     this.type = type||this.type;
     this.form.find(this.remove()).hide();
     this.form.find(this.show()).show();
-    this.form.find('.prefix-field').val([prefix]);
     this.form.find('select').val($(this.show()).val());
   }
   BarcodePrinter.prototype = {

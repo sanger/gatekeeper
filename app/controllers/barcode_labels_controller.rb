@@ -27,11 +27,10 @@ class BarcodeLabelsController < ApplicationController
   private
 
   def generate_labels
-    permitted_params = params.permit(:prefix, :study, numbers: {})
-    @labels = (permitted_params[:numbers] || {}).to_h.map do |_, number|
+    permitted_params = params.permit(:study, barcodes: {})
+    @labels = (permitted_params[:barcodes] || {}).to_h.map do |_, human_readable|
       BarcodeSheet::Label.new(
-        prefix: permitted_params[:prefix],
-        number:,
+        human_readable:,
         study: permitted_params[:study]
       )
     end
