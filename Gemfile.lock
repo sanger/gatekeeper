@@ -358,7 +358,7 @@ GEM
       nokogiri (~> 1.8)
     yard (0.9.38)
     zeitwerk (2.7.3)
-    zlib (3.2.2)
+    zlib (3.2.3)
 
 PLATFORMS
   arm64-darwin-22
