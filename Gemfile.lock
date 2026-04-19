@@ -339,7 +339,7 @@ GEM
       logger
     thor (1.4.0)
     tilt (2.1.0)
-    timecop (0.9.10)
+    timecop (0.9.11)
     timeout (0.4.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
