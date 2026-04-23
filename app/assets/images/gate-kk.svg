@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     id="rect1"
+     width="64"
+     height="64"
+     x="0"
+     y="0"
+     rx="12"
+     ry="12" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 10,52 V 12"
+     id="path1" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 54,52 V 12"
+     id="path1-4" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 10,32 32,22"
+     id="path1-0-98" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 10,32 32,42"
+     id="path1-0-98-3" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:3.99995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 54,32 32,22"
+     id="path1-0-98-4" />
+  <path
+     style="fill:none;stroke:#232323;stroke-width:3.99995;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 54,32 32,42"
+     id="path1-0-98-3-2" />
+  <path
+     style="fill:none;stroke:#d9534f;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 16,16 H 28"
+     id="path1-0-9" />
+  <path
+     style="fill:none;stroke:#5cb85c;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 36,16 H 48"
+     id="path1-0-9-4" />
+  <path
+     style="fill:none;stroke:#f0ad4e;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 16,48 H 28"
+     id="path1-0-9-9" />
+  <path
+     style="fill:none;stroke:#337ab7;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
+     d="M 36,48 H 48"
+     id="path1-0-9-1" />
+</svg>

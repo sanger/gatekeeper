@@ -18,15 +18,54 @@ class Presenter::Qcable
     @qcable.stamp_index ? @qcable.stamp_index + 1 : '-'
   end
 
-  def barcode
-    "#{@qcable.barcode.prefix}#{@qcable.barcode.number}"
+  def human_readable
+    labware_human_barcode ||
+      barcode_machine ||
+      barcode_prefix_number ||
+      ''
   end
 
-  def number
-    @qcable.barcode.number.to_s
+  def barcode
+    human_readable
+  end
+
+  private
+
+  def labware_human_barcode
+    return unless @qcable.respond_to?(:labware_barcode)
+
+    lb = @qcable.labware_barcode&.symbolize_keys
+    return unless lb
+
+    lb[:human_barcode]&.to_s
+  end
+
+  def barcode_machine
+    return unless @qcable.respond_to?(:barcode)
+
+    bc = @qcable.barcode
+
+    if bc.is_a?(Hash)
+      bc = bc.symbolize_keys
+      bc[:machine]&.to_s
+    elsif bc.respond_to?(:machine)
+      bc.machine&.to_s
+    end
+  end
+
+  def barcode_prefix_number
+    return unless @qcable.respond_to?(:barcode)
+
+    bc = @qcable.barcode
+
+    if bc.is_a?(Hash)
+      bc = bc.symbolize_keys
+      "#{bc[:prefix]}#{bc[:number]}"
+    elsif bc.respond_to?(:prefix) && bc.respond_to?(:number)
+      "#{bc.prefix}#{bc.number}"
+    end
   end
 
   delegate :uuid, to: :@qcable
-
   alias id uuid
 end

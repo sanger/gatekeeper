@@ -31,8 +31,7 @@ class Presenter::QcAsset
   def barcode
     {
       'ean13' => @asset.barcode.ean13,
-      'prefix' => @asset.barcode.prefix,
-      'number' => @asset.barcode.number
+      'human_readable' => human_readable
     }
   end
 
@@ -59,6 +58,52 @@ class Presenter::QcAsset
       'children' => children.map { |c| [child_type, c.uuid] },
       'handle' => handler
     } }
+  end
+
+  def human_readable
+    direct_human_readable ||
+      direct_human_barcode ||
+      barcode_fallback ||
+      ''
+  end
+
+  def direct_human_readable
+    return unless @asset.respond_to?(:human_readable)
+
+    @asset.human_readable
+  end
+
+  def direct_human_barcode
+    return unless @asset.respond_to?(:human_barcode)
+
+    @asset.human_barcode
+  end
+
+  def barcode_fallback
+    return unless @asset.respond_to?(:barcode)
+
+    barcode = @asset.barcode
+
+    object_barcode(barcode) ||
+      hash_barcode(barcode)
+  end
+
+  def object_barcode(barcode)
+    return unless barcode.respond_to?(:prefix) && barcode.respond_to?(:number)
+
+    "#{barcode.prefix}#{barcode.number}"
+  end
+
+  def hash_barcode(barcode)
+    return unless barcode.is_a?(Hash)
+
+    barcode = barcode.transform_keys(&:to_sym)
+
+    prefix = barcode[:prefix]
+    number = barcode[:number]
+    return unless prefix || number
+
+    "#{prefix}#{number}"
   end
 
   private

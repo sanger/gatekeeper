@@ -12,20 +12,19 @@ class QcDecisionsControllerTest < ActionController::TestCase
   end
 
   test 'search' do
-    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, batch_id: '12345')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    mock_lot = Sequencescape::Api::V2::Lot.new(uuid: '11111111-2222-3333-4444-555555555556')
+    Sequencescape::Api::V2::Lot.expects(:where).with(batch_id: '12345').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([mock_lot]) }
+    )
 
     post :search, params: { batch_id: '12345' }
     assert_redirected_to '/lots/11111111-2222-3333-4444-555555555556/qc_decisions/new'
   end
 
   test 'search not found' do
-    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, batch_id: '999')
-       .raises(Sequencescape::Api::ResourceNotFound, 'There is an issue with the API connection to Sequencescape (["no resources found with that search criteria"])')
+    Sequencescape::Api::V2::Lot.expects(:where).with(batch_id: '999').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([]) }
+    )
 
     post :search, params: { batch_id: '999' }
 
