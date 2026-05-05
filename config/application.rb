@@ -34,7 +34,7 @@ module Gatekeeper
     config.i18n.fallbacks = [I18n.default_locale]
 
     # Ensures precompiling is faster by not loading the application
-    config.assets.initialize_on_precompile = false
+    config.assets.initialize_on_precompile = true
     config.disable_animations = false
 
     config.destroyable_states = %w[pending available]

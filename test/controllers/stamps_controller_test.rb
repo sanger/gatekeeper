@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'mock_api'
 
 class StampsControllerTest < ActionController::TestCase
   include MockApi
@@ -14,11 +15,8 @@ class StampsControllerTest < ActionController::TestCase
   setup do
     mock_api
     @robot = api.robot.with_uuid('40b07000-0000-0000-0000-000000000000')
-    # api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffedd').
-    # stubs(:first).
-    # with(:barcode => '488000000178').
-    # returns(@robot)
-    @lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+    @lot = Sequencescape::Api::V2::Lot.new(uuid: '11111111-2222-3333-4444-555555555556')
+    @lot.stubs(:lot_number).returns('123456789')
     @plate_a = api.qcable.with_uuid('11111111-2222-3333-4444-100000000001')
     @plate_b = api.qcable.with_uuid('11111111-2222-3333-4444-100000000002')
     @plate_c = api.qcable.with_uuid('11111111-2222-3333-4444-100000000008')
@@ -26,10 +24,9 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test 'validate lot' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([@lot])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     @robot.expects(:valid_lot?)
           .with('58000000180', @lot)
@@ -51,10 +48,9 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test 'validate lot when false' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     @robot.expects(:valid_lot?)
           .with('58000000180', @lot)
@@ -80,10 +76,9 @@ class StampsControllerTest < ActionController::TestCase
           .with('58000000180', nil)
           .returns([true, 'Okay'])
 
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: 'not_a_lot')
-       .returns([])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: 'not_a_lot').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([]) }
+    )
     @request.headers['Accept'] = 'application/json'
     post :validation, params: {
          user_swipecard: '123456789',
@@ -100,10 +95,9 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test 'validate full setup' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
@@ -135,10 +129,9 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test 'validate full invalid' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
@@ -171,10 +164,9 @@ class StampsControllerTest < ActionController::TestCase
   end
 
   test 'validate full multiple barcodes' do
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
@@ -205,10 +197,9 @@ class StampsControllerTest < ActionController::TestCase
           .with('58000000180', @lot)
           .returns([true, 'Okay'])
 
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([@lot, @lot])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot, @lot]) }
+    )
 
     @request.headers['Accept'] = 'application/json'
     post :validation, params: {
@@ -230,10 +221,9 @@ class StampsControllerTest < ActionController::TestCase
   test 'create!' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)
@@ -283,17 +273,16 @@ class StampsControllerTest < ActionController::TestCase
            '58000000382' => 'DN2T'
          }
     }
-    assert_redirected_to lot_url(@lot)
+    assert_redirected_to lot_url(@lot.uuid)
     assert_equal 'Stamp completed!', flash[:success]
   end
 
   test 'create! with repeat' do
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
 
-    api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, lot_number: '123456789')
-       .returns([api.lot.with_uuid('11111111-2222-3333-4444-555555555556')])
+    Sequencescape::Api::V2::Lot.expects(:where).with(lot_number: '123456789').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([@lot]) }
+    )
 
     api.search.with_uuid('689a48a0-9d46-11e3-8fed-44fb42fffeff')
        .expects(:all)

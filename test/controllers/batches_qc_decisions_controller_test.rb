@@ -12,15 +12,20 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
   end
 
   test 'new' do
-    lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+    lot = Sequencescape::Api::V2::Lot.new(
+      uuid: '11111111-2222-3333-4444-555555555556',
+      lot_number: '123456789',
+      lot_type_name: 'IDT Tags',
+      template_name: 'Example Tag Layout',
+      received_at: '2013-02-01'
+    )
 
     # We mock here, as this is out interface with the controller.
     lot.expects(:pending_qcable_uuids).returns(%w[11111111-2222-3333-4444-100000000008 11111111-2222-3333-4444-100000000009])
 
-    api.search.with_uuid('d8986b60-b104-11e3-a4d5-44fb42fffecc')
-       .expects(:all)
-       .with(Gatekeeper::Lot, batch_id: '12345')
-       .returns([lot])
+    Sequencescape::Api::V2::Lot.expects(:where).with(batch_id: '12345').returns(
+      mock('v2_lot_scope').tap { |s| s.stubs(:all).returns([lot]) }
+    )
 
     get :new, params: { batch_id: '12345' }
     assert_response :success
@@ -29,10 +34,18 @@ class BatchesQcDecisionsControllerTest < ActionController::TestCase
   end
 
   test 'create just the pending decisions for the lot' do
-    lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+    lot = Sequencescape::Api::V2::Lot.new(
+      uuid: '11111111-2222-3333-4444-555555555556',
+      lot_number: '123456789',
+      lot_type_name: 'IDT Tags',
+      template_name: 'Example Tag Layout',
+      received_at: '2013-02-01'
+    )
 
     # We mock here, as this is out interface with the controller.
     lot.expects(:pending_qcable_uuids).returns(%w[11111111-2222-3333-4444-100000000008 11111111-2222-3333-4444-100000000009])
+
+    Sequencescape::Api::V2::Lot.expects(:find).with('11111111-2222-3333-4444-555555555556').returns(lot)
 
     api.qc_decision.expect_create_with(
       received: {

@@ -9,7 +9,8 @@ class RobotTest < ActiveSupport::TestCase
   setup do
     mock_api
     @robot = MockRobot.new(api.robot.with_uuid('40b07000-0000-0000-0000-000000000000'))
-    @lot = api.lot.with_uuid('11111111-2222-3333-4444-555555555556')
+    @lot = Sequencescape::Api::V2::Lot.new(uuid: '11111111-2222-3333-4444-555555555556')
+    @lot.stubs(:lot_number).returns('123456789')
     @plate_a = api.qcable.with_uuid('11111111-2222-3333-4444-100000000001')
     @plate_b = api.qcable.with_uuid('11111111-2222-3333-4444-100000000002')
     @plate_c = api.qcable.with_uuid('11111111-2222-3333-4444-100000000008')

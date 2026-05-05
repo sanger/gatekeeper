@@ -103,7 +103,7 @@ class StampsController < ApplicationController
                 lot_plate: params[:lot_plate]
               }
             else
-              lot_url(@lot)
+              lot_url(@lot.uuid)
             end
     redirect_to redir
   end
@@ -115,7 +115,7 @@ class StampsController < ApplicationController
   end
 
   def find_lot
-    @lot = api.search.find(Settings.searches['Find lot by lot number']).all(Gatekeeper::Lot, lot_number: params[:lot_plate]).tap do |lots|
+    @lot = Sequencescape::Api::V2::Lot.where(lot_number: params[:lot_plate]).all.tap do |lots|
       validator.add_error("Could not find a lot with the lot number '#{params[:lot_plate]}'") if lots.empty?
       validator.add_error("Multiple lots with lot number #{params[:lot_plate]}. This is currently unsupported.") if lots.many?
     end.first

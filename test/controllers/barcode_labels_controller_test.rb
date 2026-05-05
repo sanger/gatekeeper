@@ -8,9 +8,8 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
   setup do
     mock_api
     @params = {
-      prefix: 'ABC',
       study: 'Study1',
-      numbers: { '123' => '123', '456' => '456' },
+      barcodes: { 'ABC123' => 'ABC123', 'ABC456' => 'ABC456' },
       # Test printer name
       barcode_printer: 'baac0dea-0000-0000-0000-000000000000'
     }
@@ -68,8 +67,7 @@ class BarcodeLabelsControllerTest < ActionController::TestCase
     controller.send(:generate_labels)
     labels = controller.instance_variable_get(:@labels)
     assert_equal 2, labels.size
-    assert_equal 'ABC', labels.first.instance_variable_get(:@prefix)
-    assert_equal '123', labels.first.instance_variable_get(:@number)
+    assert_equal 'ABC123', labels.first.instance_variable_get(:@human_readable)
     assert_equal 'Study1', labels.first.instance_variable_get(:@legacy_study)
   end
 end

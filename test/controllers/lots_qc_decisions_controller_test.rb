@@ -9,6 +9,15 @@ class LotsQcDecisionsControllerTest < ActionController::TestCase
   setup do
     mock_api
     api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+    @lot_v2 = Sequencescape::Api::V2::Lot.new(
+      uuid: '11111111-2222-3333-4444-555555555556',
+      lot_number: '123456789',
+      lot_type_name: 'IDT Tags',
+      template_name: 'Example Tag Layout',
+      received_at: '2013-02-01'
+    )
+    @lot_v2.stubs(:qcables).returns([])
+    Sequencescape::Api::V2::Lot.stubs(:find).with('11111111-2222-3333-4444-555555555556').returns(@lot_v2)
   end
 
   test 'new' do
