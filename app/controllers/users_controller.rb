@@ -16,6 +16,6 @@ class UsersController < ApplicationController
   private
 
   def user_for_swipecard(swipecard_code)
-    Sequencescape::Api::V2::User.find(user_code: swipecard_code).first
+    Sequencescape::Api::V2::User.find!(user_code: swipecard_code).first
   end
 end
