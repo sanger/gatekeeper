@@ -42,6 +42,9 @@ require 'selenium/webdriver'
 # Uncomment for awesome colourful output
 require 'minitest/pride'
 
+# Add in API v2 mocks
+require 'mock_api_v2'
+
 begin
   require 'pry-rails'
 rescue LoadError

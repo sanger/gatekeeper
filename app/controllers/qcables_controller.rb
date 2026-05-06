@@ -56,7 +56,7 @@ class QcablesController < ApplicationController
     # Set the relationships using assignment rather than passing them in as params,
     # because json_api_client gem was interpreting the params incorrectly as a hash of attributes.
     qc_creator = Sequencescape::Api::V2::QcableCreator.new(attributes)
-    qc_creator.user = Sequencescape::Api::V2::User.where(uuid: @user.id).first
+    qc_creator.user = @user
     qc_creator.lot = @lot
 
     begin
