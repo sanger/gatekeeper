@@ -29,7 +29,7 @@ module Deployed
     end
 
     def label
-      tag.presence || branch
+      tag.presence || branch || read_file('.release-version').strip.presence
     end
 
     def major
@@ -49,7 +49,7 @@ module Deployed
     end
 
     def version_hash
-      @version_hash ||= /\Av(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?<extra>\S*)/.match(label)
+      @version_hash ||= /\Av?(?<major>\d+)\.(?<minor>\d+)\.(?<patch>\d+)(?<extra>\S*)/.match(label)
     end
 
     def version_label
