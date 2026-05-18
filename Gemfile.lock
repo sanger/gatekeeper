@@ -130,7 +130,7 @@ GEM
       actionmailer (>= 5.2, < 9)
       activesupport (>= 5.2, < 9)
     execjs (2.10.0)
-    faraday (2.14.1)
+    faraday (2.14.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
