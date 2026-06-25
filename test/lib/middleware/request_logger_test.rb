@@ -17,9 +17,10 @@ class MiddlewareRequestLoggerTest < Minitest::Test
 
     # Stub Rails.logger methods
     @original_logger = Rails.logger
+    logs = @logs
     Rails.logger = Logger.new(StringIO.new)
-    Rails.logger.define_singleton_method(:info) { |msg| @logs[:info] << msg }
-    Rails.logger.define_singleton_method(:debug) { |msg| @logs[:debug] << msg }
+    Rails.logger.define_singleton_method(:info) { |msg| logs[:info] << msg }
+    Rails.logger.define_singleton_method(:debug) { |msg| logs[:debug] << msg }
 
     # Stub Rack::Utils.clock_time
     @original_clock_time = Rack::Utils.method(:clock_time)
