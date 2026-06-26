@@ -31,6 +31,16 @@
     :template_class: TagLayoutTemplate
     :printer_type: 96 Well Plate
     :qcable_name: Tag Plate
+  Pre Stamped Tags:
+    :uuid: 0eb10418-ff2e-11ef-99ca-060cfcc4e0a0
+    :template_class: TagLayoutTemplate
+    :printer_type: 96 Well Plate
+    :qcable_name: Pre Stamped Tag Plate
+  Pre Stamped Tags - 384:
+    :uuid: 0eb27564-ff2e-11ef-99ca-060cfcc4e0a0
+    :template_class: TagLayoutTemplate
+    :printer_type: 96 Well Plate
+    :qcable_name: Tag Plate - 384
 :default_purpose:
   :with: plate_conversion_to_default
   :child_name: QA Plate
@@ -102,4 +112,3 @@
   Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
   Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc
   Flip Plate: 58b72440-ab69-11e3-bb8f-44fb42fffecc
-
