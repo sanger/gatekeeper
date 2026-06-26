@@ -20,7 +20,8 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
       end
     end
     qcable_creator = Sequencescape::Api::V2::QcableCreator.new
-    printer = Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer', barcode_type: 'something')
+    printer = Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer',
+                                                         barcode_type: 'something')
     printer.uuid = 'baac0dea-0000-0000-0000-000000000000' if printer.respond_to?(:uuid=)
 
     allow(Sequencescape::Api::V2::Lot).to receive(:where).with(uuid: lot_uuid).and_return([shown_lot])
@@ -60,7 +61,8 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
       lot_type_name: 'Pre Stamped Tags',
       qcables: [qcable]
     )
-    printer = Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer', barcode_type: 'something')
+    printer = Sequencescape::Api::V2::BarcodePrinter.new(print_service: 'PMB', name: 'Test Printer',
+                                                         barcode_type: 'something')
     allow(Sequencescape::Api::V2::BarcodePrinter).to receive(:where)
       .with(uuid: 'baac0dea-0000-0000-0000-000000000000')
       .and_return([printer])
@@ -92,7 +94,8 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
     allow(Sequencescape::Api::V2::Lot).to receive(:where).with(uuid: lot_uuid).and_return([shown_lot])
     allow(Sequencescape::Api::V2::User).to receive(:where).with(uuid: '11111111-2222-3333-4444-555555555555')
                                                           .and_return([Sequencescape::Api::V2::User.new])
-    expect(Sequencescape::Api::V2::QcableCreator).to receive(:new).with({ barcodes: payload }).and_return(qcable_creator)
+    expect(Sequencescape::Api::V2::QcableCreator).to receive(:new).with({ barcodes: payload })
+                                                                  .and_return(qcable_creator)
     allow(qcable_creator).to receive(:save).and_return(true)
     allow(qcable_creator).to receive(:qcables).and_return(created_qcables)
 
