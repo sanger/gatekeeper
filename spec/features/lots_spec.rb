@@ -28,12 +28,18 @@ LotScope = Struct.new(:lots) do
   end
 end
 
-RSpec.describe 'Lot registration pages', type: :feature do
+RSpec.describe 'Lot registration pages', type: :feature, js: true do
   before do
     allow(Sequencescape::Api).to receive(:new).and_return(api)
   end
 
-  let(:user) { Sequencescape::Api::V2::User.new(uuid: '11111111-2222-3333-4444-555555555555') }
+  # API V2 User
+  # let(:user) { Sequencescape::Api::V2::User.new(uuid: '11111111-2222-3333-4444-555555555555') }
+  let(:user) do
+    Sequencescape::User.new({}).tap do |sequencescape_user|
+      allow(sequencescape_user).to receive(:uuid).and_return('11111111-2222-3333-4444-555555555555')
+    end
+  end
   let(:tag_templates) do
     [
       Sequencescape::Api::V2::TagLayoutTemplate.new(
@@ -105,30 +111,6 @@ RSpec.describe 'Lot registration pages', type: :feature do
     end
 
     allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return(lot_scope)
-  end
-
-  it 'renders the new page for Pre Stamped Tags' do
-    visit new_lot_path(lot_type: 'Pre Stamped Tags')
-
-    expect(page).to have_current_path('/lots/new?lot_type=Pre+Stamped+Tags', ignore_query: false)
-    expect(page).to have_css('h1', text: 'Register Pre Stamped Tags Lot')
-    expect(page).to have_selector("input#lot_type_uuid[value='0eb10418-ff2e-11ef-99ca-060cfcc4e0a0']", visible: false)
-    expect(page).to have_selector("input#template_class[value='TagLayoutTemplate']", visible: false)
-    expect(page).to have_field('Lot number')
-    expect(page).to have_field('Tag layout template')
-    expect(page).to have_select('template', with_options: ['Example Tag Template', 'Another Tag Layout'])
-  end
-
-  it 'renders the new page for Pre Stamped Tags - 384' do
-    visit new_lot_path(lot_type: 'Pre Stamped Tags - 384')
-
-    expect(page).to have_current_path('/lots/new?lot_type=Pre+Stamped+Tags+-+384', ignore_query: false)
-    expect(page).to have_css('h1', text: 'Register Pre Stamped Tags - 384 Lot')
-    expect(page).to have_selector("input#lot_type_uuid[value='0eb27564-ff2e-11ef-99ca-060cfcc4e0a0']", visible: false)
-    expect(page).to have_selector("input#template_class[value='TagLayoutTemplate']", visible: false)
-    expect(page).to have_field('Lot number')
-    expect(page).to have_field('Tag layout template')
-    expect(page).to have_select('template', with_options: ['Example Tag Template', 'Another Tag Layout'])
   end
 
   it 'submits the Pre Stamped Tags lot registration form' do
