@@ -6,6 +6,27 @@ require_relative 'lots_feature_shared'
 RSpec.describe 'Lot search', type: :feature, js: true do
   include_context 'lots feature api stubs'
 
+  def stub_lot_search_and_show(found_lot_uuid:, found_lot_number:, lot_type_name:)
+    found_lot = Sequencescape::Api::V2::Lot.new(uuid: found_lot_uuid)
+    shown_lot_type = Sequencescape::Api::V2::LotType.new(
+      qcable_name: 'Pre Stamped Tag Plate',
+      printer_type: '96 Well Plate'
+    )
+    shown_lot = Sequencescape::Api::V2::Lot.new(
+      uuid: found_lot_uuid,
+      lot_number: found_lot_number,
+      lot_type_name: lot_type_name,
+      template_name: 'Example Tag Template',
+      received_at: Date.new(2026, 6, 26)
+    )
+    allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
+    allow(shown_lot).to receive(:qcables).and_return([])
+
+    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: found_lot_number).and_return([found_lot])
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
+                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+  end
+
   it 'finds a lot from the nav bar lot number box' do
     found_lot_uuid = '11111111-2222-3333-4444-555555555556'
     found_lot_number = 'PST-12345'

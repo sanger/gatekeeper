@@ -6,6 +6,35 @@ require_relative 'lots_feature_shared'
 RSpec.describe 'Lot show actions', type: :feature, js: true do
   include_context 'lots feature api stubs'
 
+  def build_shown_lot(lot_uuid:, lot_number:, lot_type_name:, qcables: [])
+    shown_lot_type = Sequencescape::Api::V2::LotType.new(
+      qcable_name: 'Pre Stamped Tag Plate',
+      printer_type: '96 Well Plate'
+    )
+    shown_lot = Sequencescape::Api::V2::Lot.new(
+      uuid: lot_uuid,
+      lot_number: lot_number,
+      lot_type_name: lot_type_name,
+      template_name: 'Example Tag Template',
+      received_at: Date.new(2026, 6, 26)
+    )
+    allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
+    allow(shown_lot).to receive(:qcables).and_return(qcables)
+    shown_lot
+  end
+
+  def stub_lot_show(lot_uuid:, lot_number:, lot_type_name:, qcables: [])
+    shown_lot = build_shown_lot(
+      lot_uuid:,
+      lot_number:,
+      lot_type_name:,
+      qcables:
+    )
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
+                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+    shown_lot
+  end
+
   it 'creates qcables from the lot show page' do
     lot_uuid = '11111111-2222-3333-4444-555555555556'
     shown_lot = stub_lot_show(

@@ -6,6 +6,56 @@ require_relative 'lots_feature_shared'
 RSpec.describe 'Lot registration', type: :feature, js: true do
   include_context 'lots feature api stubs'
 
+  def stub_lot_submission_and_redirect(created_lot_uuid:, created_lot_number:, lot_type_name:, lot_type_uuid:)
+    selected_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 42,
+      name: 'Example Tag Template',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+    )
+    created_lot = Sequencescape::Api::V2::Lot.new(
+      user_uuid: '11111111-2222-3333-4444-555555555555',
+      lot_number: created_lot_number,
+      lot_type_uuid: lot_type_uuid,
+      template_type: 'TagLayoutTemplate',
+      template_id: 42,
+      received_at: '2026-06-26'
+    )
+    shown_lot_type = Sequencescape::Api::V2::LotType.new(
+      qcable_name: 'Pre Stamped Tag Plate',
+      printer_type: '96 Well Plate'
+    )
+    shown_lot = Sequencescape::Api::V2::Lot.new(
+      lot_number: created_lot_number,
+      uuid: created_lot_uuid,
+      lot_type_name: lot_type_name,
+      template_name: 'Example Tag Template',
+      received_at: Date.new(2026, 6, 26)
+    )
+    allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
+    allow(shown_lot).to receive(:qcables).and_return([])
+
+    allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:find)
+      .with(uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc')
+      .and_return([selected_template])
+
+    expect(Sequencescape::Api::V2::Lot).to receive(:new).with(
+      user_uuid: '11111111-2222-3333-4444-555555555555',
+      lot_number: created_lot_number,
+      lot_type_uuid: lot_type_uuid,
+      template_type: 'TagLayoutTemplate',
+      template_id: 42,
+      received_at: '2026-06-26'
+    ).and_return(created_lot)
+
+    allow(created_lot).to receive(:save) do
+      created_lot.uuid = created_lot_uuid
+      true
+    end
+
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
+                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+  end
+
   it 'submits the Pre Stamped Tags lot registration form' do
     created_lot_uuid = '11111111-2222-3333-4444-555555555556'
     created_lot_number = 'PST-12345'
