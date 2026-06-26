@@ -283,6 +283,37 @@ RSpec.describe 'Lot registration pages', type: :feature, js: true do
     expect(page).to have_content('Your barcodes have been printed')
   end
 
+  it 'creates an IDT tag plate from upload when one does not exist' do
+    lot_uuid = '11111111-2222-3333-4444-555555555556'
+    shown_lot = stub_lot_show(
+      lot_uuid:,
+      lot_number: 'PST-12345',
+      lot_type_name: 'Pre Stamped Tags',
+      qcables: []
+    )
+    upload_path = Rails.root.join('test/fixtures/test_file.xlsx')
+    payload = PlateUploader.new(Rack::Test::UploadedFile.new(upload_path, '')).payload
+    qcable_creator = Sequencescape::Api::V2::QcableCreator.new
+    created_qcables = Array.new(2) { Sequencescape::Api::V2::Qcable.new }
+
+    allow(Sequencescape::Api::V2::Lot).to receive(:where).with(uuid: lot_uuid).and_return([shown_lot])
+    allow(Sequencescape::Api::V2::User).to receive(:where).with(uuid: '11111111-2222-3333-4444-555555555555')
+                                                          .and_return([Sequencescape::Api::V2::User.new])
+    expect(Sequencescape::Api::V2::QcableCreator).to receive(:new).with({ barcodes: payload }).and_return(qcable_creator)
+    allow(qcable_creator).to receive(:save).and_return(true)
+    allow(qcable_creator).to receive(:qcables).and_return(created_qcables)
+
+    visit lot_path(lot_uuid)
+    within("form[action='#{upload_lot_qcables_path(lot_uuid)}']") do
+      fill_in 'user_swipecard', with: 'abcdef'
+      attach_file 'upload', upload_path
+      click_button 'Create IDT Tag Plate'
+    end
+
+    expect(page).to have_current_path("/lots/#{lot_uuid}", ignore_query: false)
+    expect(page).to have_content('2 Pre Stamped Tag Plates have been created.')
+  end
+
   it 'submits the Pre Stamped Tags - 384 lot registration form' do
     created_lot_uuid = '11111111-2222-3333-4444-555555555557'
     created_lot_number = 'PST384-12345'
