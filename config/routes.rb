@@ -40,6 +40,5 @@ Rails.application.routes.draw do
 
   resources :plates, only: [:show]
   resources :tubes,  only: [:show]
-  resources :submissions,  only: [:create]
   resources :barcode_labels, only: [:create]
 end

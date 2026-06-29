@@ -142,10 +142,6 @@
     },
     createHandler: function() {
       switch(this.asset.handle.with) {
-        case 'completed':
-          this.feedback($('.hidden .pipeline-complete'));
-          this.createRequestButton();
-          return false;
         case 'qa_plate_conversion':
         case 'plate_conversion':
           this.createConversionInterface();
@@ -193,19 +189,6 @@
         val(this.asset.child_purposes[0][1])
       );
     },
-    createRequestButton: function() {
-      var step = this;
-      this.button = $(document.createElement('button')).
-        text('Create sequencing request').
-        addClass('btn btn-success').
-        attr('type','submit');
-      this.element.find('.button-receiver').append(this.button);
-      this.button.data('text','Create sequencing request');
-      this.element.find('.main-form').on('submit',function(e){
-        e.preventDefault();
-        step.submitSequencing();
-      });
-    },
     createConversionInterface: function(toDefault) {
       var conversion = $('.hidden .conversion-interface').clone();
       conversion.find('.sibling-purpose').text(this.asset.handle.sibling);
@@ -240,15 +223,6 @@
         url: '/qc_assets',
         data: this.element.find('.main-form').serialize()
       }).then(this.pass(),this.fail());
-    },
-    submitSequencing: function() {
-      this.wait();
-      $.ajax({
-        type: 'POST',
-        dataType: "json",
-        url: '/submissions',
-        data: this.element.find('.main-form').serialize()
-      }).then(this.completed(),this.fail());
     },
     wait: function() {
       this.button.removeClass('btn-success').
@@ -391,4 +365,3 @@
   })
 
 })(window,jQuery,undefined)
-
