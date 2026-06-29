@@ -20,25 +20,11 @@ Rails.application.routes.draw do
 
   # post 'lots/upload', to: 'lots#upload'
 
-  resources :batches, only: [:show] do
-    collection do
-      get :search
-    end
-  end
-
-  resources :robots, only: [] do
-    collection do
-      get :search
-    end
-  end
-
   resources :users, only: [] do
     collection do
       get :search
     end
   end
 
-  resources :plates, only: [:show]
-  resources :tubes,  only: [:show]
   resources :barcode_labels, only: [:create]
 end
