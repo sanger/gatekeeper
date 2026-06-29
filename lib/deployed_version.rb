@@ -29,7 +29,7 @@ module Deployed
     end
 
     def label
-      tag.presence || branch || read_file('.release-version').strip.presence
+      read_file('.release-version').strip.presence || tag.presence || branch
     end
 
     def major
