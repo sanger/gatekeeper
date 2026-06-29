@@ -30,9 +30,13 @@ It is designed to interface with the [Sequencescape](https://github.com/sanger/s
 
 ## Testing
 
-To run tests:
+To run unit tests:
 
     bundle exec rake
+
+To run feature tests:
+
+    bundle exec rspec spec
 
 ## Yard
 

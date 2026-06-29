@@ -9,9 +9,25 @@ require 'rspec/rails'
 require 'selenium/webdriver'
 require_relative 'spec_helper'
 
+# For running Selenium at a lower speed
+# Very useful when recording test runs
+# https://stackoverflow.com/a/46840590/2037928
+if ENV['SLOW'].present?
+  module ::Selenium::WebDriver::Remote
+    class Bridge
+      alias old_execute execute
+
+      def execute(*)
+        sleep(0.2)
+        old_execute(*)
+      end
+    end
+  end
+end
+
 Capybara.register_driver :headless_chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new
-  options.add_argument('--headless')
+  options.add_argument('--headless') if ENV['HEADED'].blank?
   options.add_argument('--disable_gpu')
   options.add_argument('--window-size=1600,1600')
   options.add_argument('--no-sandbox')
