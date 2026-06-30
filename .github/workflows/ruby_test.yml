@@ -1,4 +1,4 @@
-name: Ruby Tests
+name: Ruby Test Suites
 
 on:
   push:
@@ -8,8 +8,8 @@ env:
   BUNDLE_WITHOUT: "development lint"
 
 jobs:
-  ruby_test:
-    name: Ruby tests
+  unit_tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     env:
       TZ: Europe/London
@@ -31,14 +31,49 @@ jobs:
       - name: Additional setup
         run: bin/setup
 
-      - name: Run tests using rake
+      - name: Run unit tests using rake
         run: bundle exec rake
 
-      - name: Upload coverage reports to Codecov
+      - name: Upload unit test coverage to Codecov
         uses: sanger/.github/.github/actions/tests/codecov@master
         with:
           name: ${{ github.run_id }}_${{ github.job }}_${{ github.event_name }}
           token: ${{ secrets.CODECOV_TOKEN }}
-          flags: ${{ github.event_name }}
+          flags: unit_tests,${{ github.event_name }}
+          disable-search: true
+          files: ${{ github.workspace }}/coverage/lcov.info
+
+  feature_tests:
+    name: Feature tests
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/London
+
+    steps:
+      - name: Checkout Repository
+        uses: sanger/.github/.github/actions/setup/checkout@master
+
+      - name: Setup Ruby
+        uses: sanger/.github/.github/actions/setup/ruby@master
+
+      - name: Setup stable Chrome
+        uses: sanger/.github/.github/actions/tests/setup-chrome@master
+        with:
+          chrome-version: 128
+          install-chromedriver: true
+          install-dependencies: true
+
+      - name: Additional setup
+        run: bin/setup
+
+      - name: Run feature tests using rspec
+        run: bundle exec rspec spec/features
+
+      - name: Upload feature test coverage to Codecov
+        uses: sanger/.github/.github/actions/tests/codecov@master
+        with:
+          name: ${{ github.run_id }}_${{ github.job }}_${{ github.event_name }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          flags: feature_tests,${{ github.event_name }}
           disable-search: true
           files: ${{ github.workspace }}/coverage/lcov.info
