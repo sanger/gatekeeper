@@ -6,6 +6,9 @@ require_relative 'lots_feature_shared'
 RSpec.describe 'Lot show actions', type: :feature, js: true do
   include_context 'lots feature api stubs'
 
+  let(:user) { MockApiV2.mock_user(swipecard: 'abcdef') }
+  let(:user_swipecard) { user.swipecard }
+
   def build_shown_lot(lot_uuid:, lot_number:, lot_type_name:, qcables: [])
     shown_lot_type = Sequencescape::Api::V2::LotType.new(
       qcable_name: 'Pre Stamped Tag Plate',
@@ -84,7 +87,7 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
 
     visit lot_path(lot_uuid)
     within("form[action='#{lot_qcables_path(lot_uuid)}']") do
-      fill_in 'user_swipecard', with: 'abcdef'
+      fill_in 'user_swipecard', with: user_swipecard
       fill_in 'plate_number', with: '2'
       select 'plate_example', from: 'barcode_printer'
       click_button 'Create Pre Stamped Tag Plates and Print Barcodes'
@@ -139,8 +142,6 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
     created_qcables = Array.new(2) { Sequencescape::Api::V2::Qcable.new }
 
     allow(Sequencescape::Api::V2::Lot).to receive(:where).with(uuid: lot_uuid).and_return([shown_lot])
-    allow(Sequencescape::Api::V2::User).to receive(:where).with(uuid: '11111111-2222-3333-4444-555555555555')
-                                                          .and_return([Sequencescape::Api::V2::User.new])
     expect(Sequencescape::Api::V2::QcableCreator).to receive(:new).with({ barcodes: payload })
                                                                   .and_return(qcable_creator)
     allow(qcable_creator).to receive(:save).and_return(true)
@@ -148,7 +149,7 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
 
     visit lot_path(lot_uuid)
     within("form[action='#{upload_lot_qcables_path(lot_uuid)}']") do
-      fill_in 'user_swipecard', with: 'abcdef'
+      fill_in 'user_swipecard', with: user_swipecard
       attach_file 'upload', upload_path
       click_button 'Create IDT Tag Plate'
     end
