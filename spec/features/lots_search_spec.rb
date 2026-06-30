@@ -46,4 +46,19 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     expect(page).to have_css('h1', text: 'Pre Stamped Tags: PST-12345')
     expect(page).to have_css('#lot_number', text: 'PST-12345')
   end
+
+  it 'shows an error when the lot number is not found' do
+    not_found_lot_number = 'PST-not-found'
+    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: not_found_lot_number).and_return([])
+
+    visit new_lot_path(lot_type: 'Pre Stamped Tags')
+    within('form.navbar-form') do
+      find("input[name='lot_number']").set(not_found_lot_number)
+      click_button 'Find'
+    end
+
+    expect(page).to have_current_path('/')
+    expect(page).to have_css('.alert.alert-danger',
+                             text: "Could not find a lot with the lot_number #{not_found_lot_number}")
+  end
 end

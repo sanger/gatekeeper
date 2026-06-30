@@ -103,4 +103,30 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
     expect(page).to have_css('h1', text: 'Pre Stamped Tags - 384: PST384-12345')
     expect(page).to have_css('#lot_number', text: 'PST384-12345')
   end
+
+  it 'shows an error when the user swipecard is not found' do
+    not_found_swipecard = 'non-existent-swipecard'
+    # stub v1 user search with this failure:
+    allow(user_search_scope).to receive(:first).with(swipecard_code: not_found_swipecard).and_raise(
+      Sequencescape::Api::ResourceNotFound, "Could not find user with swipecard code #{not_found_swipecard}"
+    )
+
+    visit new_lot_path(lot_type: 'Pre Stamped Tags')
+    within('#gk-new-lot-page form') do
+      fill_in 'user_swipecard', with: not_found_swipecard
+      # tab to next field to trigger validation
+      send_keys :tab
+      # shows a validation error on the form field when the user swipecard is not found
+      expect(find('#user_swipecard')['data-content'])
+        .to eq('Could not find user, you may need to register your swipecard.')
+      fill_in 'lot_number', with: 'PST-12345'
+      select 'Example Tag Template', from: 'template'
+      fill_in 'received_at', with: '26/06/2026'
+      click_button 'Register Lot'
+    end
+
+    expect(page).to have_current_path('/')
+    expect(page).to have_css('.alert.alert-danger',
+                             text: 'User could not be found, is your swipecard registered?')
+  end
 end
