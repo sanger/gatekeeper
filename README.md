@@ -30,9 +30,17 @@ It is designed to interface with the [Sequencescape](https://github.com/sanger/s
 
 ## Testing
 
-To run tests:
+To run unit tests:
 
     bundle exec rake
+
+To run feature tests:
+
+    bundle exec rspec
+
+To run feature tests with a visible browser and additional delays to assist with debugging:
+
+    HEADED=1 SLOW=1 bundle exec rspec
 
 ## Yard
 
