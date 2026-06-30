@@ -35,6 +35,24 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
     shown_lot
   end
 
+  it 'shows a lot with its details' do
+    lot_uuid = '11111111-2222-3333-4444-555555555556'
+    stub_lot_show(
+      lot_uuid:,
+      lot_number: 'PST-12345',
+      lot_type_name: 'Pre Stamped Tags'
+    )
+
+    visit lot_path(lot_uuid)
+
+    within('.gk-section', text: 'Summary') do
+      expect(page).to have_css('h2', text: 'Summary')
+      expect(page).to have_css('#lot_number', text: 'PST-12345')
+      expect(page).to have_css('#lot_template', text: 'Example Tag Template')
+      expect(page).to have_css('#lot_received_at', text: '26/06/2026')
+    end
+  end
+
   it 'creates qcables from the lot show page' do
     lot_uuid = '11111111-2222-3333-4444-555555555556'
     shown_lot = stub_lot_show(
