@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class LotsControllerTest < ActionController::TestCase
-  include MockApi
-
-  setup do
-    mock_api
-  end
-
   # NEW LOT PAGES
   test 'new tag' do
     tag_template_layout = Sequencescape::Api::V2::TagLayoutTemplate.new(
