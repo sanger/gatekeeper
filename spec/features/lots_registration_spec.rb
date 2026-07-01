@@ -34,6 +34,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
+    allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:all).and_return([selected_template])
     allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:find)
       .with(uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc')
       .and_return([selected_template])
