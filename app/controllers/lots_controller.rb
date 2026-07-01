@@ -22,7 +22,7 @@ class LotsController < ApplicationController
   # Register lot page
   # Collects metadata when creating a new lot
   def new
-    @lot_type = Presenter::LotType.new(params[:lot_type], api)
+    @lot_type = Presenter::LotType.new(params[:lot_type])
     render :new
   rescue Presenter::LotType::ConfigurationError => e
     @message = "Could not register a lot. #{e.message}"

@@ -34,8 +34,4 @@ RSpec.shared_context 'lots feature api stubs' do
 
   let(:template_scope) { LotsFeatureTypes::TemplateScope.new(tag_templates) }
   let(:api) { LotsFeatureTypes::ApiStub.new(template_scope) }
-
-  before do
-    allow(Sequencescape::Api).to receive(:new).and_return(api)
-  end
 end
