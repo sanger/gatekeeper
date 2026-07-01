@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'lots_feature_shared'
 
 RSpec.describe 'Lot search', type: :feature, js: true do
-  include_context 'lots feature api stubs'
-
   def stub_lot_search_and_show(found_lot_uuid:, found_lot_number:, lot_type_name:)
     found_lot = Sequencescape::Api::V2::Lot.new(uuid: found_lot_uuid)
     shown_lot_type = Sequencescape::Api::V2::LotType.new(
@@ -23,8 +20,7 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     allow(shown_lot).to receive(:qcables).and_return([])
 
     allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: found_lot_number).and_return([found_lot])
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
-                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return([shown_lot])
   end
 
   before do

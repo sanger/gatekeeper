@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'lots_feature_shared'
 
 RSpec.describe 'Lot show actions', type: :feature, js: true do
-  include_context 'lots feature api stubs'
-
   let(:user) { MockApiV2.mock_user(swipecard: 'abcdef') }
   let(:user_swipecard) { user.swipecard }
 
@@ -33,8 +30,7 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
       lot_type_name:,
       qcables:
     )
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
-                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return([shown_lot])
     shown_lot
   end
 
