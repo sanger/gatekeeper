@@ -2,21 +2,10 @@
 
 require 'rails_helper'
 
-PagesApiStub = Struct.new
-
-PagesLotScope = Struct.new(:lots) do
-  def where(uuid:)
-    lots.select { |current_lot| current_lot.uuid == uuid }
-  end
-end
-
 RSpec.describe 'Pages', type: :feature do
-  let(:api) { PagesApiStub.new }
-
   before do
-    allow(Sequencescape::Api).to receive(:new).and_return(api)
+    MockApiV1.mock_api_v1
   end
-
   it 'shows the landing page with used links' do
     visit root_path
 
@@ -46,8 +35,9 @@ RSpec.describe 'Pages', type: :feature do
     allow(shown_lot).to receive(:qcables).and_return([])
 
     allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: 'PST-12345').and_return([found_lot])
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type,
-                                                                  :qcables).and_return(PagesLotScope.new([shown_lot]))
+    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return(
+      double(where: double(first: shown_lot))
+    )
 
     visit root_path
     click_link 'View Lot'
