@@ -96,7 +96,6 @@ class QcablesControllerTest < ActionController::TestCase
   end
 
   test 'create with no user' do
-    api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
     post :create, params: {
          lot_id: '11111111-2222-3333-4444-555555555556',
          plate_number: 10
