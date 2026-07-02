@@ -38,9 +38,6 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
     shown_lot
   end
 
-  before do
-    MockApiV1.mock_api_v1
-  end
   it 'shows a lot with its details' do
     lot_uuid = '11111111-2222-3333-4444-555555555556'
     stub_lot_show(

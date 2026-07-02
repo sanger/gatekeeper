@@ -23,9 +23,6 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
-  before do
-    MockApiV1.mock_api_v1
-  end
   it 'finds a lot from the nav bar lot number box' do
     found_lot_uuid = '11111111-2222-3333-4444-555555555556'
     found_lot_number = 'PST-12345'
