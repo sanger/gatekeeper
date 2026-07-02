@@ -4,6 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'Lot search', type: :feature, js: true do
   def stub_lot_search_and_show(found_lot_uuid:, found_lot_number:, lot_type_name:)
+    available_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 42,
+      name: 'Example Tag Template',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
+    )
+
     found_lot = Sequencescape::Api::V2::Lot.new(uuid: found_lot_uuid)
     shown_lot_type = Sequencescape::Api::V2::LotType.new(
       qcable_name: 'Pre Stamped Tag Plate',
@@ -19,13 +26,11 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([available_template])
     MockApiV2.mock_lots_controller_search(found_lot_number, [found_lot])
     MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
-  before do
-    MockApiV1.mock_api_v1
-  end
   it 'finds a lot from the nav bar lot number box' do
     found_lot_uuid = '11111111-2222-3333-4444-555555555556'
     found_lot_number = 'PST-12345'
@@ -49,6 +54,14 @@ RSpec.describe 'Lot search', type: :feature, js: true do
   it 'shows an error when the lot number is not found' do
     not_found_lot_number = 'PST-not-found'
     MockApiV2.mock_lots_controller_search(not_found_lot_number, [])
+
+    available_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 42,
+      name: 'Example Tag Template',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
+    )
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([available_template])
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('form.navbar-form') do

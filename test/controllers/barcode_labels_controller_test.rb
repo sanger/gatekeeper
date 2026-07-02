@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class BarcodeLabelsControllerTest < ActionController::TestCase
-  include MockApi
-
   setup do
-    mock_api
     @params = {
       study: 'Study1',
       barcodes: { 'ABC123' => 'ABC123', 'ABC456' => 'ABC456' },

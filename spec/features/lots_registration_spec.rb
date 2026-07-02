@@ -54,9 +54,6 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
     MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
-  before do
-    MockApiV1.mock_api_v1
-  end
   it 'submits the Pre Stamped Tags lot registration form' do
     swipecard_code = 'abcdef'
     MockApiV2.mock_user(swipecard: swipecard_code)

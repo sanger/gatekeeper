@@ -22,7 +22,6 @@ gem 'rails', '~> 7.0.8', '>= 7.0.8.7'
 gem 'roo', '~> 2.8.0'
 gem 'sanger_barcode_format', github: 'sanger/sanger_barcode_format', branch: 'development'
 gem 'sassc-rails'
-gem 'sequencescape-client-api', require: 'sequencescape'
 gem 'sprint_client'
 gem 'syslog'
 
