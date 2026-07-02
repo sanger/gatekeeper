@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Pages', type: :feature do
   let(:lot_number) { 'PST-12345' }
-  
+
   it 'shows the landing page with used links' do
     visit root_path
 
