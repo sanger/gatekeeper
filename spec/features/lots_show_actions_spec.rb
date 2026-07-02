@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Lot show actions', type: :feature, js: true do
+  include MockApiV2
+
   let(:user) { MockApiV2.mock_user(swipecard: 'abcdef') }
   let(:user_swipecard) { user.swipecard }
 
@@ -30,7 +32,9 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
       lot_type_name:,
       qcables:
     )
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return([shown_lot])
+
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
+
     shown_lot
   end
 

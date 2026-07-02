@@ -34,4 +34,12 @@ module MockApiV2
       .with(user_code: swipecard)
       .and_raise(JsonApiClient::Errors::NotFound, 'Resource not found')
   end
+
+  def self.mock_lots_controller_search(lot_number, lots)
+    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: lot_number).and_return(lots)
+  end
+
+  def self.mock_lots_controller_find_lot(lot)
+    allow(Sequencescape::Api::V2::Lot).to receive_message_chain(:includes, :where, :first).and_return(lot)
+  end
 end

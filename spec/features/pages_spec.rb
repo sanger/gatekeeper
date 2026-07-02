@@ -6,6 +6,8 @@ RSpec.describe 'Pages', type: :feature do
   before do
     MockApiV1.mock_api_v1
   end
+
+  let(:lot_number) { 'PST-12345' }
   it 'shows the landing page with used links' do
     visit root_path
 
@@ -26,7 +28,7 @@ RSpec.describe 'Pages', type: :feature do
     )
     shown_lot = Sequencescape::Api::V2::Lot.new(
       uuid: lot_uuid,
-      lot_number: 'PST-12345',
+      lot_number: lot_number,
       lot_type_name: 'Pre Stamped Tags',
       template_name: 'Example Tag Template',
       received_at: Date.new(2026, 6, 26)
@@ -34,22 +36,20 @@ RSpec.describe 'Pages', type: :feature do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
-    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: 'PST-12345').and_return([found_lot])
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return(
-      double(where: double(first: shown_lot))
-    )
+    MockApiV2.mock_lots_controller_search(lot_number, [found_lot])
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
 
     visit root_path
     click_link 'View Lot'
     expect(page).to have_css('#findIDT.in')
 
     within('#findIDT form') do
-      fill_in 'lot_number', with: 'PST-12345'
+      fill_in 'lot_number', with: lot_number
       click_button 'Find'
     end
 
     expect(page).to have_current_path("/lots/#{lot_uuid}", ignore_query: false)
     expect(page).to have_css('h1', text: 'Pre Stamped Tags: PST-12345')
-    expect(page).to have_css('#lot_number', text: 'PST-12345')
+    expect(page).to have_css('#lot_number', text: lot_number)
   end
 end

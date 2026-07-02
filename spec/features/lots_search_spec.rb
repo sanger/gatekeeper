@@ -19,8 +19,8 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
-    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: found_lot_number).and_return([found_lot])
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return([shown_lot])
+    MockApiV2.mock_lots_controller_search(found_lot_number, [found_lot])
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
   before do
@@ -48,7 +48,7 @@ RSpec.describe 'Lot search', type: :feature, js: true do
 
   it 'shows an error when the lot number is not found' do
     not_found_lot_number = 'PST-not-found'
-    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: not_found_lot_number).and_return([])
+    MockApiV2.mock_lots_controller_search(not_found_lot_number, [])
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('form.navbar-form') do

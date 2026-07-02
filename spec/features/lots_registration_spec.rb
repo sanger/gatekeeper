@@ -50,7 +50,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
       true
     end
 
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables).and_return([shown_lot])
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
   before do
