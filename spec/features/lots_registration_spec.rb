@@ -32,7 +32,6 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
-    allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:all).and_return([selected_template])
     allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:find)
       .with(uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc')
       .and_return([selected_template])
@@ -51,6 +50,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
       true
     end
 
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([selected_template])
     MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
@@ -114,6 +114,14 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
   it 'shows an error when the user swipecard is not found' do
     not_found_swipecard = 'non-existent-swipecard'
     MockApiV2.mock_missing_user(swipecard: not_found_swipecard)
+
+    available_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 42,
+      name: 'Example Tag Template',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
+    )
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([available_template])
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('#gk-new-lot-page form') do
