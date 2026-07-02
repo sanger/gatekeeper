@@ -7,7 +7,8 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
     selected_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
       id: 42,
       name: 'Example Tag Template',
-      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
     )
     created_lot = Sequencescape::Api::V2::Lot.new(
       user_uuid: '11111111-2222-3333-4444-555555555555',
