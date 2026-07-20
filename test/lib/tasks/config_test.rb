@@ -2,26 +2,17 @@
 
 require 'test_helper'
 require 'rake'
-require 'mock_api'
 
 Rake::Task.define_task(:environment)
 
 load Rails.root.join('lib/tasks/config.rake').to_s
 
 class ConfigRakeTest < ActiveSupport::TestCase
-  include MockApi
-
   setup do
-    mock_api
     Rake::Task['config:generate'].reenable
   end
 
   test 'config:generate writes the current searches printers and lot types' do
-    # Get searches from the fixture registry, but only use search-a and search-b
-    search_a = api.search.with_uuid('search-uuid-1')
-    search_b = api.search.with_uuid('search-uuid-2')
-    api.search.stubs(:all).returns([search_a, search_b])
-
     active_printer = Sequencescape::Api::V2::BarcodePrinter.new(
       active: true,
       name: 'Printer 1',
@@ -56,10 +47,6 @@ class ConfigRakeTest < ActiveSupport::TestCase
     settings_file.expects(:open).with('w').yields(output_file)
 
     expected_config = {
-      searches: {
-        'search-a' => 'search-uuid-1',
-        'search-b' => 'search-uuid-2'
-      },
       printers: {
         'barcode-type' => [
           {
@@ -80,7 +67,7 @@ class ConfigRakeTest < ActiveSupport::TestCase
 
     output_file.expects(:puts).with(expected_config.to_yaml)
 
-    assert_output("Preparing searches ...\nPreparing printers ...\nPreparing lot types ...\n") do
+    assert_output("Preparing printers ...\nPreparing lot types ...\n") do
       Rake::Task['config:generate'].invoke
     end
   end
