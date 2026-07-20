@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'lots_feature_shared'
 
 RSpec.describe 'Lot search', type: :feature, js: true do
-  include_context 'lots feature api stubs'
-
   def stub_lot_search_and_show(found_lot_uuid:, found_lot_number:, lot_type_name:)
     found_lot = Sequencescape::Api::V2::Lot.new(uuid: found_lot_uuid)
     shown_lot_type = Sequencescape::Api::V2::LotType.new(
@@ -22,11 +19,13 @@ RSpec.describe 'Lot search', type: :feature, js: true do
     allow(shown_lot).to receive(:lot_type).and_return(shown_lot_type)
     allow(shown_lot).to receive(:qcables).and_return([])
 
-    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: found_lot_number).and_return([found_lot])
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
-                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+    MockApiV2.mock_lots_controller_search(found_lot_number, [found_lot])
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
+  before do
+    MockApiV1.mock_api_v1
+  end
   it 'finds a lot from the nav bar lot number box' do
     found_lot_uuid = '11111111-2222-3333-4444-555555555556'
     found_lot_number = 'PST-12345'
@@ -49,7 +48,7 @@ RSpec.describe 'Lot search', type: :feature, js: true do
 
   it 'shows an error when the lot number is not found' do
     not_found_lot_number = 'PST-not-found'
-    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: not_found_lot_number).and_return([])
+    MockApiV2.mock_lots_controller_search(not_found_lot_number, [])
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('form.navbar-form') do

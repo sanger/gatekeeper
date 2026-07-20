@@ -34,4 +34,50 @@ module MockApiV2
       .with(user_code: swipecard)
       .and_raise(JsonApiClient::Errors::NotFound, 'Resource not found')
   end
+
+  # Mock lot search for the lots controller search action.
+  #
+  # @param lot_number [String] The lot number being searched for.
+  # @param lots [Array<Sequencescape::Api::V2::Lot>] The lots returned by the mocked API call.
+  #
+  # Usage:
+  #
+  #  ```rb
+  #  lot = Sequencescape::Api::V2::Lot.new(uuid: 'uuid-1')
+  #  MockApiV2.mock_lots_controller_search('PST-12345', [lot])
+  #  ```
+  def self.mock_lots_controller_search(lot_number, lots)
+    allow(Sequencescape::Api::V2::Lot).to receive(:find).with(lot_number: lot_number).and_return(lots)
+  end
+
+  # Mock lot lookup for the lots controller show action.
+  #
+  # This stubs the query chain used in `LotsController#find_lot`:
+  # `Sequencescape::Api::V2::Lot.includes(:lot_type, :qcables).where(uuid: ...).first`.
+  #
+  # @param lot [Sequencescape::Api::V2::Lot, nil] The lot returned by the mocked query chain.
+  #
+  # Usage:
+  #
+  #  ```rb
+  #  shown_lot = Sequencescape::Api::V2::Lot.new(uuid: 'uuid-1')
+  #  MockApiV2.mock_lots_controller_find_lot(shown_lot)
+  #  ```
+  def self.mock_lots_controller_find_lot(lot)
+    allow(Sequencescape::Api::V2::Lot).to receive_message_chain(:includes, :where, :first).and_return(lot)
+  end
+
+  # Mock the template list used by `Presenter::TagLayoutTemplate#compatible_templates`.
+  #
+  # @param templates [Array<Sequencescape::Api::V2::TagLayoutTemplate>] Templates returned by `.all`.
+  #
+  # Usage:
+  #
+  #  ```rb
+  #  templates = [Sequencescape::Api::V2::TagLayoutTemplate.new(name: 'T1', uuid: 'u1')]
+  #  MockApiV2.mock_presenter_tag_layout_template_compatible_templates(templates)
+  #  ```
+  def self.mock_presenter_tag_layout_template_compatible_templates(templates)
+    allow(Sequencescape::Api::V2::TagLayoutTemplate).to receive(:all).and_return(templates)
+  end
 end

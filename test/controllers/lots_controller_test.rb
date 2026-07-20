@@ -12,6 +12,13 @@ class LotsControllerTest < ActionController::TestCase
 
   # NEW LOT PAGES
   test 'new tag' do
+    tag_template_layout = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      name: 'Example Tag Template',
+      uuid: '11111111-2222-3333-4444-111111111111',
+      walking_by: 'wells of plate'
+    )
+    Sequencescape::Api::V2::TagLayoutTemplate.stubs(:all).returns([tag_template_layout])
+
     get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
@@ -21,6 +28,13 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new tag from API' do
+    tag_template_layout = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      name: 'Example Tag Template (API only)',
+      uuid: '11111111-2222-3333-4444-222222222222',
+      walking_by: 'wells of plate'
+    )
+    Sequencescape::Api::V2::TagLayoutTemplate.stubs(:all).returns([tag_template_layout])
+
     get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'

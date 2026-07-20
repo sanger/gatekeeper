@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'lots_feature_shared'
 
 RSpec.describe 'Lot registration', type: :feature, js: true do
-  include_context 'lots feature api stubs'
-
   def stub_lot_submission_and_redirect(created_lot_uuid:, created_lot_number:, lot_type_name:, lot_type_uuid:)
     selected_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
       id: 42,
       name: 'Example Tag Template',
-      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
     )
     created_lot = Sequencescape::Api::V2::Lot.new(
       user_uuid: '11111111-2222-3333-4444-555555555555',
@@ -52,10 +50,13 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
       true
     end
 
-    allow(Sequencescape::Api::V2::Lot).to receive(:includes).with(:lot_type, :qcables)
-                                                            .and_return(LotsFeatureTypes::LotScope.new([shown_lot]))
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([selected_template])
+    MockApiV2.mock_lots_controller_find_lot(shown_lot)
   end
 
+  before do
+    MockApiV1.mock_api_v1
+  end
   it 'submits the Pre Stamped Tags lot registration form' do
     swipecard_code = 'abcdef'
     MockApiV2.mock_user(swipecard: swipecard_code)
@@ -113,6 +114,14 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
   it 'shows an error when the user swipecard is not found' do
     not_found_swipecard = 'non-existent-swipecard'
     MockApiV2.mock_missing_user(swipecard: not_found_swipecard)
+
+    available_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 42,
+      name: 'Example Tag Template',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc',
+      walking_by: 'wells of plate'
+    )
+    MockApiV2.mock_presenter_tag_layout_template_compatible_templates([available_template])
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('#gk-new-lot-page form') do
