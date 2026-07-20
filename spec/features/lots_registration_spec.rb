@@ -57,6 +57,9 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
   end
 
   it 'submits the Pre Stamped Tags lot registration form' do
+    swipecard_code = 'abcdef'
+    MockApiV2.mock_user(swipecard: swipecard_code)
+
     created_lot_uuid = '11111111-2222-3333-4444-555555555556'
     created_lot_number = 'PST-12345'
     stub_lot_submission_and_redirect(
@@ -68,7 +71,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('#gk-new-lot-page form') do
-      fill_in 'user_swipecard', with: 'abcdef'
+      fill_in 'user_swipecard', with: swipecard_code
       fill_in 'lot_number', with: created_lot_number
       select 'Example Tag Template', from: 'template'
       fill_in 'received_at', with: '26/06/2026'
@@ -81,6 +84,9 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
   end
 
   it 'submits the Pre Stamped Tags - 384 lot registration form' do
+    swipecard_code = 'abcdef'
+    MockApiV2.mock_user(swipecard: swipecard_code)
+
     created_lot_uuid = '11111111-2222-3333-4444-555555555557'
     created_lot_number = 'PST384-12345'
     stub_lot_submission_and_redirect(
@@ -92,7 +98,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags - 384')
     within('#gk-new-lot-page form') do
-      fill_in 'user_swipecard', with: 'abcdef'
+      fill_in 'user_swipecard', with: swipecard_code
       fill_in 'lot_number', with: created_lot_number
       select 'Example Tag Template', from: 'template'
       fill_in 'received_at', with: '26/06/2026'
@@ -106,10 +112,7 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
 
   it 'shows an error when the user swipecard is not found' do
     not_found_swipecard = 'non-existent-swipecard'
-    # stub v1 user search with this failure:
-    allow(user_search_scope).to receive(:first).with(swipecard_code: not_found_swipecard).and_raise(
-      Sequencescape::Api::ResourceNotFound, "Could not find user with swipecard code #{not_found_swipecard}"
-    )
+    MockApiV2.mock_missing_user(swipecard: not_found_swipecard)
 
     visit new_lot_path(lot_type: 'Pre Stamped Tags')
     within('#gk-new-lot-page form') do

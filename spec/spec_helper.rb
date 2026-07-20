@@ -11,6 +11,8 @@ SimpleCov.formatters =
   )
 SimpleCov.start :rails
 
+require 'mock_api_v2'
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.syntax = :expect
@@ -19,4 +21,6 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
+  include MockApiV2
 end

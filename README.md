@@ -30,9 +30,13 @@ It is designed to interface with the [Sequencescape](https://github.com/sanger/s
 
 ## Testing
 
-To run unit tests:
+To run all unit tests:
 
     bundle exec rake
+
+To run a specific unit test file:
+
+    bundle exec ruby -Itest test/path/to/foo_test.rb
 
 To run feature tests:
 
