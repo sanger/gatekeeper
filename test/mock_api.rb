@@ -29,6 +29,10 @@ module MockApi
         end
       end
 
+      def each(&)
+        all.each(&)
+      end
+
       def resource_cache
         api.resource_cache
       end
