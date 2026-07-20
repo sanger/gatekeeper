@@ -493,6 +493,12 @@
   'd8986b60-b104-11e3-a4d5-44fb42fffecc':
     :attributes:
       :name: Find lot by batch id
+  'search-uuid-1':
+    :attributes:
+      :name: search-a
+  'search-uuid-2':
+    :attributes:
+      :name: search-b
 :barcode_printer:
   'baac0dea-0000-0000-0000-000000000000':
     :attributes:
