@@ -15,6 +15,7 @@ class HealthController < ActionController::Base # rubocop:disable Rails/Applicat
     render plain: 'Sequencescape is unavailable', status: :bad_gateway
   end
 
+  # Returns a Faraday connection from the base Sequencescape URL and enables error handling.
   def sequencescape_conn
     @sequencescape_conn ||= Faraday.new(url: sequencescape_url) do |faraday|
       faraday.response :raise_error # raise Faraday::Error on status code 4xx or 5xx
@@ -24,6 +25,6 @@ class HealthController < ActionController::Base # rubocop:disable Rails/Applicat
   private
 
   def sequencescape_url
-    Gatekeeper::Application.config.api_connection_options[:url]
+    Gatekeeper::Application.config.api_connection_options.url_v2
   end
 end
