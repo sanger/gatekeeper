@@ -16,15 +16,6 @@
   384 Well Plate:
   - :name: tef_plate_example
     :uuid: baac0dea-0000-0000-0000-000000000002
-:templates:
-  :plate_template:
-  - :name: Example Plate Layout
-    :uuid: 2f750200-9570-11e3-8f17-44fb42fffecc
-  :tag_layout_template:
-  - :name: Example Tag Template
-    :uuid: ecd5cd30-956f-11e3-8255-44fb42fffecc
-  - :name: Another Tag Layout
-    :uuid: ecd7a1f0-956f-11e3-8255-44fb42fffecc
 :lot_types:
   IDT Tags:
     :uuid: ee0b18e0-956f-11e3-8255-44fb42fffecc
@@ -41,74 +32,3 @@
     :template_class: TagLayoutTemplate
     :printer_type: 96 Well Plate
     :qcable_name: Tag Plate - 384
-:default_purpose:
-  :with: plate_conversion_to_default
-  :child_name: QA Plate
-  :as: target
-  :children:
-  - 411f8b70-e1fd-11e5-a20c-44fb42fffe72
-  :type: plate
-:purposes:
-  ee0154e0-956f-11e3-8255-44fb42fffecc:
-    :name: Tag Plate
-    :children:
-    - 53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc
-    :type: plate
-    :with: plate_conversion
-    :as: target
-    :sibling: Reporter Plate
-  ee039ed0-956f-11e3-8255-44fb42fffecc:
-    :name: Reporter Plate
-    :children: []
-    :type: plate
-    :with: plate_conversion
-    :as: source
-    :sibling: Tag Plate
-  762f7930-d972-11e5-9400-44fb42fffe72:
-    :name: QA Plate
-    :children:
-    - 53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc
-    :type: plate
-    :with: qa_plate_conversion
-    :as: source
-    :sibling: Tag Plate
-  53e6d3f0-a3c8-11e3-a7e1-44fb42fffecc:
-    :name: Tag PCR
-    :children:
-    - 54088cc0-a3c8-11e3-a7e1-44fb42fffecc
-    :type: plate
-  54088cc0-a3c8-11e3-a7e1-44fb42fffecc:
-    :name: Tag PCR-XP
-    :children:
-    - 5412ed00-a3c8-11e3-a7e1-44fb42fffecc
-    :type: plate
-  5412ed00-a3c8-11e3-a7e1-44fb42fffecc:
-    :name: Tag Stock-MX
-    :children:
-    - 541b5170-a3c8-11e3-a7e1-44fb42fffecc
-    :type: tube
-    :printer: tube
-  541b5170-a3c8-11e3-a7e1-44fb42fffecc:
-    :name: Tag MX
-    :children: []
-    :with: completed
-    :type: tube
-    :printer: tube
-  ba508010-4820-11e6-a57f-44fb42fffecc:
-    :name: Tag 2 Tube
-    :children: []
-    :type: tube
-    :with: multiple_tag2_conversion
-    :sibling: Tag Plate
-    :sibling2: Reporter Plate
-  411f8b70-e1fd-11e5-a20c-44fb42fffe72:
-    :name: QA Plate
-    :children: []
-    :type: plate
-    :with: qa_plate_conversion
-    :as: source
-    :sibling: Tag Plate
-:transfer_templates:
-  Transfer columns 1-12: 8c716230-a922-11e3-926d-44fb42fffecc
-  Whole plate to tube: 8c7ef6c0-a922-11e3-926d-44fb42fffecc
-  Flip Plate: 58b72440-ab69-11e3-bb8f-44fb42fffecc

@@ -16,34 +16,9 @@ Rails.application.routes.draw do
     resources :qcables, only: [:create] do
       post 'upload', on: :collection
     end
-    resources :qc_decisions, only: %i[create new], controller: 'lots_qc_decisions'
   end
 
   # post 'lots/upload', to: 'lots#upload'
-
-  resources :batches, only: [:show] do
-    collection do
-      get :search
-    end
-    resources :qc_decisions, only: %i[create new], controller: 'batches_qc_decisions'
-  end
-
-  # We can't use the standard CRUD setup, as the user doesn't have the uuid
-  # to hand. Instead we pass a barcode to the controller.
-  resource :asset, only: [:destroy] do
-  end
-
-  resources :stamps, only: %i[new create] do
-    collection do
-      post :validation
-    end
-  end
-
-  resources :robots, only: [] do
-    collection do
-      get :search
-    end
-  end
 
   resources :users, only: [] do
     collection do
@@ -51,20 +26,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :qc_assets, only: %i[new create] do
-    collection do
-      get :search
-    end
-  end
-
-  resources :qc_decisions do
-    collection do
-      get :search
-    end
-  end
-
-  resources :plates, only: [:show]
-  resources :tubes,  only: [:show]
-  resources :submissions,  only: [:create]
   resources :barcode_labels, only: [:create]
 end

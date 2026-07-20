@@ -7,7 +7,6 @@ require 'action_controller/railtie'
 require 'action_mailer/railtie'
 require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
-require './lib/gatekeeper/version'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -44,86 +43,6 @@ module Gatekeeper
     config.qcing_state = 'qc_in_progress'
     config.qced_state = 'available'
     config.used_state = 'exhausted'
-
-    config.stamp_range = (10..500)
-    config.stamp_step = 10
-
-    config.tracked_purposes = [
-      'Tag Plate',
-      'Reporter Plate',
-      'QA Plate',
-      'Tag 2 Tube',
-      'Tag PCR',
-      'Tag PCR-XP',
-      'Tag Stock-MX',
-      'Tag MX',
-      'Pre Stamped Tag Plate'
-    ]
-
-    # When configuring multiple_tag2_conversion
-    # steps, the recieving plate (The target)
-    # MUST be configured as sibling
-
-    config.purpose_handlers = {
-      'Tag 2 Tube' => {
-        with: 'multiple_tag2_conversion',
-        sibling2: 'Reporter Plate',
-        as: 'secondary',
-        sibling: 'Tag Plate'
-      },
-      'Tag Plate' => {
-        with: 'plate_conversion',
-        as: 'target',
-        sibling: 'Reporter Plate'
-      },
-      'Pre Stamped Tag Plate' => {
-        with: 'plate_conversion',
-        as: 'target',
-        sibling: 'Reporter Plate'
-      },
-      'Reporter Plate' => {
-        with: 'plate_conversion',
-        as: 'source',
-        sibling: 'Tag Plate'
-      },
-      'QA Plate' => {
-        with: 'qa_plate_conversion',
-        as: 'source',
-        sibling: 'Tag Plate'
-      },
-      'Tag PCR' => {},
-      'Tag PCR-XP' => {
-        with: 'tube_creation'
-      },
-      'Tag Stock-MX' => {
-        with: 'tube_transfer',
-        printer: 'tube'
-      },
-      'Tag MX' => {
-        with: 'completed',
-        printer: 'tube'
-      }
-    }
-
-    config.default_purpose_handler = {
-      with: 'plate_conversion_to_default',
-      child_name: 'QA Plate',
-      as: 'target'
-    }
-
-    # If no study or project is specified, the config will fall back
-    # to the first study/project
-    config.study_uuid = nil
-    config.project_uuid = nil
-
-    config.request_options = {
-      'read_length' => 11,
-      'fragment_size_required' => {
-        'from' => 1,
-        'to' => 100
-      },
-      'library_type' => 'QA1'
-    }
 
     config.printer_type_options = {
       '1D Tube' => { label: :tube, template: 'sqsc_1dtube_label_template' },

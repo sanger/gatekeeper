@@ -3,6 +3,7 @@
 require 'syslog/logger'
 require 'ostruct'
 
+# Used by the deployment project to define a logger in roles/deploy_gatekeeper/templates/logging.rb.j2
 class PsdFormatter < Syslog::Logger::Formatter
   LINE_FORMAT = "(thread-%s) [%s] %5s -- : %s\n"
   SEV_LABEL = %w[DEBUG INFO WARN ERROR FATAL ANY].each(&:freeze).freeze

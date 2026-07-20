@@ -116,9 +116,8 @@ RSpec.describe 'Lot registration', type: :feature, js: true do
       fill_in 'user_swipecard', with: not_found_swipecard
       # tab to next field to trigger validation
       send_keys :tab
-      # shows a validation error on the form field when the user swipecard is not found
-      expect(find('#user_swipecard')['data-content'])
-        .to eq('Could not find user, you may need to register your swipecard.')
+      # shows a validation error on the form group when the user swipecard is not found
+      expect(find('.form-group', text: 'User swipecard')['class']).to include('has-error')
       fill_in 'lot_number', with: 'PST-12345'
       select 'Example Tag Template', from: 'template'
       fill_in 'received_at', with: '26/06/2026'

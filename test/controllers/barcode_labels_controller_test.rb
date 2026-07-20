@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'test_helper'
+require 'mock_api'
 
 class BarcodeLabelsControllerTest < ActionController::TestCase
   include MockApi
