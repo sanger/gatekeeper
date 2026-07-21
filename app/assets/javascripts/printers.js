@@ -21,7 +21,6 @@
     this.type = type || this.type;
     this.form.find(this.remove()).hide();
     this.form.find(this.show()).show();
-    this.form.find("select").val($(this.show()).val());
   };
   BarcodePrinter.prototype = {
     formSubmit: function () {
