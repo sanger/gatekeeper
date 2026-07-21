@@ -22,10 +22,10 @@ class QcablesController < ApplicationController
       flash[:success] = "#{qcable_creator.qcables.count} #{qcable_name.pluralize} have been created." if qcable_creator
     end
 
-    redirect_to controller: :lots, action: :show, id: permitted_params[:lot_id]
+    redirect_to_lot
   rescue Net::ReadTimeout
     flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
-    redirect_to controller: :lots, action: :show, id: permitted_params[:lot_id]
+    redirect_to_lot
   end
 
   # Create IDT tag plate hits here
@@ -35,10 +35,10 @@ class QcablesController < ApplicationController
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created." if qc_creator
 
-    redirect_to controller: :lots, action: :show, id: permitted_params[:lot_id]
+    redirect_to_lot
   rescue Net::ReadTimeout
     flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
-    redirect_to controller: :lots, action: :show, id: permitted_params[:lot_id]
+    redirect_to_lot
   end
 
   private
@@ -48,8 +48,16 @@ class QcablesController < ApplicationController
     (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
   end
 
+  def redirect_to_lot
+    redirect_to controller: :lots, action: :show, id: lot_uuid
+  end
+
   def find_lot
-    @lot = Sequencescape::Api::V2::Lot.where(uuid: permitted_params[:lot_id]).first
+    @lot = Sequencescape::Api::V2::Lot.where(uuid: lot_uuid).first
+  end
+
+  def lot_uuid
+    permitted_params[:lot_id]
   end
 
   def permitted_params
