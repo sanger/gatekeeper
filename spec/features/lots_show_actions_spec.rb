@@ -118,12 +118,17 @@ RSpec.describe 'Lot show actions', type: :feature, js: true do
 
     visit lot_path(lot_uuid)
     within('.barcode-printing-form') do
+      #  Check that a default printer is selected
+      expect(page).to have_select('barcode_printer', selected: 'plate_example')
+
+      # Test printing
       find("input[name='barcodes[DN1]']").check
       select 'plate_example', from: 'barcode_printer'
       click_button 'Print'
     end
 
-    expect(page).to have_content('Your barcodes have been printed')
+    # Expect a feedback message in the Tag Plates card
+    expect(page).to have_css('.bc-feedback', text: 'Your barcodes have been printed')
   end
 
   it 'creates an IDT tag plate from upload when one does not exist' do
