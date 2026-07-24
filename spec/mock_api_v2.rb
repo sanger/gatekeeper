@@ -17,6 +17,7 @@ module MockApiV2
                      first_name: 'Test', last_name: 'User')
     mock_user = Sequencescape::Api::V2::User.new(swipecard:, uuid:, login:, first_name:, last_name:)
     allow(Sequencescape::Api::V2::User).to receive(:find!).with(user_code: swipecard).and_return([mock_user])
+    allow(Sequencescape::Api::V2::User).to receive(:where).with(uuid:).and_return([mock_user])
     mock_user
   end
 

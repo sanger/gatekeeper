@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class UsersControllerTest < ActionController::TestCase
-  include MockApi
-
-  setup do
-    mock_api
-  end
-
   test '#search for existing user' do
     mock_user = MockApiV2.mock_user(swipecard: '123456789')
 

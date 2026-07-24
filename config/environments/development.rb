@@ -54,9 +54,7 @@ Rails.application.configure do
 
   # Set up the API connection options
   config.api_connection_options               = ActiveSupport::OrderedOptions.new
-  config.api_connection_options.namespace     = 'Gatekeeper'
-  config.api_connection_options.url           = ENV.fetch('API_URL', 'http://localhost:3000/api/1/')
-  config.api_connection_options.url_v2 = ENV.fetch('API_URL', 'http://localhost:3000/api/v2/')
+  config.api_connection_options.url_v2        = ENV.fetch('API_URL', 'http://localhost:3000/api/v2/')
   config.api_connection_options.authorisation = ENV.fetch('API_KEY', 'development')
 
   # We can either pass in an array of printer names, or accept all printers with :all

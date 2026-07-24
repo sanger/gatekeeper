@@ -3,11 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Pages', type: :feature do
-  before do
-    MockApiV1.mock_api_v1
-  end
-
   let(:lot_number) { 'PST-12345' }
+
   it 'shows the landing page with used links' do
     visit root_path
 

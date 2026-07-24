@@ -4,17 +4,8 @@ namespace :config do
   desc 'Generates a configuration file for the current Rails environment'
 
   task generate: :environment do
-    api = Sequencescape::Api.new(Gatekeeper::Application.config.api_connection_options)
-
     # Build the configuration file based on the server we are connected to.
     CONFIG = {}.tap do |configuration|
-      configuration[:searches] = {}.tap do |searches|
-        puts 'Preparing searches ...'
-        api.search.each do |search|
-          searches[search.name] = search.uuid
-        end
-      end
-
       configuration[:printers] = Hash.new { |h, i| h[i] = Array.new }.tap do |printers|
         approved_printers = Gatekeeper::Application.config.approved_printers
         puts 'Preparing printers ...'
