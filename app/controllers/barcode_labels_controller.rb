@@ -27,12 +27,15 @@ class BarcodeLabelsController < ApplicationController
   private
 
   def generate_labels
-    permitted_params = params.permit(:study, barcodes: {})
     @labels = (permitted_params[:barcodes] || {}).to_h.map do |_, human_readable|
       BarcodeSheet::Label.new(
         human_readable:,
         study: permitted_params[:study]
       )
     end
+  end
+
+  def permitted_params
+    params.except(:authenticity_token).permit(:study, :barcode_printer, barcodes: {})
   end
 end

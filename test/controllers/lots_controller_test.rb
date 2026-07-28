@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 require 'test_helper'
-require 'mock_api'
 
 class LotsControllerTest < ActionController::TestCase
-  include MockApi
-
-  setup do
-    mock_api
-  end
-
   # NEW LOT PAGES
   test 'new tag' do
+    tag_template_layout = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      name: 'Example Tag Template',
+      uuid: '11111111-2222-3333-4444-111111111111',
+      walking_by: 'wells of plate'
+    )
+    Sequencescape::Api::V2::TagLayoutTemplate.stubs(:all).returns([tag_template_layout])
+
     get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
@@ -21,6 +21,13 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'new tag from API' do
+    tag_template_layout = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      name: 'Example Tag Template (API only)',
+      uuid: '11111111-2222-3333-4444-222222222222',
+      walking_by: 'wells of plate'
+    )
+    Sequencescape::Api::V2::TagLayoutTemplate.stubs(:all).returns([tag_template_layout])
+
     get :new, params: { lot_type: 'IDT Tags' }
     assert_response :success
     assert_select 'title', 'Gatekeeper'
@@ -47,14 +54,13 @@ class LotsControllerTest < ActionController::TestCase
 
   ## CREATE
   test 'create' do
-    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
-    Sequencescape::Api::V2::TagLayoutTemplate.expects(:find).returns([
-                                                                       Sequencescape::Api::V2::TagLayoutTemplate.new(
-                                                                         id: 1,
-                                                                         name: 'IDT Tags',
-                                                                         uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
-                                                                       )
-                                                                     ])
+    MockApiV2.mock_user(swipecard: 'abcdef')
+    mock_tag_layout_template = Sequencescape::Api::V2::TagLayoutTemplate.new(
+      id: 1,
+      name: 'IDT Tags',
+      uuid: 'ecd5cd30-956f-11e3-8255-44fb42fffecc'
+    )
+    Sequencescape::Api::V2::TagLayoutTemplate.expects(:find).returns([mock_tag_layout_template])
 
     mock_lot = Sequencescape::Api::V2::Lot.new(
       user_uuid: '11111111-2222-3333-4444-555555555555',
@@ -83,7 +89,6 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test 'create with no user' do
-    api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
     post :create, params: {
          lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          template_class: 'TagLayoutTemplate',
@@ -96,7 +101,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test '#create with fake user' do
-    api.mock_user('123456789', '11111111-2222-3333-4444-555555555555')
+    MockApiV2.mock_missing_user(swipecard: 'fake_user')
     post :create, params: {
          lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          template_class: 'TagLayoutTemplate',
@@ -110,7 +115,7 @@ class LotsControllerTest < ActionController::TestCase
   end
 
   test '#create with invalid template' do
-    api.mock_user('abcdef', '11111111-2222-3333-4444-555555555555')
+    MockApiV2.mock_user(swipecard: 'abcdef')
     post :create, params: {
          lot_type_uuid: 'ee0b18e0-956f-11e3-8255-44fb42fffecc',
          template_class: 'BadTemplateClass',

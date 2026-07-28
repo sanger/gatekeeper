@@ -1,4 +1,10 @@
+flags:
+  unit_tests:
+    carryforward: true
+  feature_tests:
+    carryforward: true
+
 codecov:
   notify:
     # do not notify until at least n builds have been uploaded from the CI pipeline
-    after_n_builds: 2 # ruby_test (push), ruby_test (pull_request)
+    after_n_builds: 4 # unit_tests (push, pull_request), feature_tests (push, pull_request)

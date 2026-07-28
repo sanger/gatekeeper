@@ -3,10 +3,7 @@
 require 'test_helper'
 
 class BarcodeLabelsControllerTest < ActionController::TestCase
-  include MockApi
-
   setup do
-    mock_api
     @params = {
       study: 'Study1',
       barcodes: { 'ABC123' => 'ABC123', 'ABC456' => 'ABC456' },

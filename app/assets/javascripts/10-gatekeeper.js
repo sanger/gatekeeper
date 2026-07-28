@@ -1,3 +1,5 @@
+// This file is automatically included by Rails and contains shared interactive behaviours for many pages.
+
 (function(window,$,undefined) {
 
   /* Shared */

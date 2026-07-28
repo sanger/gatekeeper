@@ -471,28 +471,6 @@
       :last_name: Bloggs
       :login: JB1
     :associations:
-:search:
-  'e7d2fec0-956f-11e3-8255-44fb42fffecc':
-    :attributes:
-      :name: Find assets by barcode
-  'e7e1cbd0-956f-11e3-8255-44fb42fffecc':
-    :attributes:
-      :name: Find user by login
-  'e7e52730-956f-11e3-8255-44fb42fffecc':
-    :attributes:
-      :name: Find user by swipecard code
-  '689a48a0-9d46-11e3-8fed-44fb42fffecc':
-    :attributes:
-      :name: Find lot by lot number
-  '689a48a0-9d46-11e3-8fed-44fb42fffedd':
-    :attributes:
-      :name: Find robot by barcode
-  '689a48a0-9d46-11e3-8fed-44fb42fffeff':
-    :attributes:
-      :name: Find qcable by barcode
-  'd8986b60-b104-11e3-a4d5-44fb42fffecc':
-    :attributes:
-      :name: Find lot by batch id
 :barcode_printer:
   'baac0dea-0000-0000-0000-000000000000':
     :attributes:

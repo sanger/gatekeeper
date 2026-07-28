@@ -8,26 +8,11 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  include Sequencescape::Api::Rails::ApplicationController
   include UserError
   include UserLookup
   include ApiError
 
-  def initialize
-    @disable_unused_ui = if Gatekeeper::Application.config.respond_to? :disable_unused_ui
-                           Gatekeeper::Application.config.disable_unused_ui
-                         else
-                           true
-                         end
-
-    super
-  end
-
   private
-
-  def api_connection_options
-    Gatekeeper::Application.config.api_connection_options
-  end
 
   rescue_from Errno::ECONNREFUSED, with: :sequencescape_down
 

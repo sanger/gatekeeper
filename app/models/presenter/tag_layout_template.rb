@@ -17,6 +17,6 @@ class Presenter::TagLayoutTemplate < Presenter::Template
   end
 
   def compatible_templates
-    @api.tag_layout_template.all.select { |template| COMPATIBLE_WALKING_BY.include?(template.walking_by) }
+    Sequencescape::Api::V2::TagLayoutTemplate.all.select { |template| COMPATIBLE_WALKING_BY.include?(template.walking_by) }
   end
 end

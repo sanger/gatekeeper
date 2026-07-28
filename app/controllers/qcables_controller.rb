@@ -15,30 +15,30 @@ class QcablesController < ApplicationController
   # pre stamped plates - _create_children
   def create
     # Make a qcable creator with the supplied count, under an existing lot, in SS.
-    qcable_creator = create_qcable_creator({ count: params[:plate_number].to_i })
+    qcable_creator = create_qcable_creator({ count: permitted_params[:plate_number].to_i })
 
     if qcable_creator
       print_labels(qcable_creator)
       flash[:success] = "#{qcable_creator.qcables.count} #{qcable_name.pluralize} have been created." if qcable_creator
     end
 
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+    redirect_to_lot
   rescue Net::ReadTimeout
     flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+    redirect_to_lot
   end
 
   # Create IDT tag plate hits here
   def upload
     # Make a qcable creator with the supplied barcodes, under an existing lot, in SS.
-    qc_creator = create_qcable_creator({ barcodes: PlateUploader.new(params[:upload]).payload })
+    qc_creator = create_qcable_creator({ barcodes: PlateUploader.new(permitted_params[:upload]).payload })
 
     flash[:success] = "#{qc_creator.qcables.count} #{qcable_name.pluralize} have been created." if qc_creator
 
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+    redirect_to_lot
   rescue Net::ReadTimeout
     flash[:danger] = "Things are taking a bit longer than expected; your #{qcable_name.pluralize} are still being created in the background. Please check back later."
-    redirect_to controller: :lots, action: :show, id: params[:lot_id]
+    redirect_to_lot
   end
 
   private
@@ -48,15 +48,27 @@ class QcablesController < ApplicationController
     (Settings.lot_types[@lot.lot_type_name] || @lot.lot_type).qcable_name
   end
 
+  def redirect_to_lot
+    redirect_to controller: :lots, action: :show, id: lot_uuid
+  end
+
   def find_lot
-    @lot = Sequencescape::Api::V2::Lot.where(uuid: params[:lot_id]).first
+    @lot = Sequencescape::Api::V2::Lot.where(uuid: lot_uuid).first
+  end
+
+  def lot_uuid
+    permitted_params[:lot_id]
+  end
+
+  def permitted_params
+    params.except(:authenticity_token).permit(:user_swipecard, :lot_id, :plate_number, :upload, :barcode_printer)
   end
 
   def create_qcable_creator(attributes = {})
     # Set the relationships using assignment rather than passing them in as params,
     # because json_api_client gem was interpreting the params incorrectly as a hash of attributes.
     qc_creator = Sequencescape::Api::V2::QcableCreator.new(attributes)
-    qc_creator.user = Sequencescape::Api::V2::User.where(uuid: @user.id).first
+    qc_creator.user = @user
     qc_creator.lot = @lot
 
     begin

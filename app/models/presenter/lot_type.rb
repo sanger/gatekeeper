@@ -13,9 +13,8 @@ class Presenter::LotType
   delegate :uuid, :template_class, to: :settings
   delegate :grouped_templates, to: :template_type_presenter
 
-  def initialize(lot_type_name, api)
+  def initialize(lot_type_name)
     @name = lot_type_name
-    @api = api
     raise Presenter::LotType::ConfigurationError, 'No lot type specified.' if @name.nil?
 
     @settings = Settings.lot_types[lot_type_name]
