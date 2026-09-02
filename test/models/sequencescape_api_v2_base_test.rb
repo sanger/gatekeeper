@@ -52,10 +52,6 @@ class SequencescapeApiV2BaseTest < ActiveSupport::TestCase
 
     page.define_singleton_method(:pages) { page_pages }
     page.define_singleton_method(:links) { page_links }
-    page.define_singleton_method(:concat) do |other_page|
-      other_page.replace(self + other_page)
-      other_page
-    end
 
     page
   end
