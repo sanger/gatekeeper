@@ -20,4 +20,27 @@ class Sequencescape::Api::V2::Base < JsonApiClient::Resource
 
     record
   end
+
+  # When fetching all records, iteratively fetch each next page and combine them into a single result set.
+  def self.all
+    result_set = super
+    all_results = result_set.to_a
+
+    while next_page?(result_set)
+      result_set = result_set.pages.next
+      all_results += result_set.to_a
+    end
+
+    all_results
+  end
+
+  # Check if the given result set has a next page of results.
+  # @param result_set [JsonApiClient::ResultSet] the result set to check for a next page
+  # @return [Boolean] true if there is a next page, false otherwise
+  def self.next_page?(result_set)
+    result_set.links.link_url_for('next')
+    true
+  rescue KeyError
+    false
+  end
 end
