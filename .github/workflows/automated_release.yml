@@ -13,15 +13,13 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: sanger/.github/.github/actions/setup/checkout@master
 
       - uses: nelonoel/branch-name@v1.0.1
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true # Runs bundle install and caches gems. See the ruby_test.yml
-            # example if you need more control over bundler.
+        uses: sanger/.github/.github/actions/setup/ruby@master
 
       # Actually run our build
       - name: Create build
@@ -36,7 +34,7 @@ jobs:
 
       # Create a GitHub release with the release asset as an artifact
       - name: Create release and upload release.tar.gz
-        uses: ncipollo/release-action@v1.8.8
+        uses: ncipollo/release-action@v1.21.0
         with:
           name: ${{ env.RELEASE_VERSION }}
           tag: v${{ env.RELEASE_VERSION }}
